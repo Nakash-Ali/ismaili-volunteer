@@ -1,0 +1,9 @@
+- name: ensure chronyd is running
+  systemd:
+    name: chronyd
+    enabled: yes
+    state: started
+
+- name: set timezone to America/Toronto
+  timezone:
+    name: America/Toronto

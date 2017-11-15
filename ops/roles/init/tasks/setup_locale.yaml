@@ -1,0 +1,3 @@
+- name: set locale
+  command: localectl set-locale LANG=en_US.utf8
+  changed_when: False

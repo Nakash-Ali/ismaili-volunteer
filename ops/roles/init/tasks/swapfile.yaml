@@ -1,0 +1,29 @@
+- name: create swapfile
+  command: dd if=/dev/zero of=/swap bs=1M count=2048
+  register: create_swapfile
+  args:
+    creates: /swap
+
+- name: set correct permissions on swapfile
+  when: create_swapfile.changed
+  file:
+    mode: 0600
+    path: /swap
+    state: file
+
+- name: make swapfile
+  when: create_swapfile.changed
+  command: mkswap /swap
+
+- name: swapon swapfile
+  when: create_swapfile.changed
+  command: swapon /swap
+
+- name: add swapfile to fstabs
+  lineinfile:
+    backup: yes
+    create: no
+    line: "/swap       none    swap    sw      0       0"
+    path: /etc/fstab
+    state: present
+    validate: echo %s && mount -fav

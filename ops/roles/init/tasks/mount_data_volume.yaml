@@ -1,0 +1,7 @@
+- name: mount data volume
+  mount:
+    path: /mnt/volume-tor1-01-part1
+    src: /dev/disk/by-id/scsi-0DO_Volume_volume-tor1-01-part1
+    fstype: ext4
+    opts: defaults,discard
+    state: mounted
