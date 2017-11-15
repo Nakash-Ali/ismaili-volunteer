@@ -13,10 +13,10 @@ defmodule VolunteerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", VolunteerWeb do
-    pipe_through :browser # Use the default browser stack
+  scope "/legacy", VolunteerWeb do
+    pipe_through :api
 
-    get "/", PageController, :index
+    post "/apply", LegacyController, :apply
   end
 
   # Other scopes may use custom stacks.
