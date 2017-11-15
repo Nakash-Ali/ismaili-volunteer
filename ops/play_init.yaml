@@ -4,4 +4,4 @@
   roles:
 
     - init
-    # - security
+    - security
