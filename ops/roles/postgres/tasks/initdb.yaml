@@ -1,0 +1,14 @@
+- name: ensure /mnt/volume-tor1-01-part1 directory exists
+  file:
+    path: /mnt/volume-tor1-01-part1/data
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: 0700
+
+- name: run initdb
+  become: yes
+  become_user: postgres
+  command: /usr/pgsql-9.6/bin/initdb -D /mnt/volume-tor1-01-part1/data --no-locale --encoding UTF8
+  args:
+    creates: /mnt/volume-tor1-01-part1/data/postgresql.conf

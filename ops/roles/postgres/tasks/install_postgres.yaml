@@ -1,0 +1,25 @@
+- name: copy repo
+  copy:
+    dest: /etc/apt/sources.list.d/pgdg.list
+    force: yes
+    src: pgdg.list
+
+- name: copy repo key
+  copy:
+    dest: /tmp/postgresql_key
+    force: yes
+    src: ACCC4CF8.asc
+
+- name: add repo key
+  apt_key:
+    file: /tmp/postgresql_key
+
+- name: install postgres
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - postgresql-10
+    - postgresql-client
+    - python-psycopg2

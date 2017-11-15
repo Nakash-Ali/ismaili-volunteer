@@ -1,0 +1,11 @@
+- name: create systemd service file
+  template:
+    src: postgresql@10.0-main.service.j2
+    dest: /etc/systemd/system/postgresql@10.0-main.service
+
+- name: enable service
+  systemd:
+    name: postgresql
+    daemon_reload: yes
+    enabled: yes
+    state: restarted

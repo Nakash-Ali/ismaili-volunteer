@@ -1,0 +1,9 @@
+- import_tasks: manage/include_global_vars.yaml
+
+- import_tasks: install_postgres.yaml
+- import_tasks: initdb.yaml
+- import_tasks: configure_service.yaml
+
+- import_tasks: setup_db_and_user.yaml
+  tags:
+    - setup_db_and_user.postgres

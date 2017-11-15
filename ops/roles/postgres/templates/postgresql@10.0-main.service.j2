@@ -1,0 +1,9 @@
+.include /lib/systemd/system/postgresql@.service
+
+[Service]
+User=postgres
+Group=postgres
+Restart=always
+RestartSec=30
+
+Environment=PGDATA=/mnt/volume-tor1-01-part1/data
