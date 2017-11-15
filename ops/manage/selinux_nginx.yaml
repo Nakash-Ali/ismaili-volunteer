@@ -1,0 +1,2 @@
+- name: allow nginx on selinux
+  script: "{{ playbook_dir }}/bin/selinux_nginx.sh"
