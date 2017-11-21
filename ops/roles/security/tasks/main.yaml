@@ -7,7 +7,7 @@
 - import_tasks: setup_firewall.yaml
 - import_tasks: setup_fail2ban.yaml
 - import_tasks: setup_auto_upgrades.yaml
-# - import_tasks: setup_logwatch.yaml
+- import_tasks: setup_logwatch.yaml
 - import_tasks: disable_password_login.yaml
 
-# - import_tasks: manage/disable_root_login.yaml
+- import_tasks: manage/disable_root_login.yaml

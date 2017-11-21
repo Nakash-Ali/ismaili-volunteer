@@ -1,0 +1,15 @@
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - logwatch
+
+- name: send daily emails
+  lineinfile:
+    create: yes
+    regexp: '^/usr/sbin/logwatch'
+    line: '/usr/sbin/logwatch --output mail --mailto root --detail high'
+    path: /etc/cron.daily/00logwatch
+    state: present

@@ -4,4 +4,5 @@
   roles:
 
     - init
+    - email
     - security

@@ -5,6 +5,11 @@
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
 
+- name: remove all authorized_keys for root
+  file:
+    path: /root/.ssh/authorized_keys
+    state: absent
+
 - name: restart sshd
   service:
     name: sshd
