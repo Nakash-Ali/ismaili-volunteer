@@ -2,9 +2,12 @@
 
 - import_tasks: enable_sudo_ssh_forwarding.yaml
 - import_tasks: enable_wheel_passwordless_sudo.yaml
-- import_tasks: setup_deployment_user.yaml
 - import_tasks: set_root_password.yaml
-- import_tasks: firewall.yaml
+- import_tasks: setup_deployment_user.yaml
+- import_tasks: setup_firewall.yaml
+- import_tasks: setup_fail2ban.yaml
+- import_tasks: setup_auto_upgrades.yaml
+# - import_tasks: setup_logwatch.yaml
 - import_tasks: disable_password_login.yaml
 
-- import_tasks: manage/disable_root_login.yaml
+# - import_tasks: manage/disable_root_login.yaml

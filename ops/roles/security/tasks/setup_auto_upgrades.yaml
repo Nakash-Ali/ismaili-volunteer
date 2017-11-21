@@ -1,0 +1,14 @@
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - unattended-upgrades
+    - apt-listchanges
+
+- name: copy 10periodic file
+  copy:
+    dest: /etc/apt/apt.conf.d/10periodic
+    force: yes
+    src: 10periodic

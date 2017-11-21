@@ -20,6 +20,10 @@
     - unzip
     - vim
     - ca-certificates
+    - git
+    - debian-goodies
+    - debsecan
+    - debsums
 
 - import_tasks: setup_time.yaml
 - import_tasks: setup_locale.yaml
