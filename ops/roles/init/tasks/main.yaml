@@ -1,4 +1,6 @@
 - name: update base packages
+  tags:
+    - vagrant
   apt:
     only_upgrade: yes
     install_recommends: yes
@@ -8,6 +10,8 @@
     upgrade: yes
 
 - name: install required packages
+  tags:
+    - vagrant
   apt:
     name: "{{ item }}"
     state: latest
@@ -25,7 +29,14 @@
     - debsecan
     - debsums
 
-- import_tasks: setup_time.yaml
 - import_tasks: setup_locale.yaml
+  tags:
+    - vagrant
+
+- import_tasks: setup_time.yaml
+  tags:
+    - vagrant
+
 - import_tasks: swapfile.yaml
+
 - import_tasks: mount_data_volume.yaml

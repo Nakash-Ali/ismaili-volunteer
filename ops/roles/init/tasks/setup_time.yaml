@@ -1,6 +1,6 @@
 - name: ensure chronyd is running
   systemd:
-    name: chronyd
+    name: chrony
     enabled: yes
     state: started
 
