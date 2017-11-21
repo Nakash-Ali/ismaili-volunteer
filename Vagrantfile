@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "debian/jessie64"
+  config.vm.box = "debian/stretch64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -54,17 +54,18 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-  # config.vm.provision "ansible" do |ansible|
-  #   ansible.playbook = "ops/play_vagrant.yaml"
-  #   ansible.extra_vars = {
-  #     venv_user: "vagrant",
-  #   }
-  #   ansible.verbose = "vv"
-  #   ansible.skip_tags = [
-  #     "global_vars",
-  #     "setup_db_and_user.postgres",
-  #   ]
-  # end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "ops/play_vagrant.yaml"
+    ansible.extra_vars = {
+      app_db_name: "postgres",
+      app_db_user: "postgres",
+      app_db_password: "postgres",
+    }
+    ansible.verbose = "vv"
+    ansible.tags = [
+      "vagrant"
+    ]
+  end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
