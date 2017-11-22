@@ -18,3 +18,24 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+## Required Files
+
+### Develop
+
+- `~/.ssh/id_rsa`
+- `~/.ssh/id_rsa/pub`
+
+### Deploy to Production
+
+- `./config/prod.secret.exs`
+
+### SSH Config
+
+To allow `edeliver` to connect to your local vagrant box, and the remote production host, ensure that the SSH configs defined in `./ops/ssh/iicanada` are included in your `~/.ssh/config` file.
+
+To do so automatically, from the project's folder, run
+
+```
+./ops/ssh_install.sh
+```

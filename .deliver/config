@@ -1,18 +1,9 @@
-CURR_DIR=`dirname "$(perl -e 'use Cwd "abs_path"; print abs_path(shift)' $0)"`
-LOCAL_SSH_CONFIG="$CURR_DIR/ssh_config"
-
-ROOT_SSH_CONFIG="$HOME/.ssh/config"
-LINE_MARKER="#fullstack-volunteer.edeliver.ssh_config"
-LINE="Include $LOCAL_SSH_CONFIG $LINE_MARKER"
-grep -qF "$LINE_MARKER" "$ROOT_SSH_CONFIG" || \
-sed -i '.old' '1s=^='"$LINE"'\
-\
-=' $ROOT_SSH_CONFIG
+THIS_DIR=`dirname "$(perl -e 'use Cwd "abs_path"; print abs_path(shift)' $0)"`
 
 APP="volunteer"
 
 BUILD_HOST="iicanada-vagrant.local"
-BUILD_USER="root"
+BUILD_USER="vagrant"
 BUILD_AT="/tmp/edeliver/$APP/builds"
 
 RELEASE_DIR="$BUILD_AT/_build/prod/rel/$APP"
@@ -24,13 +15,13 @@ GIT_CLEAN_PATHS="_build rel priv/static"
 # STAGING_USER="deploy"
 # TEST_AT="/home/deploy/staging"
 
-PRODUCTION_HOSTS="188.166.182.170"
+PRODUCTION_HOSTS="iicanada-prod"
 PRODUCTION_USER="deploy"
 DELIVER_TO="/home/deploy"
 
 # For *Phoenix* projects, symlink prod.secret.exs to our tmp source
 pre_erlang_get_and_update_deps() {
-  local _prod_secret_path="/home/builder/prod.secret.exs"
+  local _prod_secret_path="/app/config/prod.secret.exs"
   if [ "$TARGET_MIX_ENV" = "prod" ]; then
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
