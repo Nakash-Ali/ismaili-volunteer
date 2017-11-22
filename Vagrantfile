@@ -19,6 +19,8 @@ Vagrant.configure("2") do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
+  config.ssh.forward_agent = true
+
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -27,6 +29,11 @@ Vagrant.configure("2") do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", type: "dhcp"
+  config.vm.network "forwarded_port", id: "ssh", guest: 22, host: 4567
+
+  # Configure SSH related things
+  config.ssh.guest_port = 4567
+  config.ssh.forward_agent = true
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on

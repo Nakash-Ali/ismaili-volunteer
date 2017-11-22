@@ -4,10 +4,17 @@
 
   roles:
 
-    - init
-    - postgres
+    # - init
+    # - postgres
 
   tasks:
+
+    - name: install local id_rsa keyfile
+      tags: [ "vagrant" ]
+      authorized_key:
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        state: present
+        user: vagrant
 
     - name: download erlang dpkg
       tags: [ "vagrant" ]

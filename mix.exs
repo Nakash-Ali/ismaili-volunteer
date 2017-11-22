@@ -20,7 +20,12 @@ defmodule Volunteer.Mixfile do
   def application do
     [
       mod: {Volunteer.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :distillery,
+        :edeliver
+      ]
     ]
   end
 
@@ -40,7 +45,9 @@ defmodule Volunteer.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:edeliver, "~> 1.4.4"},
+      {:distillery, ">= 0.8.0"}
     ]
   end
 

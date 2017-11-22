@@ -1,0 +1,16 @@
+Host iicanada-prod
+  User deploy
+  Hostname 159.203.5.200
+  IdentityFile ~/.ssh/iicanada
+
+Host iicanada-vagrant.local
+  User vagrant
+  Hostname 127.0.0.1
+  Port 4567
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentitiesOnly yes
+  LogLevel FATAL
+  ForwardAgent yes
+  IdentityFile ~/.ssh/id_rsa

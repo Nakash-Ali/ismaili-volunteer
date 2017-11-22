@@ -28,3 +28,6 @@ npm-debug.log
 
 # Ignore vagrant files
 .vagrant
+
+# Ignore built releases
+.deliver/releases/

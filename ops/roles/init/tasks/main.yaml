@@ -26,6 +26,7 @@
     - ca-certificates
     - git
     - debian-goodies
+    - build-essential
     - debsecan
     - debsums
 
