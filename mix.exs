@@ -21,6 +21,7 @@ defmodule Volunteer.Mixfile do
     [
       mod: {Volunteer.Application, []},
       extra_applications: [
+        :crypto,
         :logger,
         :runtime_tools,
         :distillery,

@@ -36,7 +36,8 @@ defmodule VolunteerWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_volunteer_key",
-    signing_salt: "PqJ5MnVE"
+    signing_salt: "HzvjaIsIREkCKRE2bBdgIhA7JF3CO0cHviIyGUow",
+    encryption_salt: "LJanZXeGKBqNzPfzaUSTFuyBJQNJZqhpjC0XgoYT"
 
   plug VolunteerWeb.Router
 
