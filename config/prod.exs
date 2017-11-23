@@ -22,7 +22,10 @@ config :volunteer, VolunteerWeb.Endpoint,
   code_reloader: false
 
 # Do not print debug messages in production
-config :logger, level: :info
+# config :logger, level: :info
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
 
 # ## SSL Support
 #

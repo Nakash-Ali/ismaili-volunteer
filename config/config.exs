@@ -17,6 +17,14 @@ config :volunteer, VolunteerWeb.Endpoint,
   pubsub: [name: Volunteer.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+# Configure your database
+config :volunteer, Volunteer.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "dev",
+  password: "password",
+  database: "postgres",
+  hostname: "localhost"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

@@ -17,18 +17,21 @@
     state: latest
     update_cache: yes
   with_items:
+    - build-essential
+    - ca-certificates
     - chrony
     - tzdata
     - htop
     - wget
     - unzip
     - vim
-    - ca-certificates
     - git
     - debian-goodies
-    - build-essential
     - debsecan
     - debsums
+    - net-tools
+    - inotify-tools
+    - acl
 
 - import_tasks: setup_locale.yaml
   tags:

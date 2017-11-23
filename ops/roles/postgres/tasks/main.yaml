@@ -1,8 +1,7 @@
 - import_tasks: manage/include_global_vars.yaml
 
 - import_tasks: install_postgres.yaml
-  tags:
-    - vagrant
+  tags: [ "vagrant" ]
 
 - import_tasks: pg_createcluster.yaml
 
@@ -12,7 +11,7 @@
     daemon_reload: yes
     enabled: yes
     state: restarted
-  tags:
-    - vagrant
+  tags: [ "vagrant" ]
 
 - import_tasks: setup_db_and_user.yaml
+  tags: [ "vagrant" ]

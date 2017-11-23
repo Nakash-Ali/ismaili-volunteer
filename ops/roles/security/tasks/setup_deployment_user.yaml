@@ -2,6 +2,7 @@
   user:
     name: deploy
     password: "{{ global_deploy_password }}"
+    shell: /bin/bash
     groups: sudo
     system: yes
     state: present

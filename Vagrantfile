@@ -30,6 +30,7 @@ Vagrant.configure("2") do |config|
   # using a specific IP.
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "forwarded_port", id: "ssh", guest: 22, host: 4567
+  config.vm.network "forwarded_port", id: "app", guest: 4000, host: 4568
 
   # Configure SSH related things
   config.ssh.guest_port = 4567
@@ -67,11 +68,13 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "ops/play_vagrant.yaml"
     ansible.extra_vars = {
+      pg_version: "10",
+      pg_cluster_name: "main",
+      app_db_user: "dev",
+      app_db_password: "password",
       app_db_name: "postgres",
-      app_db_user: "postgres",
-      app_db_password: "postgres",
     }
-    ansible.verbose = "vv"
+    ansible.verbose = "v"
     ansible.tags = [
       "vagrant"
     ]
