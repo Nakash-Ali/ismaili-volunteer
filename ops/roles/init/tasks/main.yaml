@@ -19,6 +19,7 @@
   with_items:
     - build-essential
     - ca-certificates
+    - man-db
     - chrony
     - tzdata
     - htop

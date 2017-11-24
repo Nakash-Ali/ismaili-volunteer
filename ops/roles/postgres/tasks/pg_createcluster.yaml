@@ -6,10 +6,10 @@
     group: postgres
     mode: 0700
 
-- name: remove default cluster
-  command: "pg_dropcluster --stop {{ pg_version }} main"
+# - name: remove default cluster
+#   command: "pg_dropcluster --stop {{ pg_version }} main"
 
 - name: run pg_createcluster to create app cluster
   command: "pg_createcluster --locale C --encoding UTF8 -d {{ pg_data_dir }} {{ pg_version }} {{ pg_cluster_name }}"
   args:
-    creates: "{{ pg_data_dir }}/postgresql.conf"
+    creates: "{{ pg_data_dir }}/postgresql.auto.conf"

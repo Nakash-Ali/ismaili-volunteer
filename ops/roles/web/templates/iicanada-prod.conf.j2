@@ -1,11 +1,6 @@
-upstream rdb_gunicorn_server {
-	# fail_timeout=0 means we always retry an upstream even if it failed
-	# to return a good HTTP response (in case the Unicorn master nukes a
-	# single worker for timing out).
-
-	server unix:/run/gunicorn.socket fail_timeout=0;
+upstream phoenix_upstream {
+	server 127.0.0.1:8888;
 }
-
 
 server {
 	listen 80;
@@ -13,9 +8,14 @@ server {
 
 	server_name iicanada-prod;
 
-	# location = /favicon.ico { access_log off; log_not_found off; }
+	# location = /favicon.ico {
+  #   access_log off;
+  #   log_not_found off;
+  #   alias /static/favicon.ico
+  # }
+
 	location /static/ {
-		alias /web/static/;
+		root /www/volunteer;
 	}
 
 	location / {
@@ -26,6 +26,6 @@ server {
 		# we don't want nginx trying to do something clever with
 		# redirects, we set the Host: header above already.
 		proxy_redirect off;
-		proxy_pass http://rdb_gunicorn_server;
+		proxy_pass http://phoenix_upstream;
 	}
 }

@@ -1,7 +1,16 @@
-# - name: disable default site
-#   file:
-#     path: /etc/nginx/conf.d/default.conf
-#     state: absent
+- name: create www directory for static content
+  file:
+    owner: deploy
+    group: nginx
+    mode: 0750
+    state: directory
+    recurse: yes
+    path: /www
+
+- name: disable default site
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
 
 - name: create app conf.d
   template:

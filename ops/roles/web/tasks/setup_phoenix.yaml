@@ -1,0 +1,15 @@
+- name: create the phoenix user for upstream webserver
+  user:
+    name: phoenix
+    shell: /bin/bash
+    system: yes
+    state: present
+
+- name: create app directory for phoenix binary
+  file:
+    owner: deploy
+    group: phoenix
+    mode: 0770
+    state: directory
+    recurse: yes
+    path: /app
