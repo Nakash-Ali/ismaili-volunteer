@@ -9,6 +9,23 @@
 
   tasks:
 
+    - name: change postgres authentication method to trust all local logins
+      tags: [ "vagrant" ]
+      lineinfile:
+        backup: yes
+        create: no
+        insertafter: IPv4\slocal\sconnections
+        line: host    all             all             all                     trust
+        path: /etc/postgresql/10/main/pg_hba.conf
+        state: present
+
+    - name: re-enable postgres@10-main service
+      tags: [ "vagrant" ]
+      systemd:
+        name: postgresql@10-main
+        enabled: yes
+        state: restarted
+
     - name: install local id_rsa keyfile
       tags: [ "vagrant" ]
       authorized_key:
