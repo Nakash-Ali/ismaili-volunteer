@@ -19,14 +19,17 @@ defmodule VolunteerWeb.Router do
     post "/apply", LegacyController, :apply
   end
 
+  # scope "/", VolunteerWeb do
+  #   pipe_through :browser
+  #
+  #   resources "/regions", RegionController
+  #   resources "/jamatkhanas", JamatkhanaController
+  #   resources "/groups", GroupController
+  # end
+
   scope "/", VolunteerWeb do
     pipe_through :api
-    
+
     get "/", IndexController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", VolunteerWeb do
-  #   pipe_through :api
-  # end
 end

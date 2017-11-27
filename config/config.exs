@@ -21,10 +21,10 @@ config :volunteer, VolunteerWeb.Endpoint,
 # Configure your database
 config :volunteer, Volunteer.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "dev",
-  password: "password",
+  username: "postgres",
+  password: "postgres",
   database: "postgres",
-  hostname: "localhost"
+  hostname: "127.0.0.1"
 
 # Configures Elixir's Logger
 config :logger, :console,
