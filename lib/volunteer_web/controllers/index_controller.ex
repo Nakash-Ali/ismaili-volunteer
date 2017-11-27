@@ -1,7 +1,7 @@
-defmodule VolunteerWeb.PageController do
+defmodule VolunteerWeb.IndexController do
   use VolunteerWeb, :controller
 
   def index(conn, _params) do
-    render conn, "index.html"
+    json(conn, %{status: 200})
   end
 end

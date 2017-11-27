@@ -20,8 +20,9 @@ defmodule VolunteerWeb.Router do
   end
 
   scope "/", VolunteerWeb do
-    pipe_through :browser
-    get "/", PageController, :index
+    pipe_through :api
+    
+    get "/", IndexController, :index
   end
 
   # Other scopes may use custom stacks.
