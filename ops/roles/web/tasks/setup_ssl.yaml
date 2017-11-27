@@ -1,0 +1,6 @@
+# https://certbot.eff.org/#debianstretch-nginx
+# https://wiki.archlinux.org/index.php/Let%E2%80%99s_Encrypt#systemd
+# https://myshell.co.uk/blog/2017/02/lets-encrypt-with-nginx-and-systemd-timers-for-renewal/
+
+# https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04
