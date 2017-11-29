@@ -21,6 +21,10 @@ config :volunteer, VolunteerWeb.Endpoint,
   server: true,
   code_reloader: false
 
+# Configure mailer
+config :volunteer, VolunteerEmail.Mailer,
+  adapter: Bamboo.SendGridAdapter
+
 # Do not print debug messages in production
 # config :logger, level: :info
 config :logger, :console,

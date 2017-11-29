@@ -26,10 +26,30 @@ config :volunteer, Volunteer.Repo,
   database: "postgres",
   hostname: "127.0.0.1"
 
+# Configure mailer
+config :volunteer, VolunteerEmail.Mailer,
+  adapter: Bamboo.LocalAdapter
+
+# Configure hammer rate-limiter
+config :hammer,
+  backend: {
+    Hammer.Backend.ETS,
+    [
+      expiry_ms: 60_000 * 60 * 4,
+      cleanup_interval_ms: 60_000 * 10
+    ]
+  }
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+# Configure Google's reCaptcha V2
+# NOTE - the keys below are Google's publicly known test keys!
+config :recaptcha,
+  public_key: {:system, "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"},
+  secret: {:system, "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

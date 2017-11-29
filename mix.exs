@@ -24,8 +24,6 @@ defmodule Volunteer.Mixfile do
         :crypto,
         :logger,
         :runtime_tools,
-        :distillery,
-        :edeliver
       ]
     ]
   end
@@ -39,16 +37,19 @@ defmodule Volunteer.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
+      {:phoenix, "~> 1.3"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 0.13"},
       {:cowboy, "~> 1.0"},
-      {:edeliver, "~> 1.4.4"},
-      {:distillery, ">= 0.8.0"}
+      {:edeliver, "~> 1.4"},
+      {:distillery, ">= 0.8.0"},
+      {:bamboo, github: "thoughtbot/bamboo", branch: "master"},
+      {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
+      {:hammer, "~> 2.1.0"},
     ]
   end
 

@@ -19,17 +19,21 @@ defmodule VolunteerWeb.Router do
     post "/apply", LegacyController, :apply
   end
 
-  # scope "/", VolunteerWeb do
-  #   pipe_through :browser
-  #
-  #   resources "/regions", RegionController
-  #   resources "/jamatkhanas", JamatkhanaController
-  #   resources "/groups", GroupController
-  # end
+  scope "/", VolunteerWeb do
+    pipe_through :browser
+
+    resources "/regions", RegionController
+    resources "/jamatkhanas", JamatkhanaController
+    resources "/groups", GroupController
+  end
 
   scope "/", VolunteerWeb do
     pipe_through :api
 
     get "/", IndexController, :index
+  end
+
+  if Mix.env == :dev do
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 end
