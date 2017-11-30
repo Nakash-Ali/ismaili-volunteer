@@ -4,7 +4,7 @@ defmodule VolunteerEmail.Mailer do
   import Bamboo.Email, only: [new_email: 0, from: 2]
   import Bamboo.Phoenix, only: [put_html_layout: 2]
 
-  @from_email {"ServeWithUs", "servewithus@iicanada.org"}
+  @from_email {"OpportunitiesToServe", "opportunitiestoserve@iicanada.org"}
 
   def default_email() do
     new_email()

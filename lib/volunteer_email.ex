@@ -1,9 +1,19 @@
 defmodule VolunteerEmail do
-  @moduledoc """
-  Volunteer keeps the contexts that define your domain
-  and business logic.
+  def view do
+    quote do
+      use Phoenix.View, root: "lib/volunteer_email/templates",
+                        namespace: VolunteerEmail
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+      import Bamboo.Email
+    end
+  end
+
+  @doc """
+  When used, dispatch to the appropriate controller/view/etc.
   """
+  defmacro __using__(which) when is_atom(which) do
+    apply(__MODULE__, which, [])
+  end
 end

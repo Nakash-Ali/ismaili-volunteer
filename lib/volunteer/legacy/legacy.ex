@@ -1,11 +1,9 @@
-require IEx
-
 defmodule Volunteer.Legacy do
-  import Bamboo.Email
-  use Bamboo.Phoenix, view: VolunteerEmail.LegacyView
-
   alias Ecto.Changeset
   alias VolunteerEmail.Mailer
+
+  import Bamboo.Email
+  import Bamboo.Phoenix
 
   @all_jamatkhanas [
     "Headquarters",
@@ -36,18 +34,26 @@ defmodule Volunteer.Legacy do
     "Windsor"
   ]
 
+  @all_contact_methods [
+    "phone",
+    "email"
+  ]
+
   @types %{
     name: :string,
     email: :string,
     phone: :string,
     jamatkhana: :string,
+    preferred_contact: :string,
     other_info: :string,
     hear_about: :string,
-    preferred_contact: :string,
     affirm: :boolean,
+    position: :string,
+    program: :string,
+    this: :string,
     cc: {:array, :string},
-    subject: :string,
-    next: :string
+    organizer: :string,
+    organizer_email: :string
   }
 
   @required [
@@ -57,12 +63,25 @@ defmodule Volunteer.Legacy do
     :jamatkhana,
     :preferred_contact,
     :affirm,
+    :position,
+    :program,
+    :this,
     :cc,
-    :subject,
-    :next,
+    :organizer,
+    :organizer_email,
   ]
 
-  defstruct @required
+  @public_keys [
+    {:name, "Name"},
+    {:email, "Email"},
+    {:phone, "Phone"},
+    {:jamatkhana, "Jamatkhana"},
+    {:preferred_contact, "Preferred method of contact"},
+    {:other_info, "Additional information"},
+    {:hear_about, "How did you hear about this website?"},
+  ]
+
+  defstruct Map.keys(@types)
 
   def apply(params) when is_map(params) do
     changeset = {%{}, @types}
@@ -70,39 +89,59 @@ defmodule Volunteer.Legacy do
       |> Changeset.validate_required(@required)
       |> Changeset.validate_format(:email, ~r/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
       |> Changeset.validate_inclusion(:jamatkhana, @all_jamatkhanas)
-      |> Changeset.validate_inclusion(:preferred_contact, ["email", "phone"])
+      |> Changeset.validate_inclusion(:preferred_contact, @all_contact_methods)
       |> Changeset.validate_acceptance(:affirm)
 
     with %{valid?: true} <- changeset,
-         legacy <- struct(Volunteer.Legacy, changeset.changes),
-         {:ok, _} <- send_emails(legacy)
+         data <- struct(Volunteer.Legacy, changeset.changes),
+         sent_emails <- send_emails(data)
     do
-      {:ok, legacy}
+      {:ok, data, sent_emails}
     else
-      %{valid?: false} -> {:error, changeset}
+      %Ecto.Changeset{valid?: false} -> {:error, changeset}
       {:error, error} -> {:error, error}
     end
   end
 
+  def translate_to_public_keys(data, opts \\ [])
+
+  def translate_to_public_keys(data, replace_keys: true) do
+    data
+      |> translate_to_public_keys
+      |> Enum.map(fn {_, public_key, value} -> {public_key, value} end)
+  end
+
+  def translate_to_public_keys(data, _) do
+    @public_keys
+      |> Enum.filter(fn {key, _} -> Map.has_key?(data, key) end)
+      |> Enum.map(fn {key, public_key} -> {key, public_key, Map.get(data, key)} end)
+  end
+
   defp send_emails(%Volunteer.Legacy{} = data) do
     [
-      &welcome_email/1
+      data |> external_email |> Mailer.deliver_now,
+      data |> internal_email |> Mailer.deliver_now,
     ]
-      |> Enum.map(fn email_func -> email_func.(data) end)
-      |> Enum.map(fn email -> Mailer.deliver_now(email) end)
   end
 
-  defp default_email() do
-    new_email()
-      |> from("me@example.com")
-  end
-
-  def welcome_email(%Volunteer.Legacy{} = data) do
-    default_email()
+  defp external_email(%Volunteer.Legacy{} = data) do
+    email = Mailer.default_email()
       |> to({data.name, data.email})
+      |> cc([{data.organizer, data.organizer_email} | data.cc])
+      |> subject(construct_subject(data))
+      |> put_header("Reply-To", data.organizer_email)
+    render_email(VolunteerEmail.LegacyView, email, :external_for_new_application, [data: data])
+  end
+
+  defp internal_email(%Volunteer.Legacy{} = data) do
+    email = Mailer.default_email()
+      |> to({data.organizer, data.organizer_email})
       |> cc(data.cc)
-      |> subject(data.subject)
-      |> html_body("<strong>Welcome</strong>")
-      |> text_body("welcome")
+      |> subject("INTERNAL - #{data.name} - #{construct_subject(data)}")
+    render_email(VolunteerEmail.LegacyView, email, :internal_for_new_application, [data: data])
+  end
+
+  defp construct_subject(%Volunteer.Legacy{} = data) do
+    "#{data.position} - #{data.program} - Volunteer Application"
   end
 end

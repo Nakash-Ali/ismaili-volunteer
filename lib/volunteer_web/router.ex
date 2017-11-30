@@ -7,6 +7,7 @@ defmodule VolunteerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :drop
   end
 
   pipeline :api do
@@ -35,5 +36,11 @@ defmodule VolunteerWeb.Router do
 
   if Mix.env == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+
+  defp drop(conn, _) do
+    conn
+      |> send_resp(400, "not found")
+      |> halt
   end
 end
