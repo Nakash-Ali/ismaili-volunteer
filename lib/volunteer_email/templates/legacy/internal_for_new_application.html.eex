@@ -1,0 +1,22 @@
+<p>Ya Ali Madad <%= @data.organizer %>,</p>
+
+<p>You've just received an application from <%= @data.name %>. The full details are below.</p>
+
+<p><strong>Please use this email thread for any internal conversations regarding the applicant, including those with the ServeWithUs team.</strong> This thread should not be shared with the applicant.</p>
+
+<table class="application">
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for {key, public_key, value} <- Volunteer.Legacy.get_pulic_data(@data) do %>
+      <tr>
+        <td><%= public_key %></td>
+        <td><strong><%= html_for_key(key, value) %></strong></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

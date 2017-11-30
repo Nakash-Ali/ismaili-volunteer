@@ -1,0 +1,10 @@
+Ya Ali Madad <%= @data.organizer %>,
+
+You've just received an application from <%= @data.name %>. The full details are below.
+
+Please use this email thread for any internal conversations with the ServeWithUs team. Do not share this email with the applicant.
+
+<%= for {key, value} <- Volunteer.Legacy.get_pulic_data(@data) do %>
+<%= key %>: <%= value %>
+
+<% end %>
