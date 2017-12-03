@@ -4,7 +4,7 @@ You've just received an application from <%= @data.name %>. The full details are
 
 Please use this email thread for any internal conversations with the OpportunitiesToServe team. Do not share this email with the applicant.
 
-<%= for {key, value} <- Volunteer.Legacy.translate_to_public_keys(@data) do %>
-<%= key %>: <%= value %>
+<%= for {public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data, replace_keys: true) do %>
+<%= public_key %>: <%= value %>
 
 <% end %>

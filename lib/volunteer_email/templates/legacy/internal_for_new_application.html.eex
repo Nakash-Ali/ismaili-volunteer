@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <%= for {key, public_key, value} <- Volunteer.Legacy.translate_to_public_keys(@data) do %>
+    <%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data) do %>
       <tr>
         <td><%= public_key %></td>
         <td><strong><%= html_for_key(key, value) %></strong></td>
