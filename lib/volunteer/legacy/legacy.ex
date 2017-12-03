@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Volunteer.Legacy do
   alias Ecto.Changeset
   alias VolunteerEmail.Mailer
@@ -79,6 +81,16 @@ defmodule Volunteer.Legacy do
     {:preferred_contact, "Preferred method of contact"},
     {:other_info, "Additional information"},
     {:hear_about, "How did you hear about this website?"},
+    {:affirm, "Affirm"},
+  ]
+
+  @system_keys [
+    {:position, "Position"},
+    {:program, "Program"},
+    {:this, "This"},
+    {:cc, "CC"},
+    {:organizer, "Organizer"},
+    {:organizer_email, "Organizer's email"},
   ]
 
   defstruct Map.keys(@types)
@@ -103,19 +115,22 @@ defmodule Volunteer.Legacy do
     end
   end
 
-  def translate_to_public_keys(data, opts \\ [])
+  def translate_keys(type, data, opts \\ [])
 
-  def translate_to_public_keys(data, replace_keys: true) do
-    data
-      |> translate_to_public_keys
-      |> Enum.map(fn {_, public_key, value} -> {public_key, value} end)
+  def translate_keys(type, data, replace_keys: true) do
+    translate_keys(type, data)
+      |> Enum.map(fn {_, translated_key, value} -> {translated_key, value} end)
   end
 
-  def translate_to_public_keys(data, _) do
-    @public_keys
+  def translate_keys(type, data, _) do
+    get_keys_config(type)
       |> Enum.filter(fn {key, _} -> Map.has_key?(data, key) end)
-      |> Enum.map(fn {key, public_key} -> {key, public_key, Map.get(data, key)} end)
+      |> Enum.map(fn {key, translated_key} -> {key, translated_key, Map.get(data, key)} end)
   end
+
+  defp get_keys_config(type)
+  defp get_keys_config(:system) do @system_keys end
+  defp get_keys_config(:public) do @public_keys end
 
   defp send_emails(%Volunteer.Legacy{} = data) do
     [
