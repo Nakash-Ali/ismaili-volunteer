@@ -4,6 +4,7 @@
 - import_tasks: enable_wheel_passwordless_sudo.yaml
 - import_tasks: set_root_password.yaml
 - import_tasks: setup_deployment_user.yaml
+- import_tasks: setup_debsums.yaml
 - import_tasks: setup_firewall.yaml
 - import_tasks: setup_fail2ban.yaml
 - import_tasks: setup_auto_upgrades.yaml

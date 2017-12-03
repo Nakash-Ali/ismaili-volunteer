@@ -1,0 +1,11 @@
+- name: copy debsums script to root dir
+  copy:
+    dest: /root/debsums.sh
+    force: yes
+    src: debsums.sh
+
+- name: run monthly with crontabs
+  cron:
+    name: "debsums"
+    special_time: monthly
+    job: "/root/debsums.sh"
