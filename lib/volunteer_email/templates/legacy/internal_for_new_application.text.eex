@@ -8,3 +8,6 @@ Please use this email thread for any internal conversations with the Opportuniti
 <%= public_key %>: <%= value %>
 
 <% end %>
+
+Best Regards,
+OpportunitiesToServe

@@ -7,8 +7,9 @@ defmodule VolunteerWeb.LegacyController do
   alias Volunteer.Legacy
   import VolunteerWeb.ErrorHelpers
 
-  @next "https://ismailivolunteer.netlify.com/thankyou/apply"
-  @error "https://ismailivolunteer.netlify.com/error"
+  @static_site "http://localhost:1313"
+  @next "#{@static_site}/thankyou/apply"
+  @error "#{@static_site}/error"
 
   plug :botnectar_protection
   plug :rate_limit
@@ -23,6 +24,8 @@ defmodule VolunteerWeb.LegacyController do
 
   defp botnectar_protection(%Plug.Conn{} = conn, _) do
     case conn do
+      %{params: %{"botnectar" => ""}} -> conn
+      %{params: %{"botnectar" => nil}} -> conn
       %{params: %{"botnectar" => _}} -> handle_error(conn)
       _ -> conn
     end
@@ -60,15 +63,15 @@ defmodule VolunteerWeb.LegacyController do
       end)
       |> Enum.filter(& &1)
       |> URI.encode_query
-    send_resp(conn, 200, "#{@error}?#{query_string}")
+    redirect conn, external: "#{@error}?#{query_string}"
   end
 
   defp handle_error(%Plug.Conn{} = conn, errors) when is_map(errors) do
-    send_resp(conn, 200, "#{@error}?errors=#{encode_errors(errors)}")
+    redirect conn, external: "#{@error}?errors=#{encode_errors(errors)}"
   end
 
   defp handle_error(%Plug.Conn{} = conn) do
-    send_resp(conn, 200, "#{@error}")
+    redirect conn, external: "#{@error}"
   end
 
   defp encode_errors(errors) when is_map(errors) do errors |> Poison.encode! |> Base.url_encode64 end

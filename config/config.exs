@@ -58,8 +58,8 @@ config :logger, :console,
 # Configure Google's reCaptcha V2
 # NOTE - the keys below are Google's publicly known test keys!
 config :recaptcha,
-  public_key: {:system, "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"},
-  secret: {:system, "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"}
+  public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+  secret: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
