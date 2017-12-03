@@ -16,6 +16,9 @@ defmodule Volunteer.Application do
       # worker(Volunteer.Worker, [arg1, arg2, arg3]),
     ]
 
+    # Capture all errors, that aren't caught by Plug
+    :ok = :error_logger.add_report_handler(Sentry.Logger)
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Volunteer.Supervisor]

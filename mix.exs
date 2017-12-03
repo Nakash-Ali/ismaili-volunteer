@@ -49,7 +49,9 @@ defmodule Volunteer.Mixfile do
       {:distillery, ">= 0.8.0"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master"},
       {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
+      {:sentry, "~> 6.0.4"},
       {:hammer, "~> 2.1.0"},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
     ]
   end
 
