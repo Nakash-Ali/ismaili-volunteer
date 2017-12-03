@@ -19,7 +19,7 @@ defmodule VolunteerWeb.JamatkhanaController do
       {:ok, jamatkhana} ->
         conn
         |> put_flash(:info, "Jamatkhana created successfully.")
-        |> redirect(to: jamatkhana_path(conn, :show, jamatkhana))
+        # |> redirect(to: jamatkhana_path(conn, :show, jamatkhana))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -43,7 +43,7 @@ defmodule VolunteerWeb.JamatkhanaController do
       {:ok, jamatkhana} ->
         conn
         |> put_flash(:info, "Jamatkhana updated successfully.")
-        |> redirect(to: jamatkhana_path(conn, :show, jamatkhana))
+        # |> redirect(to: jamatkhana_path(conn, :show, jamatkhana))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", jamatkhana: jamatkhana, changeset: changeset)
     end
@@ -55,6 +55,6 @@ defmodule VolunteerWeb.JamatkhanaController do
 
     conn
     |> put_flash(:info, "Jamatkhana deleted successfully.")
-    |> redirect(to: jamatkhana_path(conn, :index))
+    # |> redirect(to: jamatkhana_path(conn, :index))
   end
 end

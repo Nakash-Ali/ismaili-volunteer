@@ -23,9 +23,9 @@ defmodule VolunteerWeb.Router do
   scope "/", VolunteerWeb do
     pipe_through :browser
 
-    resources "/regions", RegionController
-    resources "/jamatkhanas", JamatkhanaController
-    resources "/groups", GroupController
+    # resources "/regions", RegionController
+    # resources "/jamatkhanas", JamatkhanaController
+    # resources "/groups", GroupController
   end
 
   scope "/", VolunteerWeb do

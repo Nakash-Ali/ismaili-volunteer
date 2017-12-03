@@ -19,7 +19,7 @@ defmodule VolunteerWeb.RegionController do
       {:ok, region} ->
         conn
         |> put_flash(:info, "Region created successfully.")
-        |> redirect(to: region_path(conn, :show, region))
+        # |> redirect(to: region_path(conn, :show, region))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -43,7 +43,7 @@ defmodule VolunteerWeb.RegionController do
       {:ok, region} ->
         conn
         |> put_flash(:info, "Region updated successfully.")
-        |> redirect(to: region_path(conn, :show, region))
+        # |> redirect(to: region_path(conn, :show, region))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", region: region, changeset: changeset)
     end
@@ -55,6 +55,6 @@ defmodule VolunteerWeb.RegionController do
 
     conn
     |> put_flash(:info, "Region deleted successfully.")
-    |> redirect(to: region_path(conn, :index))
+    # |> redirect(to: region_path(conn, :index))
   end
 end

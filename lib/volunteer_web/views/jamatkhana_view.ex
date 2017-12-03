@@ -1,3 +1,3 @@
 defmodule VolunteerWeb.JamatkhanaView do
-  use VolunteerWeb, :view
+  # use VolunteerWeb, :view
 end

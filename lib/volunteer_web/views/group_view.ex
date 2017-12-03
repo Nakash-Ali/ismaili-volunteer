@@ -1,3 +1,3 @@
 defmodule VolunteerWeb.GroupView do
-  use VolunteerWeb, :view
+  # use VolunteerWeb, :view
 end

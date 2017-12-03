@@ -1,3 +1,3 @@
 defmodule VolunteerWeb.RegionView do
-  use VolunteerWeb, :view
+  # use VolunteerWeb, :view
 end
