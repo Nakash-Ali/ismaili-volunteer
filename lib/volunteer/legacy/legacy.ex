@@ -144,7 +144,6 @@ defmodule Volunteer.Legacy do
       |> to({data.name, data.email})
       |> cc([{data.organizer, data.organizer_email} | data.cc])
       |> subject(construct_subject(data))
-      |> put_header("Reply-To", data.organizer_email)
     render_email(VolunteerEmail.LegacyView, email, :external_for_new_application, [data: data])
   end
 
@@ -152,11 +151,11 @@ defmodule Volunteer.Legacy do
     email = Mailer.default_email()
       |> to({data.organizer, data.organizer_email})
       |> cc(data.cc)
-      |> subject("INTERNAL - #{data.name} - #{construct_subject(data)}")
+      |> subject("INTERNAL - #{construct_subject(data)}")
     render_email(VolunteerEmail.LegacyView, email, :internal_for_new_application, [data: data])
   end
 
   defp construct_subject(%Volunteer.Legacy{} = data) do
-    "#{data.position} - #{data.program} - Volunteer Application"
+    "#{data.name} - #{data.position} - #{data.program} - Volunteer Application"
   end
 end
