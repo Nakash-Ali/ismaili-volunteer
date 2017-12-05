@@ -1,13 +1,22 @@
 Ya Ali Madad <%= @data.organizer %>,
 
+
 You've just received an application from <%= @data.name %>. The full details are below.
 
 Please use this email thread for any internal conversations with the OpportunitiesToServe team. Do not share this email with the applicant.
+
 
 <%= for {public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data, replace_keys: true) do %>
 <%= public_key %>: <%= value %>
 
 <% end %>
+
+Program: <%= @data.program %>
+
+Position: <%= @data.position %>
+
+ID: <%= @data.this %>
+
 
 Best Regards,
 OpportunitiesToServe

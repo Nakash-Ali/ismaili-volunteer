@@ -2,13 +2,13 @@
 
 <p>You've just received an application from <%= @data.name %>. The full details are below.</p>
 
-<p><strong>Please use this email thread for any internal conversations regarding the applicant, including those with the OpportunitiesToServe team.</strong> This thread should not be shared with the applicant.</p>
+<p>Please use this email thread for any internal conversations regarding the applicant, including those with the OpportunitiesToServe team. <em>This thread should not be shared with the applicant.</em></p>
 
-<table class="application">
+<table>
   <thead>
     <tr>
-      <th>Field</th>
-      <th>Response</th>
+      <th style="text-align: left; text-decoration: underline; font-weight: normal;">Field</th>
+      <th style="text-align: left; text-decoration: underline; font-weight: normal;">Details</th>
     </tr>
   </thead>
   <tbody>
@@ -19,7 +19,21 @@
       </tr>
     <% end %>
   </tbody>
+  <tbody>
+    <tr>
+      <td>Program</td>
+      <td><%= @data.program %></td>
+    </tr>
+    <tr>
+      <td>Position</td>
+      <td><%= @data.position %></td>
+    </tr>
+    <tr>
+      <td>ID</td>
+      <td><%= @data.this %></td>
+    </tr>
+  </tbody>
 </table>
 
-<p>Best Regards,</p>
-<p>OpportunitiesToServe</p>
+<p>Best Regards,<br>
+OpportunitiesToServe</p>
