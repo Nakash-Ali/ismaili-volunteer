@@ -4,7 +4,7 @@ Thank you very much for applying to the position of <%= @data.position %> for <%
 
 <%= @data.organizer %>, the organizer of the program, has been CC'ed in this email. They will be your point-of-contact for this application, and will be in touch via <%= @data.preferred_contact %> (as requested) shortly. <%= if @data.preferred_contact == "phone" do %>The phone number we have for you is <%= @data.phone %>. If this is not correct, please reply-all to this email with the correct one.<% end %>
 
-Thank you for giving your time and knowledge to our jamat. If you have any questions or comments, feel free to reply-all to this email.
+Thank you for being generous with your time to our community. If you have any questions or comments, feel free to reply-all to this email.
 
 Best Regards,
 OpportunitiesToServe

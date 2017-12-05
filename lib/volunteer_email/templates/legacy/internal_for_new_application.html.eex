@@ -29,6 +29,10 @@
       <td><%= @data.position %></td>
     </tr>
     <tr>
+      <td>Ogranizer (you)</td>
+      <td><%= @data.organizer %></td>
+    </tr>
+    <tr>
       <td>ID</td>
       <td><%= @data.this %></td>
     </tr>

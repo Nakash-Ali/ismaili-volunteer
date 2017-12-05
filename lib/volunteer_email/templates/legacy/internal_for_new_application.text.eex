@@ -15,6 +15,8 @@ Program: <%= @data.program %>
 
 Position: <%= @data.position %>
 
+Organizer (you): <%= @data.organizer %>
+
 ID: <%= @data.this %>
 
 
