@@ -17,7 +17,7 @@ defmodule VolunteerWeb.LegacyController do
 
   def apply(conn, params) do
     case Legacy.apply(params) do
-      {:ok, _, _} -> redirect conn, external: @next
+      {:ok, _, _} -> conn |> redirect(external: @next) |> halt
       {:error, error} -> handle_error(conn, error)
     end
   end
@@ -63,15 +63,15 @@ defmodule VolunteerWeb.LegacyController do
       end)
       |> Enum.filter(& &1)
       |> URI.encode_query
-    redirect conn, external: "#{@error}?#{query_string}"
+    conn |> redirect(external: "#{@error}?#{query_string}") |> halt
   end
 
   defp handle_error(%Plug.Conn{} = conn, errors) when is_map(errors) do
-    redirect conn, external: "#{@error}?errors=#{encode_errors(errors)}"
+    conn |> redirect(external: "#{@error}?errors=#{encode_errors(errors)}") |> halt
   end
 
   defp handle_error(%Plug.Conn{} = conn) do
-    redirect conn, external: "#{@error}"
+    conn |> redirect(external: "#{@error}") |> halt
   end
 
   defp encode_errors(errors) when is_map(errors) do errors |> Poison.encode! |> Base.url_encode64 end
