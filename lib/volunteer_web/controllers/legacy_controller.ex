@@ -9,9 +9,9 @@ defmodule VolunteerWeb.LegacyController do
   @next "#{@static_site}/thankyou"
   @error "#{@static_site}/error"
 
-  # plug :botnectar_protection
-  # plug :rate_limit
-  # plug :verify_captcha
+  plug :botnectar_protection
+  plug :rate_limit
+  plug :verify_captcha
 
   def apply(conn, params) do
     case Legacy.apply(params) do
@@ -33,9 +33,9 @@ defmodule VolunteerWeb.LegacyController do
     remote_ip_string = remote_ip_tuple
       |> Tuple.to_list
       |> Enum.join(".")
-    case Hammer.check_rate("legacy.apply:#{remote_ip_string}", 60 * 1000, 10) do
+    case Hammer.check_rate("legacy.apply:#{remote_ip_string}", 5 * 60 * 1000, 10) do # (5 minutes, 10 requests)
       {:allow, _} -> conn
-      {:deny, _} -> handle_error(conn, %{component: "Rate Limiter", message: "Rate limit exceeded"})
+      {:deny, _} -> handle_error(conn, %{component: "Rate Limiter", message: "Rate limit exceeded. Please wait 5 minutes before trying again!"})
     end
   end
 
