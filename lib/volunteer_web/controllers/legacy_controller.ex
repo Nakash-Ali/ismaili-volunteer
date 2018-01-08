@@ -1,5 +1,3 @@
-require IEx
-
 defmodule VolunteerWeb.LegacyController do
   use VolunteerWeb, :controller
 

@@ -1,5 +1,3 @@
-require IEx
-
 defmodule VolunteerEmail.LegacyView do
   use VolunteerEmail, :view
 
