@@ -40,13 +40,13 @@ post_upgrade_release() {
   copy_static_assets
 }
 
-post_init_app_remotely() {
-  copy_static_assets
-}
+# post_init_app_remotely() {
+#   copy_static_assets
+# }
 
-post_extract_release_archive() {
-  copy_static_assets
-}
+# post_extract_release_archive() {
+#   copy_static_assets
+# }
 
 
 ### ACTIONS

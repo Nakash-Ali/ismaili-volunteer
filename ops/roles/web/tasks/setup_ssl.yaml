@@ -4,3 +4,33 @@
 
 # https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
 # https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04
+
+- name: add stretch-backports to sources.list
+  lineinfile:
+    backup: yes
+    create: no
+    line: "deb http://ftp.debian.org/debian stretch-backports main"
+    path: /etc/apt/sources.list
+    state: present
+
+- name: update apt-get
+  apt:
+    update_cache: yes
+
+- name: install certbot
+  apt:
+    name: python-certbot-nginx
+    state: latest
+    default_release: stretch-backports
+
+- name: setup certbot renewal
+  cron:
+    name: certbot-auto-renew
+    minute: 30
+    hour: "4,22"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    state: present
+    backup: yes
+    job: "/usr/bin/certbot renew"

@@ -39,3 +39,13 @@ To do so automatically, from the project's folder, run
 ```
 ./ops/ssh_install.sh
 ```
+
+## Operations
+
+### Changing NGINX configs
+
+Anytime you make and deploy a change to NGINX, letsencrypt's cert pragmas will be wiped. You must `ssh` onto the server and regenerate those lines by running:
+
+```shell
+sudo certbot --nginx
+```
