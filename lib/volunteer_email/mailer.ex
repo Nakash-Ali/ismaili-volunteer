@@ -6,9 +6,14 @@ defmodule VolunteerEmail.Mailer do
 
   @from_email {"OpportunitiesToServe", "hr.ontario@iicanada.net"}
 
-  def default_email() do
+  def new_default_email() do
     new_email()
       |> from(@from_email)
       |> put_html_layout({VolunteerEmail.LayoutView, "email.html"})
   end
+
+  def from_email() do
+      @from_email
+  end
+
 end

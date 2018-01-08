@@ -4,40 +4,43 @@
 
 <p>Please use this email thread for any internal conversations regarding the applicant, including those with the OpportunitiesToServe team. <em>This thread should not be shared with the applicant.</em></p>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left; text-decoration: underline; font-weight: normal;">Field</th>
-      <th style="text-align: left; text-decoration: underline; font-weight: normal;">Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data) do %>
+<p>
+  <table>
+    <thead>
       <tr>
-        <td><%= public_key %></td>
-        <td><strong><%= html_for_key(key, value) %></strong></td>
+        <th style="text-align: left; text-decoration: underline; font-weight: normal;">Field</th>
+        <th style="text-align: left; text-decoration: underline; font-weight: normal;">Details</th>
       </tr>
-    <% end %>
-  </tbody>
-  <tbody>
-    <tr>
-      <td>Program</td>
-      <td><%= @data.program %></td>
-    </tr>
-    <tr>
-      <td>Position</td>
-      <td><%= @data.position %></td>
-    </tr>
-    <tr>
-      <td>Ogranizer (you)</td>
-      <td><%= @data.organizer %></td>
-    </tr>
-    <tr>
-      <td>ID</td>
-      <td><%= @data.this %></td>
-    </tr>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data) do %>
+        <tr>
+          <td><%= public_key %></td>
+          <td><strong><%= html_for_key(key, value) %></strong></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</p>
+
+<p>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left; text-decoration: underline; font-weight: normal;">Internal Field</th>
+        <th style="text-align: left; text-decoration: underline; font-weight: normal;">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:system, @data) do %>
+        <tr>
+          <td><%= public_key %></td>
+          <td><strong><%= html_for_key(key, value) %></strong></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</p>
 
 <p>Best Regards,<br>
 OpportunitiesToServe</p>

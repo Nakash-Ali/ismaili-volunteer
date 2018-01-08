@@ -21,15 +21,13 @@ config :volunteer, VolunteerWeb.Endpoint,
   server: true,
   code_reloader: false
 
+# Configure static integration
+config :volunteer,
+  static_site: "https://ismailivolunteer.netlify.com"
+
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer,
-  adapter: Bamboo.SMTPAdapter,
-  server: "smtp.office365.com",
-  hostname: "iicanada.net",
-  port: 587, # check 587
-  tls: :if_available, # can be `:always` or `:never`
-  allowed_tls_versions: [:"tlsv1", :"tlsv1.1", :"tlsv1.2"], # or {":system", ALLOWED_TLS_VERSIONS"} w/ comma seprated values (e.g. "tlsv1.1,tlsv1.2")
-  retries: 1
+  adapter: Bamboo.SendGridAdapter
 
 # Do not print debug messages in production
 # config :logger, level: :info

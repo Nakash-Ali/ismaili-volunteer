@@ -6,18 +6,15 @@ You've just received an application from <%= @data.name %>. The full details are
 Please use this email thread for any internal conversations with the OpportunitiesToServe team. Do not share this email with the applicant.
 
 
-<%= for {public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data, replace_keys: true) do %>
-<%= public_key %>: <%= value %>
+<%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data) do %>
+<%= public_key %>: <%= text_for_key(key, value) %>
 
 <% end %>
 
-Program: <%= @data.program %>
+<%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:system, @data) do %>
+<%= public_key %>: <%= text_for_key(key, value) %>
 
-Position: <%= @data.position %>
-
-Organizer (you): <%= @data.organizer %>
-
-ID: <%= @data.this %>
+<% end %>
 
 
 Best Regards,

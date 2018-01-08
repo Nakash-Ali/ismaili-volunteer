@@ -7,13 +7,13 @@ defmodule VolunteerWeb.LegacyController do
   alias Volunteer.Legacy
   import VolunteerWeb.ErrorHelpers
 
-  @static_site "http://localhost:1313"
-  @next "#{@static_site}/thankyou/apply"
+  @static_site Application.fetch_env!(:volunteer, :static_site)
+  @next "#{@static_site}/thankyou"
   @error "#{@static_site}/error"
 
-  plug :botnectar_protection
-  plug :rate_limit
-  plug :verify_captcha
+  # plug :botnectar_protection
+  # plug :rate_limit
+  # plug :verify_captcha
 
   def apply(conn, params) do
     case Legacy.apply(params) do

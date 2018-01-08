@@ -58,6 +58,10 @@ defmodule Volunteer.Legacy do
     organizer_email: :string
   }
 
+  @defaults %{
+    cc: []
+  }
+
   @required [
     :name,
     :email,
@@ -68,32 +72,31 @@ defmodule Volunteer.Legacy do
     :position,
     :program,
     :this,
-    :cc,
     :organizer,
     :organizer_email,
   ]
 
   @public_keys [
-    {:name, "Name"},
+    {:name, "Full name"},
     {:email, "Email"},
     {:phone, "Phone"},
     {:preferred_contact, "Preferred method of contact"},
     {:jamatkhana, "Jamatkhana"},
-    {:affirm, "Affirm"},
+    {:affirm, "Affirm availability"},
     {:other_info, "Additional information"},
     {:hear_about, "How did you hear about this website?"},
   ]
 
   @system_keys [
+    {:this, "Listing ID"},
     {:position, "Position"},
     {:program, "Program"},
-    {:this, "This"},
-    {:cc, "CC"},
     {:organizer, "Organizer"},
     {:organizer_email, "Organizer's email"},
+    {:cc, "CC"},
   ]
 
-  defstruct Map.keys(@types)
+  defstruct Map.keys(@types) |> Enum.map(fn key -> {key, Map.get(@defaults, key, nil)} end)
 
   def apply(params) when is_map(params) do
     changeset = {%{}, @types}
@@ -105,7 +108,7 @@ defmodule Volunteer.Legacy do
       |> Changeset.validate_acceptance(:affirm)
 
     with %{valid?: true} <- changeset,
-         data <- struct(Volunteer.Legacy, changeset.changes),
+         data <- struct(Volunteer.Legacy, changeset |> Changeset.apply_changes),
          sent_emails <- send_emails(data)
     do
       {:ok, data, sent_emails}
@@ -140,17 +143,17 @@ defmodule Volunteer.Legacy do
   end
 
   defp external_email(%Volunteer.Legacy{} = data) do
-    email = Mailer.default_email()
+    email = Mailer.new_default_email()
       |> to({data.name, data.email})
-      |> cc([{data.organizer, data.organizer_email} | data.cc])
+      |> cc([Mailer.from_email(), {data.organizer, data.organizer_email} | data.cc])
       |> subject(construct_subject(data))
     render_email(VolunteerEmail.LegacyView, email, :external_for_new_application, [data: data])
   end
 
   defp internal_email(%Volunteer.Legacy{} = data) do
-    email = Mailer.default_email()
+    email = Mailer.new_default_email()
       |> to({data.organizer, data.organizer_email})
-      |> cc(data.cc)
+      |> cc([Mailer.from_email() | data.cc])
       |> subject("INTERNAL - #{construct_subject(data)}")
     render_email(VolunteerEmail.LegacyView, email, :internal_for_new_application, [data: data])
   end
