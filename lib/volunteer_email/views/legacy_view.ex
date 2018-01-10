@@ -18,6 +18,14 @@ defmodule VolunteerEmail.LegacyView do
     text_for_key(key, value)
   end
 
+  def text_for_key(:affirm, true) do
+    "Available"
+  end
+
+  def text_for_key(:affirm, _) do
+    "NOT available"
+  end
+
   def text_for_key(_, value) when is_list(value) do
     Enum.join(value, ", ")
   end
