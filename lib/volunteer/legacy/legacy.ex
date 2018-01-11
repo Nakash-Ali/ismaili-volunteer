@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Volunteer.Legacy do
   alias Ecto.Changeset
   alias VolunteerEmail.Mailer
@@ -51,9 +53,11 @@ defmodule Volunteer.Legacy do
     position: :string,
     program: :string,
     this: :string,
+    this_id: :string,
     cc: {:array, :string},
     organizer: :string,
-    organizer_email: :string
+    organizer_email: :string,
+    submission_id: :string,
   }
 
   @defaults %{
@@ -70,8 +74,10 @@ defmodule Volunteer.Legacy do
     :position,
     :program,
     :this,
+    :this_id,
     :organizer,
     :organizer_email,
+    :submission_id,
   ]
 
   @public_keys [
@@ -86,12 +92,14 @@ defmodule Volunteer.Legacy do
   ]
 
   @system_keys [
-    {:this, "Listing ID"},
     {:position, "Position"},
     {:program, "Program"},
     {:organizer, "Organizer"},
     {:organizer_email, "Organizer's email"},
     {:cc, "CC"},
+    {:this, "Listing URL"},
+    {:this_id, "Listing ID"},
+    {:submission_id, "Submission ID"},
   ]
 
   defstruct Map.keys(@types) |> Enum.map(fn key -> {key, Map.get(@defaults, key, nil)} end)
