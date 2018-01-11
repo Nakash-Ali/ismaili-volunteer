@@ -2,7 +2,7 @@
 
 <p>Thank you very much for applying to the position of <%= @data.position %> for <%= @data.program %>!</p>
 
-<p><%= @data.organizer %>, the organizer of the program, has been CC'ed in this email. They will be your point-of-contact for this application, and will be in touch via <%= @data.preferred_contact %> (as requested) within the next few days. <%= if @data.preferred_contact == "phone" do %>The phone number we have for you is <span class="mobile_link"><a href="tel:<%= @data.phone %>"><%= @data.phone %></a></span>. If this is not correct, please reply-all to this email with the correct one.<% end %></p>
+<p>The HR team has been CC'ed on this email. They will be your point-of-contact for this application, and will be in touch via <%= @data.preferred_contact %> (as requested) shortly. <%= if @data.preferred_contact == "phone" do %>The phone number we have for you is <span class="mobile_link"><a href="tel:<%= @data.phone %>"><%= @data.phone %></a></span>. If this is not correct, please reply-all to this email with the correct one.<% end %></p>
 
 <p>Thank you for being generous with your time to our community. If you have any questions or comments, feel free to reply-all to this email.</p>
 
