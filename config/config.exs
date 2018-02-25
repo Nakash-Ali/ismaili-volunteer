@@ -50,6 +50,12 @@ config :sentry,
   },
   included_environments: [:prod]
 
+# Configure Ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    microsoft: {Ueberauth.Strategy.Microsoft, [default_scope: "https://graph.microsoft.com/user.read"]},
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

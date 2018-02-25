@@ -7,7 +7,6 @@ defmodule VolunteerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :drop
   end
 
   pipeline :api do
@@ -18,6 +17,15 @@ defmodule VolunteerWeb.Router do
     pipe_through :api
 
     post "/apply", LegacyController, :apply
+  end
+
+  scope "/auth", VolunteerWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :logout
   end
 
   scope "/", VolunteerWeb do
@@ -38,9 +46,4 @@ defmodule VolunteerWeb.Router do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 
-  defp drop(conn, _) do
-    conn
-      |> send_resp(400, "not found")
-      |> halt
-  end
 end

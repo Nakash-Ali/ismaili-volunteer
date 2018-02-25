@@ -53,6 +53,8 @@ defmodule Volunteer.Mixfile do
       {:sentry, "~> 6.0.4"},
       {:hammer, "~> 2.1.0"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:ueberauth, "~> 0.4"},
+      {:ueberauth_microsoft, "~> 0.3"},
     ]
   end
 
