@@ -1,5 +1,5 @@
 defmodule Volunteer.Accounts.Identity do
-  use Ecto.Schema
+  use Volunteer, :schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
   alias Volunteer.Accounts.Identity
@@ -17,8 +17,8 @@ defmodule Volunteer.Accounts.Identity do
 
   def changeset(identity \\ %Identity{}, attrs \\ %{}, user \\ nil)
 
-  def changeset(identity, attrs, user) when is_integer(user) do
-    attrs = Map.put(attrs, :user_id, user)
+  def changeset(identity, attrs, user_id) when is_integer(user_id) do
+    attrs = Map.put(attrs, :user_id, user_id)
     changeset(identity, attrs, nil)
   end
 

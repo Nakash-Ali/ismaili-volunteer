@@ -3,14 +3,15 @@ defmodule Volunteer.Repo.Migrations.CreateRegions do
 
   def change do
     create table(:regions) do
-      add :title, :string
-      add :parent_path, {:array, :id}, default: []
-      add :parent, references(:regions, on_delete: :restrict), null: true
+      add :title, :string, null: false
+      add :parent_path, {:array, :id}, default: [], null: false
+
+      add :parent_id, references(:regions, on_delete: :restrict), null: true
 
       timestamps()
     end
 
-    create index(:regions, [:parent])
     create index(:regions, [:parent_path])
+    create index(:regions, [:parent_id])
   end
 end

@@ -446,4 +446,138 @@ defmodule Volunteer.InfrastructureTest do
       assert %Ecto.Changeset{} = Infrastructure.change_region(region)
     end
   end
+
+  describe "addresses" do
+    alias Volunteer.Infrastructure.Address
+
+    @valid_attrs %{city: "some city", code: "some code", country: "some country", line_1: "some line_1", line_2: "some line_2", line_3: "some line_3", line_4: "some line_4", region: "some region"}
+    @update_attrs %{city: "some updated city", code: "some updated code", country: "some updated country", line_1: "some updated line_1", line_2: "some updated line_2", line_3: "some updated line_3", line_4: "some updated line_4", region: "some updated region"}
+    @invalid_attrs %{city: nil, code: nil, country: nil, line_1: nil, line_2: nil, line_3: nil, line_4: nil, region: nil}
+
+    def address_fixture(attrs \\ %{}) do
+      {:ok, address} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Infrastructure.create_address()
+
+      address
+    end
+
+    test "list_addresses/0 returns all addresses" do
+      address = address_fixture()
+      assert Infrastructure.list_addresses() == [address]
+    end
+
+    test "get_address!/1 returns the address with given id" do
+      address = address_fixture()
+      assert Infrastructure.get_address!(address.id) == address
+    end
+
+    test "create_address/1 with valid data creates a address" do
+      assert {:ok, %Address{} = address} = Infrastructure.create_address(@valid_attrs)
+      assert address.city == "some city"
+      assert address.code == "some code"
+      assert address.country == "some country"
+      assert address.line_1 == "some line_1"
+      assert address.line_2 == "some line_2"
+      assert address.line_3 == "some line_3"
+      assert address.line_4 == "some line_4"
+      assert address.region == "some region"
+    end
+
+    test "create_address/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Infrastructure.create_address(@invalid_attrs)
+    end
+
+    test "update_address/2 with valid data updates the address" do
+      address = address_fixture()
+      assert {:ok, address} = Infrastructure.update_address(address, @update_attrs)
+      assert %Address{} = address
+      assert address.city == "some updated city"
+      assert address.code == "some updated code"
+      assert address.country == "some updated country"
+      assert address.line_1 == "some updated line_1"
+      assert address.line_2 == "some updated line_2"
+      assert address.line_3 == "some updated line_3"
+      assert address.line_4 == "some updated line_4"
+      assert address.region == "some updated region"
+    end
+
+    test "update_address/2 with invalid data returns error changeset" do
+      address = address_fixture()
+      assert {:error, %Ecto.Changeset{}} = Infrastructure.update_address(address, @invalid_attrs)
+      assert address == Infrastructure.get_address!(address.id)
+    end
+
+    test "delete_address/1 deletes the address" do
+      address = address_fixture()
+      assert {:ok, %Address{}} = Infrastructure.delete_address(address)
+      assert_raise Ecto.NoResultsError, fn -> Infrastructure.get_address!(address.id) end
+    end
+
+    test "change_address/1 returns a address changeset" do
+      address = address_fixture()
+      assert %Ecto.Changeset{} = Infrastructure.change_address(address)
+    end
+  end
+
+  describe "jamatkhanas" do
+    alias Volunteer.Infrastructure.Jamatkhana
+
+    @valid_attrs %{title: "some title"}
+    @update_attrs %{title: "some updated title"}
+    @invalid_attrs %{title: nil}
+
+    def jamatkhana_fixture(attrs \\ %{}) do
+      {:ok, jamatkhana} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Infrastructure.create_jamatkhana()
+
+      jamatkhana
+    end
+
+    test "list_jamatkhanas/0 returns all jamatkhanas" do
+      jamatkhana = jamatkhana_fixture()
+      assert Infrastructure.list_jamatkhanas() == [jamatkhana]
+    end
+
+    test "get_jamatkhana!/1 returns the jamatkhana with given id" do
+      jamatkhana = jamatkhana_fixture()
+      assert Infrastructure.get_jamatkhana!(jamatkhana.id) == jamatkhana
+    end
+
+    test "create_jamatkhana/1 with valid data creates a jamatkhana" do
+      assert {:ok, %Jamatkhana{} = jamatkhana} = Infrastructure.create_jamatkhana(@valid_attrs)
+      assert jamatkhana.title == "some title"
+    end
+
+    test "create_jamatkhana/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Infrastructure.create_jamatkhana(@invalid_attrs)
+    end
+
+    test "update_jamatkhana/2 with valid data updates the jamatkhana" do
+      jamatkhana = jamatkhana_fixture()
+      assert {:ok, jamatkhana} = Infrastructure.update_jamatkhana(jamatkhana, @update_attrs)
+      assert %Jamatkhana{} = jamatkhana
+      assert jamatkhana.title == "some updated title"
+    end
+
+    test "update_jamatkhana/2 with invalid data returns error changeset" do
+      jamatkhana = jamatkhana_fixture()
+      assert {:error, %Ecto.Changeset{}} = Infrastructure.update_jamatkhana(jamatkhana, @invalid_attrs)
+      assert jamatkhana == Infrastructure.get_jamatkhana!(jamatkhana.id)
+    end
+
+    test "delete_jamatkhana/1 deletes the jamatkhana" do
+      jamatkhana = jamatkhana_fixture()
+      assert {:ok, %Jamatkhana{}} = Infrastructure.delete_jamatkhana(jamatkhana)
+      assert_raise Ecto.NoResultsError, fn -> Infrastructure.get_jamatkhana!(jamatkhana.id) end
+    end
+
+    test "change_jamatkhana/1 returns a jamatkhana changeset" do
+      jamatkhana = jamatkhana_fixture()
+      assert %Ecto.Changeset{} = Infrastructure.change_jamatkhana(jamatkhana)
+    end
+  end
 end

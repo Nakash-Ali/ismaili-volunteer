@@ -3,20 +3,14 @@ defmodule Volunteer.Repo.Migrations.CreateJamatkhanas do
 
   def change do
     create table(:jamatkhanas) do
-      add :title, :string
-      add :address_line_1, :string
-      add :address_line_2, :string, null: true
-      add :address_line_3, :string, null: true
-      add :address_line_4, :string, null: true
-      add :address_city, :string
-      add :address_province_state, :string
-      add :address_country, :string
-      add :address_postal_zip_code, :string
-      add :region, references(:regions, on_delete: :restrict)
+      add :title, :string, null: false
+      add :region_id, references(:regions, on_delete: :restrict), null: false
+      add :address_id, references(:addresses, on_delete: :restrict), null: false
 
       timestamps()
     end
 
-    create index(:jamatkhanas, [:region])
+    create index(:jamatkhanas, [:region_id])
+    create index(:jamatkhanas, [:address_id])
   end
 end

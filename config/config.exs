@@ -20,6 +20,7 @@ config :volunteer, VolunteerWeb.Endpoint,
 
 # Configure your database
 config :volunteer, Volunteer.Repo,
+  migration_timestamps: [type: :utc_datetime],
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",

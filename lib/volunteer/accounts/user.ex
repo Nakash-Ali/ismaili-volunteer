@@ -1,8 +1,9 @@
 defmodule Volunteer.Accounts.User do
-  use Ecto.Schema
+  use Volunteer, :schema
   import Ecto.Changeset
   alias Volunteer.Accounts.User
   alias Volunteer.Accounts.Identity
+
 
   schema "users" do
     field :title, :string

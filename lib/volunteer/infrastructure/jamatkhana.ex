@@ -1,28 +1,39 @@
 defmodule Volunteer.Infrastructure.Jamatkhana do
-  use Ecto.Schema
+  use Volunteer, :schema
   import Ecto.Changeset
   alias Volunteer.Infrastructure.Jamatkhana
+  alias Volunteer.Infrastructure.Region
+  alias Volunteer.Infrastructure.Address
 
 
   schema "jamatkhanas" do
-    field :address_city, :string
-    field :address_country, :string
-    field :address_line_1, :string
-    field :address_line_2, :string
-    field :address_line_3, :string
-    field :address_line_4, :string
-    field :address_postal_zip_code, :string
-    field :address_province_state, :string
     field :title, :string
-    field :region, :id
+
+    belongs_to :region, Region
+    belongs_to :address, Address
 
     timestamps()
   end
 
-  @doc false
-  def changeset(%Jamatkhana{} = jamatkhana, attrs) do
-    jamatkhana
-    |> cast(attrs, [:title, :address_line_1, :address_line_2, :address_line_3, :address_line_4, :address_city, :address_province_state, :address_country, :address_postal_zip_code])
-    |> validate_required([:title, :address_line_1, :address_line_2, :address_line_3, :address_line_4, :address_city, :address_province_state, :address_country, :address_postal_zip_code])
+  def changeset(group \\ %Jamatkhana{}, attrs \\ %{}, region \\ nil)
+
+  def changeset(jamatkhana, attrs, region_id) when is_integer(region_id) do
+    attrs = Map.put(attrs, :region_id, region_id)
+    changeset(jamatkhana, attrs, nil)
+  end
+
+  def changeset(%Jamatkhana{} = jamatkhana, attrs, region) when jamatkhana == %Jamatkhana{} do
+    case region do
+      nil ->
+        jamatkhana
+        |> cast(attrs, [:title, :region_id])
+        |> validate_required([:title, :region_id])
+      %Region{} ->
+        jamatkhana
+        |> cast(attrs, [:title])
+        |> validate_required([:title])
+        |> put_assoc(:region, region)
+    end
+    |> cast_assoc(:address)
   end
 end
