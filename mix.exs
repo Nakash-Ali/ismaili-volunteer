@@ -55,6 +55,7 @@ defmodule Volunteer.Mixfile do
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:ueberauth, "~> 0.4"},
       {:ueberauth_microsoft, "~> 0.3"},
+      {:timex, "~> 3.1"},
     ]
   end
 
