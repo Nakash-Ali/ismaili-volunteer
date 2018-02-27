@@ -12,14 +12,14 @@ defmodule Volunteer.Apply.Listing do
     field :expiry_date, :date
 
     field :approved, :boolean, default: false
-    field :approved_by, :id
     field :approved_on, :utc_datetime
+    belongs_to :approved_by, User
 
     field :title, :string
     field :program_title, :string
     field :summary_line, :string
     belongs_to :group, Group
-    belongs_to :organizing_user, User
+    belongs_to :organizer, User
 
     field :start_date, :date
     field :end_date, :date
@@ -32,7 +32,7 @@ defmodule Volunteer.Apply.Listing do
     field :pro_qualifications, :boolean, default: false
 
     field :tkn_eligible, :boolean, default: false
-    belongs_to :tkn_listing, TKNListing
+    has_one :tkn_listing, TKNListing
 
     # TODO: CC'ed users
     # TODO: other attached users
@@ -40,17 +40,36 @@ defmodule Volunteer.Apply.Listing do
     timestamps()
   end
 
-  def changeset(%Listing{} = listing, attrs) do
+  def changeset(listing \\ %Listing{}, attrs \\ %{}, group \\ nil, organizer \\ nil)
+
+  def changeset(listing, attrs, %Group{} = group, organizer) do
+    attrs = Map.put(attrs, :group_id, group.id)
+    changeset(listing, attrs, nil, organizer)
+  end
+
+  def changeset(listing, attrs, group_id, organizer) when is_integer(group_id) do
+    attrs = Map.put(attrs, :group_id, group_id)
+    changeset(listing, attrs, nil, organizer)
+  end
+
+  def changeset(listing, attrs, group, %User{} = organizer) do
+    attrs = Map.put(attrs, :organizer_id, organizer.id)
+    changeset(listing, attrs, group, nil)
+  end
+
+  def changeset(listing, attrs, group, organizer_id) when is_integer(organizer_id) do
+    attrs = Map.put(attrs, :organizer_id, organizer_id)
+    changeset(listing, attrs, group, nil)
+  end
+
+  def changeset(%Listing{} = listing, attrs, _, _) do
     listing
     |> cast(attrs, [
-      :approved,
-      :approved_by_id,
-      :approved_date,
       :title,
       :program_title,
       :summary_line,
       :group_id,
-      :organizing_user_id,
+      :organizer_id,
       :start_date,
       :end_date,
       :hours_per_week,
@@ -62,12 +81,11 @@ defmodule Volunteer.Apply.Listing do
       :tkn_eligible,
       ])
     |> validate_required([
-      :approved,
       :title,
       :program_title,
       :summary_line,
       :group_id,
-      :organizing_user_id,
+      :organizer_id,
       :hours_per_week,
       :program_description,
       :responsibilities,
@@ -75,26 +93,22 @@ defmodule Volunteer.Apply.Listing do
       :pro_qualifications,
       :tkn_eligible,
       ])
-    |> validate_length(:summary_line, max: 140)
-    |> validate_if_approved
     |> foreign_key_constraint(:group_id)
-    |> foreign_key_constraint(:organizing_user_id)
-    |> refresh_expiry
+    |> foreign_key_constraint(:organizer_id)
+    |> validate_length(:summary_line, max: 140)
     |> cast_assoc(:tkn_listing)
+    |> refresh_expiry
   end
 
-  def validate_if_approved(changeset) do
-    case fetch_change(changeset, :approved) do
-      false -> changeset
-      true ->
-        changeset
-        |> validate_required([:approved_by_id, :approved_on])
-        |> foreign_key_constraint(:approved_by_id)
-    end
+  def approve(%Listing{approved: false} = listing, %User{} = approved_by) do
+    listing
+    |> change(%{approved: true, approved_on: Timex.now})
+    |> put_assoc(:approved_by, approved_by)
+    |> foreign_key_constraint(:approved_by_id)
   end
 
   def refresh_expiry(listing) do
-    listing |> change(%{ expiry_date: refreshed_expiry_date() })
+    listing |> change(%{expiry_date: refreshed_expiry_date()})
   end
 
   def refreshed_expiry_date() do

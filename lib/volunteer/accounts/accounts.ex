@@ -37,13 +37,17 @@ defmodule Volunteer.Accounts do
   def create_user!(attrs) do
     %User{}
     |> User.changeset(attrs)
-    |> Repo.insert!(returning: [:id])
+    |> Repo.insert!()
   end
 
   def update_user!(user, attrs \\ %{}) do
     user
     |> User.changeset(attrs)
     |> Repo.update!()
+  end
+
+  def get_user!(id) do
+    User |> Repo.get!(id)
   end
 
 end

@@ -6,7 +6,10 @@ defmodule Volunteer.Repo.Migrations.CreateUsers do
       add :title, :string, null: false
       add :given_name, :string, null: false
       add :sur_name, :string, null: false
+
       add :primary_email, :string, null: false
+      add :primary_phone, :string, null: true
+      
       add :is_admin, :boolean, default: false, null: false
 
       timestamps()

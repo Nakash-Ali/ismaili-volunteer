@@ -9,7 +9,10 @@ defmodule Volunteer.Accounts.User do
     field :title, :string
     field :given_name, :string
     field :sur_name, :string
+
     field :primary_email, :string
+    field :primary_phone, :string
+
     field :is_admin, :boolean, default: false
 
     has_many :identities, Identity
@@ -21,22 +24,20 @@ defmodule Volunteer.Accounts.User do
 
   def changeset(user, attrs) when user == %User{} do
     user
-    |> cast(attrs, [:title, :primary_email, :given_name, :sur_name])
-    |> validate_required([:title, :primary_email, :given_name, :sur_name])
+    |> cast(attrs, [:title, :given_name, :sur_name, :primary_email, :primary_phone])
+    |> validate_required([:title, :given_name, :sur_name, :primary_email])
   end
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:title, :primary_email, :given_name, :sur_name])
+    |> cast(attrs, [:title, :given_name, :sur_name, :primary_email, :primary_phone])
   end
 
   def to_admin(user) do
-    user
-    |> changeset(%{is_admin: true})
+    user |> change(%{is_admin: true})
   end
 
   def to_non_admin(user) do
-    user
-    |> changeset(%{is_admin: false})
+    user |> change(%{is_admin: false})
   end
 end
