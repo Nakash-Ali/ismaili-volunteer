@@ -194,9 +194,9 @@ defmodule Volunteer.AccountsTest do
   describe "users" do
     alias Volunteer.Accounts.User
 
-    @valid_attrs %{given_name: "some given_name", is_admin: true, primary_email: "some primary_email", sur_name: "some sur_name", title: "some title"}
-    @update_attrs %{given_name: "some updated given_name", is_admin: false, primary_email: "some updated primary_email", sur_name: "some updated sur_name", title: "some updated title"}
-    @invalid_attrs %{given_name: nil, is_admin: nil, primary_email: nil, sur_name: nil, title: nil}
+    @valid_attrs %{given_name: "some given_name", is_admin: true, email: "some email", sur_name: "some sur_name", title: "some title"}
+    @update_attrs %{given_name: "some updated given_name", is_admin: false, email: "some updated email", sur_name: "some updated sur_name", title: "some updated title"}
+    @invalid_attrs %{given_name: nil, is_admin: nil, email: nil, sur_name: nil, title: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -221,7 +221,7 @@ defmodule Volunteer.AccountsTest do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
       assert user.given_name == "some given_name"
       assert user.is_admin == true
-      assert user.primary_email == "some primary_email"
+      assert user.email == "some email"
       assert user.sur_name == "some sur_name"
       assert user.title == "some title"
     end
@@ -236,7 +236,7 @@ defmodule Volunteer.AccountsTest do
       assert %User{} = user
       assert user.given_name == "some updated given_name"
       assert user.is_admin == false
-      assert user.primary_email == "some updated primary_email"
+      assert user.email == "some updated email"
       assert user.sur_name == "some updated sur_name"
       assert user.title == "some updated title"
     end

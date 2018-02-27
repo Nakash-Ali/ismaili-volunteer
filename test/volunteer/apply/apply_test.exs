@@ -154,4 +154,68 @@ defmodule Volunteer.ApplyTest do
       assert %Ecto.Changeset{} = Apply.change_tkn_listing(tkn_listing)
     end
   end
+
+  describe "applications" do
+    alias Volunteer.Apply.Application
+
+    @valid_attrs %{additional_info: "some additional_info", confirm_availability: true, hear_about: "some hear_about"}
+    @update_attrs %{additional_info: "some updated additional_info", confirm_availability: false, hear_about: "some updated hear_about"}
+    @invalid_attrs %{additional_info: nil, confirm_availability: nil, hear_about: nil}
+
+    def application_fixture(attrs \\ %{}) do
+      {:ok, application} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Apply.create_application()
+
+      application
+    end
+
+    test "list_applications/0 returns all applications" do
+      application = application_fixture()
+      assert Apply.list_applications() == [application]
+    end
+
+    test "get_application!/1 returns the application with given id" do
+      application = application_fixture()
+      assert Apply.get_application!(application.id) == application
+    end
+
+    test "create_application/1 with valid data creates a application" do
+      assert {:ok, %Application{} = application} = Apply.create_application(@valid_attrs)
+      assert application.additional_info == "some additional_info"
+      assert application.confirm_availability == true
+      assert application.hear_about == "some hear_about"
+    end
+
+    test "create_application/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Apply.create_application(@invalid_attrs)
+    end
+
+    test "update_application/2 with valid data updates the application" do
+      application = application_fixture()
+      assert {:ok, application} = Apply.update_application(application, @update_attrs)
+      assert %Application{} = application
+      assert application.additional_info == "some updated additional_info"
+      assert application.confirm_availability == false
+      assert application.hear_about == "some updated hear_about"
+    end
+
+    test "update_application/2 with invalid data returns error changeset" do
+      application = application_fixture()
+      assert {:error, %Ecto.Changeset{}} = Apply.update_application(application, @invalid_attrs)
+      assert application == Apply.get_application!(application.id)
+    end
+
+    test "delete_application/1 deletes the application" do
+      application = application_fixture()
+      assert {:ok, %Application{}} = Apply.delete_application(application)
+      assert_raise Ecto.NoResultsError, fn -> Apply.get_application!(application.id) end
+    end
+
+    test "change_application/1 returns a application changeset" do
+      application = application_fixture()
+      assert %Ecto.Changeset{} = Apply.change_application(application)
+    end
+  end
 end
