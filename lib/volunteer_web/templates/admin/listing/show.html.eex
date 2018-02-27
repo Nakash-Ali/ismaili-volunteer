@@ -1,0 +1,18 @@
+<h2>Show Listing</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @listing.title %>
+  </li>
+
+  <li>
+    <strong>Parent path:</strong>
+    <%= @listing.parent_path %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: admin_listing_path(@conn, :edit, @listing) %></span>
+<span><%= link "Back", to: admin_listing_path(@conn, :index) %></span>

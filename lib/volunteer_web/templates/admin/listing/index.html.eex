@@ -1,0 +1,27 @@
+<h2>Listing Listings</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Parent path</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for listing <- @listings do %>
+    <tr>
+      <td><%= listing.title %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: admin_listing_path(@conn, :show, listing), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: admin_listing_path(@conn, :edit, listing), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: admin_listing_path(@conn, :delete, listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Listing", to: admin_listing_path(@conn, :new) %></span>

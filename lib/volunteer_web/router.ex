@@ -13,12 +13,6 @@ defmodule VolunteerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/legacy", VolunteerWeb do
-    pipe_through :api
-
-    post "/apply", LegacyController, :apply
-  end
-
   scope "/auth", VolunteerWeb do
     pipe_through :browser
 
@@ -28,12 +22,17 @@ defmodule VolunteerWeb.Router do
     delete "/logout", AuthController, :logout
   end
 
-  scope "/", VolunteerWeb do
+  scope "/legacy", VolunteerWeb.Legacy do
+    pipe_through :api
+
+    post "/apply", ApplyController, :apply
+  end
+
+  scope "/admin", VolunteerWeb.Admin, as: :admin do
     pipe_through :browser
 
-    # resources "/regions", RegionController
-    # resources "/jamatkhanas", JamatkhanaController
-    # resources "/groups", GroupController
+    get "/", IndexController, :index
+    resources "/listings", ListingController
   end
 
   scope "/", VolunteerWeb do

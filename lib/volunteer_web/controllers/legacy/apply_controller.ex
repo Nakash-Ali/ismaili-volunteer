@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.LegacyController do
+defmodule VolunteerWeb.Legacy.ApplyController do
   use VolunteerWeb, :controller
 
   alias Ecto.Changeset
