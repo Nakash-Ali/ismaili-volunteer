@@ -1,5 +1,6 @@
 defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
+  import VolunteerWeb.Session.Plugs, only: [assign_current_user: 2, ensure_authenticated: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -7,19 +8,11 @@ defmodule VolunteerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :assign_current_user
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-  end
-
-  scope "/auth", VolunteerWeb do
-    pipe_through :browser
-
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-    post "/:provider/callback", AuthController, :callback
-    delete "/logout", AuthController, :logout
   end
 
   scope "/legacy", VolunteerWeb.Legacy do
@@ -28,21 +21,28 @@ defmodule VolunteerWeb.Router do
     post "/apply", ApplyController, :apply
   end
 
-  scope "/admin", VolunteerWeb.Admin, as: :admin do
+  scope "/", VolunteerWeb do
     pipe_through :browser
 
     get "/", IndexController, :index
-    resources "/listings", ListingController
-  end
 
-  scope "/", VolunteerWeb do
-    pipe_through :api
+    scope "/auth" do
+      get "/login", AuthController, :login
+      delete "/logout", AuthController, :logout
+      get "/:provider", AuthController, :request
+      get "/:provider/callback", AuthController, :callback
+      post "/:provider/callback", AuthController, :callback
+    end
 
-    get "/", IndexController, :index
+    scope "/admin", Admin, as: :admin do
+      pipe_through [:ensure_authenticated]
+
+      get "/", IndexController, :index
+      resources "/listings", ListingController
+    end
   end
 
   if Mix.env == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
-
 end

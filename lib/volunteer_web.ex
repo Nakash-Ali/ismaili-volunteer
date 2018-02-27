@@ -23,6 +23,8 @@ defmodule VolunteerWeb do
       import Plug.Conn
       import VolunteerWeb.Router.Helpers
       import VolunteerWeb.Gettext
+
+      action_fallback VolunteerWeb.FallbackController
     end
   end
 
