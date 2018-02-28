@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
-  import VolunteerWeb.Session.Plugs, only: [assign_current_user: 2, ensure_authenticated: 2]
+  import VolunteerWeb.Session.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,7 +8,6 @@ defmodule VolunteerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :assign_current_user
   end
 
   pipeline :api do
@@ -28,14 +27,14 @@ defmodule VolunteerWeb.Router do
 
     scope "/auth" do
       get "/login", AuthController, :login
-      delete "/logout", AuthController, :logout
+      get "/logout", AuthController, :logout
       get "/:provider", AuthController, :request
       get "/:provider/callback", AuthController, :callback
       post "/:provider/callback", AuthController, :callback
     end
 
     scope "/admin", Admin, as: :admin do
-      pipe_through [:ensure_authenticated]
+      pipe_through [:load_current_user, :ensure_authenticated]
 
       get "/", IndexController, :index
       resources "/listings", ListingController

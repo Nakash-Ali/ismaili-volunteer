@@ -1,7 +1,7 @@
 defmodule Volunteer.Accounts.Identity do
   use Volunteer, :schema
   import Ecto.Changeset
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query, only: [from: 1, from: 2]
   alias Volunteer.Accounts.Identity
   alias Volunteer.Accounts.User
 
@@ -38,12 +38,16 @@ defmodule Volunteer.Accounts.Identity do
     |> foreign_key_constraint(:user_id)
   end
 
-  def filter_by_provider_and_provider_id(query, provider, provider_id) do
+  def query_all do
+    from i in Identity
+  end
+
+  def query_filter_by_provider_and_provider_id(query, provider, provider_id) do
     from i in query,
       where: i.provider == ^provider and i.provider_id == ^provider_id
   end
 
-  def inner_join_user(query) do
+  def query_include_user(query) do
     from i in query,
       join: u in assoc(i, :user),
       preload: [user: u]

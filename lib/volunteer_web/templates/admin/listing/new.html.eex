@@ -1,5 +1,7 @@
 <h2>New Listing</h2>
 
+<%= inspect(@changeset) %>
+
 <%= render "form.html", Map.put(assigns, :action, admin_listing_path(@conn, :create)) %>
 
 <span><%= link "Back", to: admin_listing_path(@conn, :index) %></span>

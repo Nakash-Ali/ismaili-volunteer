@@ -1,8 +1,5 @@
 defmodule Volunteer.Accounts do
-
-  import Ecto.Query, warn: false
   alias Volunteer.Repo
-
   alias Volunteer.Accounts.User
   alias Volunteer.Accounts.Identity
 
@@ -22,9 +19,9 @@ defmodule Volunteer.Accounts do
   end
 
   def get_identity_with_user(provider, provider_id) do
-    from(i in Identity)
-    |> Identity.filter_by_provider_and_provider_id(provider, provider_id)
-    |> Identity.inner_join_user
+    Identity.query_all
+    |> Identity.query_filter_by_provider_and_provider_id(provider, provider_id)
+    |> Identity.query_include_user
     |> Repo.one
   end
 

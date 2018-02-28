@@ -2,6 +2,7 @@ defmodule Volunteer.Apply.Listing do
   use Volunteer, :schema
   use Timex
   import Ecto.Changeset
+  import Ecto.Query, only: [from: 1, from: 2]
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
   alias Volunteer.Infrastructure.Group
@@ -24,12 +25,10 @@ defmodule Volunteer.Apply.Listing do
     field :start_date, :date
     field :end_date, :date
     field :hours_per_week, :decimal
-    field :commitments, :string
 
     field :program_description, :string
     field :responsibilities, :string
     field :qualifications, :string
-    field :pro_qualifications, :boolean, default: false
 
     field :tkn_eligible, :boolean, default: false
     has_one :tkn_listing, TKNListing
@@ -73,11 +72,9 @@ defmodule Volunteer.Apply.Listing do
       :start_date,
       :end_date,
       :hours_per_week,
-      :commitments,
       :program_description,
       :responsibilities,
       :qualifications,
-      :pro_qualifications,
       :tkn_eligible,
       ])
     |> validate_required([
@@ -90,7 +87,6 @@ defmodule Volunteer.Apply.Listing do
       :program_description,
       :responsibilities,
       :qualifications,
-      :pro_qualifications,
       :tkn_eligible,
       ])
     |> foreign_key_constraint(:group_id)
@@ -113,6 +109,15 @@ defmodule Volunteer.Apply.Listing do
 
   def refreshed_expiry_date() do
     Timex.now |> Timex.shift(days: 14) |> Timex.to_date
+  end
+
+  def query_all do
+    from l in Listing
+  end
+
+  def query_filter_for_organizer(query, user) do
+    from l in query,
+      where: l.organizer_id == ^user.id
   end
 
 end

@@ -27,6 +27,12 @@ defmodule Volunteer.Infrastructure do
     Group |> Repo.get!(id)
   end
 
+  def get_all_groups do
+    Group.query_all
+    |> order_by(asc: parent_path)
+    |> Repo.all
+  end
+
   def create_jamatkhana!(attrs, region \\ nil) do
     %Jamatkhana{}
     |> Jamatkhana.changeset(attrs, region)

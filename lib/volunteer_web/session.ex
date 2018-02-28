@@ -11,7 +11,7 @@ defmodule VolunteerWeb.Session do
     configure_session(conn, drop: true)
   end
 
-  def save_redirect(conn) do
+  def put_redirect(conn) do
     put_session(conn, :redirect_url, conn.request_path)
   end
 
@@ -19,16 +19,24 @@ defmodule VolunteerWeb.Session do
     get_session(conn, :redirect_url) || Helpers.index_path(conn, :index)
   end
 
+  def put_user(conn, user) do
+    assign(conn, :current_user, user)
+  end
+
+  def get_user(conn) do
+    conn.assigns[:current_user]
+  end
+
   defmodule Plugs do
     import Phoenix.Controller
 
-    def assign_current_user(conn, _) do
+    def load_current_user(conn, _) do
       case get_session(conn, :current_user_id) do
         nil -> conn
         id ->
           try do
             user = Accounts.get_user!(id)
-            assign(conn, :current_user, user)
+            VolunteerWeb.Session.put_user(conn, user)
           catch
             _ -> VolunteerWeb.Session.logout(conn)
           end
@@ -36,12 +44,12 @@ defmodule VolunteerWeb.Session do
     end
 
     def ensure_authenticated(conn, _) do
-      case conn.assigns[:current_user] do
+      case VolunteerWeb.Session.get_user(conn) do
         %Accounts.User{} ->
           conn
         _ ->
           conn
-          |> VolunteerWeb.Session.save_redirect
+          |> VolunteerWeb.Session.put_redirect
           |> put_flash(:error, "Please log in to view this page")
           |> redirect(to: Helpers.auth_path(conn, :login))
           |> halt
