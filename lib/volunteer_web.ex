@@ -42,6 +42,7 @@ defmodule VolunteerWeb do
       import VolunteerWeb.Router.Helpers
       import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
+      import VolunteerWeb.Session
     end
   end
 

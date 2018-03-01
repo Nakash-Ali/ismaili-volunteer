@@ -27,6 +27,13 @@ defmodule VolunteerWeb.Session do
     conn.assigns[:current_user]
   end
 
+  def logged_in?(conn) do
+    case get_user(conn) do
+      %Accounts.User{} -> true
+      _ -> false
+    end
+  end
+
   defmodule Plugs do
     import Phoenix.Controller
 
