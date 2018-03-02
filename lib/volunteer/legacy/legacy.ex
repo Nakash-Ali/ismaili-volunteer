@@ -7,35 +7,6 @@ defmodule Volunteer.Legacy do
   import Bamboo.Email
   import Bamboo.Phoenix
 
-  @all_jamatkhanas [
-    "Headquarters",
-    "Barrie",
-    "Belleville",
-    "Bobcaygeon",
-    "Brampton",
-    "Brantford",
-    "Don Mills",
-    "Downtown",
-    "East York",
-    "Etobicoke",
-    "Guelph",
-    "Halton",
-    "Hamilton",
-    "Kitchener",
-    "London",
-    "Mississauga",
-    "Niagara Falls",
-    "Oshawa",
-    "Pickering",
-    "Richmond Hill",
-    "Scarborough",
-    "St. Thomas",
-    "Sudbury",
-    "Unionville",
-    "Willowdale",
-    "Windsor"
-  ]
-
   @all_contact_methods [
     "phone",
     "email"
@@ -109,7 +80,6 @@ defmodule Volunteer.Legacy do
       |> Changeset.cast(params, Map.keys(@types))
       |> Changeset.validate_required(@required)
       |> Changeset.validate_format(:email, ~r/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
-      |> Changeset.validate_inclusion(:jamatkhana, @all_jamatkhanas)
       |> Changeset.validate_inclusion(:preferred_contact, @all_contact_methods)
       |> Changeset.validate_acceptance(:affirm)
 
