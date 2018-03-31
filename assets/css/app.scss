@@ -1,0 +1,82 @@
+// Base variables
+@import "base";
+
+// Dependencies
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/print";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/code";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/custom-forms";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/jumbotron";
+@import "bootstrap/scss/media";
+@import "bootstrap/scss/utilities";
+@import "font-awesome/css/font-awesome";
+
+// Other files
+@import "convenience";
+
+
+html {
+	font-size: 16px;
+	font-variant-ligatures: common-ligatures contextual;
+    font-feature-settings: "liga", "clig", "calt", "kern";
+    font-kerning: normal;
+}
+
+header {
+	transition: 0.33s opacity ease-in-out;
+	&:hover {
+		opacity: 1;
+	}
+	nav {
+		// border-bottom: 1px solid $white;
+	}
+
+	a {
+		color: $primary;
+		// font-family: $font-family-serif;
+	}
+
+	h1 {
+		font-weight: 100;
+	}
+}
+
+footer {
+	border-top: 1px solid $gray-200;
+	font-family: $font-family-serif;
+	color: $gray-700;
+}
+
+a {
+	// text-decoration: underline;
+}
+
+small {
+	line-height: $line-height-sm;
+}
+
+.font-family-sans-serif {
+	font-family: $font-family-sans-serif;
+	font-size: $font-size-base-sans-serif;
+}
+
+.font-family-serif {
+	font-family: $font-family-serif;
+}
+
+#old-browsers {
+	background: $danger;
+	color: #FFF;
+	a {
+		color: #FFF;
+	}
+}
