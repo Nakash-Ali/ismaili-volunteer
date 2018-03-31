@@ -18,12 +18,6 @@ defmodule VolunteerWeb.AuthController do
     |> redirect(to: Router.Helpers.index_path(conn, :index))
   end
 
-  def request(conn, _params) do
-    conn
-    |> put_flash(:error, "Authentication misconfigured!")
-    |> redirect(to: Router.Helpers.auth_path(conn, :login))
-  end
-
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
     |> put_flash(:error, "Failed to authenticate.")
