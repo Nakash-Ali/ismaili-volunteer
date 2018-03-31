@@ -1,4 +1,5 @@
-%{"bamboo": {:git, "https://github.com/thoughtbot/bamboo.git", "9783c19dd8a3fc44c3f9f5015e5747203eb6cf87", [branch: "master"]},
+%{"apex": {:hex, :apex, "1.2.0", "2da5035ef5fc59da2c24187a880b1b6d38b6b67c19b89a6265f5986ff0e85b1f", [:mix], [], "hexpm"},
+  "bamboo": {:git, "https://github.com/thoughtbot/bamboo.git", "9783c19dd8a3fc44c3f9f5015e5747203eb6cf87", [branch: "master"]},
   "bamboo_smtp": {:git, "https://github.com/fewlinesco/bamboo_smtp.git", "4f6ac40e8a255593a6f4bf90803bfc43ffedfb62", [branch: "master"]},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm"},
   "certifi": {:hex, :certifi, "1.2.1", "c3904f192bd5284e5b13f20db3ceac9626e14eeacfbb492e19583cf0e37b22be", [:rebar3], [], "hexpm"},

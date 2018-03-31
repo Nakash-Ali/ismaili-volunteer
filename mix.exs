@@ -56,6 +56,7 @@ defmodule Volunteer.Mixfile do
       {:ueberauth, "~> 0.4"},
       {:ueberauth_microsoft, "~> 0.3"},
       {:timex, "~> 3.1"},
+      {:apex, "~>1.2.0"},
     ]
   end
 

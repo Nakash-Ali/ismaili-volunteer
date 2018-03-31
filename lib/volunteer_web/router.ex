@@ -8,6 +8,7 @@ defmodule VolunteerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :load_current_user
   end
 
   pipeline :api do
@@ -34,7 +35,7 @@ defmodule VolunteerWeb.Router do
     end
 
     scope "/admin", Admin, as: :admin do
-      pipe_through [:load_current_user, :ensure_authenticated]
+      pipe_through [:ensure_authenticated]
 
       get "/", IndexController, :index
       resources "/listings", ListingController

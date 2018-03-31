@@ -4,6 +4,7 @@ defmodule VolunteerWeb.Session do
   alias Volunteer.Accounts
 
   def login(conn, %Accounts.User{} = user) do
+    Apex.ap(user, numbers: false)
     put_session(conn, :current_user_id, user.id)
   end
 

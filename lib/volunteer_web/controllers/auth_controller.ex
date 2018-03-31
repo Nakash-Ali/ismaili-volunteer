@@ -8,7 +8,7 @@ defmodule VolunteerWeb.AuthController do
 
   def login(conn, _params) do
     conn
-    |> render("index.html")
+    |> render("login.html")
   end
 
   def logout(conn, _params) do

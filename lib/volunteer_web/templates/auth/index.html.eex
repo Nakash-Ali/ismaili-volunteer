@@ -1,2 +1,0 @@
-"Login to this!"
-<%= VolunteerWeb.Session.get_redirect(@conn) %>

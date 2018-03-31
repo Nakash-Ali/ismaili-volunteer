@@ -1,0 +1,2 @@
+<p><a href="<%= auth_path(@conn, :request, "microsoft") %>">Login with your IICanada account</a></p>
+<p><%= VolunteerWeb.Session.get_redirect(@conn) %></p>
