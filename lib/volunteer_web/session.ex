@@ -4,7 +4,6 @@ defmodule VolunteerWeb.Session do
   alias Volunteer.Accounts
 
   def login(conn, %Accounts.User{} = user) do
-    Apex.ap(user, numbers: false)
     put_session(conn, :current_user_id, user.id)
   end
 
@@ -17,7 +16,7 @@ defmodule VolunteerWeb.Session do
   end
 
   def get_redirect(conn) do
-    get_session(conn, :redirect_url) || Helpers.index_path(conn, :index)
+    get_session(conn, :redirect_url) || Helpers.admin_index_path(conn, :index)
   end
 
   def put_user(conn, user) do

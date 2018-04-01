@@ -5,13 +5,18 @@ defmodule VolunteerWeb.ErrorHelpers do
 
   use Phoenix.HTML
 
-  @doc """
-  Generates tag for inlined form input errors.
-  """
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn (error) ->
-      content_tag :span, translate_error(error), class: "help-block"
+      content_tag :div, translate_error(error), class: "invalid-feedback"
     end)
+  end
+  
+  def has_errors?(form, field) do
+    Keyword.has_key?(form.errors, field)
+  end
+  
+  def is_submitted?(form) do
+    form.source.action != nil
   end
 
   @doc """

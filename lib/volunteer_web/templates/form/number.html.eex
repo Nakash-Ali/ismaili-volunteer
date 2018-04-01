@@ -1,0 +1,5 @@
+<div class="form-group">
+  <%= label @form, @field, @title, class: "control-label" %>
+  <%= number_input @form, @field, class: input_classes(@form, @field), placeholder: assigns[:placeholder] %>
+  <%= error_tag @form, @field %>
+</div>

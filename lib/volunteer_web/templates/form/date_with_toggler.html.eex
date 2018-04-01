@@ -1,0 +1,38 @@
+<div class="form-group">
+  <%= label @form, @field, @title, class: "control-label" %>
+  <div class="row align-items-center">
+    <div class="col">
+      <%= text_input @form, @field, value: input_value(@form, @field), type: "date", class: input_classes(@form, @field) %>
+      <%= error_tag @form, @field %>
+    </div>
+    <div class="col">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="<%= toggle_id @form, @field %>" aria-label="<%= @toggler_label %>">
+        <label class="custom-control-label" for="<%= toggle_id @form, @field %>"><%= @toggler_label %></label>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function() {
+    var toggle = $("input#<%= toggle_id @form, @field %>")
+    var target = $("input#<%= input_id @form, @field %>")
+    
+    toggle.change(function(event) {
+      event.stopPropagation()
+      if (toggle.prop("checked") === true) {
+        target.val("")
+        target.prop("disabled", true)
+      } else if (toggle.prop("checked") === false) {
+        target.prop("disabled", false)
+      }
+    })
+    
+    if (target.val() === "" || target.val() === nil) {
+      toggle.prop("checked", true)
+      target.prop("disabled", true)
+    } else {
+      toggle.prop("checked", false)
+    }
+  })()
+</script>

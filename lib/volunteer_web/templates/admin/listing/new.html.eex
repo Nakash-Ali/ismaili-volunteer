@@ -1,7 +1,20 @@
 <h2>New Listing</h2>
 
-<%= inspect(@changeset) %>
+<%= inspect(@group_id_choices) %>
 
-<%= render "form.html", Map.put(assigns, :action, admin_listing_path(@conn, :create)) %>
+<%= render VendorView, "choices.html" %>
+<%= render VendorView, "trix.html" %>
 
-<span><%= link "Back", to: admin_listing_path(@conn, :index) %></span>
+<%= form_for @changeset, admin_listing_path(@conn, :create), fn form -> %>
+  <%= if @changeset.action do %>
+   <div class="alert alert-danger">
+     <p>Oops, something went wrong! Please check the errors below.</p>
+   </div>
+  <% end %>
+  <%= render "fields.html", form: form, group_id_choices: @group_id_choices %>
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<p><%= link "Back", to: admin_listing_path(@conn, :index) %></p>

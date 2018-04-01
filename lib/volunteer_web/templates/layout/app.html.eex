@@ -9,14 +9,15 @@
 
     <title>Ismaili Volunteer</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
   </head>
 
   <body>
     <div class="container">
       <header class="header">
         <div>
-          <%= if Session.logged_in?(@conn) do %>
-            <p><%= Session.get_user(@conn).title %></p>
+          <%= if logged_in?(@conn) do %>
+            <p><%= get_user(@conn).title %></p>
             <p><a href="<%= auth_path(@conn, :logout) %>">Logout</a></p>
           <% else %>
             <p><a href="<%= auth_path(@conn, :login) %>">Login</a></p>

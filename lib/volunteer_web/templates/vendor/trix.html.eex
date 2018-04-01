@@ -1,0 +1,2 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.11.2/trix.css" integrity="sha256-pDPWKduF9WxqvcBHlmIQ5ErZpzaIsWccFSjkqZr6+Wo=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/0.11.2/trix.js" integrity="sha256-2NXA3cKWboltg3QAU7F6JTDkLMcZJ9ZuweCSgzjpE8Y=" crossorigin="anonymous"></script>
