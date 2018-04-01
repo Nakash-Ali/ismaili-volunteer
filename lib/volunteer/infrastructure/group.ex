@@ -24,7 +24,7 @@ defmodule Volunteer.Infrastructure.Group do
     changeset(group, attrs, nil, parent)
   end
 
-  def changeset(%Group{} = group, attrs, region, parent) when group == %Group{} do
+  def changeset(group, attrs, region, parent) when group == %Group{} do
     changes = case region do
       nil ->
         group

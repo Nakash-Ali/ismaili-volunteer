@@ -1,5 +1,4 @@
 defmodule Volunteer.Infrastructure do
-
   import Ecto.Query, warn: false
   alias Volunteer.Repo
 
@@ -26,10 +25,10 @@ defmodule Volunteer.Infrastructure do
   def get_group!(id) do
     Group |> Repo.get!(id)
   end
-
-  def get_all_groups do
-    Group.query_all
-    |> order_by(asc: parent_path)
+  
+  def get_group_id_choices do
+    from(g in Group,
+      select: {g.title, g.id})
     |> Repo.all
   end
 
@@ -42,5 +41,4 @@ defmodule Volunteer.Infrastructure do
   def get_jamatkhana!(id) do
     Jamatkhana |> Repo.get!(id)
   end
-
 end
