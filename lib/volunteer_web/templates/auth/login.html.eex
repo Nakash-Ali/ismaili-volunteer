@@ -1,2 +1,2 @@
 <p><%= link "Login with your IICanada account", to: auth_path(@conn, :request, "microsoft") %></p>
-<p><%= get_redirect(@conn) %></p>
+<p><%= Session.get_redirect(@conn) %></p>

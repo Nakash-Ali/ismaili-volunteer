@@ -16,8 +16,8 @@
     <div class="container">
       <header class="header">
         <div>
-          <%= if logged_in?(@conn) do %>
-            <p><%= get_user(@conn).title %></p>
+          <%= if Session.logged_in?(@conn) do %>
+            <p><%= Accounts.User.get_title(Session.get_user(@conn)) %></p>
             <p><a href="<%= auth_path(@conn, :logout) %>">Logout</a></p>
           <% else %>
             <p><a href="<%= auth_path(@conn, :login) %>">Login</a></p>

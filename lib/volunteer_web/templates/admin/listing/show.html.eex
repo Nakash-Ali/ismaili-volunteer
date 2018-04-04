@@ -9,7 +9,7 @@
 
   <li>
     <strong>Parent path:</strong>
-    <%= @listing.parent_path %>
+    <%= Accounts.User.get_title(@listing.organized_by) %>
   </li>
 
 </ul>

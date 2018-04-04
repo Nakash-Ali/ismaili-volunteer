@@ -1,7 +1,5 @@
 <h2>New Listing</h2>
 
-<%= inspect(@group_id_choices) %>
-
 <%= render VendorView, "choices.html" %>
 <%= render VendorView, "trix.html" %>
 

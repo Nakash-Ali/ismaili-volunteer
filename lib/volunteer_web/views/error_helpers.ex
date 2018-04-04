@@ -4,10 +4,14 @@ defmodule VolunteerWeb.ErrorHelpers do
   """
 
   use Phoenix.HTML
-
+  
   def error_tag(form, field) do
+    error_tag(form, field, class: "invalid-feedback")
+  end
+
+  def error_tag(form, field, class: class) do
     Enum.map(Keyword.get_values(form.errors, field), fn (error) ->
-      content_tag :div, translate_error(error), class: "invalid-feedback"
+      content_tag :div, translate_error(error), class: class
     end)
   end
   

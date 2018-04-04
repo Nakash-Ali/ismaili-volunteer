@@ -44,7 +44,7 @@ defmodule VolunteerWeb.Session do
           try do
             user = Accounts.get_user!(id)
             VolunteerWeb.Session.put_user(conn, user)
-          catch
+          rescue
             _ -> VolunteerWeb.Session.logout(conn)
           end
       end

@@ -23,6 +23,7 @@ defmodule VolunteerWeb do
       import Plug.Conn
       import VolunteerWeb.Router.Helpers
       import VolunteerWeb.Gettext
+      alias VolunteerWeb.Session
 
       action_fallback VolunteerWeb.FallbackController
     end
@@ -42,7 +43,7 @@ defmodule VolunteerWeb do
       import VolunteerWeb.Router.Helpers
       import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
-      import VolunteerWeb.Session
+      alias VolunteerWeb.Session
     end
   end
 

@@ -2,15 +2,15 @@ defmodule Volunteer.Apply.Listing do
   use Volunteer, :schema
   use Timex
   import Ecto.Changeset
-  import Ecto.Query, only: [from: 1, from: 2]
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
   alias Volunteer.Infrastructure.Group
   alias Volunteer.Accounts.User
 
-
   schema "listings" do
     field :expiry_date, :date
+    
+    belongs_to :created_by, User
 
     field :approved, :boolean, default: false
     field :approved_on, :utc_datetime
@@ -20,10 +20,14 @@ defmodule Volunteer.Apply.Listing do
     field :program_title, :string
     field :summary_line, :string
     belongs_to :group, Group
-    belongs_to :organizer, User
+    belongs_to :organized_by, User
 
     field :start_date, :date
+    field :start_date_toggle, :boolean, virtual: true
+    
     field :end_date, :date
+    field :end_date_toggle, :boolean, virtual: true
+    
     field :hours_per_week, :decimal
 
     field :program_description, :string
@@ -38,86 +42,118 @@ defmodule Volunteer.Apply.Listing do
 
     timestamps()
   end
-
-  def changeset(listing \\ %Listing{}, attrs \\ %{}, group \\ nil, organizer \\ nil)
-
-  def changeset(listing, attrs, %Group{} = group, organizer) do
-    attrs = Map.put(attrs, :group_id, group.id)
-    changeset(listing, attrs, nil, organizer)
+  
+  @refresh_expiry_days_by 14
+  @attributes_cast_always [
+    :title,
+    :program_title,
+    :summary_line,
+    :group_id,
+    :organized_by_id,
+    :start_date,
+    :start_date_toggle,
+    :end_date,
+    :end_date_toggle,
+    :hours_per_week,
+    :program_description,
+    :responsibilities,
+    :qualifications,
+    :tkn_eligible,
+  ]
+  @attributes_required_always [
+    :title,
+    :program_title,
+    :summary_line,
+    :group_id,
+    :organized_by_id,
+    :start_date_toggle,
+    :end_date_toggle,
+    :hours_per_week,
+    :program_description,
+    :responsibilities,
+    :qualifications,
+    :tkn_eligible,
+  ]
+  
+  def new() do
+    create(%Listing{}, %{})
   end
-
-  def changeset(listing, attrs, group_id, organizer) when is_integer(group_id) do
-    attrs = Map.put(attrs, :group_id, group_id)
-    changeset(listing, attrs, nil, organizer)
+  
+  def create(listing, attrs, %User{} = user) when listing == %Listing{} do
+    new_attrs = attrs
+    |> Map.put("organized_by_id", user.id)
+    |> Map.put("created_by_id", user.id)
+    create(listing, new_attrs)
   end
-
-  def changeset(listing, attrs, group, %User{} = organizer) do
-    attrs = Map.put(attrs, :organizer_id, organizer.id)
-    changeset(listing, attrs, group, nil)
-  end
-
-  def changeset(listing, attrs, group, organizer_id) when is_integer(organizer_id) do
-    attrs = Map.put(attrs, :organizer_id, organizer_id)
-    changeset(listing, attrs, group, nil)
-  end
-
-  def changeset(%Listing{} = listing, attrs, _, _) do
+  
+  def create(listing, attrs) when listing == %Listing{} do
     listing
-    |> cast(attrs, [
-      :title,
-      :program_title,
-      :summary_line,
-      :group_id,
-      :organizer_id,
-      :start_date,
-      :end_date,
-      :hours_per_week,
-      :program_description,
-      :responsibilities,
-      :qualifications,
-      :tkn_eligible,
-      ])
-    |> validate_required([
-      :title,
-      :program_title,
-      :summary_line,
-      :group_id,
-      :organizer_id,
-      :hours_per_week,
-      :program_description,
-      :responsibilities,
-      :qualifications,
-      :tkn_eligible,
-      ])
-    |> foreign_key_constraint(:group_id)
-    |> foreign_key_constraint(:organizer_id)
-    |> validate_length(:summary_line, max: 140)
+    |> cast(attrs, [:created_by_id] ++ @attributes_cast_always)
+    |> validate_required([:created_by_id] ++ @attributes_required_always)
     |> cast_assoc(:tkn_listing)
-    |> refresh_expiry
+    |> common_changeset_funcs
   end
-
+  
+  def edit(listing, attrs) do
+    IO.puts("got to here")
+    listing
+    |> cast(attrs, @attributes_cast_always)
+    |> validate_required(@attributes_required_always)
+    |> common_changeset_funcs
+  end
+  
   def approve(%Listing{approved: false} = listing, %User{} = approved_by) do
     listing
-    |> change(%{approved: true, approved_on: Timex.now})
+    |> put_change(:approved, true)
+    |> put_change(:approved_on, Timex.now)
     |> put_assoc(:approved_by, approved_by)
     |> foreign_key_constraint(:approved_by_id)
   end
+  
+  def unapprove(listing) do
+    listing
+    |> put_change(:approved, false)
+    |> put_change(:approved_on, nil)
+    |> put_change(:approved_by, nil)
+  end
 
   def refresh_expiry(listing) do
-    listing |> change(%{expiry_date: refreshed_expiry_date()})
+    listing |> put_change(:expiry_date, refreshed_expiry_date())
   end
 
   def refreshed_expiry_date() do
-    Timex.now |> Timex.shift(days: 14) |> Timex.to_date
+    Timex.now |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_date
   end
-
-  def query_all do
-    from l in Listing
+  
+  def common_changeset_funcs(changeset) do
+    changeset
+    |> validate_length(:summary_line, max: 140)
+    |> foreign_key_constraint(:group_id)
+    |> foreign_key_constraint(:created_by_id)
+    |> foreign_key_constraint(:organized_by_id)
+    |> manage_date_with_toggle(:start_date, :start_date_toggle)
+    |> manage_date_with_toggle(:end_date, :end_date_toggle)
+    |> refresh_expiry
+    |> unapprove
   end
-
-  def query_filter_for_organizer(query, user) do
-    from l in query,
-      where: l.organizer_id == ^user.id
+  
+  def manage_date_with_toggle(changeset, date_field, toggle_field) do
+    case get_field(changeset, toggle_field) do
+      nil ->
+        manage_toggle(changeset, date_field, toggle_field)
+      true ->
+        put_change(changeset, date_field, nil)
+      false ->
+        validate_required(changeset, date_field)
+    end
   end
-
+  
+  def manage_toggle(changeset, date_field, toggle_field) do
+    case get_field(changeset, date_field) do
+      nil ->
+        put_change(changeset, toggle_field, true)
+      _ ->
+        put_change(changeset, toggle_field, false)
+    end
+  end
 end

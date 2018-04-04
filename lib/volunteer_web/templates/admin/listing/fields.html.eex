@@ -28,16 +28,18 @@
 
 <%= render FormView, "date_with_toggler.html",
   form: @form,
-  field: :start_date,
   title: "Start date",
-  toggler_label: "Starts immediately"
+  field: :start_date,
+  toggle: :start_date_toggle,
+  toggle_label: "Starts immediately"
 %>
 
 <%= render FormView, "date_with_toggler.html",
   form: @form,
-  field: :end_date,
   title: "End date",
-  toggler_label: "Ongoing position"
+  field: :end_date,
+  toggle: :end_date_toggle,
+  toggle_label: "Ongoing position"
 %>
 
 <%= render FormView, "number.html",
