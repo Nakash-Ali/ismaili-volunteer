@@ -62,4 +62,10 @@ defmodule Volunteer.Apply do
   def get_listing!(id) do
     Listing |> Repo.get!(id)
   end
+  
+  def get_listing_if_approved!(id) do
+    from(l in Listing,
+      where: l.id == ^id and l.approved == true)
+    |> Repo.one!
+  end
 end

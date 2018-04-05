@@ -1,0 +1,15 @@
+<h2>Show Listing</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @listing.title %>
+  </li>
+
+  <li>
+    <strong>Organizer:</strong>
+    <%= Accounts.User.get_title(@listing.organized_by) %>
+  </li>
+
+</ul>

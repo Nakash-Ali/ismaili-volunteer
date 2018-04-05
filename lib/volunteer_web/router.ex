@@ -25,6 +25,7 @@ defmodule VolunteerWeb.Router do
     pipe_through :browser
 
     get "/", IndexController, :index
+    resources "/listings", ListingController, only: [:show]
 
     scope "/auth" do
       get "/login", AuthController, :login
