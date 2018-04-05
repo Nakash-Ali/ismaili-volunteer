@@ -7,7 +7,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias VolunteerWeb.UtilsController
 
   def index(conn, _params) do
-    listings = Apply.get_listings_by_creator(Session.get_user(conn))
+    listings = Apply.get_all_listings_created_by(Session.get_user(conn))
     render(conn, "index.html", listings: listings)
   end
 

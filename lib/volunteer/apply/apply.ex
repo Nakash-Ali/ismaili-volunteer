@@ -7,7 +7,7 @@ defmodule Volunteer.Apply do
   alias Volunteer.Apply.Application
   alias Volunteer.Accounts
 
-  def new_listing() do
+  def new_listing do
     Listing.new
   end
 
@@ -47,9 +47,15 @@ defmodule Volunteer.Apply do
     listing |> Repo.preload([:created_by, :approved_by, :group, :organized_by])
   end
 
-  def get_listings_by_creator(%Accounts.User{id: id}) do
+  def get_all_listings_created_by(%Accounts.User{id: id}) do
     from(l in Listing,
       where: l.created_by_id == ^id)
+    |> Repo.all
+  end
+  
+  def get_approved_listings do
+    from(l in Listing,
+      where: l.approved == true)
     |> Repo.all
   end
   
