@@ -14,7 +14,7 @@ defmodule Volunteer.Apply.Listing do
 
     field :approved, :boolean, default: false
     field :approved_on, :utc_datetime
-    belongs_to :approved_by, User
+    belongs_to :approved_by, User, on_replace: :nilify
 
     field :title, :string
     field :program_title, :string
@@ -104,6 +104,7 @@ defmodule Volunteer.Apply.Listing do
   
   def approve(%Listing{approved: false} = listing, %User{} = approved_by) do
     listing
+    |> change
     |> put_change(:approved, true)
     |> put_change(:approved_on, Timex.now)
     |> put_assoc(:approved_by, approved_by)
@@ -112,10 +113,14 @@ defmodule Volunteer.Apply.Listing do
   
   def unapprove(listing) do
     listing
+    |> change
     |> put_change(:approved, false)
     |> put_change(:approved_on, nil)
     |> put_change(:approved_by, nil)
   end
+  
+  def is_approved?(%Listing{approved: true}) do true end
+  def is_approved?(%Listing{approved: false}) do false end
 
   def refresh_expiry(listing) do
     listing |> put_change(:expiry_date, refreshed_expiry_date())

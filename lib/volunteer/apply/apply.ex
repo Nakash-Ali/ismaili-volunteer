@@ -11,9 +11,9 @@ defmodule Volunteer.Apply do
     Listing.new
   end
 
-  def create_listing(attrs, creator) do
+  def create_listing(attrs, created_by) do
     %Listing{}
-    |> Listing.create(attrs, creator)
+    |> Listing.create(attrs, created_by)
     |> Repo.insert()
   end
   
@@ -24,11 +24,23 @@ defmodule Volunteer.Apply do
   def update_listing(%Listing{} = listing, attrs \\ %{}) do
     listing
     |> edit_listing(attrs)
-    |> Repo.update()
+    |> Repo.update
   end
   
   def delete_listing(%Listing{} = listing) do
     listing |> Repo.delete
+  end
+  
+  def approve_listing!(%Listing{} = listing, approved_by) do
+    listing
+    |> Listing.approve(approved_by)
+    |> Repo.update!
+  end
+  
+  def unapprove_listing!(%Listing{} = listing) do
+    listing
+    |> Listing.unapprove
+    |> Repo.update!
   end
   
   def preload_listing_all(%Listing{} = listing) do

@@ -38,7 +38,10 @@ defmodule VolunteerWeb.Router do
       pipe_through [:ensure_authenticated]
 
       get "/", IndexController, :index
+      
       resources "/listings", ListingController
+      post "/listings/:id/approve", ListingController, :approve
+      post "/listings/:id/unapprove", ListingController, :unapprove
     end
   end
 

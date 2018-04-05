@@ -20,6 +20,11 @@
         <span><%= link "Show", to: admin_listing_path(@conn, :show, listing), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Edit", to: admin_listing_path(@conn, :edit, listing), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Delete", to: admin_listing_path(@conn, :delete, listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        <%= if Volunteer.Apply.Listing.is_approved?(listing) do %>
+          <span><%= link "Un-Approve", to: admin_listing_path(@conn, :unapprove, listing), method: :post, class: "btn btn-warning btn-xs" %></span>
+        <% else %>
+          <span><%= link "Approve", to: admin_listing_path(@conn, :approve, listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-success btn-xs" %></span>
+        <% end %>
       </td>
     </tr>
 <% end %>

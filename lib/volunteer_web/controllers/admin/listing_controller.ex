@@ -51,6 +51,14 @@ defmodule VolunteerWeb.Admin.ListingController do
     end
   end
   
+  def approve(conn, params) do
+    toggle_approval(conn, params, :approve)
+  end
+  
+  def unapprove(conn, params) do
+    toggle_approval(conn, params, :unapprove)
+  end
+  
   def delete(conn, %{"id" => id}) do
     listing = Apply.get_listing!(id)
     {:ok, _listing} = Apply.delete_listing(listing)
@@ -59,6 +67,21 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> put_flash(:info, "Listing deleted successfully.")
     |> redirect(to: admin_listing_path(conn, :index))
   end
+  
+  defp toggle_approval(conn, %{"id" => id}, action) do
+    listing = id
+    |> Apply.get_listing!
+    |> Repo.preload([:approved_by])
+    
+    toggled_listing = case action do
+      :approve -> Apply.approve_listing!(listing, Session.get_user(conn))
+      :unapprove -> Apply.unapprove_listing!(listing)
+    end
+  
+    conn
+    |> put_flash(:info, "Listing #{action}ed successfully.")
+    |> redirect(to: admin_listing_path(conn, :show, toggled_listing))
+  end  
   
   defp render_form(conn, %Ecto.Changeset{} = changeset, template \\ "new.html", opts \\ []) do
     render(conn, template, opts ++ [
