@@ -44,6 +44,7 @@ defmodule Volunteer.Apply.Listing do
   end
   
   @refresh_expiry_days_by 14
+  
   @attributes_cast_always [
     :title,
     :program_title,
@@ -60,6 +61,7 @@ defmodule Volunteer.Apply.Listing do
     :qualifications,
     :tkn_eligible,
   ]
+  
   @attributes_required_always [
     :title,
     :program_title,
@@ -95,7 +97,6 @@ defmodule Volunteer.Apply.Listing do
   end
   
   def edit(listing, attrs) do
-    IO.puts("got to here")
     listing
     |> cast(attrs, @attributes_cast_always)
     |> validate_required(@attributes_required_always)

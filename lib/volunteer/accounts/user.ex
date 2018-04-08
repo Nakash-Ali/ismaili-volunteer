@@ -3,6 +3,7 @@ defmodule Volunteer.Accounts.User do
   import Ecto.Changeset
   alias Volunteer.Accounts.User
   alias Volunteer.Accounts.Identity
+  alias Volunteer.Permissions.Role
 
 
   schema "users" do
@@ -13,9 +14,8 @@ defmodule Volunteer.Accounts.User do
     field :primary_email, :string
     field :primary_phone, :string
 
-    field :is_admin, :boolean, default: false
-
     has_many :identities, Identity
+    has_many :roles, Role
 
     timestamps()
   end

@@ -1,1 +1,2 @@
+<%= inspect(@listings) %>
 <h1>Welcome to OpportunitiesToServe!</h1>
