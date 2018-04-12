@@ -35,7 +35,7 @@ defmodule Volunteer.Mixfile do
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
-  defp deps do
+  def deps do
     [
       {:phoenix, "~> 1.3"},
       {:phoenix_pubsub, "~> 1.0"},
