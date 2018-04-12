@@ -4,10 +4,10 @@ defmodule Volunteer.Mixfile do
   def project do
     [
       app: :volunteer,
-      version: "1.0.6",
-      elixir: "~> 1.4",
+      version: "1.0.4",
+      elixir: "~> 1.6.4",
       elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
       deps: deps()
@@ -23,14 +23,14 @@ defmodule Volunteer.Mixfile do
       extra_applications: [
         :crypto,
         :logger,
-        :runtime_tools,
+        :runtime_tools
       ]
     ]
   end
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -56,7 +56,7 @@ defmodule Volunteer.Mixfile do
       {:ueberauth, "~> 0.4"},
       {:ueberauth_microsoft, "~> 0.3"},
       {:timex, "~> 3.1"},
-      {:apex, "~>1.2.0"},
+      {:apex, "~>1.2.0"}
     ]
   end
 
@@ -70,7 +70,7 @@ defmodule Volunteer.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end
