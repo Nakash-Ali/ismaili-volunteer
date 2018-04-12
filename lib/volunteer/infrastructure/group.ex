@@ -4,7 +4,6 @@ defmodule Volunteer.Infrastructure.Group do
   alias Volunteer.Infrastructure.Group
   alias Volunteer.Infrastructure.Region
 
-
   schema "groups" do
     field :title, :string
     field :parent_path, {:array, :id}, default: []
@@ -25,19 +24,24 @@ defmodule Volunteer.Infrastructure.Group do
   end
 
   def changeset(group, attrs, region, parent) when group == %Group{} do
-    changes = case region do
-      nil ->
-        group
-        |> cast(attrs, [:title, :region_id])
-        |> validate_required([:title, :region_id])
-      %Region{} ->
-        group
-        |> cast(attrs, [:title])
-        |> validate_required([:title])
-        |> put_assoc(:region, region)
-    end
+    changes =
+      case region do
+        nil ->
+          group
+          |> cast(attrs, [:title, :region_id])
+          |> validate_required([:title, :region_id])
+
+        %Region{} ->
+          group
+          |> cast(attrs, [:title])
+          |> validate_required([:title])
+          |> put_assoc(:region, region)
+      end
+
     case parent do
-      nil -> changes
+      nil ->
+        changes
+
       %Group{} ->
         changes
         |> put_assoc(:parent, parent)
@@ -48,5 +52,4 @@ defmodule Volunteer.Infrastructure.Group do
   defp parent_path(%Group{} = parent) do
     parent.parent_path ++ [parent.id]
   end
-
 end

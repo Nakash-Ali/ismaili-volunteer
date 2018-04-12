@@ -1,8 +1,9 @@
 defmodule VolunteerEmail do
   def view do
     quote do
-      use Phoenix.View, root: "lib/volunteer_email/templates",
-                        namespace: VolunteerEmail
+      use Phoenix.View,
+        root: "lib/volunteer_email/templates",
+        namespace: VolunteerEmail
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML

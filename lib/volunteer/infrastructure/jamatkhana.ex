@@ -5,7 +5,6 @@ defmodule Volunteer.Infrastructure.Jamatkhana do
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Infrastructure.Address
 
-
   schema "jamatkhanas" do
     field :title, :string
 
@@ -28,6 +27,7 @@ defmodule Volunteer.Infrastructure.Jamatkhana do
         jamatkhana
         |> cast(attrs, [:title, :region_id])
         |> validate_required([:title, :region_id])
+
       %Region{} ->
         jamatkhana
         |> cast(attrs, [:title])

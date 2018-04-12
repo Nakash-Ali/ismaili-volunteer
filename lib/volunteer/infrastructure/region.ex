@@ -5,7 +5,6 @@ defmodule Volunteer.Infrastructure.Region do
   alias Volunteer.Infrastructure.Jamatkhana
   alias Volunteer.Infrastructure.Group
 
-
   schema "regions" do
     field :title, :string
     field :parent_path, {:array, :id}, default: []
@@ -22,11 +21,15 @@ defmodule Volunteer.Infrastructure.Region do
   def changeset(region \\ %Region{}, attrs \\ %{}, parent \\ nil)
 
   def changeset(%Region{} = region, attrs, parent) when region == %Region{} do
-    changes = region
-    |> cast(attrs, [:title])
-    |> validate_required([:title])
+    changes =
+      region
+      |> cast(attrs, [:title])
+      |> validate_required([:title])
+
     case parent do
-      nil -> changes
+      nil ->
+        changes
+
       %Region{} ->
         changes
         |> put_assoc(:parent, parent)
@@ -38,5 +41,4 @@ defmodule Volunteer.Infrastructure.Region do
   defp parent_path(%Region{} = parent) do
     parent.parent_path ++ [parent.id]
   end
-
 end

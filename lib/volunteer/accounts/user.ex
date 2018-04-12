@@ -5,7 +5,6 @@ defmodule Volunteer.Accounts.User do
   alias Volunteer.Accounts.Identity
   alias Volunteer.Permissions.Role
 
-
   schema "users" do
     field :title, :string
     field :given_name, :string
@@ -40,7 +39,7 @@ defmodule Volunteer.Accounts.User do
   def to_non_admin(user) do
     user |> change(%{is_admin: false})
   end
-  
+
   def get_title(user) do
     user.title
   end

@@ -6,9 +6,57 @@ defmodule Volunteer.ApplyTest do
   describe "listings" do
     alias Volunteer.Apply.Listing
 
-    @valid_attrs %{approved: true, approved_date: "2010-04-17 14:00:00.000000Z", commitments: "some commitments", end_date: "some end_date", expiry_date: "2010-04-17 14:00:00.000000Z", hours_per_week: "120.5", pro_qualifications: true, program_description: "some program_description", program_title: "some program_title", qualifications: "some qualifications", responsibilities: "some responsibilities", start_date: "some start_date", summar_line: "some summar_line", title: "some title", tkn_eligible: true}
-    @update_attrs %{approved: false, approved_date: "2011-05-18 15:01:01.000000Z", commitments: "some updated commitments", end_date: "some updated end_date", expiry_date: "2011-05-18 15:01:01.000000Z", hours_per_week: "456.7", pro_qualifications: false, program_description: "some updated program_description", program_title: "some updated program_title", qualifications: "some updated qualifications", responsibilities: "some updated responsibilities", start_date: "some updated start_date", summar_line: "some updated summar_line", title: "some updated title", tkn_eligible: false}
-    @invalid_attrs %{approved: nil, approved_date: nil, commitments: nil, end_date: nil, expiry_date: nil, hours_per_week: nil, pro_qualifications: nil, program_description: nil, program_title: nil, qualifications: nil, responsibilities: nil, start_date: nil, summar_line: nil, title: nil, tkn_eligible: nil}
+    @valid_attrs %{
+      approved: true,
+      approved_date: "2010-04-17 14:00:00.000000Z",
+      commitments: "some commitments",
+      end_date: "some end_date",
+      expiry_date: "2010-04-17 14:00:00.000000Z",
+      hours_per_week: "120.5",
+      pro_qualifications: true,
+      program_description: "some program_description",
+      program_title: "some program_title",
+      qualifications: "some qualifications",
+      responsibilities: "some responsibilities",
+      start_date: "some start_date",
+      summar_line: "some summar_line",
+      title: "some title",
+      tkn_eligible: true
+    }
+    @update_attrs %{
+      approved: false,
+      approved_date: "2011-05-18 15:01:01.000000Z",
+      commitments: "some updated commitments",
+      end_date: "some updated end_date",
+      expiry_date: "2011-05-18 15:01:01.000000Z",
+      hours_per_week: "456.7",
+      pro_qualifications: false,
+      program_description: "some updated program_description",
+      program_title: "some updated program_title",
+      qualifications: "some updated qualifications",
+      responsibilities: "some updated responsibilities",
+      start_date: "some updated start_date",
+      summar_line: "some updated summar_line",
+      title: "some updated title",
+      tkn_eligible: false
+    }
+    @invalid_attrs %{
+      approved: nil,
+      approved_date: nil,
+      commitments: nil,
+      end_date: nil,
+      expiry_date: nil,
+      hours_per_week: nil,
+      pro_qualifications: nil,
+      program_description: nil,
+      program_title: nil,
+      qualifications: nil,
+      responsibilities: nil,
+      start_date: nil,
+      summar_line: nil,
+      title: nil,
+      tkn_eligible: nil
+    }
 
     def listing_fixture(attrs \\ %{}) do
       {:ok, listing} =
@@ -32,10 +80,16 @@ defmodule Volunteer.ApplyTest do
     test "create_listing/1 with valid data creates a listing" do
       assert {:ok, %Listing{} = listing} = Apply.create_listing(@valid_attrs)
       assert listing.approved == true
-      assert listing.approved_date == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
+
+      assert listing.approved_date ==
+               DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
+
       assert listing.commitments == "some commitments"
       assert listing.end_date == "some end_date"
-      assert listing.expiry_date == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
+
+      assert listing.expiry_date ==
+               DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
+
       assert listing.hours_per_week == Decimal.new("120.5")
       assert listing.pro_qualifications == true
       assert listing.program_description == "some program_description"
@@ -57,10 +111,16 @@ defmodule Volunteer.ApplyTest do
       assert {:ok, listing} = Apply.update_listing(listing, @update_attrs)
       assert %Listing{} = listing
       assert listing.approved == false
-      assert listing.approved_date == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
+
+      assert listing.approved_date ==
+               DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
+
       assert listing.commitments == "some updated commitments"
       assert listing.end_date == "some updated end_date"
-      assert listing.expiry_date == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
+
+      assert listing.expiry_date ==
+               DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
+
       assert listing.hours_per_week == Decimal.new("456.7")
       assert listing.pro_qualifications == false
       assert listing.program_description == "some updated program_description"
@@ -94,8 +154,16 @@ defmodule Volunteer.ApplyTest do
   describe "tkn_listings" do
     alias Volunteer.Apply.TKNListing
 
-    @valid_attrs %{openings: 42, position_category: "some position_category", position_industry: "some position_industry"}
-    @update_attrs %{openings: 43, position_category: "some updated position_category", position_industry: "some updated position_industry"}
+    @valid_attrs %{
+      openings: 42,
+      position_category: "some position_category",
+      position_industry: "some position_industry"
+    }
+    @update_attrs %{
+      openings: 43,
+      position_category: "some updated position_category",
+      position_industry: "some updated position_industry"
+    }
     @invalid_attrs %{openings: nil, position_category: nil, position_industry: nil}
 
     def tkn_listing_fixture(attrs \\ %{}) do
@@ -158,8 +226,16 @@ defmodule Volunteer.ApplyTest do
   describe "applications" do
     alias Volunteer.Apply.Application
 
-    @valid_attrs %{additional_info: "some additional_info", confirm_availability: true, hear_about: "some hear_about"}
-    @update_attrs %{additional_info: "some updated additional_info", confirm_availability: false, hear_about: "some updated hear_about"}
+    @valid_attrs %{
+      additional_info: "some additional_info",
+      confirm_availability: true,
+      hear_about: "some hear_about"
+    }
+    @update_attrs %{
+      additional_info: "some updated additional_info",
+      confirm_availability: false,
+      hear_about: "some updated hear_about"
+    }
     @invalid_attrs %{additional_info: nil, confirm_availability: nil, hear_about: nil}
 
     def application_fixture(attrs \\ %{}) do

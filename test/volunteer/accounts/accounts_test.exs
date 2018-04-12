@@ -194,8 +194,20 @@ defmodule Volunteer.AccountsTest do
   describe "users" do
     alias Volunteer.Accounts.User
 
-    @valid_attrs %{given_name: "some given_name", is_admin: true, email: "some email", sur_name: "some sur_name", title: "some title"}
-    @update_attrs %{given_name: "some updated given_name", is_admin: false, email: "some updated email", sur_name: "some updated sur_name", title: "some updated title"}
+    @valid_attrs %{
+      given_name: "some given_name",
+      is_admin: true,
+      email: "some email",
+      sur_name: "some sur_name",
+      title: "some title"
+    }
+    @update_attrs %{
+      given_name: "some updated given_name",
+      is_admin: false,
+      email: "some updated email",
+      sur_name: "some updated sur_name",
+      title: "some updated title"
+    }
     @invalid_attrs %{given_name: nil, is_admin: nil, email: nil, sur_name: nil, title: nil}
 
     def user_fixture(attrs \\ %{}) do

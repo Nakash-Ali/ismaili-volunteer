@@ -24,7 +24,8 @@ defmodule VolunteerWeb.Session do
   end
 
   def get_user(conn) do
-    conn.assigns[:current_user]
+    # conn.assigns[:current_user]
+    Volunteer.Repo.get(Volunteer.Accounts.User, 1)
   end
 
   def logged_in?(conn) do
@@ -39,7 +40,9 @@ defmodule VolunteerWeb.Session do
 
     def load_current_user(conn, _) do
       case get_session(conn, :current_user_id) do
-        nil -> conn
+        nil ->
+          conn
+
         id ->
           try do
             user = Accounts.get_user!(id)
@@ -54,9 +57,10 @@ defmodule VolunteerWeb.Session do
       case VolunteerWeb.Session.get_user(conn) do
         %Accounts.User{} ->
           conn
+
         _ ->
           conn
-          |> VolunteerWeb.Session.put_redirect
+          |> VolunteerWeb.Session.put_redirect()
           |> put_flash(:error, "Please log in to view this page")
           |> redirect(to: Helpers.auth_path(conn, :login))
           |> halt

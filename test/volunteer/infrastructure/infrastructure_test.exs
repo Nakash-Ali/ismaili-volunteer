@@ -66,9 +66,39 @@ defmodule Volunteer.InfrastructureTest do
   describe "jamatkhanas" do
     alias Volunteer.Infrastructure.Jamatkhana
 
-    @valid_attrs %{address_city: "some address_city", address_country: "some address_country", address_line_1: "some address_line_1", address_line_2: "some address_line_2", address_line_3: "some address_line_3", address_line_4: "some address_line_4", address_postal_zip_code: "some address_postal_zip_code", address_province_state: "some address_province_state", title: "some title"}
-    @update_attrs %{address_city: "some updated address_city", address_country: "some updated address_country", address_line_1: "some updated address_line_1", address_line_2: "some updated address_line_2", address_line_3: "some updated address_line_3", address_line_4: "some updated address_line_4", address_postal_zip_code: "some updated address_postal_zip_code", address_province_state: "some updated address_province_state", title: "some updated title"}
-    @invalid_attrs %{address_city: nil, address_country: nil, address_line_1: nil, address_line_2: nil, address_line_3: nil, address_line_4: nil, address_postal_zip_code: nil, address_province_state: nil, title: nil}
+    @valid_attrs %{
+      address_city: "some address_city",
+      address_country: "some address_country",
+      address_line_1: "some address_line_1",
+      address_line_2: "some address_line_2",
+      address_line_3: "some address_line_3",
+      address_line_4: "some address_line_4",
+      address_postal_zip_code: "some address_postal_zip_code",
+      address_province_state: "some address_province_state",
+      title: "some title"
+    }
+    @update_attrs %{
+      address_city: "some updated address_city",
+      address_country: "some updated address_country",
+      address_line_1: "some updated address_line_1",
+      address_line_2: "some updated address_line_2",
+      address_line_3: "some updated address_line_3",
+      address_line_4: "some updated address_line_4",
+      address_postal_zip_code: "some updated address_postal_zip_code",
+      address_province_state: "some updated address_province_state",
+      title: "some updated title"
+    }
+    @invalid_attrs %{
+      address_city: nil,
+      address_country: nil,
+      address_line_1: nil,
+      address_line_2: nil,
+      address_line_3: nil,
+      address_line_4: nil,
+      address_postal_zip_code: nil,
+      address_province_state: nil,
+      title: nil
+    }
 
     def jamatkhana_fixture(attrs \\ %{}) do
       {:ok, jamatkhana} =
@@ -123,7 +153,10 @@ defmodule Volunteer.InfrastructureTest do
 
     test "update_jamatkhana/2 with invalid data returns error changeset" do
       jamatkhana = jamatkhana_fixture()
-      assert {:error, %Ecto.Changeset{}} = Infrastructure.update_jamatkhana(jamatkhana, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Infrastructure.update_jamatkhana(jamatkhana, @invalid_attrs)
+
       assert jamatkhana == Infrastructure.get_jamatkhana!(jamatkhana.id)
     end
 
@@ -450,9 +483,36 @@ defmodule Volunteer.InfrastructureTest do
   describe "addresses" do
     alias Volunteer.Infrastructure.Address
 
-    @valid_attrs %{city: "some city", code: "some code", country: "some country", line_1: "some line_1", line_2: "some line_2", line_3: "some line_3", line_4: "some line_4", region: "some region"}
-    @update_attrs %{city: "some updated city", code: "some updated code", country: "some updated country", line_1: "some updated line_1", line_2: "some updated line_2", line_3: "some updated line_3", line_4: "some updated line_4", region: "some updated region"}
-    @invalid_attrs %{city: nil, code: nil, country: nil, line_1: nil, line_2: nil, line_3: nil, line_4: nil, region: nil}
+    @valid_attrs %{
+      city: "some city",
+      code: "some code",
+      country: "some country",
+      line_1: "some line_1",
+      line_2: "some line_2",
+      line_3: "some line_3",
+      line_4: "some line_4",
+      region: "some region"
+    }
+    @update_attrs %{
+      city: "some updated city",
+      code: "some updated code",
+      country: "some updated country",
+      line_1: "some updated line_1",
+      line_2: "some updated line_2",
+      line_3: "some updated line_3",
+      line_4: "some updated line_4",
+      region: "some updated region"
+    }
+    @invalid_attrs %{
+      city: nil,
+      code: nil,
+      country: nil,
+      line_1: nil,
+      line_2: nil,
+      line_3: nil,
+      line_4: nil,
+      region: nil
+    }
 
     def address_fixture(attrs \\ %{}) do
       {:ok, address} =
@@ -565,7 +625,10 @@ defmodule Volunteer.InfrastructureTest do
 
     test "update_jamatkhana/2 with invalid data returns error changeset" do
       jamatkhana = jamatkhana_fixture()
-      assert {:error, %Ecto.Changeset{}} = Infrastructure.update_jamatkhana(jamatkhana, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Infrastructure.update_jamatkhana(jamatkhana, @invalid_attrs)
+
       assert jamatkhana == Infrastructure.get_jamatkhana!(jamatkhana.id)
     end
 

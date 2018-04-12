@@ -6,8 +6,16 @@ defmodule Volunteer.PermissionsTest do
   describe "roles" do
     alias Volunteer.Permissions.Role
 
-    @valid_attrs %{group_scope: "some group_scope", region_scope: "some region_scope", type: "some type"}
-    @update_attrs %{group_scope: "some updated group_scope", region_scope: "some updated region_scope", type: "some updated type"}
+    @valid_attrs %{
+      group_scope: "some group_scope",
+      region_scope: "some region_scope",
+      type: "some type"
+    }
+    @update_attrs %{
+      group_scope: "some updated group_scope",
+      region_scope: "some updated region_scope",
+      type: "some updated type"
+    }
     @invalid_attrs %{group_scope: nil, region_scope: nil, type: nil}
 
     def role_fixture(attrs \\ %{}) do

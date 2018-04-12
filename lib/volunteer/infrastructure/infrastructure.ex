@@ -25,11 +25,10 @@ defmodule Volunteer.Infrastructure do
   def get_group!(id) do
     Group |> Repo.get!(id)
   end
-  
+
   def get_group_id_choices do
-    from(g in Group,
-      select: {g.title, g.id})
-    |> Repo.all
+    from(g in Group, select: {g.title, g.id})
+    |> Repo.all()
   end
 
   def create_jamatkhana!(attrs, region \\ nil) do

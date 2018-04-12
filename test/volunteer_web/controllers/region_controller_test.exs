@@ -14,14 +14,14 @@ defmodule VolunteerWeb.RegionControllerTest do
 
   describe "index" do
     test "lists all regions", %{conn: conn} do
-      conn = get conn, region_path(conn, :index)
+      conn = get(conn, region_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Regions"
     end
   end
 
   describe "new region" do
     test "renders form", %{conn: conn} do
-      conn = get conn, region_path(conn, :new)
+      conn = get(conn, region_path(conn, :new))
       assert html_response(conn, 200) =~ "New Region"
     end
   end
@@ -33,7 +33,7 @@ defmodule VolunteerWeb.RegionControllerTest do
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == region_path(conn, :show, id)
 
-      conn = get conn, region_path(conn, :show, id)
+      conn = get(conn, region_path(conn, :show, id))
       assert html_response(conn, 200) =~ "Show Region"
     end
 
@@ -47,7 +47,7 @@ defmodule VolunteerWeb.RegionControllerTest do
     setup [:create_region]
 
     test "renders form for editing chosen region", %{conn: conn, region: region} do
-      conn = get conn, region_path(conn, :edit, region)
+      conn = get(conn, region_path(conn, :edit, region))
       assert html_response(conn, 200) =~ "Edit Region"
     end
   end
@@ -59,7 +59,7 @@ defmodule VolunteerWeb.RegionControllerTest do
       conn = put conn, region_path(conn, :update, region), region: @update_attrs
       assert redirected_to(conn) == region_path(conn, :show, region)
 
-      conn = get conn, region_path(conn, :show, region)
+      conn = get(conn, region_path(conn, :show, region))
       assert html_response(conn, 200) =~ "some updated title"
     end
 
@@ -73,10 +73,11 @@ defmodule VolunteerWeb.RegionControllerTest do
     setup [:create_region]
 
     test "deletes chosen region", %{conn: conn, region: region} do
-      conn = delete conn, region_path(conn, :delete, region)
+      conn = delete(conn, region_path(conn, :delete, region))
       assert redirected_to(conn) == region_path(conn, :index)
+
       assert_error_sent 404, fn ->
-        get conn, region_path(conn, :show, region)
+        get(conn, region_path(conn, :show, region))
       end
     end
   end

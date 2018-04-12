@@ -25,13 +25,13 @@ defmodule VolunteerWeb.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Volunteer.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Volunteer.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end

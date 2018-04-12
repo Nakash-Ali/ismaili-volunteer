@@ -13,7 +13,7 @@ defmodule VolunteerWeb.AuthController do
 
   def logout(conn, _params) do
     conn
-    |> Session.logout
+    |> Session.logout()
     |> put_flash(:info, "You have been logged out!")
     |> redirect(to: Router.Helpers.index_path(conn, :index))
   end
@@ -31,6 +31,7 @@ defmodule VolunteerWeb.AuthController do
         |> Session.login(user)
         |> put_flash(:info, "Successfully authenticated.")
         |> redirect(to: Session.get_redirect(conn))
+
       {:error, reason} ->
         conn
         |> put_flash(:error, reason)

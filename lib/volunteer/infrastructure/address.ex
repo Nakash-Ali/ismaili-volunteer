@@ -2,7 +2,6 @@ defmodule Volunteer.Infrastructure.Address do
   use Volunteer, :schema
   import Ecto.Changeset
 
-
   schema "addresses" do
     field :city, :string
     field :region, :string
@@ -21,5 +20,4 @@ defmodule Volunteer.Infrastructure.Address do
     |> cast(attrs, [:city, :region, :code, :country, :line_1, :line_2, :line_3, :line_4])
     |> validate_required([:city, :region, :code, :country, :line_1])
   end
-
 end

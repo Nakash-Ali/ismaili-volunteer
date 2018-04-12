@@ -8,12 +8,11 @@ defmodule VolunteerEmail.Mailer do
 
   def new_default_email() do
     new_email()
-      |> from(@from_email)
-      |> put_html_layout({VolunteerEmail.LayoutView, "email.html"})
+    |> from(@from_email)
+    |> put_html_layout({VolunteerEmail.LayoutView, "email.html"})
   end
 
   def from_email() do
-      @from_email
+    @from_email
   end
-
 end

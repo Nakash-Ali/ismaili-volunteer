@@ -1,6 +1,6 @@
 defmodule Volunteer.Accounts do
   import Ecto.Query, only: [from: 2]
-  
+
   alias Volunteer.Repo
   alias Volunteer.Accounts.User
   alias Volunteer.Accounts.Identity
@@ -8,26 +8,27 @@ defmodule Volunteer.Accounts do
   def upsert_together_and_return(%{provider: provider, provider_id: provider_id} = attrs) do
     Repo.transaction(fn ->
       case get_identity_and_user(provider, provider_id) do
-        nil -> (
+        nil ->
           user = create_user!(attrs)
           create_identity!(attrs, user)
           user
-        )
-        identity -> (
+
+        identity ->
           update_user!(identity.user, attrs)
-        )
       end
     end)
   end
 
   def get_identity_and_user(provider, provider_id) do
-    from(i in Identity,
+    from(
+      i in Identity,
       where: i.provider == ^provider and i.provider_id == ^provider_id,
       join: u in assoc(i, :user),
-      preload: [user: u])
-    |> Repo.one
+      preload: [user: u]
+    )
+    |> Repo.one()
   end
-  
+
   def create_identity!(attrs, user) do
     %Identity{}
     |> Identity.changeset(attrs, user)
@@ -49,5 +50,4 @@ defmodule Volunteer.Accounts do
   def get_user!(id) do
     User |> Repo.get!(id)
   end
-
 end

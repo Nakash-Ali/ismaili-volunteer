@@ -4,7 +4,6 @@ defmodule Volunteer.Accounts.Identity do
   alias Volunteer.Accounts.Identity
   alias Volunteer.Accounts.User
 
-
   schema "identities" do
     field :provider, :string
     field :provider_id, :string
@@ -27,6 +26,7 @@ defmodule Volunteer.Accounts.Identity do
         identity
         |> cast(attrs, [:provider, :provider_id, :user_id])
         |> validate_required([:provider, :provider_id, :user_id])
+
       %User{} ->
         identity
         |> cast(attrs, [:provider, :provider_id])
@@ -36,5 +36,4 @@ defmodule Volunteer.Accounts.Identity do
     |> unique_constraint(:provider_id, name: :identities_provider_provider_id_index)
     |> foreign_key_constraint(:user_id)
   end
-
 end
