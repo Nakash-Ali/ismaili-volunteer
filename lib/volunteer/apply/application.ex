@@ -5,7 +5,6 @@ defmodule Volunteer.Apply.Application do
   alias Volunteer.Apply.Listing
   alias Volunteer.Accounts.User
 
-
   schema "applications" do
     field :preferred_contact, :string
     field :confirm_availability, :boolean, default: false
@@ -21,7 +20,14 @@ defmodule Volunteer.Apply.Application do
 
   def changeset(%Application{} = application, attrs) when application == %Application{} do
     application
-    |> cast(attrs, [:listing_id, :user_id, :preferred_contact, :confirm_availability, :additional_info, :hear_about])
+    |> cast(attrs, [
+      :listing_id,
+      :user_id,
+      :preferred_contact,
+      :confirm_availability,
+      :additional_info,
+      :hear_about
+    ])
     |> validate_required([:listing_id, :user_id, :preferred_contact, :confirm_availability])
     |> foreign_key_constraint(:listing_id)
     |> foreign_key_constraint(:user_id)

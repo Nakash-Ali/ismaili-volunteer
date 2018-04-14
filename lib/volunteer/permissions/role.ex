@@ -14,34 +14,34 @@ defmodule Volunteer.Permissions.Role do
 
     timestamps()
   end
-  
+
   @role_types [
     :superadmin,
     :admin,
-    :organizer,
+    :organizer
   ]
-  
+
   @attributes_cast_always [
     :type,
-    :user_id,
+    :user_id
   ]
-  
+
   @attributes_required_always [
     :type,
-    :user_id,
+    :user_id
   ]
-  
+
   def types do
     @role_types
   end
-  
+
   def create(role, %User{} = user, type) when role == %Role{} and type in @role_types do
     create(role, %{
       type: type,
       user_id: user.id
     })
   end
-  
+
   def create(role, attrs) when role == %Role{} and is_map(attrs) do
     role
     |> cast(attrs, @attributes_cast_always)
@@ -55,6 +55,7 @@ defmodule Volunteer.Permissions.Role do
     |> foreign_key_constraint(:group_id)
     |> foreign_key_constraint(:region_id)
     |> foreign_key_constraint(:user_id)
+
     # |> unique_constraint
   end
 end

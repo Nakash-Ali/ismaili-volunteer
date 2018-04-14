@@ -4,9 +4,9 @@ defmodule Volunteer.Repo.Migrations.CreateRoles do
   def change do
     create table(:roles) do
       add :type, :string, null: false
-      add :region_id, references(:region, on_delete: :restrict), null: true
-      add :group_id, references(:group, on_delete: :restrict), null: true
-      add :user_id, references(:user, on_delete: :restrict), null: false
+      add :region_id, references(:regions, on_delete: :delete_all), null: true
+      add :group_id, references(:groups, on_delete: :delete_all), null: true
+      add :user_id, references(:users, on_delete: :delete_all), null: false
 
       timestamps()
     end

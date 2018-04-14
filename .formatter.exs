@@ -1,9 +1,10 @@
 [
   inputs: [
-    "{mix,.formatter}.exs",
+    "mix.exs",
+    ".formatter.exs",
     "{lib,test}/**/*.{ex,exs}"
   ],
-  import_deps: Volunteer.Mixfile.deps |> Enum.map(fn dep_tup -> elem(dep_tup, 0) end),
+  import_deps: Volunteer.Mixfile.deps() |> Enum.map(fn dep_tup -> elem(dep_tup, 0) end),
   locals_without_parens: [
     # Ecto.Query
     from: 2,
@@ -28,7 +29,7 @@
     embeds_many: 2,
     embeds_many: 3,
     embeds_many: 4,
-    
+
     # Phoenix.Channel
     intercept: 1,
 

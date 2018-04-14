@@ -39,14 +39,17 @@ defmodule VolunteerWeb.Router do
       pipe_through [:ensure_authenticated]
 
       get "/", IndexController, :index
-      
-      resources "/listings", ListingController
+
+      resources "/listings", ListingController do
+        resources "/tkn_listing", TKNListingController
+      end
+
       post "/listings/:id/approve", ListingController, :approve
       post "/listings/:id/unapprove", ListingController, :unapprove
     end
   end
 
-  if Mix.env == :dev do
+  if Mix.env() == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 end

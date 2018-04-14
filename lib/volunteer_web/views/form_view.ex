@@ -15,7 +15,7 @@ defmodule VolunteerWeb.FormView do
     end
   end
 
-  defp input_classes_for_state(_submitted = false, form, field) do
+  defp input_classes_for_state(_submitted = false, _form, _field) do
     []
   end
 end

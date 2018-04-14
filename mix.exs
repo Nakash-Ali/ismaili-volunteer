@@ -5,7 +5,7 @@ defmodule Volunteer.Mixfile do
     [
       app: :volunteer,
       version: "1.0.4",
-      elixir: "~> 1.6.4",
+      elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env == :prod,
@@ -56,7 +56,8 @@ defmodule Volunteer.Mixfile do
       {:ueberauth, "~> 0.4"},
       {:ueberauth_microsoft, "~> 0.3"},
       {:timex, "~> 3.1"},
-      {:apex, "~>1.2.0"}
+      {:apex, "~>1.2.0"},
+      {:canada, github: "jarednorman/canada"}
     ]
   end
 
