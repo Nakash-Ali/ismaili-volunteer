@@ -16,9 +16,9 @@ defmodule Volunteer.Infrastructure do
     Region |> Repo.get!(id)
   end
 
-  def create_group!(attrs, region \\ nil, parent \\ nil) do
+  def create_group!(attrs, region \\ nil) do
     %Group{}
-    |> Group.changeset(attrs, region, parent)
+    |> Group.changeset(attrs, region)
     |> Repo.insert!()
   end
 

@@ -4,7 +4,7 @@ defmodule Volunteer.Mixfile do
   def project do
     [
       app: :volunteer,
-      version: "1.0.4",
+      version: "1.1.0",
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -29,8 +29,10 @@ defmodule Volunteer.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(:test), do: elixirc_paths() ++ ["test/support"]
+  defp elixirc_paths(:prod), do: elixirc_paths() ++ ["rel/tasks"]
+  defp elixirc_paths(_), do: elixirc_paths()
+  defp elixirc_paths(), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -45,7 +47,7 @@ defmodule Volunteer.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.13"},
       {:cowboy, "~> 1.0"},
-      {:edeliver, "~> 1.4"},
+      {:edeliver, "~> 1.4", only: [:dev, :test]},
       {:distillery, ">= 0.8.0"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
