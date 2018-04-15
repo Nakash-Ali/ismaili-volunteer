@@ -5,6 +5,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Infrastructure
   alias Volunteer.Permissions.Abilities
   alias VolunteerWeb.UtilsController
+  alias VolunteerWeb.Sanitize
   import VolunteerWeb.Authorize
   
   # Authentication & Authorization
@@ -48,6 +49,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def create(conn, %{"listing" => listing_params}) do
     listing_params
+    |> Sanitize.params(["program_description", "qualifications", "responsibilities"])
     |> Apply.create_listing(Session.get_user(conn))
     |> case do
       {:ok, listing} ->
@@ -78,8 +80,12 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def update(conn, %{"listing" => listing_params}) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    case Apply.update_listing(listing, listing_params) do
+    
+    sanitized_params =
+      listing_params
+      |> Sanitize.params(["program_description", "qualifications", "responsibilities"])
+      
+    case Apply.update_listing(listing, sanitized_params) do
       {:ok, listing} ->
         conn
         |> put_flash(:info, "Listing updated successfully.")

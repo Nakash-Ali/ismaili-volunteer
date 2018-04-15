@@ -1,6 +1,6 @@
 <div class="form-group">
   <%= label @form, @field, @title, class: "control-label" %>
   <%= hidden_input @form, @field %>
-  <trix-editor class="<%= input_classes(@form, @field) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
+  <trix-editor class="<%= input_classes(@form, @field, ["form-control"]) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
   <%= error_tag @form, @field %>
 </div>
