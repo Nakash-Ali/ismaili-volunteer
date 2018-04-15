@@ -135,9 +135,14 @@ defmodule VolunteerWeb.Admin.ListingController do
       opts ++
         [
           changeset: changeset,
+          region_id_choices: get_region_id_choices(),
           group_id_choices: get_group_id_choices()
         ]
     )
+  end
+  
+  defp get_region_id_choices() do
+    UtilsController.blank_select_choice() ++ Infrastructure.get_region_id_choices()
   end
 
   defp get_group_id_choices() do

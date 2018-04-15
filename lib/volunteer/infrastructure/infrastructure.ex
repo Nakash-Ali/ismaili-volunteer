@@ -25,6 +25,11 @@ defmodule Volunteer.Infrastructure do
   def get_group!(id) do
     Group |> Repo.get!(id)
   end
+  
+  def get_region_id_choices do
+    from(r in Region, select: {r.title, r.id})
+    |> Repo.all()
+  end
 
   def get_group_id_choices do
     from(g in Group, select: {g.title, g.id})

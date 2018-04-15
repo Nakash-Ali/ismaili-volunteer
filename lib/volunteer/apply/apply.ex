@@ -44,7 +44,7 @@ defmodule Volunteer.Apply do
   end
 
   def preload_listing_all(%Listing{} = listing) do
-    listing |> Repo.preload([:created_by, :approved_by, :group, :organized_by])
+    listing |> Repo.preload([:created_by, :approved_by, :region, :group, :organized_by])
   end
 
   def get_all_listings do

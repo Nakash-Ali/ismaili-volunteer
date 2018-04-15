@@ -5,6 +5,7 @@ defmodule Volunteer.Apply.Listing do
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
   alias Volunteer.Infrastructure.Group
+  alias Volunteer.Infrastructure.Region
   alias Volunteer.Accounts.User
 
   schema "listings" do
@@ -19,6 +20,7 @@ defmodule Volunteer.Apply.Listing do
     field :title, :string
     field :program_title, :string
     field :summary_line, :string
+    belongs_to :region, Region
     belongs_to :group, Group
     belongs_to :organized_by, User
 
@@ -48,6 +50,7 @@ defmodule Volunteer.Apply.Listing do
     :title,
     :program_title,
     :summary_line,
+    :region_id,
     :group_id,
     :organized_by_id,
     :start_date,
@@ -64,6 +67,7 @@ defmodule Volunteer.Apply.Listing do
     :title,
     :program_title,
     :summary_line,
+    :region_id,
     :group_id,
     :organized_by_id,
     :start_date_toggle,
@@ -138,6 +142,7 @@ defmodule Volunteer.Apply.Listing do
   def common_changeset_funcs(changeset) do
     changeset
     |> validate_length(:summary_line, max: 140)
+    |> foreign_key_constraint(:region_id)
     |> foreign_key_constraint(:group_id)
     |> foreign_key_constraint(:created_by_id)
     |> foreign_key_constraint(:organized_by_id)

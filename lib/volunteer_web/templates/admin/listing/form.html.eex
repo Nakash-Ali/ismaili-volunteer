@@ -24,6 +24,13 @@
 
   <%= render FormView, "select.html",
     form: form,
+    field: :region_id,
+    choices: @region_id_choices,
+    title: "Region"
+  %>
+  
+  <%= render FormView, "select.html",
+    form: form,
     field: :group_id,
     choices: @group_id_choices,
     title: "Organizing group"
