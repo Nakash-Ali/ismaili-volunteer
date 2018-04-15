@@ -8,7 +8,7 @@ defmodule Volunteer.Apply.Listing do
   alias Volunteer.Accounts.User
 
   schema "listings" do
-    field :expiry_date, :date
+    field :expiry_date, :utc_datetime
 
     belongs_to :created_by, User
 
@@ -132,7 +132,7 @@ defmodule Volunteer.Apply.Listing do
   end
 
   def refreshed_expiry_date() do
-    Timex.now() |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_date()
+    Timex.now() |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime()
   end
 
   def common_changeset_funcs(changeset) do

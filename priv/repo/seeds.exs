@@ -9,3 +9,20 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alizain = 
+  Volunteer.Accounts.create_user!(%{
+      title: "Alizain's Test User",
+      given_name: "Alizain",
+      sur_name: "Test User",
+      primary_email: "alizain.feerasta@iicanada.net"
+    })
+  
+canada = 
+  Volunteer.Infrastructure.create_region!(%{
+      title: "Canada"
+    })
+
+Volunteer.Infrastructure.create_group!(%{
+    title: "Council for Canada"
+  }, canada)

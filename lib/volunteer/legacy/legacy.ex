@@ -1,5 +1,3 @@
-require IEx
-
 defmodule Volunteer.Legacy do
   alias Ecto.Changeset
   alias VolunteerEmail.Mailer

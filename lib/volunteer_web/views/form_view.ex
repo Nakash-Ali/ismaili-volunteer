@@ -1,5 +1,9 @@
 defmodule VolunteerWeb.FormView do
   use VolunteerWeb, :view
+  
+  def is_submitted?(form) do
+    form.source.action != nil
+  end
 
   defp input_classes(form, field, others \\ []) do
     is_submitted?(form)

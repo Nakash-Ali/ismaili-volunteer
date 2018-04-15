@@ -10,7 +10,7 @@ defmodule Volunteer do
   def schema do
     quote do
       use Ecto.Schema
-      @timestamp_opts [type: :utc_datetime, usec: true]
+      @timestamps_opts [type: :utc_datetime, usec: true]
     end
   end
 

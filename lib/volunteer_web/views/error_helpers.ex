@@ -19,10 +19,6 @@ defmodule VolunteerWeb.ErrorHelpers do
     Keyword.has_key?(form.errors, field)
   end
 
-  def is_submitted?(form) do
-    form.source.action != nil
-  end
-
   @doc """
   Translates an error message using gettext.
   """

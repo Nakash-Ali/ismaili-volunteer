@@ -2,7 +2,7 @@ defmodule VolunteerWeb.Session do
   import Plug.Conn
   alias VolunteerWeb.Router.Helpers
   alias Volunteer.Accounts
-
+  
   def login(conn, %Accounts.User{} = user) do
     put_session(conn, :current_user_id, user.id)
   end
@@ -22,10 +22,9 @@ defmodule VolunteerWeb.Session do
   def put_user(conn, user) do
     assign(conn, :current_user, user)
   end
-
+  
   def get_user(conn) do
-    # conn.assigns[:current_user]
-    Volunteer.Repo.get(Volunteer.Accounts.User, 1)
+    conn.assigns[:current_user]
   end
 
   def logged_in?(conn) do
@@ -65,6 +64,17 @@ defmodule VolunteerWeb.Session do
           |> redirect(to: Helpers.auth_path(conn, :login))
           |> halt
       end
+    end
+  end
+  
+  defmodule DevPlugs do
+    def load_current_user(conn, _) do
+      user = Accounts.get_user!(1)
+      VolunteerWeb.Session.put_user(conn, user)
+    end
+    
+    def ensure_authenticated(conn, _) do
+      conn
     end
   end
 end

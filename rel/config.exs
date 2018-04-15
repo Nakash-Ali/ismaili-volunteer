@@ -50,4 +50,3 @@ release :volunteer do
     :runtime_tools
   ]
 end
-
