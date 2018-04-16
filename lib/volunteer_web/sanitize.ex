@@ -17,24 +17,6 @@ defmodule VolunteerWeb.Sanitize do
   end
   
   def html(input) do
-    {output, 0} =
-      System.cmd(
-        "python3",
-        [
-          "-c",
-          """
-          import bleach
-          # from html5lib.filters import alphabeticalattributes
-          # from html5lib.filters import whitespace
-          
-          allowed_tags = bleach.sanitizer.ALLOWED_TAGS + ["h1", "del"]
-      
-          result = bleach.clean("#{input}", tags=allowed_tags)
-          print(result)
-          """
-        ]
-      )
-    output
-    |> String.trim
+    HtmlSanitizeEx.basic_html(input)
   end
 end

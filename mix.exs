@@ -59,7 +59,8 @@ defmodule Volunteer.Mixfile do
       {:ueberauth_microsoft, "~> 0.3"},
       {:timex, "~> 3.1"},
       {:apex, "~>1.2.0"},
-      {:canada, github: "jarednorman/canada"}
+      {:canada, github: "jarednorman/canada"},
+      {:html_sanitize_ex, "~> 1.3.0-rc3"}
     ]
   end
 
