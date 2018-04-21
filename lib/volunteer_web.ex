@@ -33,6 +33,7 @@ defmodule VolunteerWeb do
     quote do
       use Phoenix.View,
         root: "lib/volunteer_web/templates",
+        pattern: "**/*",
         namespace: VolunteerWeb
 
       # Import convenience functions from controllers

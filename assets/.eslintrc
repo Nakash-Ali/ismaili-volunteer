@@ -1,0 +1,45 @@
+extends: airbnb-base
+
+env:
+  browser: true
+
+rules:
+  semi:
+    - 2
+    - never
+  arrow-parens:
+    - off
+  compat/compat: 2
+  consistent-return: off
+  comma-dangle: off
+  generator-star-spacing: off
+  indent:
+    - 2
+    - tab
+  import/no-unresolved:
+    - error
+    - ignore:
+      - electron
+  import/no-extraneous-dependencies: off
+  no-console: 0
+  no-use-before-define: off
+  no-tabs: off
+  no-param-reassign:
+    - error
+  no-mixed-operators:
+    - error
+    - allowSamePrecedence: true
+  no-underscore-dangle: off
+  no-var: off
+  padded-blocks: off
+  prefer-spread: off
+  prefer-template: off
+  promise/param-names: 2
+  promise/always-return: 0
+  promise/catch-or-return: 0
+  promise/no-native: 0
+
+plugins:
+  - import
+  - promise
+  - compat

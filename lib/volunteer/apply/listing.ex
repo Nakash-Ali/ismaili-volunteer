@@ -17,7 +17,7 @@ defmodule Volunteer.Apply.Listing do
     field :approved_on, :utc_datetime
     belongs_to :approved_by, User, on_replace: :nilify
 
-    field :title, :string
+    field :position_title, :string
     field :program_title, :string
     field :summary_line, :string
     belongs_to :region, Region
@@ -30,11 +30,12 @@ defmodule Volunteer.Apply.Listing do
     field :end_date, :date
     field :end_date_toggle, :boolean, virtual: true
 
-    field :hours_per_week, :decimal
+    field :hours_per_week, :integer
 
     field :program_description, :string
     field :responsibilities, :string
     field :qualifications, :string
+    field :vulnerable_sector_check, :boolean, default: false
 
     has_one :tkn_listing, TKNListing
 
@@ -47,7 +48,7 @@ defmodule Volunteer.Apply.Listing do
   @refresh_expiry_days_by 14
 
   @attributes_cast_always [
-    :title,
+    :position_title,
     :program_title,
     :summary_line,
     :region_id,
@@ -60,12 +61,12 @@ defmodule Volunteer.Apply.Listing do
     :hours_per_week,
     :program_description,
     :responsibilities,
-    :qualifications
+    :qualifications,
+    :vulnerable_sector_check,
   ]
 
   @attributes_required_always [
-    :title,
-    :program_title,
+    :position_title,
     :summary_line,
     :region_id,
     :group_id,
@@ -97,6 +98,7 @@ defmodule Volunteer.Apply.Listing do
     |> validate_required([:created_by_id] ++ @attributes_required_always)
     |> cast_assoc(:tkn_listing)
     |> common_changeset_funcs
+    |> refresh_expiry
   end
 
   def edit(listing, attrs) do
@@ -113,6 +115,7 @@ defmodule Volunteer.Apply.Listing do
     |> put_change(:approved_on, Timex.now())
     |> put_assoc(:approved_by, approved_by)
     |> foreign_key_constraint(:approved_by_id)
+    |> refresh_expiry
   end
 
   def unapprove(listing) do
@@ -148,7 +151,6 @@ defmodule Volunteer.Apply.Listing do
     |> foreign_key_constraint(:organized_by_id)
     |> manage_date_with_toggle(:start_date, :start_date_toggle)
     |> manage_date_with_toggle(:end_date, :end_date_toggle)
-    |> refresh_expiry
     |> unapprove
   end
 

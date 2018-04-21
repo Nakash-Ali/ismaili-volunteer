@@ -11,15 +11,15 @@ defmodule Volunteer.Repo.Migrations.CreateListings do
       add :approved_by_id, references(:users, on_delete: :nothing), null: true
       add :approved_on, :timestamptz, null: true
 
-      add :title, :string, null: false
-      add :program_title, :string, null: false
+      add :position_title, :string, null: false
+      add :program_title, :string, null: true
       add :summary_line, :string, null: false
       add :group_id, references(:groups, on_delete: :restrict), null: false
       add :organized_by_id, references(:users, on_delete: :restrict), null: false
 
       add :start_date, :date, null: true
       add :end_date, :date, null: true
-      add :hours_per_week, :decimal, null: false
+      add :hours_per_week, :integer, null: false
 
       add :program_description, :string, null: false
       add :responsibilities, :string, null: false
