@@ -49,7 +49,7 @@ defmodule VolunteerWeb.Admin.ListingController do
           Apply.get_all_listings()
 
         false ->
-          Apply.get_all_listings_created_by(Session.get_user(conn))
+          Apply.get_all_listings_for_user(Session.get_user(conn))
       end
 
     render(conn, "index.html", listings: listings)

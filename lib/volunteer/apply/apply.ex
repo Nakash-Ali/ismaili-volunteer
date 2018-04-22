@@ -52,8 +52,8 @@ defmodule Volunteer.Apply do
     |> Repo.all()
   end
 
-  def get_all_listings_created_by(%Accounts.User{id: id}) do
-    from(l in Listing, where: l.created_by_id == ^id)
+  def get_all_listings_for_user(%Accounts.User{id: id}) do
+    from(l in Listing, where: l.created_by_id == ^id or l.organized_by_id == ^id)
     |> Repo.all()
   end
 

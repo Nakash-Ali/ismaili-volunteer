@@ -112,6 +112,11 @@ defmodule Volunteer.Permissions.Abilities do
         when action in [:show, :edit, :update, :delete] do
       true
     end
+    
+    def can?(%User{id: user_id}, action, %Listing{organized_by_id: user_id})
+        when action in [:show, :edit, :update, :delete] do
+      true
+    end
 
     # Deny everything else
 
