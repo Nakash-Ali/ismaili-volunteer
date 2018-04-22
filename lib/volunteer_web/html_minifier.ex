@@ -10,6 +10,7 @@ defmodule VolunteerWeb.HTMLMinifier do
       {_, "text/html" <> _} ->
         body = conn.resp_body
                |> Floki.parse
+               |> Floki.filter_out(:comment)
                |> Floki.raw_html
         
         %Plug.Conn{conn | resp_body: body}

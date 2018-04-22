@@ -12,12 +12,8 @@ defmodule VolunteerWeb.Router do
     plug VolunteerWeb.HTMLMinifier
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/legacy", VolunteerWeb.Legacy do
-    pipe_through :api
+    pipe_through :browser
 
     post "/apply", ApplyController, :apply
     get "/thank_you", ApplyController, :thank_you

@@ -1,4 +1,7 @@
 defmodule VolunteerWeb.PageTitle do
+  
+  # TODO: turn this into a protocl that each view can implement
+  
   @suffix Application.fetch_env!(:volunteer, :project_title)
   @joiner " - "
   

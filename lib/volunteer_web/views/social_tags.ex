@@ -1,4 +1,7 @@
 defmodule VolunteerWeb.SocialTags do
+  
+  # TODO: turn this into a protocl that each view can implement
+  
   def render(assigns) do
     base_tags(assigns)
     |> Map.merge(page_tags(assigns))

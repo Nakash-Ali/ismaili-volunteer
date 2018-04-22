@@ -22,6 +22,13 @@ config :volunteer, VolunteerWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   code_reloader: false
+
+# Configure legacy integration
+config :volunteer, Volunteer.Legacy,
+  submit_url: "https://ismailivolunteer.eightzerothree.co/legacy/apply",
+  static_site: "https://ismailivolunteer.eightzerothree.co",
+  redirect_next_path: "/legacy/thank_you",
+  redirect_error_path: "/legacy/error"
   
 # Configure database
 config :volunteer, Volunteer.Repo,
