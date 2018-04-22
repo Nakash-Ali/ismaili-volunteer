@@ -4,6 +4,7 @@ defmodule VolunteerWeb.Router do
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :upgrade_to_https
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
@@ -50,5 +51,10 @@ defmodule VolunteerWeb.Router do
 
   if Mix.env() == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+  
+  def upgrade_to_https(conn, _) do
+    IO.puts(inspect(conn.req_headers))
+    conn
   end
 end
