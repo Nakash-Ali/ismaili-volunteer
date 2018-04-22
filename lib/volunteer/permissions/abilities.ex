@@ -94,7 +94,10 @@ defmodule Volunteer.Permissions.Abilities do
     # Temporary super-user permissions
 
     def can?(%User{primary_email: primary_email}, _action, _subject)
-        when primary_email in ["alizain.feerasta@iicanada.net"] do
+        when primary_email in [
+          "alizain.feerasta@iicanada.net",
+          "hussein.kermally@iicanada.net",
+        ] do
       true
     end
 

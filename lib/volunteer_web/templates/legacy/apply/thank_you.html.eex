@@ -1,0 +1,5 @@
+<section class="container my-6 text-center">
+	<h1>Thank you for applying!</h1>
+	<p>The organizers will be in touch.</p>
+	<a href="<%= index_path(@conn, :index) %>" class=""><h5 class="mt-5 mb-9">Go Home</h5></a>
+</section>

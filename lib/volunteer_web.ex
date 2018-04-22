@@ -43,6 +43,7 @@ defmodule VolunteerWeb do
       use Phoenix.HTML
 
       import VolunteerWeb.Router.Helpers
+      import VolunteerWeb.StaticHelpers
       import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
       alias VolunteerWeb.Session

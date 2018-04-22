@@ -5,6 +5,37 @@ defmodule Volunteer.Legacy do
   import Bamboo.Email
   import Bamboo.Phoenix
 
+  @all_jamatkhanas [
+    "Barrie",
+    "Belleville",
+    "Bobcaygeon",
+    "Brampton",
+    "Brantford",
+    "Don Mills",
+    "Downtown",
+    "Durham",
+    "East York",
+    "Etobicoke",
+    "Guelph",
+    "Halton",
+    "Hamilton",
+    "Headquarters",
+    "Kitchener",
+    "London",
+    "Meadowvale",
+    "Mississauga",
+    "Niagara Falls",
+    "Oshawa",
+    "Pickering",
+    "Richmond Hill",
+    "Scarborough",
+    "St. Thomas",
+    "Sudbury",
+    "Unionville",
+    "Willowdale",
+    "Windsor"
+  ]
+  
   @all_contact_methods [
     "phone",
     "email"
@@ -72,6 +103,10 @@ defmodule Volunteer.Legacy do
   ]
 
   defstruct Map.keys(@types) |> Enum.map(fn key -> {key, Map.get(@defaults, key, nil)} end)
+  
+  def all_jamatkhanas do
+    @all_jamatkhanas
+  end
 
   def apply(params) when is_map(params) do
     changeset =

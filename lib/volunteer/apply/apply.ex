@@ -16,7 +16,7 @@ defmodule Volunteer.Apply do
     |> Listing.create(attrs, created_by)
     |> Repo.insert()
   end
-
+  
   def edit_listing(%Listing{} = listing, attrs \\ %{}) do
     listing |> Listing.edit(attrs)
   end

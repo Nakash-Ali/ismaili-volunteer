@@ -7,7 +7,29 @@ use Mix.Config
 
 # General application configuration
 config :volunteer,
-  ecto_repos: [Volunteer.Repo]
+  ecto_repos: [Volunteer.Repo],
+  project_title: "OpportunitiesToServe",
+  contact_email: "hrontario@iicanada.net"
+  
+# Email related settings
+config :volunteer, VolunteerEmail,
+  from_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
+  
+# Configure legacy integration
+config :volunteer, Volunteer.Legacy,
+  submit_url: "http://0.0.0.0:4568/legacy/apply",
+  static_site: "http://0.0.0.0:4568",
+  redirect_next_path: "/legacy/thank_you",
+  redirect_error_path: "/legacy/error"
+  
+# Configure social constants
+config :volunteer, :social,
+  title: "OpportunitiesToServe",
+  description: "",
+  url: "https://ismailivolunteer.eightzerothree.co",
+  type: "website",
+  image: "",
+  facebook_app_id: ""
 
 # Configures the endpoint
 config :volunteer, VolunteerWeb.Endpoint,

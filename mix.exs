@@ -60,7 +60,9 @@ defmodule Volunteer.Mixfile do
       {:timex, "~> 3.1"},
       {:apex, "~>1.2.0"},
       {:canada, github: "jarednorman/canada"},
-      {:html_sanitize_ex, "~> 1.3.0-rc3"}
+      {:html_sanitize_ex, "~> 1.3.0-rc3"},
+      {:floki, "~> 0.20.0"},
+      {:slugger, "~> 0.2"},
     ]
   end
 

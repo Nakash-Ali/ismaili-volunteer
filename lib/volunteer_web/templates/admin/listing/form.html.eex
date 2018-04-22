@@ -10,8 +10,8 @@
 
   <%= render FormView, "text.html",
     form: form,
-    field: :title,
-    title: "Position",
+    field: :position_title,
+    title: "Position title",
     placeholder: "Musc Teacher"
   %>
 
@@ -34,6 +34,13 @@
     field: :group_id,
     choices: @group_id_choices,
     title: "Organizing group"
+  %>
+  
+  <%= render FormView, "select.html",
+    form: form,
+    field: :organized_by_id,
+    choices: @organized_by_id_choices,
+    title: "Organizing user"
   %>
 
   <%= render FormView, "text.html",
@@ -65,26 +72,28 @@
     title: "Hours per week"
   %>
 
-  <%= render FormView, "trix.html",
+  <%= render FormView, "textarea.html",
     form: form,
     field: :program_description,
     title: "About the program",
     placeholder: "SEED is a..."
   %>
 
-  <%= render FormView, "trix.html",
+  <%= render FormView, "textarea.html",
     form: form,
     field: :responsibilities,
     title: "Responsibilities",
     placeholder: "You will..."
   %>
 
-  <%= render FormView, "trix.html",
+  <%= render FormView, "textarea.html",
     form: form,
     field: :qualifications,
     title: "Qualifications of application",
     placeholder: "We're looking for..."
   %>
+  
+  <!-- TODO: Add field for vulnerable_sector_check -->
   
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

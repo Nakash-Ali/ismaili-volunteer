@@ -5,8 +5,20 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Infrastructure
   alias Volunteer.Permissions.Abilities
   alias VolunteerWeb.UtilsController
-  alias VolunteerWeb.Sanitize
+  alias VolunteerWeb.SanitizeInput
   import VolunteerWeb.Authorize
+  
+  @text_params [
+    "position_title",
+    "program_title",
+    "summary_line"
+  ]
+  
+  @textarea_params [
+    "program_description",
+    "qualifications",
+    "responsibilities",
+  ]
   
   # Authentication & Authorization
 
@@ -49,7 +61,8 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def create(conn, %{"listing" => listing_params}) do
     listing_params
-    |> Sanitize.params(["program_description", "qualifications", "responsibilities"])
+    |> SanitizeInput.text_params(@text_params)
+    |> SanitizeInput.textarea_params(@textarea_params)
     |> Apply.create_listing(Session.get_user(conn))
     |> case do
       {:ok, listing} ->
@@ -83,7 +96,8 @@ defmodule VolunteerWeb.Admin.ListingController do
     
     sanitized_params =
       listing_params
-      |> Sanitize.params(["program_description", "qualifications", "responsibilities"])
+      |> SanitizeInput.text_params(@text_params)
+      |> SanitizeInput.textarea_params(@textarea_params)
       
     case Apply.update_listing(listing, sanitized_params) do
       {:ok, listing} ->
@@ -142,7 +156,8 @@ defmodule VolunteerWeb.Admin.ListingController do
         [
           changeset: changeset,
           region_id_choices: get_region_id_choices(),
-          group_id_choices: get_group_id_choices()
+          group_id_choices: get_group_id_choices(),
+          organized_by_id_choices: get_user_id_choices()
         ]
     )
   end
@@ -153,5 +168,9 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   defp get_group_id_choices() do
     UtilsController.blank_select_choice() ++ Infrastructure.get_group_id_choices()
+  end
+  
+  defp get_user_id_choices() do
+    UtilsController.blank_select_choice() ++ Volunteer.Accounts.get_user_id_choices()
   end
 end

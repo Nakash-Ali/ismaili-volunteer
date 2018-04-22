@@ -9,6 +9,7 @@ defmodule VolunteerWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_current_user
+    plug VolunteerWeb.HTMLMinifier
   end
 
   pipeline :api do
@@ -19,6 +20,8 @@ defmodule VolunteerWeb.Router do
     pipe_through :api
 
     post "/apply", ApplyController, :apply
+    get "/thank_you", ApplyController, :thank_you
+    get "/error", ApplyController, :error
   end
 
   scope "/", VolunteerWeb do

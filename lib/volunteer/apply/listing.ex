@@ -86,7 +86,6 @@ defmodule Volunteer.Apply.Listing do
   def create(listing, attrs, %User{} = user) when listing == %Listing{} do
     new_attrs =
       attrs
-      |> Map.put("organized_by_id", user.id)
       |> Map.put("created_by_id", user.id)
 
     create(listing, new_attrs)
@@ -144,6 +143,8 @@ defmodule Volunteer.Apply.Listing do
 
   def common_changeset_funcs(changeset) do
     changeset
+    |> validate_length(:position_title, max: 140)
+    |> validate_length(:program_title, max: 140)
     |> validate_length(:summary_line, max: 140)
     |> foreign_key_constraint(:region_id)
     |> foreign_key_constraint(:group_id)
@@ -175,5 +176,29 @@ defmodule Volunteer.Apply.Listing do
       _ ->
         put_change(changeset, toggle_field, false)
     end
+  end
+  
+  def unqiue_title(%Listing{} = listing) do
+    "#{listing.id} #{title(listing)}"
+  end
+  
+  def title(%Listing{} = listing) do
+    "#{ listing.position_title }#{ title_suffix(listing) }"
+  end
+  
+  def title_suffix(%Listing{} = listing) do
+    case listing.program_title do
+      nil -> ""
+      _ -> " for #{listing.program_title}"
+    end
+  end
+end
+
+defimpl Slugify, for: Volunteer.Apply.Listing do   
+  def slugify(listing) do
+    listing
+    |> Volunteer.Apply.Listing.unqiue_title
+    |> String.downcase
+    |> Slugger.slugify
   end
 end

@@ -23,10 +23,6 @@ config :volunteer, VolunteerWeb.Endpoint,
   server: true,
   code_reloader: false
   
-# Configure static integration
-config :volunteer,
-  static_site: "https://ismailivolunteer.netlify.com"
-
 # Configure database
 config :volunteer, Volunteer.Repo,
   username: "${DB_USER}",

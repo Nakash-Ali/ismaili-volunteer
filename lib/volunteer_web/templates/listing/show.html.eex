@@ -1,15 +1,76 @@
-<h2>Show Listing</h2>
+<section class="container title mt-6 mb-6">
+	<h1 class="mb-1"><%= Meta.title_html(@listing) %></h1>
+	<ul class="mb-2 posted-expiry item-meta item-meta-underline list-inline font-family-sans-serif">
+		<li class="list-inline-item mb-0">Volunteer opportunity</li>
+		<li class="list-inline-item mb-0"><%= Meta.organizer_html(@listing) %></li>
+		<li class="list-inline-item mb-0">Listing expires on <em><%= Meta.format_expiry(@listing.expiry_date) %></em></li>
+	</ul>
+	<%= if @listing.approved do %>
+		<!-- <%= render("social_buttons.html", assigns) %> -->
+	<% else %>
+		<p class="mb-0 py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">This position has not yet been <strong>approved</strong> by the respective board or portfolio for public distribution.</p>
+	<% end %>
+</section>
+<section class="container content mb-6">
+	<div class="row">
+		<div class="col-lg-9 last-child-mb-0 item-meta-underline">
+			
+			<h4>About the Program</h4>
+			<%= textarea_content @listing.program_description %>
+			
+			<h4>About the Role</h4>
+			<%= textarea_content @listing.responsibilities %>
+			
+			<h4>About You</h4>
+			<%= textarea_content @listing.qualifications %>
+			<%= if @listing.vulnerable_sector_check == true do %>
+				<p><strong>Vulnerable Sector Check:</strong> As part of our institutions' ongoing efforts to ensure the safety and security of children and vulnerable members of the jamat, volunteers for this position may asked to provide a <em>Vulnerable Sector Check (VSC)</em>. If required, the program organizer will help you obtain one from your regional police. For more information, please contact the organizer.</p>
+			<% end %>
+			
+			<h4 class="mb-3">Time Commitment</h4>
+			<%= render "meta.html", listing: @listing %>
+			<!-- {{ with .Params.commitments }}
+				<p>Your commitment will include:</p>
+				<ul>
+					{{ range . }}
+						<li>{{ . }}</li>
+					{{ end }}
+				</ul>
+			{{ end }} -->
+			
+		</div>
+	</div>
+</section>
+<section class="container apply mb-8 d-print-none">
+	<div class="row">
+		<div class="col-lg-9">
+			<h2 class="mb-4">Apply</h2>
+			<noscript>
+				<p class="py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">To prevent spam, JavaScript is required to validate and submit this form. We're sorry for the inconvenience!</p>
+			</noscript>
+			<!-- <p class="font-family-sans-serif text-right required-label required-label-legend">Required</p> -->
+			<form data-form-marker class="font-family-sans-serif">
+				<%= render VolunteerWeb.Legacy.ListingView, "form.html" %>
 
-<ul>
+				<input type="hidden" readonly name="position" value="<%= @listing.position_title %>"/>
+				<input type="hidden" readonly name="program" value="<%= @listing.program_title %>"/>
+				<input type="hidden" readonly name="this" value="<%= listing_path(@conn, :show, @listing) %>"/>
 
-  <li>
-    <strong>Title:</strong>
-    <%= @listing.title %>
-  </li>
+				<!-- honeypot for bots - kinda unnecessary with captcha -->
+				<input type="text" name="botnectar" style="display:none;"/>
 
-  <li>
-    <strong>Organizer:</strong>
-    <%= Accounts.User.get_title(@listing.organized_by) %>
-  </li>
+				<div class="row">
+					<div class="offset-md-4 col-md-8">
+						<div class="mt-4">
+							<div class="g-recaptcha" data-size="normal" data-sitekey="6LfwojoUAAAAAJrvY69kP9MJCSvyvg-DakXkxh7X" data-callback="handleCaptchaSubmit"></div>
+						</div>
+						<div id="submit-container" class="mt-3">
+							<!-- subumit button gets injected here -->
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 
-</ul>
+	</div>
+</section>

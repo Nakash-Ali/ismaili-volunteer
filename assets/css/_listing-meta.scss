@@ -1,0 +1,37 @@
+@import "tufte";
+
+.item-meta {
+	color: $gray-600;
+	li {
+		margin-right: 0.4rem;
+		em {
+			color: $gray-600;
+			font-weight: 400;
+			font-style: normal;
+		}
+		i {
+			color: $primary-dark;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+		&:after {
+			content: '|';
+			color: $gray-300;
+			font-family: $font-family-serif;
+			font-weight: 100;
+			margin-left: 0.6rem;
+		}
+		&:last-child:after {
+			content: none;
+		}
+	}
+}
+
+.item-meta-underline {
+	li {
+		em {
+			@include tufte-underline($body-bg, $gray-600);
+		}
+	}
+}

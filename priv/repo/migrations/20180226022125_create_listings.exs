@@ -21,9 +21,9 @@ defmodule Volunteer.Repo.Migrations.CreateListings do
       add :end_date, :date, null: true
       add :hours_per_week, :integer, null: false
 
-      add :program_description, :string, null: false
-      add :responsibilities, :string, null: false
-      add :qualifications, :string, null: false
+      add :program_description, :text, null: false
+      add :responsibilities, :text, null: false
+      add :qualifications, :text, null: false
 
       add :tkn_eligible, :boolean, default: true, null: false
 

@@ -11,12 +11,7 @@ config :volunteer, VolunteerWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
-                    cd: Path.expand("../assets", __DIR__)]]
-
-# Configure static integration
-config :volunteer,
-  static_site: "http://localhost:1313"
+  watchers: []
 
 # ## SSL Support
 #

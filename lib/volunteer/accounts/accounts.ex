@@ -50,4 +50,9 @@ defmodule Volunteer.Accounts do
   def get_user!(id) do
     User |> Repo.get!(id)
   end
+  
+  def get_user_id_choices do
+    from(g in User, select: {g.title, g.id})
+    |> Repo.all()
+  end
 end

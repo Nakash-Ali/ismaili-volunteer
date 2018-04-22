@@ -4,6 +4,7 @@
   changeset: @changeset,
   action_path: admin_listing_path(@conn, :create),
   region_id_choices: @region_id_choices,
-  group_id_choices: @group_id_choices %>
+  group_id_choices: @group_id_choices,
+  organized_by_id_choices: @organized_by_id_choices %>
 
 <p><%= link "Back", to: admin_listing_path(@conn, :index) %></p>

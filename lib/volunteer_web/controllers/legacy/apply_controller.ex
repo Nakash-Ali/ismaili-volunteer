@@ -5,13 +5,22 @@ defmodule VolunteerWeb.Legacy.ApplyController do
   alias Volunteer.Legacy
   import VolunteerWeb.ErrorHelpers
 
-  @static_site Application.fetch_env!(:volunteer, :static_site)
-  @next "#{@static_site}/thankyou"
-  @error "#{@static_site}/error"
+  @env Application.fetch_env!(:volunteer, Volunteer.Legacy)
+  @static_site Keyword.fetch!(@env, :static_site)
+  @next @static_site <> Keyword.fetch!(@env, :redirect_next_path)
+  @error @static_site <> Keyword.fetch!(@env, :redirect_error_path)
 
-  plug :botnectar_protection
-  plug :rate_limit
-  plug :verify_captcha
+  def thank_you(conn, _params) do
+    render(conn, "thank_you.html")
+  end
+  
+  def error(conn, _params) do
+    render(conn, "error.html")
+  end
+
+  plug :botnectar_protection when action in [:apply]
+  plug :rate_limit when action in [:apply]
+  plug :verify_captcha when action in [:apply]
 
   def apply(conn, params) do
     case Legacy.apply(params) do

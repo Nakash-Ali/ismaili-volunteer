@@ -1,0 +1,8 @@
+<footer>
+	<div class="container p-3 font-family-sans-serif text-center">
+		<p class="small my-0">A project of His Highness Prince Aga Khan Shia Imami Ismaili Council for Ontario</p>
+		<div class="d-print-none content d-flex flex-column flex-nowrap justify-content-center align-items-center">
+			<p class="small my-0"><a href="mailto:<%= Application.fetch_env!(:volunteer, :contact_email) %>">Get in touch</a></p>
+		</div>
+	</div>
+</footer>

@@ -4,7 +4,8 @@ defmodule VolunteerEmail.Mailer do
   import Bamboo.Email, only: [new_email: 0, from: 2]
   import Bamboo.Phoenix, only: [put_html_layout: 2]
 
-  @from_email {"OpportunitiesToServe", "hrontario@iicanada.net"}
+  @env Application.fetch_env!(:volunteer, VolunteerEmail)
+  @from_email Keyword.fetch!(@env, :from_email)
 
   def new_default_email() do
     new_email()
