@@ -63,6 +63,7 @@ defmodule Volunteer.Mixfile do
       {:html_sanitize_ex, "~> 1.3.0-rc3"},
       {:floki, "~> 0.20.0"},
       {:slugger, "~> 0.2"},
+      {:appsignal, "~> 1.5"}
     ]
   end
 

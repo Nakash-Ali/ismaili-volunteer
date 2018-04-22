@@ -21,7 +21,8 @@ config :volunteer, VolunteerWeb.Endpoint,
   url: [host: "ismailivolunteer.eightzerothree.co", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
-  code_reloader: false
+  code_reloader: false,
+  instrumenters: [Appsignal.Phoenix.Instrumenter]
 
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
@@ -32,6 +33,7 @@ config :volunteer, Volunteer.Legacy,
   
 # Configure database
 config :volunteer, Volunteer.Repo,
+  loggers: [Appsignal.Ecto, Ecto.LogEntry],
   username: "${DB_USER}",
   password: "${DB_PASS}",
   database: "${DB_NAME}",
@@ -48,6 +50,11 @@ config :volunteer, VolunteerEmail.Mailer,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+# Configure template metrics  
+config :phoenix, :template_engines,
+  eex: Appsignal.Phoenix.Template.EExEngine,
+  exs: Appsignal.Phoenix.Template.ExsEngine
 
 # ## SSL Support
 #
@@ -90,3 +97,5 @@ config :phoenix, :serve_endpoints, true
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
+
+config :appsignal, :config, active: true
