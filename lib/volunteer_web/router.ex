@@ -3,8 +3,10 @@ defmodule VolunteerWeb.Router do
   import VolunteerWeb.Session.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
 
   pipeline :browser do
+    if Mix.env == :prod do
+      plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
+    end
     plug :accepts, ["html"]
-    plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
