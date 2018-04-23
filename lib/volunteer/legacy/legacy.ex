@@ -114,6 +114,7 @@ defmodule Volunteer.Legacy do
       |> Changeset.cast(params, Map.keys(@types))
       |> Changeset.validate_required(@required)
       |> Changeset.validate_format(:email, ~r/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
+      |> Changeset.validate_inclusion(:jamatkhana, @all_jamatkhanas)
       |> Changeset.validate_inclusion(:preferred_contact, @all_contact_methods)
       |> Changeset.validate_acceptance(:affirm)
 
