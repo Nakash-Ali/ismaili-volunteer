@@ -4,10 +4,10 @@ defmodule Volunteer.Mixfile do
   def project do
     [
       app: :volunteer,
-      version: "1.0.6",
-      elixir: "~> 1.4",
+      version: "1.1.0",
+      elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
       deps: deps()
@@ -23,19 +23,21 @@ defmodule Volunteer.Mixfile do
       extra_applications: [
         :crypto,
         :logger,
-        :runtime_tools,
+        :runtime_tools
       ]
     ]
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(:test), do: elixirc_paths() ++ ["test/support"]
+  defp elixirc_paths(:prod), do: elixirc_paths() ++ ["rel/tasks"]
+  defp elixirc_paths(_), do: elixirc_paths()
+  defp elixirc_paths(), do: ["lib"]
 
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
-  defp deps do
+  def deps do
     [
       {:phoenix, "~> 1.3"},
       {:phoenix_pubsub, "~> 1.0"},
@@ -45,7 +47,7 @@ defmodule Volunteer.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.13"},
       {:cowboy, "~> 1.0"},
-      {:edeliver, "~> 1.4"},
+      {:edeliver, "~> 1.4", only: [:dev, :test]},
       {:distillery, ">= 0.8.0"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
@@ -53,6 +55,15 @@ defmodule Volunteer.Mixfile do
       {:sentry, "~> 6.0.4"},
       {:hammer, "~> 2.1.0"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:ueberauth, "~> 0.4"},
+      {:ueberauth_microsoft, "~> 0.3"},
+      {:timex, "~> 3.1"},
+      {:apex, "~>1.2.0"},
+      {:canada, github: "jarednorman/canada"},
+      {:html_sanitize_ex, "~> 1.3.0-rc3"},
+      {:floki, "~> 0.20.0"},
+      {:slugger, "~> 0.2"},
+      {:appsignal, "~> 1.5"}
     ]
   end
 
@@ -66,7 +77,7 @@ defmodule Volunteer.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

@@ -1,0 +1,15 @@
+<div class="form-group">
+  <%= label @form, @field, @title, class: "control-label" %>
+  <%= select @form, @field, @choices, class: input_classes(@form, @field, ["form-control"]) %>
+  <%= error_tag @form, @field %>
+</div>
+<!-- <script>
+  new Choices("#<%= input_id(@form, @field) %>", {
+    duplicateItems: false,
+    delimiter: ',',
+    paste: false,
+    searchFields: ['value'],
+    placeholderValue: "Aga Khan Council for...",
+    searchPlaceholderValue: "Type something to search choices"
+  })
+</script> -->

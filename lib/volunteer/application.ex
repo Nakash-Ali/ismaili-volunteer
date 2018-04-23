@@ -11,7 +11,7 @@ defmodule Volunteer.Application do
       # Start the Ecto repository
       supervisor(Volunteer.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(VolunteerWeb.Endpoint, []),
+      supervisor(VolunteerWeb.Endpoint, [])
       # Start your own worker by calling: Volunteer.Worker.start_link(arg1, arg2, arg3)
       # worker(Volunteer.Worker, [arg1, arg2, arg3]),
     ]

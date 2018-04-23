@@ -1,5 +1,6 @@
 defmodule VolunteerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :volunteer
+  use Appsignal.Phoenix
 
   socket "/socket", VolunteerWeb.UserSocket
 
@@ -8,7 +9,9 @@ defmodule VolunteerWeb.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/static", from: :volunteer, gzip: false,
+    at: "/static",
+    from: :volunteer,
+    gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the

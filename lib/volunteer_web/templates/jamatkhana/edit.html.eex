@@ -1,5 +1,0 @@
-<h2>Edit Jamatkhana</h2>
-
-<%= render "form.html", Map.put(assigns, :action, jamatkhana_path(@conn, :update, @jamatkhana)) %>
-
-<span><%= link "Back", to: jamatkhana_path(@conn, :index) %></span>

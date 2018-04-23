@@ -7,7 +7,29 @@ use Mix.Config
 
 # General application configuration
 config :volunteer,
-  ecto_repos: [Volunteer.Repo]
+  ecto_repos: [Volunteer.Repo],
+  project_title: "OpportunitiesToServe",
+  contact_email: "hrontario@iicanada.net"
+  
+# Email related settings
+config :volunteer, VolunteerEmail,
+  from_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
+  
+# Configure legacy integration
+config :volunteer, Volunteer.Legacy,
+  submit_url: "http://0.0.0.0:4568/legacy/apply",
+  static_site: "http://0.0.0.0:4568",
+  redirect_next_path: "/legacy/thank_you",
+  redirect_error_path: "/legacy/error"
+  
+# Configure social constants
+config :volunteer, :social,
+  title: "OpportunitiesToServe",
+  description: "",
+  url: "https://ismailivolunteer.eightzerothree.co",
+  type: "website",
+  image: "",
+  facebook_app_id: ""
 
 # Configures the endpoint
 config :volunteer, VolunteerWeb.Endpoint,
@@ -20,6 +42,7 @@ config :volunteer, VolunteerWeb.Endpoint,
 
 # Configure your database
 config :volunteer, Volunteer.Repo,
+  migration_timestamps: [type: :timestamptz],
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
@@ -50,6 +73,12 @@ config :sentry,
   },
   included_environments: [:prod]
 
+# Configure Ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    microsoft: {Ueberauth.Strategy.Microsoft, [default_scope: "https://graph.microsoft.com/user.read"]},
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -64,3 +93,5 @@ config :recaptcha,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+import_config "appsignal.exs"

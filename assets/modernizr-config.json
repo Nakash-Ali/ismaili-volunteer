@@ -1,0 +1,15 @@
+{
+	"minify": false,
+	"options": [],
+	"feature-detects": [
+		"test/queryselector",
+		"test/css/animations",
+		"test/css/backgroundsizecover",
+		"test/css/borderradius",
+		"test/css/boxshadow",
+		"test/css/flexbox",
+		"test/css/flexwrap",
+		"test/css/mediaqueries",
+		"test/css/remunit"
+	]
+}

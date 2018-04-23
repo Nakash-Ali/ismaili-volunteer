@@ -1,0 +1,30 @@
+<div class="form-group">
+	<%= label @form, @field, @title, class: "control-label" %>
+	<%= text_input @form, @field, class: input_classes(@form, @field, ["form-control"]) %>
+	<%= error_tag @form, @field %>
+</div>
+<script>
+	(function() {
+		const errors = "<%= has_errors?(@form, @field) %>"
+		const containerOuterClasses = ["choices", "form-control"]
+		if (errors === "true") {
+			containerOuterClasses.push("is-invalid")
+		}
+		new Choices("#<%= input_id(@form, @field) %>", {
+			paste: false,
+			duplicateItems: false,
+			editItems: true,
+			classNames: { containerOuter: containerOuterClasses.join(" ") }
+		});
+	})()
+</script>
+<style>
+	.choices.form-control {
+		padding: 0;
+		overflow: hidden;
+		margin-bottom: 0;
+	}
+	.choices__inner {
+		border: none;
+	}
+</style>

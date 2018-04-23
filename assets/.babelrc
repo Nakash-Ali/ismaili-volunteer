@@ -1,5 +1,15 @@
 {
 	"presets": [
-		"env"
+		[
+			"env", {
+				"modules": false,
+				"targets": {
+					"browsers": ["last 5 versions", "> 1%"]
+				}
+	    }
+		]
+	],
+	"plugins": [
+		"external-helpers"
 	]
 }

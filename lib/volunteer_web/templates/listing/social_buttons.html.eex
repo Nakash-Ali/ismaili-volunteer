@@ -1,0 +1,37 @@
+<ul class="social list-inline d-print-none">
+	<li class="list-inline-item">
+		<a href="https://www.facebook.com/dialog/share?{{ querify "app_id" .Site.Params.facebookappid "display" "popup" "href" .Permalink | safeURL }}" onclick="{{ .Scratch.Get "social_popup_js" }}">
+			<i class="fa fa-facebook-square" aria-hidden="true"></i>
+		</a>
+	</li>
+	<li class="list-inline-item">
+		<a href="https://www.linkedin.com/shareArticle?{{ querify "mini" "true" "url" .Permalink "title" (.Scratch.Get "social_title") "summary" (.Scratch.Get "social_desc") "source" "" | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
+			<i class="fa fa-linkedin-square" aria-hidden="true"></i>
+		</a>
+	</li>
+	<li class="list-inline-item">
+		<a href="https://twitter.com/intent/tweet?{{ querify "url" .Permalink "text" (.Scratch.Get "social_title") | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
+			<i class="fa fa-twitter-square" aria-hidden="true"></i>
+		</a>
+	</li>
+	<li class="list-inline-item">
+		<a href="https://plus.google.com/share?{{ querify "url" .Permalink | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
+			<i class="fa fa-google-plus-square" aria-hidden="true"></i>
+		</a>
+	</li>
+	<li class="list-inline-item">
+		<a href="http://pinterest.com/pin/create/button/?{{ querify "url" .Permalink "media" (.Scratch.Get "social_img_url") "description" (.Scratch.Get "social_desc") | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
+			<i class="fa fa-pinterest-square" aria-hidden="true"></i>
+		</a>
+	</li>
+	<li class="list-inline-item">
+		<a href="mailto:?to=&body={{ .Permalink }}&subject={{ (.Scratch.Get "social_title") }}">
+			<i class="fa fa-envelope" aria-hidden="true"></i>
+		</a>
+	</li>
+	<li class="list-inline-item">
+		<a href="#" onclick="window.print(0); return false;">
+			<i class="fa fa-print" aria-hidden="true"></i>
+		</a>
+	</li>
+</ul>

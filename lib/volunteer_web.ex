@@ -23,13 +23,18 @@ defmodule VolunteerWeb do
       import Plug.Conn
       import VolunteerWeb.Router.Helpers
       import VolunteerWeb.Gettext
+      alias VolunteerWeb.Session
+
+      action_fallback VolunteerWeb.FallbackController
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/volunteer_web/templates",
-                        namespace: VolunteerWeb
+      use Phoenix.View,
+        root: "lib/volunteer_web/templates",
+        pattern: "**/*",
+        namespace: VolunteerWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
@@ -38,8 +43,11 @@ defmodule VolunteerWeb do
       use Phoenix.HTML
 
       import VolunteerWeb.Router.Helpers
+      import VolunteerWeb.StaticHelpers
       import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
+      alias VolunteerWeb.Session
+      alias VolunteerWeb.Authorize
     end
   end
 

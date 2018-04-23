@@ -1,0 +1,36 @@
+<div class="form-group">
+  <%= label @form, @field, @title, class: "control-label" %>
+  <div class="row align-items-center">
+    <div class="col">
+      <%= text_input @form, @field, value: input_value(@form, @field), type: "date", class: input_classes(@form, @field, ["form-control"]) %>
+      <%= error_tag @form, @field %>
+    </div>
+    <div class="col">
+      <div class="custom-control custom-checkbox">
+        <%= checkbox @form, @toggle, class: input_classes(@form, @field, ["form-check-input"]) %>
+        <%= label @form, @toggle, @toggle_label, class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function() {
+    var toggle = $("input#<%= input_id @form, @toggle %>")
+    var target = $("input#<%= input_id @form, @field %>")
+    
+    toggle.change(function(event) {
+      event.stopPropagation()
+      if (toggle.prop("checked") === true) {
+        target.val("")
+        target.prop("disabled", true)
+      } else if (toggle.prop("checked") === false) {
+        target.prop("disabled", false)
+      }
+    })
+    
+    if (toggle.prop("checked") === true) {
+      target.val("")
+      target.prop("disabled", true)
+    }
+  })()
+</script>

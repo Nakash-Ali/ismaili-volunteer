@@ -1,0 +1,127 @@
+/* Links: replicate underline that clears descenders */
+/* https://github.com/edwardtufte/tufte-css */
+
+@mixin tufte-anchor-underline($background-color, $underline-color, $underline-hover-color) {
+	a:link,
+	a:visited {
+		// color: inherit;
+	}
+
+	a:link {
+		text-decoration: none;
+		background: -webkit-linear-gradient($background-color, $background-color), -webkit-linear-gradient($background-color, $background-color), -webkit-linear-gradient($underline-color, $underline-color);
+		background: linear-gradient($background-color, $background-color), linear-gradient($background-color, $background-color), linear-gradient($underline-color, $underline-color);
+		-webkit-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+		-moz-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+		background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+		background-repeat: no-repeat, no-repeat, repeat-x;
+		text-shadow:
+			0.03em 0 $background-color,
+			-0.03em 0 $background-color,
+			0 0.03em $background-color,
+			0 -0.03em $background-color,
+			0.06em 0 $background-color,
+			-0.06em 0 $background-color,
+			0.09em 0 $background-color,
+			-0.09em 0 $background-color,
+			0.12em 0 $background-color,
+			-0.12em 0 $background-color,
+			0.15em 0 $background-color,
+			-0.15em 0 $background-color;
+		background-position: 0 93%, 100% 93%, 0 93%;
+	}
+	@media screen and (-webkit-min-device-pixel-ratio: 0) {
+		a:link {
+			background-position-y: 87%, 87%, 87%;
+		}
+	}
+
+	a:link::selection {
+		text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+		background: #b4d5fe;
+	}
+
+	a:link::-moz-selection {
+		text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+		background: #b4d5fe;
+	}
+
+	a:hover {
+		text-decoration: none;
+		background: -webkit-linear-gradient($background-color, $background-color), -webkit-linear-gradient($background-color, $background-color), -webkit-linear-gradient($underline-hover-color, $underline-hover-color);
+		background: linear-gradient($background-color, $background-color), linear-gradient($background-color, $background-color), linear-gradient($underline-hover-color, $underline-hover-color);
+		-webkit-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+		-moz-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+		background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+		background-repeat: no-repeat, no-repeat, repeat-x;
+		text-shadow:
+			0.03em 0 $background-color,
+			-0.03em 0 $background-color,
+			0 0.03em $background-color,
+			0 -0.03em $background-color,
+			0.06em 0 $background-color,
+			-0.06em 0 $background-color,
+			0.09em 0 $background-color,
+			-0.09em 0 $background-color,
+			0.12em 0 $background-color,
+			-0.12em 0 $background-color,
+			0.15em 0 $background-color,
+			-0.15em 0 $background-color;
+		background-position: 0 93%, 100% 93%, 0 93%;
+	}
+	@media screen and (-webkit-min-device-pixel-ratio: 0) {
+		a:hover {
+			background-position-y: 87%, 87%, 87%;
+		}
+	}
+
+	a:hover::selection {
+		text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+		background: #b4d5fe;
+	}
+
+	a:hover::-moz-selection {
+		text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+		background: #b4d5fe;
+	}
+}
+
+
+@mixin tufte-underline($background-color, $underline-color) {
+	text-decoration: none;
+	background: -webkit-linear-gradient($background-color, $background-color), -webkit-linear-gradient($background-color, $background-color), -webkit-linear-gradient($underline-color, $underline-color);
+	background: linear-gradient($background-color, $background-color), linear-gradient($background-color, $background-color), linear-gradient($underline-color, $underline-color);
+	-webkit-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+	-moz-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+	background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+	background-repeat: no-repeat, no-repeat, repeat-x;
+	text-shadow:
+		0.03em 0 $background-color,
+		-0.03em 0 $background-color,
+		0 0.03em $background-color,
+		0 -0.03em $background-color,
+		0.06em 0 $background-color,
+		-0.06em 0 $background-color,
+		0.09em 0 $background-color,
+		-0.09em 0 $background-color,
+		0.12em 0 $background-color,
+		-0.12em 0 $background-color,
+		0.15em 0 $background-color,
+		-0.15em 0 $background-color;
+	background-position: 0 93%, 100% 93%, 0 93%;
+	@media screen and (-webkit-min-device-pixel-ratio: 0) {
+		& {
+			background-position-y: 87%, 87%, 87%;
+		}
+	}
+
+	&::selection {
+		text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+		background: #b4d5fe;
+	}
+
+	&::-moz-selection {
+		text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+		background: #b4d5fe;
+	}
+}

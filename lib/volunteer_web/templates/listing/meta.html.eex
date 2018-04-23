@@ -1,0 +1,25 @@
+<ul class="item-meta list-inline font-family-sans-serif">
+	<!-- {{ with .Params.proqualifications }}
+		{{ if . }}
+			<li class="list-inline-item"><i class="fa fa-certificate mr-2" aria-hidden="true"></i><em>Professional qualifications</em> required</li>
+		{{ end }}
+	{{ end }} -->
+
+  <%= if @listing.hours_per_week != nil do %>
+    <li class="list-inline-item"><i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+      <em><%= @listing.hours_per_week %> <%= Meta.hours_per_week_label(@listing.hours_per_week) %></em>
+    </li>
+  <% end %>
+  
+  <li class="list-inline-item"><i class="fa fa-calendar mr-2" aria-hidden="true"></i>
+    <%= Meta.start_date_and_end_date_html(@listing.start_date, @listing.end_date) %>
+  </li>
+  
+	<!-- {{ with .Params.weeksduration }}
+		<li class="list-inline-item"><i class="fa fa-hourglass-half mr-2" aria-hidden="true"></i><em>{{ . }} week</em> program</li>
+	{{ end }}
+
+	{{ with .Params.totalhours }}
+		<li class="list-inline-item"><i class="fa fa-check-square mr-2" aria-hidden="true"></i><em>{{ if eq . 1 }}{{ . }} hour{{ else }}{{ . }} hours{{ end }}</em> in total</li>
+	{{ end }} -->
+</ul>

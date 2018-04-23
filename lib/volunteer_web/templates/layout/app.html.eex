@@ -1,35 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
 
-    <title>Hello Volunteer!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-  </head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+	<!-- <meta name="description" content="{{ .Site.Params.description }}"> -->
+	<!-- <meta name="author" content=""> -->
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+	<!-- <link rel="icon" type="image/png" href="/favicon.png" />
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+	<title><%= PageTitle.render(assigns) %></title>
 
-    </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-  </body>
+	<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Spectral:300i" rel="stylesheet">
+	<link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+
+	<%= render_or_fallback("head_extra", assigns) %>
+
+	<%= SocialTags.render(assigns) %>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+	<%= render "old_browsers.html" %>
+
+	<%= render_or_fallback("body_header", assigns) %>
+
+	<%= render_or_fallback("body_main", assigns) %>
+
+	<%= render_or_fallback("body_footer", assigns) %>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/3.21.0/raven.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		Raven.config('https://8130b93bc1e74deab16568c276e3134e@sentry.io/253594').install()
+	</script>
+
+	<script src="<%= static_path(@conn, "/js/modernizr.js") %>"></script>
+	<script src="<%= static_path(@conn, "/js/old_browsers.js") %>"></script>
+	<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+	<%= render_or_fallback("body_extra", assigns) %>
+
+	<script type="text/javascript">
+		window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+		ga('create','UA-110560509-1','auto');ga('send','pageview')
+	</script>
+	<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+</body>
 </html>

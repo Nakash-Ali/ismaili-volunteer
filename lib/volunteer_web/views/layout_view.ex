@@ -1,3 +1,12 @@
 defmodule VolunteerWeb.LayoutView do
   use VolunteerWeb, :view
+  alias Volunteer.Accounts
+  alias VolunteerWeb.PageTitle
+  alias VolunteerWeb.SocialTags
+  
+  def render_or_fallback(prefix, assigns) do
+    %{view_module: view_module, view_template: view_template} = assigns
+    render_existing(view_module, prefix <> "." <> view_template, assigns) ||
+  		render(prefix <> ".html", assigns)
+  end
 end

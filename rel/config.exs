@@ -15,6 +15,8 @@ use Mix.Releases.Config,
 # For a full list of config options for both releases
 # and environments, visit https://hexdocs.pm/distillery/configuration.html
 
+secret_key_generator =
+  fn length -> :crypto.strong_rand_bytes(length) |> Base.encode64 |> binary_part(0, length) end
 
 # You may define one or more environments in this file,
 # an environment's settings will override those of a release
@@ -30,13 +32,15 @@ environment :dev do
   # dev mode.
   set dev_mode: true
   set include_erts: false
-  set cookie: :"FZ6D0|sG=Y|WN1xdOZx^:DKkkC|yFs[?hzOhO=f(35tN!KUfa~&@`@}uMQYye{j{"
+  set cookie: secret_key_generator.(64) |> String.to_atom
 end
 
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: :"4P_d:8@SVJ,c,,P:MtUrM03^bc6PLbK_t>AZ.>,{<7?M!dz:|2|?DM8|zPF(%fx>"
+  set cookie: secret_key_generator.(64) |> String.to_atom
+  
+  set pre_start_hooks: "rel/hooks/pre_start"
 end
 
 # You may define one or more releases in this file.
@@ -50,4 +54,3 @@ release :volunteer do
     :runtime_tools
   ]
 end
-

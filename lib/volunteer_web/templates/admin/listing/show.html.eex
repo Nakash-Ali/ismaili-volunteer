@@ -1,0 +1,37 @@
+<h2>Show Listing</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @listing.position_title %>
+  </li>
+
+  <li>
+    <strong>Organizer:</strong>
+    <%= Accounts.User.get_title(@listing.organized_by) %>
+  </li>
+  
+  <li>
+    <span><%= link "Edit", to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-default btn-xs" %></span>
+    <span><%= link "Delete", to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+    
+    <%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
+      <%= if Authorize.is_allowed?(@conn, :admin, :unapprove, @listing) do %>
+        <span><%= link "Un-Approve", to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-warning btn-xs" %></span>
+      <% end %>
+    <% else %>
+      <%= if Authorize.is_allowed?(@conn, :admin, :approve, @listing) do %>
+        <span><%= link "Approve", to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-success btn-xs" %></span>
+      <% end %>
+    <% end %>
+  </li>
+
+</ul>
+
+<div>
+	<code><%= inspect(@listing) %></code>
+</div>
+
+<span><%= link "Edit", to: admin_listing_path(@conn, :edit, @listing) %></span>
+<span><%= link "All listings", to: admin_listing_path(@conn, :index) %></span>

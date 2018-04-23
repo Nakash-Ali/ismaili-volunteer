@@ -2,7 +2,7 @@
 
 <p>You've just received an application from <%= @data.name %>. The full details are below.</p>
 
-<p>Please use this email thread for any internal conversations regarding the applicant, including those with the OpportunitiesToServe team. <em>This thread should not be shared with the applicant.</em></p>
+<p>Please use this email thread for any internal conversations regarding the applicant, including those with the <%= Application.fetch_env!(:volunteer, :project_title) %> team. <em>This thread should not be shared with the applicant.</em></p>
 
 <p>
   <table>
@@ -43,4 +43,4 @@
 </p>
 
 <p>Best Regards,<br>
-OpportunitiesToServe</p>
+<%= Application.fetch_env!(:volunteer, :project_title) %></p>
