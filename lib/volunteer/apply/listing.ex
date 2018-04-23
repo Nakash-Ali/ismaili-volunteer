@@ -18,7 +18,7 @@ defmodule Volunteer.Apply.Listing do
     belongs_to :approved_by, User, on_replace: :nilify
 
     field :position_title, :string
-    field :program_title, :string
+    field :program_title, :string, default: ""
     field :summary_line, :string
     belongs_to :region, Region
     belongs_to :group, Group
@@ -36,10 +36,12 @@ defmodule Volunteer.Apply.Listing do
     field :responsibilities, :string
     field :qualifications, :string
     field :vulnerable_sector_check, :boolean, default: false
+    
+    field :cc_emails, :string, default: ""
 
     has_one :tkn_listing, TKNListing
 
-    # TODO: CC'ed users
+    # TODO: CC'ed users (properly)
     # TODO: other attached users
 
     timestamps()
@@ -63,6 +65,7 @@ defmodule Volunteer.Apply.Listing do
     :responsibilities,
     :qualifications,
     :vulnerable_sector_check,
+    :cc_emails,
   ]
 
   @attributes_required_always [
@@ -152,6 +155,7 @@ defmodule Volunteer.Apply.Listing do
     |> foreign_key_constraint(:organized_by_id)
     |> manage_date_with_toggle(:start_date, :start_date_toggle)
     |> manage_date_with_toggle(:end_date, :end_date_toggle)
+    |> manage_cc_emails_field
     |> unapprove
   end
 
@@ -178,6 +182,28 @@ defmodule Volunteer.Apply.Listing do
     end
   end
   
+  # TODO: remove this once CC has been properly implemented
+  def manage_cc_emails_field(changeset) do
+    field = :cc_emails
+    regex = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+    case get_field(changeset, field) do
+      "" ->
+        changeset
+      raw_emails ->
+        raw_emails
+        |> String.split(",")
+        |> Enum.map(&String.trim/1)
+        |> Enum.reduce(changeset, fn email, changeset ->
+          case Regex.match?(regex, email) do
+            false ->
+              add_error(changeset, field, "#{email} is not a valid email")
+            true ->
+              changeset
+          end
+        end)
+    end
+  end
+  
   def unqiue_title(%Listing{} = listing) do
     "#{listing.id} #{title(listing)}"
   end
@@ -188,7 +214,7 @@ defmodule Volunteer.Apply.Listing do
   
   def title_suffix(%Listing{} = listing) do
     case listing.program_title do
-      nil -> ""
+      "" -> ""
       _ -> " for #{listing.program_title}"
     end
   end

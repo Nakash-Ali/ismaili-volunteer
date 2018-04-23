@@ -8,9 +8,9 @@ defmodule Volunteer.Infrastructure.Address do
     field :code, :string
     field :country, :string
     field :line_1, :string
-    field :line_2, :string
-    field :line_3, :string
-    field :line_4, :string
+    field :line_2, :string, default: ""
+    field :line_3, :string, default: ""
+    field :line_4, :string, default: ""
 
     timestamps()
   end

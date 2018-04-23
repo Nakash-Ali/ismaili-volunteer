@@ -11,7 +11,7 @@ defmodule Volunteer.Accounts.User do
     field :sur_name, :string
 
     field :primary_email, :string
-    field :primary_phone, :string
+    field :primary_phone, :string, default: ""
 
     has_many :identities, Identity
     has_many :roles, Role

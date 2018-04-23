@@ -29,5 +29,9 @@
 
 </ul>
 
+<div>
+	<code><%= inspect(@listing) %></code>
+</div>
+
 <span><%= link "Edit", to: admin_listing_path(@conn, :edit, @listing) %></span>
 <span><%= link "All listings", to: admin_listing_path(@conn, :index) %></span>

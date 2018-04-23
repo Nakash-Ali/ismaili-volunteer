@@ -52,7 +52,7 @@
 			<form data-form-marker class="font-family-sans-serif">
 				<%= render VolunteerWeb.Legacy.ListingView, "form.html" %>
 				
-				<input type="hidden" name="_csrf_token" value="<%= Plug.Conn.get_session(@conn, :csrf_token) %>">
+				<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token %>">
 
 				<input type="hidden" readonly name="position" value="<%= @listing.position_title %>"/>
 				<input type="hidden" readonly name="program" value="<%= @listing.program_title %>"/>

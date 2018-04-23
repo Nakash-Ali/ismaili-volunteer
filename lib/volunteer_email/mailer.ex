@@ -16,4 +16,33 @@ defmodule VolunteerEmail.Mailer do
   def from_email() do
     @from_email
   end
+  
+  def update_seen_emails(filtered_pairs, seen_emails) do
+    filtered_pairs
+    |> Enum.map(fn pair -> {pair, true} end)
+    |> Enum.into(%{})
+    |> Map.merge(seen_emails)
+  end
+  
+  def filter_emails(nil, seen_emails) do
+    {nil, seen_emails}
+  end
+  
+  def filter_emails(pairs_to_filter, seen_emails) do
+    filtered_pairs =
+      pairs_to_filter
+      |> Enum.uniq
+      |> Enum.filter(fn pair -> seen_emails[pair] == nil end)
+    {filtered_pairs, update_seen_emails(filtered_pairs, seen_emails)}
+  end
+  
+  def ensure_unique_addresses(email) do
+    with seen_emails <- update_seen_emails([email.to], %{}),
+      {filtered_cc, seen_emails} <- filter_emails(email.cc, seen_emails),
+      {filtered_bcc, seen_emails} <- filter_emails(email.bcc, seen_emails),
+    do:
+      email
+      |> Map.put(:cc, filtered_cc)
+      |> Map.put(:bcc, filtered_bcc)
+  end
 end

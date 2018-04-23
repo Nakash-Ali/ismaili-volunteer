@@ -163,6 +163,7 @@ defmodule Volunteer.Legacy do
       |> to({data.name, data.email})
       |> cc([Mailer.from_email(), {data.organizer, data.organizer_email} | data.cc])
       |> subject(construct_subject(data))
+      |> Mailer.ensure_unique_addresses
 
     render_email(VolunteerEmail.LegacyView, email, :external_for_new_application, data: data)
   end
@@ -173,6 +174,7 @@ defmodule Volunteer.Legacy do
       |> to({data.organizer, data.organizer_email})
       |> cc([Mailer.from_email() | data.cc])
       |> subject("INTERNAL - #{construct_subject(data)}")
+      |> Mailer.ensure_unique_addresses
 
     render_email(VolunteerEmail.LegacyView, email, :internal_for_new_application, data: data)
   end

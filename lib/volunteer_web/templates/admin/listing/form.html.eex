@@ -21,6 +21,13 @@
     title: "Program title",
     placeholder: "SEED"
   %>
+  
+  <%= render FormView, "text.html",
+    form: form,
+    field: :summary_line,
+    title: "Summary",
+    placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents"
+  %>
 
   <%= render FormView, "select.html",
     form: form,
@@ -42,12 +49,11 @@
     choices: @organized_by_id_choices,
     title: "Organizing user"
   %>
-
-  <%= render FormView, "text.html",
-    form: form,
-    field: :summary_line,
-    title: "Summary",
-    placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents"
+  
+  <%= render FormView, "multiple_text.html",
+	form: form,
+	field: :cc_emails,
+	title: "CC'ed emails on new application notification"
   %>
 
   <%= render FormView, "date_with_toggler.html",

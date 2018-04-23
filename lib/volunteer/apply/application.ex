@@ -9,8 +9,8 @@ defmodule Volunteer.Apply.Application do
     field :preferred_contact, :string
     field :confirm_availability, :boolean, default: false
 
-    field :additional_info, :string
-    field :hear_about, :string
+    field :additional_info, :string, default: ""
+    field :hear_about, :string, default: ""
 
     belongs_to :listing, Listing
     belongs_to :user, User
