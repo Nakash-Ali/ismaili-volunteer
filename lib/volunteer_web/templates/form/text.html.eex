@@ -1,5 +1,7 @@
 <div class="form-group">
   <%= label @form, @field, @title, class: "control-label" %>
-  <%= text_input @form, @field, class: input_classes(@form, @field, ["form-control"]), placeholder: @placeholder %>
+  <%= text_input @form, @field,
+  	[class: input_classes(@form, @field, ["form-control"]), placeholder: @placeholder]
+	++ Map.get(assigns, :input_opts, []) %>
   <%= error_tag @form, @field %>
 </div>

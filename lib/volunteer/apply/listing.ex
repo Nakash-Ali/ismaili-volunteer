@@ -185,22 +185,30 @@ defmodule Volunteer.Apply.Listing do
   # TODO: remove this once CC has been properly implemented
   def manage_cc_emails_field(changeset) do
     field = :cc_emails
-    regex = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+    re = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
     case get_field(changeset, field) do
       "" ->
         changeset
       raw_emails ->
-        raw_emails
-        |> String.split(",")
-        |> Enum.map(&String.trim/1)
-        |> Enum.reduce(changeset, fn email, changeset ->
-          case Regex.match?(regex, email) do
-            false ->
-              add_error(changeset, field, "#{email} is not a valid email")
-            true ->
-              changeset
-          end
-        end)
+        parsed_emails =
+          raw_emails
+          |> String.split(",")
+          |> Enum.map(&String.trim/1)
+        changeset =
+          Enum.reduce(parsed_emails, changeset, fn email, changeset ->
+            case Regex.match?(re, email) do
+              nil ->
+                add_error(changeset, field, "#{email} is not a valid email")
+              true ->
+                changeset
+            end
+          end)
+        case Keyword.get(changeset.errors, field) do
+          nil ->
+            put_change(changeset, field, Enum.join(parsed_emails, ","))
+          _ ->
+            changeset
+        end
     end
   end
   

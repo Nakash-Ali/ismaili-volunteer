@@ -17,6 +17,7 @@ defmodule VolunteerWeb.SanitizeInput do
   def textarea(input) do
     input
     |> HtmlSanitizeEx.basic_html
+    |> collapse_linebreaks
   end
   
   defp params(input_params, [], _sanitizer) do
@@ -38,5 +39,10 @@ defmodule VolunteerWeb.SanitizeInput do
   
   def collapse_whitespace(text) do
     Regex.replace(~r/\s+/, text, " ")
+  end
+  
+  def collapse_linebreaks(html) do
+    ~r/^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/
+    |> Regex.replace(html, "")
   end
 end

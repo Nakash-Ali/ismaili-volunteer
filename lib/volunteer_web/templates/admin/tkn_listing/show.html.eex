@@ -4,7 +4,7 @@
 
   <li>
     <strong>Title:</strong>
-    <%= @listing.title %>
+    <%= @listing.position_title %>
   </li>
 
   <li>

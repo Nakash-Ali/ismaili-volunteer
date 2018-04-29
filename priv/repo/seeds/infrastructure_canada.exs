@@ -42,8 +42,9 @@ ontario =
 
 # Groups
 
-council_canada =
-  do_create_group.(1, "Council for Canada", canada)
+do_create_group.(1, "Council for Canada", canada)
 
-council_ontario =
-  do_create_group.(2, "Council for Ontario", ontario)
+do_create_group.(2, "Council for Ontario", ontario)
+do_create_group.(3, "Aga Khan Education Board for Ontario", ontario)
+do_create_group.(4, "Aga Khan Health Board for Ontario", ontario)
+do_create_group.(5, "ITREB Ontario", ontario)

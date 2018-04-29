@@ -50,10 +50,15 @@
     title: "Organizing user"
   %>
   
-  <%= render FormView, "multiple_text.html",
+  <%= render FormView, "text.html",
 	form: form,
 	field: :cc_emails,
-	title: "CC'ed emails on new application notification"
+	title: "CC'ed emails (when a new application is received)",
+	placeholder: "some_person@gmail.com, another_person@hotmail.com",
+	input_opts: [
+		type: :email,
+		multiple: "true"
+	]
   %>
 
   <%= render FormView, "date_with_toggler.html",
