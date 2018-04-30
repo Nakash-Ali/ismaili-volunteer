@@ -4,7 +4,6 @@ defmodule Volunteer.Apply do
   alias Volunteer.Repo
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
-  alias Volunteer.Apply.Application
   alias Volunteer.Accounts
 
   def new_listing do
@@ -103,8 +102,17 @@ defmodule Volunteer.Apply do
     tkn_listing |> Repo.delete()
   end
   
-  def get_tkn_listing_for_listing(id) do
+  def get_tkn_listing_for_listing_query(id) do
     from(l in TKNListing, where: l.listing_id == ^id)
+  end
+  
+  def get_tkn_listing_for_listing(id) do
+    get_tkn_listing_for_listing_query(id)
     |> Repo.one()
+  end
+  
+  def get_tkn_listing_for_listing!(id) do
+    get_tkn_listing_for_listing_query(id)
+    |> Repo.one!()
   end
 end

@@ -3,10 +3,9 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias Volunteer.Infrastructure
-  alias Volunteer.Permissions.Abilities
   alias VolunteerWeb.UtilsController
   alias VolunteerWeb.SanitizeInput
-  import VolunteerWeb.Authorize
+  alias VolunteerWeb.Authorize
   
   @text_params [
     "position_title",
@@ -20,31 +19,34 @@ defmodule VolunteerWeb.Admin.ListingController do
     "responsibilities",
   ]
   
-  # Authentication & Authorization
+  # Plugs
 
-  plug :validate_permissions_and_assign_resource,
-    abilities: Abilities.Admin,
-    schema: Apply.Listing,
-    loader: &__MODULE__.load_resource/2,
-    assign_to: :listing
+  plug :load_listing
+    when action in [:show, :edit, :update, :approve, :unapprove]
 
-  def load_resource(action, %{"id" => id}) when action in [:show, :edit, :update] do
-    id |> Apply.get_listing!() |> Apply.preload_listing_all()
+  def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
+    listing =
+      id
+      |> Apply.get_listing!()
+      |> preload_relations(action_name(conn))
+    Plug.Conn.assign(conn, :listing, listing)
   end
   
-  def load_resource(action, %{"id" => id}) when action in [:approve, :unapprove] do
-    id |> Apply.get_listing!() |> Repo.preload([:approved_by])
+  def preload_relations(listing, action) when action in [:show, :edit, :update] do
+    listing |> Apply.preload_listing_all()
   end
   
-  def load_resource(_action, _params) do
-    nil
+  def preload_relations(listing, action) when action in [:approve, :unapprove] do
+    listing |> Repo.preload([:approved_by])
   end
   
   # Controller Actions
 
   def index(conn, _params) do
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :index])
+    
     listings =
-      case is_allowed?(conn, :admin, :index_all, Apply.Listing) do
+      case Authorize.is_allowed?(conn, [:admin, :listing, :index_all]) do
         true ->
           Apply.get_all_listings()
 
@@ -56,10 +58,13 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   def new(conn, _params) do
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :create])
     render_form(conn, Apply.new_listing())
   end
 
   def create(conn, %{"listing" => listing_params}) do
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :create])
+    
     listing_params
     |> SanitizeInput.text_params(@text_params)
     |> SanitizeInput.textarea_params(@textarea_params)
@@ -77,11 +82,14 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :show], listing)
     render(conn, "show.html", listing: listing)
   end
 
   def edit(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
+    
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :update], listing)
 
     render_form(
       conn,
@@ -93,6 +101,8 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def update(conn, %{"listing" => listing_params}) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
+    
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :update], listing)
     
     sanitized_params =
       listing_params
@@ -120,6 +130,9 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def delete(conn, %{"id" => id}) do
     listing = Apply.get_listing!(id)
+    
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+    
     {:ok, _listing} = Apply.delete_listing(listing)
 
     conn
@@ -129,6 +142,8 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   defp toggle_approval(conn, _params, action) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
+    
+    Authorize.ensure_allowed!(conn, [:admin, :listing, action], listing)
 
     toggled_listing =
       case action do

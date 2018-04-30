@@ -1,37 +1,32 @@
 defmodule VolunteerWeb.Admin.TKNListingController do
   use VolunteerWeb, :controller
   alias Volunteer.Apply
-  alias Volunteer.Permissions.Abilities
-  import VolunteerWeb.Authorize
+  alias VolunteerWeb.Authorize
   
-  # Authentication & Authorization
+  # Plugs
 
-  plug :validate_permissions_and_assign_resource,
-    abilities: Abilities.Admin,
-    schema: Apply.Listing,
-    loader: &__MODULE__.load_listing_resource/2,
-    assign_to: :listing
-  
-  plug :assign_tkn_listing_or_redirect_to_correct_id
+  plug :load_listing  
+  plug :authorize
+  plug :load_tkn_listing_or_redirect_to_correct_id
     when action in [:show, :edit, :update, :delete]
     
-  def load_listing_resource(_action, %{"listing_id" => id}) do
-    IO.puts "loading listing resource"
-    Apply.get_listing!(id)
+  def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
+    listing = Apply.get_listing!(id)
+    Plug.Conn.assign(conn, :listing, listing)
   end
   
-  defp assign_tkn_listing_or_redirect_to_correct_id(conn, _) do
+  def authorize(conn, _opts) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
+  end
+  
+  defp load_tkn_listing_or_redirect_to_correct_id(conn, _) do
     %Plug.Conn{params: %{"listing_id" => listing_id, "id" => id}} = conn
     action = Phoenix.Controller.action_name(conn)
     case Apply.get_tkn_listing(id) do
       nil ->
-        case Apply.get_tkn_listing_for_listing(listing_id) do
-          nil ->
-            raise Ecto.NoResultsError, queryable: TKNListing
-          tkn_listing ->
-            conn
-            |> redirect(to: admin_listing_tkn_listing_path(conn, action, listing_id, tkn_listing))
-        end
+        tkn_listing = Apply.get_tkn_listing_for_listing!(listing_id)
+        redirect(conn, to: admin_listing_tkn_listing_path(conn, action, listing_id, tkn_listing))
       tkn_listing ->
         conn
         |> assign(:tkn_listing, tkn_listing)
@@ -40,10 +35,10 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   
   # Controller Actions
   
-  def index(conn, %{"listing_id" => id}) do
+  def index(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     
-    case Apply.get_tkn_listing_for_listing(id) do
+    case Apply.get_tkn_listing_for_listing(listing.id) do
       nil ->
         render(
           conn,
@@ -79,7 +74,6 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
     case Apply.get_tkn_listing_for_listing(listing.id) do
       nil ->
-        IO.puts "no tkn_listing found, showing creation form"
         tkn_listing_params
         |> Apply.create_tkn_listing(listing)
         |> case do
@@ -95,7 +89,6 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         end
 
       tkn_listing ->
-        IO.puts "tkn_listing found, cannot show creation form, redirecting to edit page"
         conn
         |> put_flash(:error, "Cannot create again, TKN data already exists! Try editing?")
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing, tkn_listing))

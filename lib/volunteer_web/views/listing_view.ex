@@ -1,5 +1,4 @@
 defmodule VolunteerWeb.ListingView do
-  alias Volunteer.Accounts
   alias Volunteer.Apply
   
   defmodule Meta do
@@ -65,15 +64,15 @@ defmodule VolunteerWeb.ListingView do
       listing.summary_line
     end
     
-    def image_src(%Apply.Listing{} = listing) do
+    def image_src(%Apply.Listing{} = _listing) do
       nil
     end
     
-    def image_src_size(%Apply.Listing{} = listing) do
+    def image_src_size(%Apply.Listing{} = _listing) do
       {"", ""}
     end
     
-    def image_abs_url(%Plug.Conn{} = conn, %Apply.Listing{} = listing) do
+    def image_abs_url(%Plug.Conn{} = conn, %Apply.Listing{} = _listing) do
       static_url(conn, "/")
     end
     

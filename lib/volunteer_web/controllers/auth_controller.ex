@@ -2,7 +2,6 @@ defmodule VolunteerWeb.AuthController do
   use VolunteerWeb, :controller
   alias VolunteerWeb.Session
   alias VolunteerWeb.Router
-  alias Ueberauth.Strategy.Helpers
 
   plug Ueberauth
 

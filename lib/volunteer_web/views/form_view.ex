@@ -5,7 +5,7 @@ defmodule VolunteerWeb.FormView do
     form.source.action != nil
   end
 
-  defp input_classes(form, field, others \\ []) do
+  defp input_classes(form, field, others) do
     is_submitted?(form)
     |> input_classes_for_state(form, field)
     |> Enum.concat(others)

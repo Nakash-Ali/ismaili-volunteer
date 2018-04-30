@@ -39,7 +39,7 @@ defmodule VolunteerEmail.Mailer do
   def ensure_unique_addresses(email) do
     with seen_emails <- update_seen_emails([email.to], %{}),
       {filtered_cc, seen_emails} <- filter_emails(email.cc, seen_emails),
-      {filtered_bcc, seen_emails} <- filter_emails(email.bcc, seen_emails),
+      {filtered_bcc, _seen_emails} <- filter_emails(email.bcc, seen_emails),
     do:
       email
       |> Map.put(:cc, filtered_cc)
