@@ -1,7 +1,7 @@
 defmodule VolunteerWeb.IndexView do
   use VolunteerWeb, :view
   alias VolunteerWeb.LayoutView
-  alias VolunteerWeb.ListingView
+  alias VolunteerWeb.Presenters.Title
   
   def render("head_extra.index.html", %{conn: conn}) do
     [

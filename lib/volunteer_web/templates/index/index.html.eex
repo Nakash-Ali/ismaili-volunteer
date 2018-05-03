@@ -71,7 +71,7 @@
 	<ul class="listing list-unstyled mb-0">
     <%= for listing <- @listings do %>
       <li class="listing-item mt-4">
-        <h5 class="item-title mb-0"><a href="<%= listing_path(@conn, :show, listing) %>"><%= ListingView.Meta.title_html(listing) %></a></h5>
+        <h5 class="item-title mb-0"><a href="<%= listing_path(@conn, :show, listing) %>"><%= Title.html(listing) %></a></h5>
         <%= render ListingView, "meta.html", listing: listing %>
         <p class="mt-0 mb-0"><%= listing.summary_line %></p>
       </li>

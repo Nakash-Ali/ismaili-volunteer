@@ -1,5 +1,6 @@
 defmodule VolunteerWeb.Legacy.ListingView do
   use VolunteerWeb, :view
+  alias VolunteerWeb.Presenters.Title
   
   @env Application.fetch_env!(:volunteer, Volunteer.Legacy)
   
@@ -11,7 +12,7 @@ defmodule VolunteerWeb.Legacy.ListingView do
     %{
       approved: listing.approved,
       cc: listing.cc_emails |> String.split(","),
-      organizer: listing.organized_by.title,
+      organizer: Title.text(listing.organized_by),
       organizer_email: listing.organized_by.primary_email,
       basename: Slugify.slugify(listing)
     }

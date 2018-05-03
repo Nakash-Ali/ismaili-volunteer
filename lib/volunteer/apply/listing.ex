@@ -211,28 +211,4 @@ defmodule Volunteer.Apply.Listing do
         end
     end
   end
-  
-  def unqiue_title(%Listing{} = listing) do
-    "#{listing.id} #{title(listing)}"
-  end
-  
-  def title(%Listing{} = listing) do
-    "#{ listing.position_title }#{ title_suffix(listing) }"
-  end
-  
-  def title_suffix(%Listing{} = listing) do
-    case listing.program_title do
-      "" -> ""
-      _ -> " for #{listing.program_title}"
-    end
-  end
-end
-
-defimpl Slugify, for: Volunteer.Apply.Listing do   
-  def slugify(listing) do
-    listing
-    |> Volunteer.Apply.Listing.unqiue_title
-    |> String.downcase
-    |> Slugger.slugify
-  end
 end

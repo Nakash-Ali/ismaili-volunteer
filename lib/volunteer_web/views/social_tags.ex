@@ -1,7 +1,5 @@
 defmodule VolunteerWeb.SocialTags do
   
-  # TODO: turn this into a protocl that each view can implement
-  
   def render(assigns) do
     base_tags(assigns)
     |> Map.merge(page_tags(assigns))
@@ -24,12 +22,52 @@ defmodule VolunteerWeb.SocialTags do
     }
   end
   
-  defp page_tags(%{ view_module: view_module } = assigns) do
-    case Kernel.function_exported?(view_module, :social_tags, 1) do
-      true ->
-        view_module.social_tags(assigns)
-      false ->
-        %{}
-    end
+  def popup_js() do
+    "window.open(this.href, '_blank', 'left=100,top=100,width=900,height=600,menubar=no,toolbar=no,resizable=yes,scrollbars=yes'); return false;"
+  end
+  
+  def page_tags(%{view_module: VolunteerWeb.ListingView, view_template: "show.html"} = assigns) do
+    %{conn: conn, listing: listing} = assigns
+    {width, height} = VolunteerWeb.Presenters.Social.image_src_size(listing)
+    %{
+      "og:title" => VolunteerWeb.Presenters.Social.title(listing),
+      "og:description" => VolunteerWeb.Presenters.Social.description(listing),
+      "og:url" => VolunteerWeb.Presenters.Social.url(listing, conn),
+      "og:type" => VolunteerWeb.Presenters.Social.type(listing),
+      "og:image" => VolunteerWeb.Presenters.Social.image_abs_url(listing, conn),
+      "og:image:width" => width,
+      "og:image:height" => height,
+    }
+  end
+  
+  def page_tags(_, _) do
+    %{}
   end
 end
+
+# defprotocol VolunteerWeb.SocialTags.View do
+#   def tags(view_module, assigns)
+# end
+# 
+# defimpl VolunteerWeb.SocialTags.View, for: Any do
+#   def tags(_view_module, _assigns) do
+#     %{}
+#   end
+# end
+# 
+# defimpl VolunteerWeb.SocialTags.View, for: VolunteerWeb.ListingView do
+#   alias VolunteerWeb.Presenters.Social
+# 
+#   def tags(_view_module, %{conn: conn, view_template: "show.html", listing: listing}) do
+#     {width, height} = Social.image_src_size(listing)
+#     %{
+#       "og:title" => Social.title(listing),
+#       "og:description" => Social.description(listing),
+#       "og:url" => Social.url(listing, conn),
+#       "og:type" => Social.type(listing),
+#       "og:image" => Social.image_abs_url(listing, conn),
+#       "og:image:width" => width,
+#       "og:image:height" => height,
+#     }
+#   end
+# end

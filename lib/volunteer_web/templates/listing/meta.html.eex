@@ -7,12 +7,12 @@
 
   <%= if @listing.hours_per_week != nil do %>
     <li class="list-inline-item"><i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-      <em><%= @listing.hours_per_week %> <%= Meta.hours_per_week_label(@listing.hours_per_week) %></em>
+      <em><%= @listing.hours_per_week %> <%= hours_per_week_label(@listing.hours_per_week) %></em>
     </li>
   <% end %>
   
   <li class="list-inline-item"><i class="fa fa-calendar mr-2" aria-hidden="true"></i>
-    <%= Meta.start_date_and_end_date_html(@listing.start_date, @listing.end_date) %>
+    <%= start_date_and_end_date_html(@listing.start_date, @listing.end_date) %>
   </li>
   
 	<!-- {{ with .Params.weeksduration }}

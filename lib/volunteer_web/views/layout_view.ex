@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.LayoutView do
   use VolunteerWeb, :view
-  alias Volunteer.Accounts
   alias VolunteerWeb.PageTitle
   alias VolunteerWeb.SocialTags
   

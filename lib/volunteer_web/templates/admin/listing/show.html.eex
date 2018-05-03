@@ -9,7 +9,7 @@
 
   <li>
     <strong>Organizer:</strong>
-    <%= Accounts.User.get_title(@listing.organized_by) %>
+    <%= VolunteerWeb.Presenters.Title.text(@listing.organized_by) %>
   </li>
   
   <li>
