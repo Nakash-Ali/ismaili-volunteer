@@ -1,5 +1,0 @@
-- name: include global vars
-  include_vars:
-    file: global_vars.yaml
-  tags:
-    - global_vars

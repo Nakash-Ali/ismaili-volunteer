@@ -1,5 +1,0 @@
-- name: restart server after 10 seconds
-  command: /sbin/shutdown -r -t 10
-  async: 0
-  poll: 0
-  ignore_errors: true

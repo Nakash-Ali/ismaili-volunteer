@@ -1,8 +1,0 @@
-- name: generate correct locale
-  locale_gen:
-    name: en_CA.UTF-8
-    state: present
-
-- name: set locale
-  command: localectl set-locale LANG=en_CA.UTF-8
-  changed_when: False
