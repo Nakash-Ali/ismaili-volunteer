@@ -1,37 +1,41 @@
-<h2>Show Listing</h2>
+<%= CommonView.sub_title do %>
+	<%= render "sub_title_meta.html", assigns %>
+	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-3">
+		<li class="nav-item">
+			<%= link "Info", to: admin_listing_path(@conn, :show, @listing), class: "px-4 nav-link active" %>
+		</li>
+		<li class="nav-item">
+			<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
+		</li>
+		<li class="nav-item">
+			<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
+		</li>
+	</ul>
+<% end %>
 
-<ul>
+<section class="container">
+	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
+		<div class="btn-group mr-2" role="group">
+			<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+		</div>
+		<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
+			<div class="btn-group mr-2" role="group">
+				<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
+					<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+				<% else %>
+					<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
+				<% end %>
+			</div>
+		<% end %>
+		<div class="btn-group" role="group">
+			<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+		</div>
+	</div>
+</section>
 
-  <li>
-    <strong>Title:</strong>
-    <%= @listing.position_title %>
-  </li>
-
-  <li>
-    <strong>Organizer:</strong>
-    <%= VolunteerWeb.Presenters.Title.text(@listing.organized_by) %>
-  </li>
-  
-  <li>
-    <span><%= link "Edit", to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-default btn-xs" %></span>
-    <span><%= link "Delete", to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-    
-    <%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
-      <%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
-        <span><%= link "Un-Approve", to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-warning btn-xs" %></span>
-      <% end %>
-    <% else %>
-      <%= if Authorize.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
-        <span><%= link "Approve", to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-success btn-xs" %></span>
-      <% end %>
-    <% end %>
-  </li>
-
-</ul>
-
-<div>
-	<code><%= inspect(@listing) %></code>
-</div>
-
-<span><%= link "Edit", to: admin_listing_path(@conn, :edit, @listing) %></span>
-<span><%= link "All listings", to: admin_listing_path(@conn, :index) %></span>
+<section class="container my-5">
+	<span><%= link "All listings", to: admin_listing_path(@conn, :index) %></span>
+	<div>
+		<code><%= inspect(@listing) %></code>
+	</div>
+</section>

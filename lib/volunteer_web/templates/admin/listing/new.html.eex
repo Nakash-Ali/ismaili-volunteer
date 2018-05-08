@@ -1,10 +1,13 @@
-<h2>New Listing</h2>
+<%= CommonView.sub_title do %>
+	<h4 class="mb-4">Create a New Listing</h4>
+<% end %>
 
-<%= render "form.html",
-  changeset: @changeset,
-  action_path: admin_listing_path(@conn, :create),
-  region_id_choices: @region_id_choices,
-  group_id_choices: @group_id_choices,
-  organized_by_id_choices: @organized_by_id_choices %>
-
-<p><%= link "Back", to: admin_listing_path(@conn, :index) %></p>
+<section class="container my-5">
+	<%= render "form.html",
+	  changeset: @changeset,
+	  action_path: admin_listing_path(@conn, :create),
+	  back_path: admin_listing_path(@conn, :index),
+	  region_id_choices: @region_id_choices,
+	  group_id_choices: @group_id_choices,
+	  organized_by_id_choices: @organized_by_id_choices %>
+</section>

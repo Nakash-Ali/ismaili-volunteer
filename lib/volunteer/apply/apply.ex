@@ -42,10 +42,6 @@ defmodule Volunteer.Apply do
     |> Repo.update!()
   end
 
-  def preload_listing_all(%Listing{} = listing) do
-    listing |> Repo.preload([:created_by, :approved_by, :region, :group, :organized_by])
-  end
-
   def get_all_listings do
     from(l in Listing)
     |> Repo.all()
@@ -65,9 +61,26 @@ defmodule Volunteer.Apply do
     Listing |> Repo.get!(id)
   end
 
-  def get_listing_if_approved!(id) do
-    from(l in Listing, where: l.id == ^id and l.approved == true)
+  def get_active_listing!(id) do
+    from(l in Listing, where: l.id == ^id)
+    |> query_approved_listing
+    |> query_not_expired_listing
     |> Repo.one!()
+  end
+  
+  def get_preview_listing!(id) do
+    from(l in Listing, where: l.id == ^id)
+    |> query_not_expired_listing
+    |> Repo.one!()
+  end
+  
+  def query_approved_listing(query) do
+    from(l in query, where: l.approved == true)
+  end
+  
+  def query_not_expired_listing(query) do
+    current_time = DateTime.utc_now()
+    from(l in query, where: l.expiry_date >= ^current_time)
   end
 
   def new_tkn_listing() do
@@ -102,17 +115,17 @@ defmodule Volunteer.Apply do
     tkn_listing |> Repo.delete()
   end
   
-  def get_tkn_listing_for_listing_query(id) do
+  def query_tkn_listing_for_listing(id) do
     from(l in TKNListing, where: l.listing_id == ^id)
   end
   
   def get_tkn_listing_for_listing(id) do
-    get_tkn_listing_for_listing_query(id)
+    query_tkn_listing_for_listing(id)
     |> Repo.one()
   end
   
   def get_tkn_listing_for_listing!(id) do
-    get_tkn_listing_for_listing_query(id)
+    query_tkn_listing_for_listing(id)
     |> Repo.one!()
   end
 end

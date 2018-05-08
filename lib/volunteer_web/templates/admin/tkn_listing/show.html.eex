@@ -1,26 +1,25 @@
-<h2>Show TKN Listing</h2>
+<%= CommonView.sub_title do %>
+	<%= render ListingView, "sub_title_meta.html", assigns %>
+	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-3">
+		<li class="nav-item">
+			<%= link "Info", to: admin_listing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
+		</li>
+		<li class="nav-item">
+			<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, @listing), class: "px-4 nav-link active" %>
+		</li>
+		<li class="nav-item">
+			<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
+		</li>
+	</ul>
+<% end %>
 
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @listing.position_title %>
-  </li>
-
-  <li>
-    <strong>TKN Listing:</strong>
-    <%= @tkn_listing.position_industry %>
-  </li>
-  
-  <li>
-    <span><%= link "Listing", to: admin_listing_path(@conn, :show, @listing), class: "btn btn-default btn-xs" %></span>
-  </li>
-  
-  <li>
-    <span><%= link "Edit", to: admin_listing_tkn_listing_path(@conn, :edit, @listing, @tkn_listing), class: "btn btn-default btn-xs" %></span>
-  </li>
-  
-  <li>
-    <span><%= link "Delete", to: admin_listing_tkn_listing_path(@conn, :delete, @listing, @tkn_listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-  </li>
-</ul>
+<section class="container">
+	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
+		<div class="btn-group mr-2" role="group">
+			<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_tkn_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+		</div>
+		<div class="btn-group" role="group">
+			<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_tkn_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+		</div>
+	</div>
+</section>

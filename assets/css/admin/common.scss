@@ -1,0 +1,15 @@
+@import "../base";
+@import "../listing-meta";
+
+header {
+	background: #F7F7F7;
+}
+
+section.title {
+	background: #F7F7F7;
+	border-bottom: 1px solid $nav-tabs-border-color;
+}
+
+section.title .nav-tabs {
+	margin-bottom: -1px;	
+}

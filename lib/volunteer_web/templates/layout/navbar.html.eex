@@ -1,5 +1,6 @@
 <ul class="navbar-nav ml-auto font-family-sans-serif d-print-none">
-	<li class="nav-item">
+	<%= Navbar.render(assigns) %>
+	<!-- <li class="nav-item">
 		<a class="nav-link" href="https://iicanada.org">IICanada.org</a>
 	</li>
   <%= if Session.logged_in?(@conn) do %>
@@ -13,5 +14,5 @@
     <li class="nav-item">
       <a class="nav-link" href="<%= auth_path(@conn, :login) %>">Login</a>
     </li>
-  <% end %>
+  <% end %> -->
 </ul>

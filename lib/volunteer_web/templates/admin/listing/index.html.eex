@@ -1,28 +1,41 @@
-!!! NEEDS WORK !!!
-
-<h2>Listings</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Parent path</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for listing <- @listings do %>
-    <tr>
-      <td><%= listing.position_title %></td>
-
-      <td class="text-right">
-        <span><%= link "Show", to: admin_listing_path(@conn, :show, listing), class: "btn btn-default btn-xs" %></span>
-        
-      </td>
-    </tr>
+<%= CommonView.sub_title do %>
+	<h4 class="mb-4">Listings</h4>
 <% end %>
-  </tbody>
-</table>
 
-<span><%= link "New Listing", to: admin_listing_path(@conn, :new) %></span>
+<section class="container">
+	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
+		<div class="btn-group" role="group">
+			<%= link {:safe, "<i class=\"far fa-plus mr-1\" aria-hidden=\"true\"></i> Create"}, to: admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
+		</div>
+	</div>
+</section>
+
+<section class="container my-5">
+	<%= for listing <- @listings do %>
+		<div class="my-4">
+			<div class="d-flex flex-row flex-wrap align-items-center">
+				<h6 class="m-0"><%= Title.html(listing) %></h6>
+				<%= if Volunteer.Apply.Listing.is_approved?(listing) do %>
+					<p class="ml-3 m-0 font-family-sans-serif text-success">This listing is live!</p>
+				<% else %>
+					<p class="ml-3 m-0 font-family-sans-serif text-warning">This listing has not been approved</p>
+				<% end %>
+			</div>
+			<ul class="item-meta list-inline font-family-sans-serif mb-0">
+				<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
+				<li class="list-inline-item">Listing expires on <em><%= PublicListingView.format_expiry(listing.expiry_date) %></em></li>
+			</ul>
+			<ul class="item-meta list-inline font-family-sans-serif mb-0">
+				<li class="list-inline-item">
+					<%= link "Info", to: admin_listing_path(@conn, :show, listing) %>
+				</li>
+				<li class="list-inline-item">
+					<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, listing) %>
+				</li>
+				<li class="list-inline-item">
+					<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, listing) %>
+				</li>
+			</ul>
+		</div>
+	<% end %>
+</section>

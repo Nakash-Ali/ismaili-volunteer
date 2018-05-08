@@ -52,7 +52,9 @@
 			<form data-form-marker class="font-family-sans-serif">
 				<%= render VolunteerWeb.Legacy.ListingView, "form.html" %>
 				
-				<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token %>">
+				<%= if @listing.approved do %>
+					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token %>">
+				<% end %>
 
 				<input type="hidden" readonly name="position" value="<%= @listing.position_title %>"/>
 				<input type="hidden" readonly name="program" value="<%= @listing.program_title %>"/>
@@ -63,12 +65,18 @@
 
 				<div class="row">
 					<div class="offset-md-4 col-md-8">
-						<div class="mt-4">
-							<div class="g-recaptcha" data-size="normal" data-sitekey="6LfwojoUAAAAAJrvY69kP9MJCSvyvg-DakXkxh7X" data-callback="handleCaptchaSubmit"></div>
-						</div>
-						<div id="submit-container" class="mt-3">
-							<!-- subumit button gets injected here -->
-						</div>
+						<%= if @listing.approved do %>
+							<div class="mt-4">
+								<div class="g-recaptcha" data-size="normal" data-sitekey="6LfwojoUAAAAAJrvY69kP9MJCSvyvg-DakXkxh7X" data-callback="handleCaptchaSubmit"></div>
+							</div>
+							<div id="submit-container" class="mt-3">
+								<!-- subumit button gets injected here -->
+							</div>
+						<% else %>
+							<div class="mt-4">
+								<p class="mb-0 py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">Cannot submit un-approved listings.</p>
+							</div>
+						<% end %>
 					</div>
 				</div>
 			</form>

@@ -27,7 +27,13 @@ defmodule VolunteerWeb.Router do
     pipe_through :browser
 
     get "/", IndexController, :index
-    resources "/listings", ListingController, only: [:show]
+    
+    resources "/listings", ListingController, only: [:show] do
+      get "/social_image", ListingSocialImageController, :show
+    end
+  
+    get "/listings/preview/index/:id", ListingPreviewController, :index
+    get "/listings/preview/show/:id", ListingPreviewController, :show
 
     scope "/auth" do
       get "/login", AuthController, :login
@@ -43,7 +49,8 @@ defmodule VolunteerWeb.Router do
       get "/", IndexController, :index
 
       resources "/listings", ListingController do
-        resources "/tkn_listing", TKNListingController
+        resources "/tkn_listing", TKNListingController, singleton: true
+        resources "/request_marketing", RequestMarketingController, singleton: true, only: [:show, :new, :create]
       end
 
       post "/listings/:id/approve", ListingController, :approve

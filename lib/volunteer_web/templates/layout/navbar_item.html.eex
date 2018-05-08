@@ -1,0 +1,9 @@
+<%= if @item_href == nil do %>
+  <li class="nav-item">
+	<span class="nav-link"><%= @item_text %></span>
+  </li>
+<% else %>
+	<li class="nav-item">
+	  <a class="nav-link" href="<%= @item_href %>"><%= @item_text %></a>
+	</li>
+<% end %>

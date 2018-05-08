@@ -31,7 +31,7 @@ defmodule Volunteer.Permissions.Abilities do
           %User{id: user_id},
           [:admin, :listing, action | _],
           %Listing{created_by_id: user_id}
-        ) when action in [:show, :update, :delete, :tkn_listing] do
+        ) when action in [:show, :update, :delete, :tkn_listing, :request_marketing] do
       true
     end
     
@@ -39,7 +39,7 @@ defmodule Volunteer.Permissions.Abilities do
           %User{id: user_id},
           [:admin, :listing, action | _],
           %Listing{organized_by_id: user_id}
-        ) when action in [:show, :update, :delete, :tkn_listing] do
+        ) when action in [:show, :update, :delete, :tkn_listing, :request_marketing] do
       true
     end
   end

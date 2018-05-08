@@ -1,7 +1,7 @@
 <%= form_for @changeset, @action_path, fn form -> %>
   <%= if @changeset.action do %>
-     <div class="alert alert-danger">
-       <p>Oops, something went wrong! Please check the errors below.</p>
+     <div class="alert alert-danger my-4">
+       <p class="mb-0">Oops, something went wrong! Please check the errors below.</p>
      </div>
   <% end %>
 
@@ -26,7 +26,8 @@
     placeholder: "Non-profit"
   %>
   
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+  <div class="font-family-sans-serif orm-group mt-4 text-right">
+	  <%= link  {:safe, "<i class=\"far fa-times mr-2\" aria-hidden=\"true\"></i> Discard Changes"}, to: @back_path, class: "btn btn-outline-warning mr-3" %>
+	  <%= submit {:safe, "<i class=\"far fa-check mr-2\" aria-hidden=\"true\"></i> Submit"}, class: "btn btn-primary px-4" %>
   </div>
 <% end %>

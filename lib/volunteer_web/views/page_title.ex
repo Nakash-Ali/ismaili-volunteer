@@ -32,7 +32,7 @@ defmodule VolunteerWeb.PageTitle do
     "Thank you!"
   end
   
-  def title(_, _) do
+  def title(_) do
     []
   end
 end

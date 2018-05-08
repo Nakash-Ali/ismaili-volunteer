@@ -1,6 +1,0 @@
-!!! NEEDS WORK !!!
-
-<h2>TKN Listings</h2>
-
-<p>This hasn't been enabled!</p>
-<p><%= link "Enable the TKN module!", to: admin_listing_tkn_listing_path(@conn, :new, @listing), class: "btn btn-default btn-xs" %></p>

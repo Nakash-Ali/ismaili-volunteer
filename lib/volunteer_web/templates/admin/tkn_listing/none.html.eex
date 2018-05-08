@@ -1,0 +1,25 @@
+<%= CommonView.sub_title do %>
+	<%= render ListingView, "sub_title_meta.html", assigns %>
+	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-3">
+		<li class="nav-item">
+			<%= link "Info", to: admin_listing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
+		</li>
+		<li class="nav-item">
+			<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, @listing), class: "px-4 nav-link active" %>
+		</li>
+		<li class="nav-item">
+			<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
+		</li>
+	</ul>
+<% end %>
+
+<section class="container text-center my-5">
+	<div class="row justify-content-center">
+		<div class="col-sm-6">
+			<p>You have not saved any TKN information for this listing.<br>To use TKN features, such as automatically generating a TKN Assigment Specification, we need some more information!</p>
+			<div class="font-family-sans-serif mt-4">
+				<%= link {:safe, "<i class=\"far fa-plus mr-1\" aria-hidden=\"true\"></i> Add TKN information"}, to: admin_listing_tkn_listing_path(@conn, :new, @listing), class: "btn btn-outline-primary" %>
+			</div>
+		</div>
+	</div>
+</section>

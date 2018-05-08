@@ -81,6 +81,10 @@ defmodule Volunteer.Apply.Listing do
     :responsibilities,
     :qualifications
   ]
+  
+  def preloadables() do
+    [:created_by, :approved_by, :region, :group, :organized_by]
+  end
 
   def new() do
     create(%Listing{}, %{})

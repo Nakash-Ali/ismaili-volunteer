@@ -1,10 +1,18 @@
 defmodule VolunteerWeb.HTMLMinifier do
   def init(opts \\ []), do: opts
+  
+  def call(conn, opts \\ [])
 
-  def call %Plug.Conn{} = conn, _ \\ [] do
+  if Mix.env == :dev do
+    def call(%Plug.Conn{params: %{"minify" => "false"}} = conn, _opts) do
+      conn
+    end
+  end
+  
+  def call(%Plug.Conn{} = conn, _opts) do
     Plug.Conn.register_before_send(conn, &minify_body/1)
   end
-
+    
   def minify_body(%Plug.Conn{} = conn) do
     case List.keyfind(conn.resp_headers, "content-type", 0) do
       {_, "text/html" <> _} ->

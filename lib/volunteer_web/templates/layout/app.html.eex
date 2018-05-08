@@ -27,12 +27,16 @@
 <body>
 
 	<%= render "old_browsers.html" %>
+	
+	<div class="wrapper d-flex flex-column flex-nowrap">
 
 	<%= render_or_fallback("body_header", assigns) %>
 
 	<%= render_or_fallback("body_main", assigns) %>
 
 	<%= render_or_fallback("body_footer", assigns) %>
+	
+	</div>
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/3.21.0/raven.min.js" crossorigin="anonymous"></script>
 	<script type="text/javascript">
@@ -44,12 +48,8 @@
 	<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
 	<%= render_or_fallback("body_extra", assigns) %>
-
-	<script type="text/javascript">
-		window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-		ga('create','UA-110560509-1','auto');ga('send','pageview')
-	</script>
-	<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+	
+	<%= render_or_fallback("analytics", assigns) %>
 
 </body>
 </html>

@@ -1,10 +1,18 @@
-<h2>Edit Listing</h2>
+<%= CommonView.sub_title do %>
+	<h4 class="mb-2">Edit <%= Title.html(@listing) %></h4>
+	<ul class="item-meta list-inline font-family-sans-serif mb-4">
+		<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
+			<li class="list-inline-item text-danger">Saving any changes will un-approve the listing!</li>
+		<% end %>
+	</ul>
+<% end %>
 
-<%= render "form.html",
-  changeset: @changeset,
-  action_path: admin_listing_path(@conn, :update, @listing),
-  region_id_choices: @region_id_choices,
-  group_id_choices: @group_id_choices,
-  organized_by_id_choices: @organized_by_id_choices %>
-
-<p><%= link "Back", to: admin_listing_path(@conn, :index) %></p>
+<section class="container my-5">
+	<%= render "form.html",
+	  changeset: @changeset,
+	  action_path: admin_listing_path(@conn, :update, @listing),
+	  back_path: admin_listing_path(@conn, :show, @listing),
+	  region_id_choices: @region_id_choices,
+	  group_id_choices: @group_id_choices,
+	  organized_by_id_choices: @organized_by_id_choices %>
+</section>

@@ -33,7 +33,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
   
   def preload_relations(listing, action) when action in [:show, :edit, :update] do
-    listing |> Apply.preload_listing_all()
+    listing |> Repo.preload(Apply.Listing.preloadables())
   end
   
   def preload_relations(listing, action) when action in [:approve, :unapprove] do
@@ -53,6 +53,7 @@ defmodule VolunteerWeb.Admin.ListingController do
         false ->
           Apply.get_all_listings_for_user(Session.get_user(conn))
       end
+      |> Repo.preload([:group, :organized_by])
 
     render(conn, "index.html", listings: listings)
   end

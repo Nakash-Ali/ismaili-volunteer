@@ -1,0 +1,9 @@
+$fa-font-path:                "/static/fonts";
+$fa-font-size-base:           16px;
+$fa-border-color:             #eee;
+$fa-inverse:                  #fff;
+$fa-li-width:                 2em;
+
+@import "@fortawesome/fontawesome-pro-webfonts/scss/_variables.scss";
+@import "@fortawesome/fontawesome-pro-webfonts/scss/fontawesome.scss";
+@import "@fortawesome/fontawesome-pro-webfonts/scss/fa-regular.scss";

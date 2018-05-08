@@ -1,0 +1,13 @@
+<h2>Request an announcement</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @listing.position_title %>
+  </li>
+  
+  <li>
+    <span><%= link "Create", to: admin_listing_request_marketing_path(@conn, :new, @listing), class: "btn btn-default btn-xs" %></span>
+  </li>
+</ul>

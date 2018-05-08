@@ -2,24 +2,8 @@
 @import "base";
 
 // Dependencies
-@import "bootstrap/scss/root";
-@import "bootstrap/scss/print";
-@import "bootstrap/scss/reboot";
-@import "bootstrap/scss/type";
-@import "bootstrap/scss/images";
-@import "bootstrap/scss/code";
-@import "bootstrap/scss/grid";
-@import "bootstrap/scss/tables";
-@import "bootstrap/scss/forms";
-@import "bootstrap/scss/buttons";
-@import "bootstrap/scss/custom-forms";
-@import "bootstrap/scss/input-group";
-@import "bootstrap/scss/navbar";
-@import "bootstrap/scss/card";
-@import "bootstrap/scss/jumbotron";
-@import "bootstrap/scss/media";
-@import "bootstrap/scss/utilities";
-@import "font-awesome/css/font-awesome";
+@import "fontawesome";
+@import "bootstrap/scss/bootstrap";
 
 // Other files
 @import "convenience";
@@ -30,6 +14,16 @@ html {
 	font-variant-ligatures: common-ligatures contextual;
     font-feature-settings: "liga", "clig", "calt", "kern";
     font-kerning: normal;
+}
+
+html,
+body,
+body > div.wrapper {
+	min-height: 100%;
+}
+
+main {
+	flex: 1 0 auto;
 }
 
 header {
@@ -55,6 +49,7 @@ footer {
 	border-top: 1px solid $gray-200;
 	font-family: $font-family-serif;
 	color: $gray-700;
+	flex-shrink: 0;
 }
 
 a {

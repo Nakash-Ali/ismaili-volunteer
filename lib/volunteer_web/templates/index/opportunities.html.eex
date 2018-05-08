@@ -1,0 +1,31 @@
+<section id="opportunities" class="container listing-section my-9">
+	<div class="d-flex flex-row flex-nowrap justify-content-between align-items-center mb-5">
+		<h2 class="section-title mb-0">Volunteer opportunities</h2>
+		<h4 class="listings-number mb-0 ml-3"><%= length(@listings) %></h4>
+	</div>
+	<ul class="listing list-unstyled mb-0">
+    <%= for listing <- @listings do %>
+      <li class="listing-item mt-4">
+        <h5 class="item-title mb-0"><a href="<%= listing_path(@conn, :show, listing) %>"><%= Title.html(listing) %></a></h5>
+        <%= render ListingView, "meta.html", listing: listing %>
+        <p class="mt-0 mb-0"><%= listing.summary_line %></p>
+      </li>
+    <% end %>
+	</ul>
+	<div class="row">
+		<div class="col-md-8">
+			<%= if length(@listings) > 0 do %>
+				<div class="found-none mt-5">
+					<h5 class="mb-2">Didn't find anything?</h5>
+					<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up!</p>
+				</div>
+			<% else %>
+				<div class="found-none">
+					<h5 class="mb-2">Oops! It seems like there are no openings right now.</h5>
+					<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up!</p>
+				</div>
+			<% end %>
+		</div>
+	</div>
+	<div class="pb-9"></div>
+</section>

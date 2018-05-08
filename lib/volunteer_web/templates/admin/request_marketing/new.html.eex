@@ -1,0 +1,7 @@
+<h2>New TKN Listing</h2>
+
+<%= inspect @listing %>
+
+<%= render "form.html",
+  changeset: @changeset,
+  action_path: admin_listing_request_marketing_path(@conn, :create, @listing) %>

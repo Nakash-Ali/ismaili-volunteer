@@ -40,7 +40,7 @@ defmodule VolunteerWeb.SocialTags do
     }
   end
   
-  def page_tags(_, _) do
+  def page_tags(_) do
     %{}
   end
 end

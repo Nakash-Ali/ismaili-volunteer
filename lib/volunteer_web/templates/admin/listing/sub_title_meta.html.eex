@@ -1,0 +1,20 @@
+<h4 class="mb-1"><%= Title.html(@listing) %></h4>
+<ul class="item-meta list-inline font-family-sans-serif mb-0">
+	<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
+		<li class="list-inline-item text-success">This listing is live!</li>
+	<% else %>
+		<li class="list-inline-item text-warning">This listing has not been approved</li>
+	<% end %>
+</ul>
+<ul class="item-meta list-inline font-family-sans-serif mb-0">
+	<li class="list-inline-item"><%= PublicListingView.organizer_html(@listing) %></li>
+	<li class="list-inline-item">Listing expires on <em><%= PublicListingView.format_expiry(@listing.expiry_date) %></em></li>
+</ul>
+<ul class="item-meta list-inline font-family-sans-serif mb-0">
+	<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
+		<li class="list-inline-item">View <%= link "public listing", to: listing_path(@conn, :show, @listing), target: "_blank" %></li>
+	<% else %>
+		<li class="list-inline-item">Preview <%= link "public listing", to: listing_preview_path(@conn, :show, @listing), target: "_blank" %></li>
+		<li class="list-inline-item">Preview on <%= link "home", to: listing_preview_path(@conn, :index, @listing), target: "_blank" %></li>
+	<% end %>
+</ul>
