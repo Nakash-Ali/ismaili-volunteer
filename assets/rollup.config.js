@@ -7,7 +7,8 @@ const FILE_NAMES = [
 	'error',
 	'form_submit',
 	'old_browsers',
-	'smooth'
+	'smooth',
+	'doc_generator'
 ]
 
 function buildConfig(name) {

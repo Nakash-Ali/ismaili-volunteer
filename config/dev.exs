@@ -1,5 +1,9 @@
 use Mix.Config
 
+# General application configuration
+config :volunteer,
+  mock_sessions: true
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

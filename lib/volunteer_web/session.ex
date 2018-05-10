@@ -36,45 +36,49 @@ defmodule VolunteerWeb.Session do
 
   defmodule Plugs do
     import Phoenix.Controller
-
-    def load_current_user(conn, _) do
-      case get_session(conn, :current_user_id) do
-        nil ->
-          conn
-
-        id ->
-          try do
-            user = Accounts.get_user!(id)
-            VolunteerWeb.Session.put_user(conn, user)
-          rescue
-            _ -> VolunteerWeb.Session.logout(conn)
-          end
-      end
-    end
-
-    def ensure_authenticated(conn, _) do
-      case VolunteerWeb.Session.get_user(conn) do
-        %Accounts.User{} ->
-          conn
-
-        _ ->
-          conn
-          |> VolunteerWeb.Session.put_redirect()
-          |> put_flash(:error, "Please log in to view this page")
-          |> redirect(to: Helpers.auth_path(conn, :login))
-          |> halt
-      end
-    end
-  end
-  
-  defmodule DevPlugs do
-    def load_current_user(conn, _) do
-      user = Accounts.get_user!(1)
-      VolunteerWeb.Session.put_user(conn, user)
-    end
     
-    def ensure_authenticated(conn, _) do
-      conn
+    if Application.get_env(:volunteer, :mock_sessions, false) == true and Mix.env() == :dev do
+      
+      def load_current_user(conn, _) do
+        user = Accounts.get_user!(1)
+        VolunteerWeb.Session.put_user(conn, user)
+      end
+      
+      def ensure_authenticated(conn, _) do
+        conn
+      end
+      
+    else
+      
+      def load_current_user(conn, _) do
+        case get_session(conn, :current_user_id) do
+          nil ->
+            conn
+
+          id ->
+            try do
+              user = Accounts.get_user!(id)
+              VolunteerWeb.Session.put_user(conn, user)
+            rescue
+              _ -> VolunteerWeb.Session.logout(conn)
+            end
+        end
+      end
+
+      def ensure_authenticated(conn, _) do
+        case VolunteerWeb.Session.get_user(conn) do
+          %Accounts.User{} ->
+            conn
+
+          _ ->
+            conn
+            |> VolunteerWeb.Session.put_redirect()
+            |> put_flash(:error, "Please log in to view this page")
+            |> redirect(to: Helpers.auth_path(conn, :login))
+            |> halt
+        end
+      end
+      
     end
   end
 end
