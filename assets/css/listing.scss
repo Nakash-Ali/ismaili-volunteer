@@ -1,9 +1,6 @@
 @import "base";
 @import "listing-meta";
-
-h1 {
-	// color: $complement-one;
-}
+@import "listing-textblob";
 
 section.title {
 	.social {
@@ -11,18 +8,6 @@ section.title {
 		line-height: 1;
 		li.list-inline-item {
 			margin-right: 8px;
-		}
-	}
-}
-
-section.content {
-	h4 {
-		margin-top: map-get($spacers, 4);
-		font-size: $h6-font-size;
-		text-transform: uppercase;
-	    color: $primary;
-		&:first-of-type {
-			margin-top: 0;
 		}
 	}
 }
@@ -40,8 +25,4 @@ section.apply {
 	// .required-label-legend {
 	// 	color: $gray-400;
 	// }
-}
-
-.posted-expiry {
-	// font-size: $font-size;
 }

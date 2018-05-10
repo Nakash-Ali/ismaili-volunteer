@@ -128,14 +128,18 @@ defmodule VolunteerWeb.Admin.ListingController do
   def unapprove(conn, params) do
     toggle_approval(conn, params, :unapprove)
   end
+  
+  def archive(conn, params) do
+    
+  end
 
   def delete(conn, %{"id" => id}) do
     listing = Apply.get_listing!(id)
-    
+  
     Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
-    
+  
     {:ok, _listing} = Apply.delete_listing(listing)
-
+  
     conn
     |> put_flash(:info, "Listing deleted successfully.")
     |> redirect(to: admin_listing_path(conn, :index))

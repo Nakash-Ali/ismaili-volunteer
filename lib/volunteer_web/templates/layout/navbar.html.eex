@@ -1,18 +1,7 @@
+<a class="navbar-brand p-0" href="/">
+	<img src="<%= static_path(@conn, assigns[:img_path] || "/images/logo.png") %>" width="auto" height="46" alt="<%= Application.fetch_env!(:volunteer, :project_title) %>">
+</a>
+
 <ul class="navbar-nav ml-auto font-family-sans-serif d-print-none">
-	<%= Navbar.render(assigns) %>
-	<!-- <li class="nav-item">
-		<a class="nav-link" href="https://iicanada.org">IICanada.org</a>
-	</li>
-  <%= if Session.logged_in?(@conn) do %>
-    <li class="nav-item">
-      <span class="nav-link"><%= VolunteerWeb.Presenters.Title.text(Session.get_user(@conn)) %></span>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="<%= auth_path(@conn, :logout) %>">Logout</a>
-    </li>
-  <% else %>
-    <li class="nav-item">
-      <a class="nav-link" href="<%= auth_path(@conn, :login) %>">Login</a>
-    </li>
-  <% end %> -->
+	<%= NavbarItems.render(assigns) %>
 </ul>

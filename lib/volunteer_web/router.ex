@@ -55,6 +55,7 @@ defmodule VolunteerWeb.Router do
 
       post "/listings/:id/approve", ListingController, :approve
       post "/listings/:id/unapprove", ListingController, :unapprove
+      post "/listings/:id/archive", ListingController, :unapprove
     end
   end
 

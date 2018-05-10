@@ -1,0 +1,22 @@
+.listing-textblob {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-top: map-get($spacers, 4);
+		font-size: $h6-font-size;
+		text-transform: uppercase;
+	    color: $primary;
+		&:first-of-type {
+			margin-top: 0;
+		}
+	}
+	
+	blockquote {
+		margin: 0 0 1rem 0;
+		padding-left: 0.75rem;
+		border-left: 0.25rem solid $gray-300;
+	}
+}

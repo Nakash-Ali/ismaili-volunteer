@@ -30,12 +30,12 @@
 	
 	<div class="wrapper d-flex flex-column flex-nowrap">
 
-	<%= render_or_fallback("body_header", assigns) %>
+		<%= render_or_fallback("body_header", assigns) %>
 
-	<%= render_or_fallback("body_main", assigns) %>
+		<%= render_or_fallback("body_main", assigns) %>
 
-	<%= render_or_fallback("body_footer", assigns) %>
-	
+		<%= render_or_fallback("body_footer", assigns) %>
+		
 	</div>
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/3.21.0/raven.min.js" crossorigin="anonymous"></script>

@@ -1,17 +1,4 @@
-<%= CommonView.sub_title do %>
-	<%= render ListingView, "sub_title_meta.html", assigns %>
-	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-3">
-		<li class="nav-item">
-			<%= link "Info", to: admin_listing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
-		</li>
-		<li class="nav-item">
-			<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, @listing), class: "px-4 nav-link active" %>
-		</li>
-		<li class="nav-item">
-			<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
-		</li>
-	</ul>
-<% end %>
+<%= render "header.html", assigns %>
 
 <section class="container">
 	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">

@@ -56,8 +56,8 @@
 	title: "CC'ed emails (when a new application is received)",
 	placeholder: "some_person@gmail.com, another_person@hotmail.com",
 	input_opts: [
-	type: :email,
-	multiple: "true"
+		type: :email,
+		multiple: "true"
 	]
 	%>
 
@@ -83,26 +83,32 @@
 	title: "Hours per week"
 	%>
 
-	<%= render FormView, "textarea.html",
-	form: form,
-	field: :program_description,
-	title: "About the program",
-	placeholder: "SEED is a..."
-	%>
+	<div class="listing-textblob">
+		<%= render FormView, "textarea.html",
+		form: form,
+		field: :program_description,
+		title: "About the program",
+		placeholder: "SEED is a..."
+		%>
+	</div>
 
-	<%= render FormView, "textarea.html",
-	form: form,
-	field: :responsibilities,
-	title: "Responsibilities",
-	placeholder: "You will..."
-	%>
+	<div class="listing-textblob">
+		<%= render FormView, "textarea.html",
+		form: form,
+		field: :responsibilities,
+		title: "Responsibilities",
+		placeholder: "You will..."
+		%>
+	</div>
 
-	<%= render FormView, "textarea.html",
-	form: form,
-	field: :qualifications,
-	title: "Qualifications of application",
-	placeholder: "We're looking for..."
-	%>
+	<div class="listing-textblob">
+		<%= render FormView, "textarea.html",
+		form: form,
+		field: :qualifications,
+		title: "Qualifications of application",
+		placeholder: "We're looking for..."
+		%>
+	</div>
 
 	<div class="font-family-sans-serif orm-group mt-4 text-right">
 		<%= link  {:safe, "<i class=\"far fa-times mr-2\" aria-hidden=\"true\"></i> Discard Changes"}, to: @back_path, class: "btn btn-outline-warning mr-3" %>

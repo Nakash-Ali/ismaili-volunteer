@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.Navbar do
+defmodule VolunteerWeb.NavbarItems do
   import VolunteerWeb.Router.Helpers
   alias VolunteerWeb.Session
   
@@ -6,11 +6,11 @@ defmodule VolunteerWeb.Navbar do
   @item_template "navbar_item.html"
   
   def nav_items(["VolunteerWeb", "Admin" | _ ], assigns) do
-    admin_nav_items(assigns) ++ user_nav_items(assigns)
+    primary_admin_nav_item(assigns) ++ admin_nav_items(assigns) ++ user_nav_items(assigns)
   end
   
   def nav_items(["VolunteerWeb" | _ ], assigns) do
-    iicanada_nav_items() ++ user_nav_items(assigns)
+    iicanada_nav_items() ++ primary_admin_nav_item(assigns) ++ user_nav_items(assigns)
   end
   
   def iicanada_nav_items do
@@ -34,9 +34,20 @@ defmodule VolunteerWeb.Navbar do
     end 
   end
   
+  def primary_admin_nav_item(%{conn: conn}) do
+    case Session.logged_in?(conn) do
+      true ->
+        [
+          {"Admin", admin_index_path(conn, :index)},
+        ]
+        
+      false ->
+        []
+    end
+  end
+  
   def admin_nav_items(%{conn: conn}) do
     [
-      {"Admin", admin_index_path(conn, :index)},
       {"Listings", admin_listing_path(conn, :index)},
     ]
   end

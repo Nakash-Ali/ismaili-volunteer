@@ -42,6 +42,16 @@ defmodule Volunteer.Permissions.Abilities do
         ) when action in [:show, :update, :delete, :tkn_listing, :request_marketing] do
       true
     end
+    
+    # Catch-all
+    
+    def can?(
+          _user,
+          [:admin | _],
+          _listing
+        ) do
+      false
+    end
   end
   
   def can?(user, action) do

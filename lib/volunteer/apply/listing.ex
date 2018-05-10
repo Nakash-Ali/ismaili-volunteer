@@ -35,7 +35,6 @@ defmodule Volunteer.Apply.Listing do
     field :program_description, :string
     field :responsibilities, :string
     field :qualifications, :string
-    field :vulnerable_sector_check, :boolean, default: false
     
     field :cc_emails, :string, default: ""
 
@@ -64,7 +63,6 @@ defmodule Volunteer.Apply.Listing do
     :program_description,
     :responsibilities,
     :qualifications,
-    :vulnerable_sector_check,
     :cc_emails,
   ]
 
@@ -139,9 +137,17 @@ defmodule Volunteer.Apply.Listing do
   def is_approved?(%Listing{approved: false}) do
     false
   end
+  
+  def expire(listing) do
+    listing |> put_change(:expiry_date, now_expiry_date())
+  end
 
   def refresh_expiry(listing) do
     listing |> put_change(:expiry_date, refreshed_expiry_date())
+  end
+  
+  def now_expiry_date() do
+    Timex.now() |> Timex.shift(hours: -1) |> Timex.to_datetime()
   end
 
   def refreshed_expiry_date() do

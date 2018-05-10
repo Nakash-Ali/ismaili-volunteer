@@ -1,2 +1,11 @@
-<p><%= link "Login with your IICanada account", to: auth_path(@conn, :request, "microsoft") %></p>
-<p><%= Session.get_redirect(@conn) %></p>
+<section class="container text-center my-7">
+	<div class="row justify-content-center">
+		<div class="col-sm-4">
+			<p>For those who wish to apply for opportunities, you do not need to log in!</p>
+			<div class="font-family-sans-serif mb-3 mt-5">
+				<%= link "Login with your IICanada account", to: auth_path(@conn, :request, "microsoft"), class: "btn btn-primary font-family-sans-serif" %>
+			</div>
+			<p>To create and manage listings, you will need an <code>@iicanada.net</code> email address.</p>
+		</div>
+	</div>
+</section>

@@ -1,5 +1,6 @@
 @import "../base";
 @import "../listing-meta";
+@import "../listing-textblob";
 
 header {
 	background: #F7F7F7;
@@ -12,4 +13,8 @@ section.title {
 
 section.title .nav-tabs {
 	margin-bottom: -1px;	
+}
+
+.form-group trix-editor {
+	min-height: 8rem;
 }
