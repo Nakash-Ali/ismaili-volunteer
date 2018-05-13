@@ -17,7 +17,15 @@ defmodule VolunteerWeb.SanitizeInput do
   def textarea(input) do
     input
     |> HtmlSanitizeEx.basic_html
-    |> collapse_linebreaks
+    |> collapse_terminating_linebreaks
+    |> Floki.parse
+    |> Floki.filter_out("h1")
+    |> Floki.filter_out("h2")
+    |> Floki.filter_out("h3")
+    |> Floki.filter_out("h4")
+    |> Floki.filter_out("h5")
+    |> Floki.filter_out("h6")
+    |> Floki.raw_html
   end
   
   defp params(input_params, [], _sanitizer) do
@@ -41,8 +49,7 @@ defmodule VolunteerWeb.SanitizeInput do
     Regex.replace(~r/\s+/, text, " ")
   end
   
-  def collapse_linebreaks(html) do
-    ~r/^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/
-    |> Regex.replace(html, "")
+  def collapse_terminating_linebreaks(html) do
+    Regex.replace(~r/^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/, html, "")
   end
 end

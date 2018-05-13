@@ -1,3 +1,0 @@
-<script>
-	docGenerator("#generate_assignment", "/static/doctemplates/test.docx", {name: "Alizain", number: 4}, "success")
-</script>

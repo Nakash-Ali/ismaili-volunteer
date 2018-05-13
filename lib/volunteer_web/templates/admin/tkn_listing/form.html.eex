@@ -26,7 +26,7 @@
     placeholder: "Non-profit"
   %>
   
-  <div class="font-family-sans-serif orm-group mt-4 text-right">
+  <div class="font-family-sans-serif orm-group mt-5 text-right">
 	  <%= link  {:safe, "<i class=\"far fa-times mr-2\" aria-hidden=\"true\"></i> Discard Changes"}, to: @back_path, class: "btn btn-outline-warning mr-3" %>
 	  <%= submit {:safe, "<i class=\"far fa-check mr-2\" aria-hidden=\"true\"></i> Submit"}, class: "btn btn-primary px-4" %>
   </div>

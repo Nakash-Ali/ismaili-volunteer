@@ -1,15 +1,15 @@
 <div class="listing-textblob">
-	<h4>About the Program</h4>
-	<%= textarea_content @listing.program_description %>
+	<h4 class="textblob-section-title">About the Program</h4>
+	<%= transform_textblob_content @listing.program_description %>
 
-	<h4>About the Role</h4>
-	<%= textarea_content @listing.responsibilities %>
+	<h4 class="textblob-section-title">About the Role</h4>
+	<%= transform_textblob_content @listing.responsibilities %>
 
-	<h4>About You</h4>
-	<%= textarea_content @listing.qualifications %>
+	<h4 class="textblob-section-title">About You</h4>
+	<%= transform_textblob_content @listing.qualifications %>
 	
 	<%= if assigns[:time_commitment] do %>
-		<h4 class="mb-3">Time Commitment</h4>
+		<h4 class="textblob-section-title mb-3">Time Commitment</h4>
 		<%= render "meta.html", listing: @listing %>
 		<!-- {{ with .Params.commitments }}
 			<p>Your commitment will include:</p>

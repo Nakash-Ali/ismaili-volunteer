@@ -1,39 +1,38 @@
 defmodule VolunteerWeb.Admin.TKNListingView do
   use VolunteerWeb, :view
   alias VolunteerWeb.FormView
-  alias VolunteerWeb.Admin.CommonView
+  alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.Presenters.Title
   
-  def render("head_extra.edit.html", %{conn: conn}) do
+  def render("head_extra" <> _, %{conn: conn}) do
     [
       stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
   
-  def render("head_extra.new.html", %{conn: conn}) do
-    [
-      stylesheet_tag(conn, "/css/admin/common.css")
-    ]
+  def something(opts \\ []) do
+    IO.puts(inspect(opts))
+    nil
   end
   
-  def render("head_extra.none.html", %{conn: conn}) do
-    [
-      stylesheet_tag(conn, "/css/admin/common.css")
-    ]
+  def generate_assignment_data(%{conn: conn, listing: listing}) do
+    %{
+      country: "Canada",
+      group: listing.group.title,
+      program_title: listing.program_title,
+      summary_line: listing.summary_line,
+      organized_by_name: listing.organized_by.title,
+      organized_by_email: listing.organized_by.primary_email,
+      organized_by_phone: listing.organized_by.primary_phone,
+      position_title: Title.text(listing)
+    }
+    |> Poison.encode!
+    |> Base.encode64
+    |> Phoenix.HTML.raw
   end
   
-  def render("head_extra.show.html", %{conn: conn}) do
-    [
-      stylesheet_tag(conn, "/css/admin/common.css")
-    ]
-  end
-  
-  def render("body_extra.show.html", %{conn: conn} = assigns) do
-    [
-      render(VolunteerWeb.VendorView, "docxtemplater.html"),
-      script_tag(conn, "/js/doc_generator.js"),
-      render("generate.show.html", assigns)
-    ]
+  def generate_assignment_output_filename(%{conn: conn, listing: listing}) do
+    "#{Title.text(listing)} - TKN Assignment Specification Form"
   end
 end

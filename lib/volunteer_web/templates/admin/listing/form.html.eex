@@ -53,7 +53,8 @@
 	<%= render FormView, "text.html",
 	form: form,
 	field: :cc_emails,
-	title: "CC'ed emails (when a new application is received)",
+	title: "CC'ed emails",
+	help_text: "Comma separated list of email addresses to CC when a new application is received",
 	placeholder: "some_person@gmail.com, another_person@hotmail.com",
 	input_opts: [
 		type: :email,
@@ -66,7 +67,7 @@
 	title: "Start date",
 	field: :start_date,
 	toggle: :start_date_toggle,
-	toggle_label: "Starts immediately"
+	toggle_label: VolunteerWeb.ListingView.start_date_text(nil)
 	%>
 
 	<%= render FormView, "date_with_toggler.html",
@@ -74,7 +75,7 @@
 	title: "End date",
 	field: :end_date,
 	toggle: :end_date_toggle,
-	toggle_label: "Ongoing position"
+	toggle_label: VolunteerWeb.ListingView.end_date_text(nil)
 	%>
 
 	<%= render FormView, "number.html",
@@ -88,6 +89,7 @@
 		form: form,
 		field: :program_description,
 		title: "About the program",
+		help_text: "Describe the scope, objectives, and/or mission of the program.",
 		placeholder: "SEED is a..."
 		%>
 	</div>
@@ -96,7 +98,8 @@
 		<%= render FormView, "textarea.html",
 		form: form,
 		field: :responsibilities,
-		title: "Responsibilities",
+		title: "About the role",
+		help_text: "Describe the day-to-day responsibilities of this role.",
 		placeholder: "You will..."
 		%>
 	</div>
@@ -105,12 +108,13 @@
 		<%= render FormView, "textarea.html",
 		form: form,
 		field: :qualifications,
-		title: "Qualifications of application",
+		title: "About the applicant",
+		help_text: "Describe any and all qualifications for this position. Be specific about must-have skills, experiences, and language requirements.",
 		placeholder: "We're looking for..."
 		%>
 	</div>
 
-	<div class="font-family-sans-serif orm-group mt-4 text-right">
+	<div class="font-family-sans-serif form-group mt-5 text-right">
 		<%= link  {:safe, "<i class=\"far fa-times mr-2\" aria-hidden=\"true\"></i> Discard Changes"}, to: @back_path, class: "btn btn-outline-warning mr-3" %>
 		<%= submit {:safe, "<i class=\"far fa-check mr-2\" aria-hidden=\"true\"></i> Submit"}, class: "btn btn-primary px-4" %>
 	</div>

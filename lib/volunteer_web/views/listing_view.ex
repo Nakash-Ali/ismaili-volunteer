@@ -14,14 +14,8 @@ defmodule VolunteerWeb.ListingView do
     render(VolunteerWeb.Legacy.ListingView, "scripts.html", assigns)
   end
   
-  def textarea_content(html) do
-    "<div class=\"textarea-content\">#{html}</div>"
-    |> Floki.parse
-    |> Floki.map(fn
-      {"h" <> level, attrs} when level in ["1", "2", "3", "4", "5", "6"] -> {"h5", attrs}
-      {name, attrs} -> {name, attrs}
-    end)
-    |> Floki.raw_html
+  def transform_textblob_content(html) do
+    "<div>#{html}</div>"
     |> raw
   end
   
@@ -33,20 +27,40 @@ defmodule VolunteerWeb.ListingView do
     "hours/week"
   end
   
+  def start_date_text(nil) do
+    "Starting immediately"
+  end
+  
+  def start_date_text(%Date{} = start_date) do
+    format_date(start_date)
+  end
+  
+  def end_date_text(nil) do
+    "On-going position"
+  end
+  
+  def end_date_text(%Date{} = start_date) do
+    format_date(start_date)
+  end
+  
   def start_date_and_end_date_html(nil, nil) do
-    {:safe, "<em>On-going position starting immediately</em>"}
+    {:safe, "<em>#{end_date_text(nil)} #{start_date_text(nil) |> String.downcase}</em>"}
   end
   
   def start_date_and_end_date_html(nil, %Date{} = end_date) do
-    {:safe, "<em>Starting immediately</em> to <em>#{ format_date(end_date) }</em>"}
+    {:safe, "<em>#{start_date_text(nil)}</em> to <em>#{end_date_text(end_date)}</em>"}
   end
   
   def start_date_and_end_date_html(%Date{} = start_date, nil) do
-    {:safe, "<em>On-going position</em> starting on <em>#{ format_date(start_date) }</em>"}
+    {:safe, "<em>#{end_date_text(nil)}</em> starting on <em>#{start_date_text(start_date) }</em>"}
   end
   
   def start_date_and_end_date_html(%Date{} = start_date, %Date{} = end_date) do
-    {:safe, "<em>#{ format_date(start_date) }</em> to <em>#{ format_date(end_date) }</em>"}
+    {:safe, "<em>#{ start_date_text(start_date) }</em> to <em>#{ format_date(end_date) }</em>"}
+  end
+
+  def expiry_datetime_text(%DateTime{} = datetime) do
+    format_datetime(datetime)
   end
   
   def format_date(%Date{} = date) do
@@ -54,8 +68,8 @@ defmodule VolunteerWeb.ListingView do
     |> Timex.format!("{D} {Mfull} {YYYY}")
   end
   
-  def format_expiry(%DateTime{} = date) do
-    date
+  def format_datetime(%DateTime{} = datetime) do
+    datetime
     |> Timex.Timezone.convert("America/Toronto")
     |> Timex.format!("{WDfull}, {D} {Mfull} {YYYY} at {h24}:{m} ({Zabbr})")
   end

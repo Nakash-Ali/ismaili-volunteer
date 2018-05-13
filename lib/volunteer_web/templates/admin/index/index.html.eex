@@ -1,4 +1,4 @@
-<%= CommonView.sub_title do %>
+<%= render AdminView, "sub_title.html" do %>
 	<h4 class="mb-4">Admin</h4>
 <% end %>
 

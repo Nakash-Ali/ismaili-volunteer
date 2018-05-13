@@ -33,7 +33,7 @@ defmodule VolunteerWeb do
     quote do
       use Phoenix.View,
         root: "lib/volunteer_web/templates",
-        pattern: "**/*",
+        pattern: "*",
         namespace: VolunteerWeb
 
       # Import convenience functions from controllers
@@ -48,6 +48,14 @@ defmodule VolunteerWeb do
       import VolunteerWeb.Gettext
       alias VolunteerWeb.Session
       alias VolunteerWeb.Authorize
+      
+      def render(view_module, view_template, assigns, opts) do
+        render(view_module, view_template, Enum.concat(assigns, opts))
+      end
+      
+      def render(view_module, view_template, assigns, keywords, opts) do
+        render(view_module, view_template, assigns, Enum.concat(keywords, opts))
+      end
     end
   end
 

@@ -1,4 +1,4 @@
-<%= CommonView.sub_title do %>
+<%= render AdminView, "sub_title.html" do %>
 	<h4 class="mb-4">Create a New Listing</h4>
 <% end %>
 

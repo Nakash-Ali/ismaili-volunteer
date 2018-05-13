@@ -1,4 +1,4 @@
-<%= render "header.html", assigns %>
+<%= render ListingView, "sub_title.html", assigns, active_nav: "tkn" %>
 
 <section class="container text-center my-5">
 	<div class="row justify-content-center">

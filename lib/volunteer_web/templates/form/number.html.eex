@@ -1,5 +1,9 @@
-<div class="form-group">
-  <%= label @form, @field, @title, class: "control-label" %>
-  <%= number_input @form, @field, class: input_classes(@form, @field, ["form-control"]), placeholder: assigns[:placeholder] %>
-  <%= error_tag @form, @field %>
+<div class="form-group row mb-4">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: "col-form-label" %></strong>
+	</div>
+	<div class="col-sm-9">
+		<%= number_input @form, @field, class: input_classes(@form, @field, ["form-control"]), placeholder: assigns[:placeholder] %>
+  	  <%= error_tag @form, @field %>
+	</div>
 </div>

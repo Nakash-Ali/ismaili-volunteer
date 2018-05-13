@@ -1,17 +1,11 @@
 defmodule VolunteerWeb.Admin.RequestMarketingView do
   use VolunteerWeb, :view
   alias VolunteerWeb.FormView
-  alias VolunteerWeb.Admin.CommonView
+  alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.Presenters.Title
   
-  def render("head_extra.new.html", %{conn: conn}) do
-    [
-      stylesheet_tag(conn, "/css/admin/common.css")
-    ]
-  end
-  
-  def render("head_extra.show.html", %{conn: conn}) do
+  def render("head_extra" <> _, %{conn: conn}) do
     [
       stylesheet_tag(conn, "/css/admin/common.css")
     ]

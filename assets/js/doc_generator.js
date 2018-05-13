@@ -2,10 +2,13 @@
 
 const FORCED_DELAY = 300
 
-window.docGenerator = function docGenerator(button, templatePath, defaultData, defaultOutputFilename) {
+window.docGenerator = function docGenerator(button, templatePath, defaultDataEncoded, defaultOutputFilename) {
 	const $button = $(button)
+	const defaultData = JSON.parse(atob(defaultDataEncoded))
 	const templateContentPromise = fetchTemplate(templatePath)
 	const generateAndSave = generateWithPromise(templateContentPromise)
+	
+	console.log(defaultData)
 	
 	$button.text('Setting up generator...')
 	$button.attr('class', 'btn disabled btn-primary text-white')

@@ -3,30 +3,28 @@ defmodule VolunteerWeb.Admin.ListingView do
   alias VolunteerWeb.FormView
   alias VolunteerWeb.VendorView
   alias VolunteerWeb.ListingView, as: PublicListingView
-  alias VolunteerWeb.Admin.CommonView
+  alias VolunteerWeb.AdminView
   alias VolunteerWeb.Presenters.Title
   
-  def render("head_extra.edit.html", %{conn: conn}) do
+  def render("head_extra" <> _, %{conn: conn}) do
     [
       stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
   
-  def render("head_extra.index.html", %{conn: conn}) do
+  def sub_title_nav(%{conn: conn, listing: listing, active_nav: active_nav}) do
     [
-      stylesheet_tag(conn, "/css/admin/common.css")
+      {"Info", admin_listing_path(conn, :show, listing)},
+			# {"TKN", admin_listing_tkn_listing_path(conn, :show, listing)},
+			# {"Marketing", admin_listing_request_marketing_path(conn, :show, listing)},
     ]
-  end
-  
-  def render("head_extra.new.html", %{conn: conn}) do
-    [
-      stylesheet_tag(conn, "/css/admin/common.css")
-    ]
-  end
-  
-  def render("head_extra.show.html", %{conn: conn}) do
-    [
-      stylesheet_tag(conn, "/css/admin/common.css")
-    ]
+    |> Enum.map(fn {title, path} ->
+      case String.downcase(title) do
+        ^active_nav ->
+          {title, path, "active"}
+        _ ->
+          {title, path, ""}
+      end
+    end)
   end
 end

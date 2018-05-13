@@ -1,0 +1,12 @@
+<div class="row mb-3">
+	<div class="col-3 text-right">
+		<strong><p class="m-0"><%= assigns[:title_text] %></p></strong>
+	</div>
+	<div class="col-9">
+		<%= if assigns[:body_text] do %>
+			<p class="mb-0"><%= assigns[:body_text] %></p>
+		<% else %>
+			<%= assigns[:do] %>
+		<% end %>
+	</div>
+</div>

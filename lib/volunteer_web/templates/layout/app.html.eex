@@ -14,7 +14,8 @@
 
 	<title><%= PageTitle.render(assigns) %></title>
 
-	<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Spectral:300i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Spectral:300i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700" rel="stylesheet">
 	<link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
 
 	<%= render_or_fallback("head_extra", assigns) %>

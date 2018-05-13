@@ -1,4 +1,4 @@
-<%= CommonView.sub_title do %>
+<%= render AdminView, "sub_title.html" do %>
 	<h4 class="mb-4">Listings</h4>
 <% end %>
 
@@ -23,18 +23,18 @@
 			</div>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">
 				<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
-				<li class="list-inline-item">Listing expires on <em><%= PublicListingView.format_expiry(listing.expiry_date) %></em></li>
+				<li class="list-inline-item">Listing expires on <em><%= PublicListingView.expiry_datetime_text(listing.expiry_date) %></em></li>
 			</ul>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">
 				<li class="list-inline-item">
 					<%= link "Info", to: admin_listing_path(@conn, :show, listing) %>
 				</li>
-				<li class="list-inline-item">
+				<!-- <li class="list-inline-item">
 					<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, listing) %>
 				</li>
 				<li class="list-inline-item">
 					<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, listing) %>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	<% end %>

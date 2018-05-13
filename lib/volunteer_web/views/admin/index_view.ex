@@ -1,8 +1,8 @@
 defmodule VolunteerWeb.Admin.IndexView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.Admin.CommonView
+  alias VolunteerWeb.AdminView
   
-  def render("head_extra.index.html", %{conn: conn}) do
+  def render("head_extra" <> _, %{conn: conn}) do
     [
       stylesheet_tag(conn, "/css/admin/common.css")
     ]

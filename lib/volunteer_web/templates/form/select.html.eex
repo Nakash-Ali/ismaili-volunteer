@@ -1,7 +1,11 @@
-<div class="form-group">
-  <%= label @form, @field, @title, class: "control-label" %>
-  <%= select @form, @field, @choices, class: input_classes(@form, @field, ["form-control"]) %>
-  <%= error_tag @form, @field %>
+<div class="form-group row mb-4">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: "col-form-label" %></strong>
+	</div>
+	<div class="col-sm-9">
+		<%= select @form, @field, @choices, class: input_classes(@form, @field, ["form-control"]) %>
+	    <%= error_tag @form, @field %>
+	</div>
 </div>
 <!-- <script>
   new Choices("#<%= input_id(@form, @field) %>", {

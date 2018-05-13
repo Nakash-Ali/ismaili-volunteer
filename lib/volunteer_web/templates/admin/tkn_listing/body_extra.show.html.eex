@@ -1,0 +1,13 @@
+ <%= render VolunteerWeb.VendorView, "docxtemplater.html" %>
+ <%= script_tag @conn, "/js/doc_generator.js" %>
+ <%= something do %>
+ 	hahahah
+ <% end %>
+ <script>
+ 	docGenerator(
+ 		"#generate_assignment",
+ 		"/static/doctemplates/tknspec-2018-v1.docx",
+ 		"<%= generate_assignment_data(assigns) %>",
+ 		"<%= generate_assignment_output_filename(assigns) %>"
+ 	)
+ </script>

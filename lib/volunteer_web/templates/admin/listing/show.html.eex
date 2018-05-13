@@ -1,41 +1,116 @@
-<%= CommonView.sub_title do %>
-	<%= render "sub_title_meta.html", assigns %>
-	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-3">
-		<li class="nav-item">
-			<%= link "Info", to: admin_listing_path(@conn, :show, @listing), class: "px-4 nav-link active" %>
-		</li>
-		<li class="nav-item">
-			<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
-		</li>
-		<li class="nav-item">
-			<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, @listing), class: "px-4 nav-link" %>
-		</li>
-	</ul>
-<% end %>
+<%= render __MODULE__, "sub_title.html", assigns, active_nav: "info" %>
 
 <section class="container">
-	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
-		<div class="btn-group mr-2" role="group">
-			<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
-		</div>
-		<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
+	<div class="d-flex flex-row align-items-center">
+		<!-- <h5 class="mb-0 mr-4">Something</h5> -->
+		<div class="btn-toolbar justify-content-end font-family-sans-serif ml-auto" role="toolbar">
 			<div class="btn-group mr-2" role="group">
-				<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
-				<% else %>
-					<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
-				<% end %>
+				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
-		<% end %>
-		<div class="btn-group" role="group">
-			<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
+				<div class="btn-group mr-2" role="group">
+					<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
+						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+					<% else %>
+						<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
+					<% end %>
+				</div>
+			<% end %>
+			<div class="btn-group" role="group">
+				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+			</div>
 		</div>
 	</div>
 </section>
 
 <section class="container my-5">
-	<span><%= link "All listings", to: admin_listing_path(@conn, :index) %></span>
-	<div>
-		<code><%= inspect(@listing) %></code>
-	</div>
+	<%= render AdminView, "definition_container.html",
+		title_text: "Expiry date",
+		body_text: PublicListingView.expiry_datetime_text(@listing.expiry_date) %>
+</section>
+
+<%= if @listing.approved do %>
+	<section class="container my-5">
+		<%= render AdminView, "definition_container.html",
+			title_text: "Approved by",
+			body_text: @listing.approved_by.title %>
+		
+		<%= render AdminView, "definition_container.html",
+			title_text: "Approval date",
+			body_text: PublicListingView.format_datetime(@listing.approved_on) %>
+	</section>
+<% end %>
+
+<section class="container my-5">
+	<%= render AdminView, "definition_container.html",
+		title_text: "Position title",
+		body_text: @listing.position_title %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Program title",
+		body_text: @listing.program_title %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Summary",
+		body_text: @listing.summary_line %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Region",
+		body_text: @listing.region.title %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Organizing group",
+		body_text: @listing.group.title %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Organizing user",
+		body_text: @listing.organized_by.title %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "CC'ed emails",
+		body_text: @listing.cc_emails %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Start date",
+		body_text: PublicListingView.start_date_text(@listing.start_date) %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "End date",
+		body_text: PublicListingView.end_date_text(@listing.end_date) %>
+		
+	<%= render AdminView, "definition_container.html",
+		title_text: "Hours per week",
+		body_text: @listing.hours_per_week %>
+</section>
+
+<section class="container my-5">
+	<%= render AdminView, "definition_container.html", title_text: "About the program" do %>
+		<div class="listing-textblob">
+			<%= PublicListingView.transform_textblob_content @listing.program_description %>
+		</div>
+	<% end %>
+	<%= render AdminView, "definition_container.html", title_text: "About the role" do %>
+		<div class="listing-textblob">
+			<%= PublicListingView.transform_textblob_content @listing.responsibilities %>
+		</div>
+	<% end %>
+	<%= render AdminView, "definition_container.html", title_text: "About the applicant" do %>
+		<div class="listing-textblob">
+			<%= PublicListingView.transform_textblob_content @listing.qualifications %>
+		</div>
+	<% end %>
+</section>
+
+<section class="container my-5 mb-7">
+	<%= render AdminView, "definition_container.html",
+		title_text: "Created by",
+		body_text: @listing.created_by.title %>
+	
+	<%= render AdminView, "definition_container.html",
+		title_text: "Creation date",
+		body_text: PublicListingView.format_datetime(@listing.inserted_at) %>
+	
+	<%= render AdminView, "definition_container.html",
+		title_text: "Last updated date",
+		body_text: PublicListingView.format_datetime(@listing.updated_at) %>
 </section>
