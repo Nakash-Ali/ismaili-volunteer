@@ -18,6 +18,15 @@ defmodule Volunteer.Permissions.Abilities do
     end
     
     # Listings
+    
+    @listing_allowed_actions [
+      :show,
+      :update,
+      :delete,
+      :refresh_expiry,
+      :tkn_listing,
+      :request_marketing
+    ]
 
     def can?(
           %User{},
@@ -31,7 +40,7 @@ defmodule Volunteer.Permissions.Abilities do
           %User{id: user_id},
           [:admin, :listing, action | _],
           %Listing{created_by_id: user_id}
-        ) when action in [:show, :update, :delete, :tkn_listing, :request_marketing] do
+        ) when action in @listing_allowed_actions do
       true
     end
     
@@ -39,7 +48,7 @@ defmodule Volunteer.Permissions.Abilities do
           %User{id: user_id},
           [:admin, :listing, action | _],
           %Listing{organized_by_id: user_id}
-        ) when action in [:show, :update, :delete, :tkn_listing, :request_marketing] do
+        ) when action in @listing_allowed_actions do
       true
     end
     
