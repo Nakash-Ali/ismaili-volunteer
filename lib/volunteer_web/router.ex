@@ -12,6 +12,7 @@ defmodule VolunteerWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_current_user
+    plug :configure_sentry_context
     plug VolunteerWeb.HTMLMinifier
   end
 
@@ -62,5 +63,11 @@ defmodule VolunteerWeb.Router do
 
   if Mix.env() == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+  
+  def configure_sentry_context(conn, _params) do
+    user = conn.assigns[:current_user]
+    Sentry.Context.set_user_context(%{title: user.title, id: user.id})
+    conn
   end
 end

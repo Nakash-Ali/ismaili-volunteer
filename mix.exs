@@ -52,7 +52,7 @@ defmodule Volunteer.Mixfile do
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
-      {:sentry, "~> 6.0.4"},
+      {:sentry, "~> 6.2.1"},
       {:hammer, "~> 2.1.0"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:ueberauth, "~> 0.4"},
