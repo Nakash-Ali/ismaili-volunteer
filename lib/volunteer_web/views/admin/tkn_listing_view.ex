@@ -12,11 +12,6 @@ defmodule VolunteerWeb.Admin.TKNListingView do
     ]
   end
   
-  def something(opts \\ []) do
-    IO.puts(inspect(opts))
-    nil
-  end
-  
   def generate_assignment_data(%{conn: conn, listing: listing, tkn_listing: tkn_listing}) do
     %{
       country: "Canada",
