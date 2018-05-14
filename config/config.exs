@@ -17,8 +17,8 @@ config :volunteer, VolunteerEmail,
   
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
-  submit_url: "http://0.0.0.0:4568/legacy/apply",
-  static_site: "http://0.0.0.0:4568",
+  submit_url: "/legacy/apply",
+  static_site: "",
   redirect_next_path: "/legacy/thank_you",
   redirect_error_path: "/legacy/error"
   

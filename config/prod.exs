@@ -24,13 +24,6 @@ config :volunteer, VolunteerWeb.Endpoint,
   code_reloader: false,
   instrumenters: [Appsignal.Phoenix.Instrumenter]
 
-# Configure legacy integration
-config :volunteer, Volunteer.Legacy,
-  submit_url: "https://ismailivolunteer.eightzerothree.co/legacy/apply",
-  static_site: "https://ismailivolunteer.eightzerothree.co",
-  redirect_next_path: "/legacy/thank_you",
-  redirect_error_path: "/legacy/error"
-  
 # Configure database
 config :volunteer, Volunteer.Repo,
   loggers: [Appsignal.Ecto, Ecto.LogEntry],

@@ -19,7 +19,10 @@ defmodule VolunteerEmail.Mailer do
   
   def update_seen_emails(filtered_pairs, seen_emails) do
     filtered_pairs
-    |> Enum.map(fn pair -> {pair, true} end)
+    |> Enum.map(fn
+      addr when is_binary(addr) -> {addr, true}
+      {name, addr} -> {addr, true}
+    end)
     |> Enum.into(%{})
     |> Map.merge(seen_emails)
   end
@@ -29,11 +32,38 @@ defmodule VolunteerEmail.Mailer do
   end
   
   def filter_emails(pairs_to_filter, seen_emails) do
-    filtered_pairs =
-      pairs_to_filter
-      |> Enum.uniq
-      |> Enum.filter(fn pair -> seen_emails[pair] == nil end)
-    {filtered_pairs, update_seen_emails(filtered_pairs, seen_emails)}
+    # This will use Erlang's default term sort, which will sort
+    # tuples at a lower index than strings, which is what we want
+    # here because a tuple will contain both the name and email,
+    # which is preferred to just the email.
+    sorted_pairs =
+      Enum.sort(pairs_to_filter)
+    filter_emails(sorted_pairs, seen_emails, [])
+  end
+  
+  def filter_emails([], seen_emails, filtered_pairs) do
+    {filtered_pairs, seen_emails}
+  end
+  
+  def filter_emails(pairs_to_filter, seen_emails, filtered_pairs) do
+    {pair_to_check, new_pairs_to_filyer} =
+      List.pop_at(pairs_to_filter, 0)
+    addr =
+      case pair_to_check do
+        addr when is_binary(addr) -> addr
+        {name, addr} -> addr
+      end
+      |> String.downcase()
+    new_filtered_pairs =
+      case seen_emails[addr] do
+        nil ->
+          [pair_to_check | filtered_pairs]
+        _ ->
+          filtered_pairs
+      end
+    new_seen_emails =
+      Map.put(seen_emails, addr, true)
+    filter_emails(new_pairs_to_filyer, new_seen_emails, new_filtered_pairs)
   end
   
   def ensure_unique_addresses(email) do

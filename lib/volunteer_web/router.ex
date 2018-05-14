@@ -66,8 +66,12 @@ defmodule VolunteerWeb.Router do
   end
   
   def configure_sentry_context(conn, _params) do
-    user = conn.assigns[:current_user]
-    Sentry.Context.set_user_context(%{title: user.title, id: user.id})
-    conn
+    case conn.assigns[:current_user] do
+      nil ->
+        conn
+      user ->
+        Sentry.Context.set_user_context(%{title: user.title, id: user.id})
+        conn
+    end
   end
 end
