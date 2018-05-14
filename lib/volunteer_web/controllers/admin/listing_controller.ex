@@ -22,7 +22,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   # Plugs
 
   plug :load_listing
-    when action in [:show, :edit, :update, :approve, :unapprove]
+    when action in [:show, :edit, :update, :approve, :unapprove, :refresh_expiry]
 
   def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
     listing =
@@ -38,6 +38,10 @@ defmodule VolunteerWeb.Admin.ListingController do
   
   def preload_relations(listing, action) when action in [:approve, :unapprove] do
     listing |> Repo.preload([:approved_by])
+  end
+  
+  def preload_relations(listing, action) when action in [:refresh_expiry] do
+    listing
   end
   
   # Controller Actions
@@ -129,8 +133,19 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggle_approval(conn, params, :unapprove)
   end
   
-  def archive(conn, params) do
+  def refresh_expiry(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
     
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
+    Apply.refresh_expiry_for_listing!(listing)
+    
+    conn
+    |> put_flash(:info, "Successfully refreshed listing expiry.")
+    |> redirect(to: admin_listing_path(conn, :show, listing))
+  end
+  
+  def expire(conn, params) do
+    conn
   end
 
   def delete(conn, %{"id" => id}) do

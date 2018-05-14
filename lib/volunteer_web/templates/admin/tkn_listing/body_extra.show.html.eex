@@ -1,13 +1,36 @@
  <%= render VolunteerWeb.VendorView, "docxtemplater.html" %>
  <%= script_tag @conn, "/js/doc_generator.js" %>
- <%= something do %>
- 	hahahah
- <% end %>
  <script>
  	docGenerator(
  		"#generate_assignment",
  		"/static/doctemplates/tknspec-2018-v1.docx",
  		"<%= generate_assignment_data(assigns) %>",
- 		"<%= generate_assignment_output_filename(assigns) %>"
+ 		"<%= generate_assignment_output_filename(assigns) %>",
+		{
+			setup: {
+				text: "Setting up generator...",
+				class: "btn disabled btn-primary text-white",
+			},
+			setup_fail: {
+				text: "Failed to setup generator!",
+				class: "btn disabled btn-danger text-white",
+			},
+			ready: {
+				text: "Generate TKN Assignment Specification",
+				class: "btn btn-primary text-white",
+			},
+			generating: {
+				text: "Generating document...",
+				class: "btn disabled btn-primary text-white",
+			},
+			generating_fail: {
+				text: "Error! Try again or contact administrator :(",
+				class: "btn btn-warning text-white",
+			},
+			done: {
+				text: "Success! Click to generate another",
+				class: "btn btn-success text-white",
+			},
+		}
  	)
  </script>

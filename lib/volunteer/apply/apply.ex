@@ -41,6 +41,12 @@ defmodule Volunteer.Apply do
     |> Listing.unapprove()
     |> Repo.update!()
   end
+  
+  def refresh_expiry_for_listing!(%Listing{} = listing) do
+    listing
+    |> Listing.refresh_expiry
+    |> Repo.update!()
+  end
 
   def get_all_listings do
     from(l in Listing)

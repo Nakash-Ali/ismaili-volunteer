@@ -5,6 +5,7 @@
 		<!-- <h5 class="mb-0 mr-4">Something</h5> -->
 		<div class="btn-toolbar justify-content-end font-family-sans-serif ml-auto" role="toolbar">
 			<div class="btn-group mr-2" role="group">
+				<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh Expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
 				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
 			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>

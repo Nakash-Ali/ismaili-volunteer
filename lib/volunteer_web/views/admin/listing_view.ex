@@ -15,7 +15,7 @@ defmodule VolunteerWeb.Admin.ListingView do
   def sub_title_nav(%{conn: conn, listing: listing, active_nav: active_nav}) do
     [
       {"Info", admin_listing_path(conn, :show, listing)},
-			# {"TKN", admin_listing_tkn_listing_path(conn, :show, listing)},
+			{"TKN", admin_listing_tkn_listing_path(conn, :show, listing)},
 			# {"Marketing", admin_listing_request_marketing_path(conn, :show, listing)},
     ]
     |> Enum.map(fn {title, path} ->

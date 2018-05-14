@@ -139,11 +139,15 @@ defmodule Volunteer.Apply.Listing do
   end
   
   def expire(listing) do
-    listing |> put_change(:expiry_date, now_expiry_date())
+    change(listing, %{
+      expiry_date: now_expiry_date()
+    })
   end
 
   def refresh_expiry(listing) do
-    listing |> put_change(:expiry_date, refreshed_expiry_date())
+    change(listing, %{
+      expiry_date: refreshed_expiry_date()
+    })
   end
   
   def now_expiry_date() do

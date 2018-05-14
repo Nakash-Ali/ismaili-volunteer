@@ -1,32 +1,26 @@
 /* eslint-disable */
 
-const FORCED_DELAY = 300
-
-window.docGenerator = function docGenerator(button, templatePath, defaultDataEncoded, defaultOutputFilename) {
+window.docGenerator = function docGenerator(button, templatePath, defaultDataEncoded, defaultOutputFilename, appearance) {
 	const $button = $(button)
 	const defaultData = JSON.parse(atob(defaultDataEncoded))
 	const templateContentPromise = fetchTemplate(templatePath)
 	const generateAndSave = generateWithPromise(templateContentPromise)
 	
-	console.log(defaultData)
-	
-	$button.text('Setting up generator...')
-	$button.attr('class', 'btn disabled btn-primary text-white')
+	$button.text(appearance.setup.text)
+	$button.attr('class', appearance.setup.class)
 		
-	window.setTimeout(() => {
-		templateContentPromise
-			.then((templateContent) => {
-				handleButton($button, generateAndSave.bind(null, defaultData, defaultOutputFilename))
-				$button.text('Generate document')
-				$button.attr('class', 'btn btn-primary text-white')
-				return templateContent
-			})
-			.catch((error) => {
-				$button.text('Failed to setup generator!')
-				$button.attr('class', 'btn disabled btn-danger text-white')
-				throw error
-			})
-	}, FORCED_DELAY * 3)
+	templateContentPromise
+		.then((templateContent) => {
+			handleButton($button, generateAndSave.bind(null, defaultData, defaultOutputFilename), appearance)
+			$button.text(appearance.ready.text)
+			$button.attr('class', appearance.ready.class)
+			return templateContent
+		})
+		.catch((error) => {
+			$button.text(appearance.setup_fail.text)
+			$button.attr('class', appearance.setup_fail.class)
+			throw error
+		})
 
 	return generateAndSave
 }
@@ -42,23 +36,21 @@ function fetchTemplate(template) {
 	})
 }
 
-function handleButton($button, promiseAction) {
+function handleButton($button, promiseAction, appearance) {
 	$button.on('click', (ev) => {
 		ev.preventDefault()
 		ev.stopPropagation()
-		$button.text('Generating document...!')
-		$button.attr('class', 'btn disabled btn-primary text-white')
-		window.setTimeout(() => {
-			promiseAction()
-				.then(() => {
-					$button.text('Generation success! Click to generate another')
-					$button.attr('class', 'btn btn-success text-white')
-				})
-				.catch(() => {
-					$button.text('Generation failed, try again?')
-					$button.attr('class', 'btn btn-primary text-white')
-				})
-		}, FORCED_DELAY)
+		$button.text(appearance.generating.text)
+		$button.attr('class', appearance.generating.class)
+		promiseAction()
+			.then(() => {
+				$button.text(appearance.done.text)
+				$button.attr('class', appearance.done.class)
+			})
+			.catch(() => {
+				$button.text(appearance.generating_fail.text)
+				$button.attr('class', appearance.generating_fail.class)
+			})
 	})
 }
 
