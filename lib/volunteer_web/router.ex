@@ -51,7 +51,7 @@ defmodule VolunteerWeb.Router do
 
       resources "/listings", ListingController do
         resources "/tkn_listing", TKNListingController, singleton: true
-        resources "/request_marketing", RequestMarketingController, singleton: true, only: [:show, :new, :create]
+        resources "/marketing_request", MarketingRequestController, singleton: true, only: [:show, :new, :create]
       end
 
       post "/listings/:id/approve", ListingController, :approve

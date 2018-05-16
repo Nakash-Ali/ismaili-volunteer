@@ -1,0 +1,48 @@
+<%= form_for @changeset, @action_path, fn form -> %>
+	<%= if @changeset.action do %>
+		<div class="alert alert-danger">
+			<p>Oops, something went wrong! Please check the errors below.</p>
+		</div>
+	<% end %>
+	
+	<%= render FormView, "with_toggler.html",
+		form: form,
+		tag: &text_input/3,
+		title: "Start date",
+		field: :start_date,
+		toggle: :start_asap,
+		toggle_label: "Start as soon as possible",
+		toggle_true: :disable,
+		toggle_input_clear: true,
+		input_opts: [
+			type: "date"
+		]
+	%>
+	
+	<%= render FormView, "select.html",
+		form: form,
+		field: :jamatkhanas,
+		title: "Applicable JKs",
+		multiple: true,
+		choices: Volunteer.Legacy.all_jamatkhanas(),
+		choices_opts_template: :multiple_select
+	%>
+
+	<%= inputs_for form, :text_channels, fn form -> %>
+		<%= render FormView, "with_toggler.html",
+			form: form,
+			tag: &textarea/3,
+			title: input_value(form, :type),
+			field: :text,
+			toggle: :enabled,
+			toggle_label: "Enable",
+			toggle_true: :enable,
+			toggle_input_clear: false
+		%>
+	<% end %>
+  
+	<div class="font-family-sans-serif orm-group mt-5 text-right">
+		<%= link  {:safe, "<i class=\"far fa-times mr-2\" aria-hidden=\"true\"></i> Discard Changes"}, to: @back_path, class: "btn btn-outline-warning mr-3" %>
+		<%= submit {:safe, "<i class=\"far fa-check mr-2\" aria-hidden=\"true\"></i> Submit"}, class: "btn btn-primary px-4" %>
+    </div>
+<% end %>

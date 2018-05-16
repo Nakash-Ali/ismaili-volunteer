@@ -25,7 +25,7 @@ defmodule Volunteer.Permissions.Abilities do
       :delete,
       :refresh_expiry,
       :tkn_listing,
-      :request_marketing
+      :marketing_request
     ]
 
     def can?(

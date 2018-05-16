@@ -3,7 +3,6 @@ require('parsleyjs')
 const $ = window.jQuery
 const $form = $('form[data-form-marker]').eq(0)
 const form = $form[0]
-let parsedConfig
 
 function simpleHash(str) {
 	let hash = 0
@@ -72,11 +71,7 @@ function setLoadingState() {
 		.attr('value', 'Applying... this may take a few moments (don\'t refresh!)')
 }
 
-try {
-	parsedConfig = JSON.parse(atob(window.__FORM_DATA__))
-} catch (e) {
-	throw new Error('could not decode formdata')
-}
+const parsedConfig = JSON.parse(atob(window.__FORM_DATA__))
 
 if (Object.keys(parsedConfig) === 0) {
 	throw new Error('incomplete config')

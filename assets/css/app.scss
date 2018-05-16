@@ -70,6 +70,10 @@ small {
 	font-family: $font-family-serif;
 }
 
+textarea.form-control {
+	height: 140px;
+}
+
 #old-browsers {
 	background: $danger;
 	color: #FFF;

@@ -3,5 +3,6 @@
 <section class="container my-5">
 	<%= render "form.html",
 	  changeset: @changeset,
-	  action_path: admin_listing_request_marketing_path(@conn, :create, @listing) %>
+	  back_path: admin_listing_marketing_request_path(@conn, :show, @listing),
+	  action_path: admin_listing_marketing_request_path(@conn, :create, @listing) %>
 </section>

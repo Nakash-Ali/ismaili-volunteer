@@ -46,6 +46,7 @@ defmodule VolunteerWeb do
       import VolunteerWeb.StaticHelpers
       import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
+      import VolunteerWeb.MiscHelpers
       alias VolunteerWeb.Session
       alias VolunteerWeb.Authorize
       

@@ -4,8 +4,8 @@
 	</div>
 	<div class="col-sm-9">
 		<%= text_input @form, @field,
-			[class: input_classes(@form, @field, ["form-control"]), placeholder: @placeholder]
-		++ Map.get(assigns, :input_opts, []) %>
+			[class: input_classes(@form, @field, ["form-control"]), placeholder: assigns[:placeholder] || ""]
+			++ Map.get(assigns, :input_opts, []) %>
 		<%= if assigns[:help_text] do %>
 			<small class="form-text text-muted"><%= assigns[:help_text] %></small>
 		<% end %>

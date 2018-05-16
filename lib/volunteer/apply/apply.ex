@@ -4,6 +4,7 @@ defmodule Volunteer.Apply do
   alias Volunteer.Repo
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
+  alias Volunteer.Apply.MarketingRequest
   alias Volunteer.Accounts
 
   def new_listing do
@@ -133,5 +134,9 @@ defmodule Volunteer.Apply do
   def get_tkn_listing_for_listing!(id) do
     query_tkn_listing_for_listing(id)
     |> Repo.one!()
+  end
+  
+  def new_marketing_request(assigns) do
+    MarketingRequest.new(%{}, MarketingRequest.TextChannel.types(), assigns)
   end
 end

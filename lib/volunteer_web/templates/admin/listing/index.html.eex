@@ -34,7 +34,7 @@
 				</li>
 				<!-- 
 				<li class="list-inline-item">
-					<%= link "Marketing", to: admin_listing_request_marketing_path(@conn, :show, listing) %>
+					<%= link "Marketing", to: admin_listing_marketing_request_path(@conn, :show, listing) %>
 				</li>
 				-->
 			</ul>
