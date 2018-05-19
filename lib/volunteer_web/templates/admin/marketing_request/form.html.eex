@@ -41,8 +41,5 @@
 		%>
 	<% end %>
   
-	<div class="font-family-sans-serif orm-group mt-5 text-right">
-		<%= link  {:safe, "<i class=\"far fa-times mr-2\" aria-hidden=\"true\"></i> Discard Changes"}, to: @back_path, class: "btn btn-outline-warning mr-3" %>
-		<%= submit {:safe, "<i class=\"far fa-check mr-2\" aria-hidden=\"true\"></i> Submit"}, class: "btn btn-primary px-4" %>
-    </div>
+	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
 <% end %>
