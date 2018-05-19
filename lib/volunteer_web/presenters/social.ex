@@ -35,8 +35,7 @@ defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Apply.Listing do
     {nil, nil}
   end
   
-  def image_abs_url(_listing, _conn) do
-    # static_url(conn, "/")
-    nil
+  def image_abs_url(listing, conn) do
+    VolunteerWeb.Services.ListingSocialImageGenerator.static_url(conn, listing)
   end
 end

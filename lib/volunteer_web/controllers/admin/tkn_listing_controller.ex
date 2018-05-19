@@ -63,13 +63,11 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     |> Apply.create_tkn_listing(listing)
     |> case do
       {:ok, _tkn_listing} ->
-        IO.puts "tkn_listing created successfully, redirecting"
         conn
         |> put_flash(:info, "TKN Listing created successfully.")
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.puts "tkn_listing has errors, please fix"
         render_form(conn, changeset, "new.html",
           action_path: admin_listing_tkn_listing_path(conn, :create, listing))
     end

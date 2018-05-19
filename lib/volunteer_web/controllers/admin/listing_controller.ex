@@ -6,6 +6,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias VolunteerWeb.UtilsController
   alias VolunteerWeb.SanitizeInput
   alias VolunteerWeb.Authorize
+  alias VolunteerWeb.Services.ListingSocialImageGenerator
   
   @text_params [
     "position_title",
@@ -115,7 +116,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       |> SanitizeInput.textarea_params(@textarea_params)
       
     case Apply.update_listing(listing, sanitized_params) do
-      {:ok, listing} ->
+      {:ok, listing} ->      
         conn
         |> put_flash(:info, "Listing updated successfully.")
         |> redirect(to: admin_listing_path(conn, :show, listing))
@@ -168,12 +169,15 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          listing
-          |> Apply.approve_listing!(Session.get_user(conn))
+          toggled_listing =
+            Apply.approve_listing!(listing, Session.get_user(conn))
+          
+          ListingSocialImageGenerator.generate_image_async(conn, toggled_listing)
+          
+          toggled_listing
 
         :unapprove ->
-          listing
-          |> Apply.unapprove_listing!()
+          Apply.unapprove_listing!(listing)
       end
 
     conn
