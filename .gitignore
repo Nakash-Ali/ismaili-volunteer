@@ -48,3 +48,7 @@ npm-debug.log
 
 # Visio autosave temporary files
 *.~vsd*
+
+# Secrets
+passwords
+app.yaml
