@@ -139,4 +139,8 @@ defmodule Volunteer.Apply do
   def new_marketing_request(assigns) do
     MarketingRequest.new(%{}, MarketingRequest.TextChannel.types(), assigns)
   end
+  
+  def create_marketing_request(attrs) do
+    MarketingRequest.changeset(attrs)
+  end
 end

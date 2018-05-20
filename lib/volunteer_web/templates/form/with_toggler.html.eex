@@ -54,6 +54,8 @@
 	    
 	    if (toggle.prop("checked") === true) {
 			actions[toggle_true]()
-	    }
+	    } else {
+			actions[opposite[toggle_true]]()
+		}
 	})()
 </script>

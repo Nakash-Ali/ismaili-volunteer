@@ -45,6 +45,8 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
     
     IO.puts(inspect(marketing_request))
     
+    changeset = Apply.create_marketing_request(marketing_request)
+    
     conn
     |> put_flash(:info, "TKN Listing created successfully.")
     |> redirect(to: admin_listing_marketing_request_path(conn, :new, listing))

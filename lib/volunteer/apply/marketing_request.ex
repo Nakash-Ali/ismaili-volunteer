@@ -6,7 +6,7 @@ defmodule Volunteer.Apply.MarketingRequest do
     alias VolunteerWeb.Presenters.Title
     
     embedded_schema do
-      field :enabled, :boolean, default: true
+      field :enabled, :boolean, default: false
       field :type, :string
       field :text, :string
     end
@@ -60,23 +60,79 @@ defmodule Volunteer.Apply.MarketingRequest do
   end
   
   defmodule ImageChannel do
+    use Ecto.Schema
+    
+    embedded_schema do
+      field :enabled, :boolean, default: false
+      field :type, :string
+      field :image_url, :string
+    end
+    
+    @attributes_cast_always [
+      :enabled,
+      :type,
+      :image_url
+    ]
+    
+    @attributes_required_always @attributes_cast_always
+    
     @types [
       "JK LCD screen"
     ]
+    
+    def types do
+      @types
+    end
+    
+    def changeset(channel, attrs) do
+      channel
+      |> cast(attrs, @attributes_cast_always)
+      |> validate_required(@attributes_required_always)
+      |> validate_inclusion(:type, @types)
+    end
   end
   
   defmodule TextImageChannel do
+    use Ecto.Schema
+    
+    embedded_schema do
+      field :enabled, :boolean, default: false
+      field :type, :string
+      field :text, :string
+      field :image_url, :string
+    end
+    
+    @attributes_cast_always [
+      :enabled,
+      :type,
+      :text,
+      :image_url
+    ]
+    
+    @attributes_required_always @attributes_cast_always
+    
     @types [
       "Facebook",
       "Instagram",
     ]
+    
+    def types do
+      @types
+    end
+    
+    def changeset(channel, attrs) do
+      channel
+      |> cast(attrs, @attributes_cast_always)
+      |> validate_required(@attributes_required_always)
+      |> validate_inclusion(:type, @types)
+    end
   end
   
   use Ecto.Schema
   
   schema "marketing_requests" do
-    field :start_date, :date
-    field :start_asap, :boolean, default: true
+    field :start_date, :date, default: Timex.now() |> Timex.to_date()
+    field :start_asap, :boolean, default: false
     field :target_jamatkhanas, {:array, :string}
     embeds_many :text_channels, TextChannel
     # embeds_many :image_channels, ImageChannel
@@ -97,10 +153,10 @@ defmodule Volunteer.Apply.MarketingRequest do
       |> Enum.map(&TextChannel.initial_data(&1, assigns))
     params
     |> Map.merge(%{text_channels: text_channels})
-    |> create
+    |> changeset
   end
 
-  def create(params) do
+  def changeset(params) do
     %__MODULE__{}
     |> cast(params, @attributes_cast_always)
     |> cast_embed(:text_channels)
