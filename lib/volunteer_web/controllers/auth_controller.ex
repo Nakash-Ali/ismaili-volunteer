@@ -4,6 +4,11 @@ defmodule VolunteerWeb.AuthController do
   alias VolunteerWeb.Router
 
   plug Ueberauth
+  
+  def request(conn, _params) do
+    conn
+    |> render("login.html")
+  end
 
   def login(conn, _params) do
     conn
