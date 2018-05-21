@@ -19,6 +19,10 @@ section.title .nav-tabs {
 	min-height: 8rem;
 }
 
+textarea.form-control {
+	height: 140px;
+}
+
 label.required-label {
 	position: relative;
 	&:after {
