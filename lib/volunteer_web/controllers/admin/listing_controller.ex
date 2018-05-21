@@ -4,9 +4,9 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Apply
   alias Volunteer.Infrastructure
   alias VolunteerWeb.UtilsController
-  alias VolunteerWeb.SanitizeInput
   alias VolunteerWeb.Authorize
   alias VolunteerWeb.Services.ListingSocialImageGenerator
+  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
   
   @text_params [
     "position_title",
@@ -22,6 +22,12 @@ defmodule VolunteerWeb.Admin.ListingController do
   
   # Plugs
 
+  plug :scrubadub_params, [
+    required_key: "listing",
+    sanitize_text_params: @text_params,
+    sanitize_textarea_params: @textarea_params ]
+    when action in [:create, :update]
+  
   plug :load_listing
     when action in [:show, :edit, :update, :approve, :unapprove, :refresh_expiry]
 
@@ -72,8 +78,6 @@ defmodule VolunteerWeb.Admin.ListingController do
     Authorize.ensure_allowed!(conn, [:admin, :listing, :create])
     
     listing_params
-    |> SanitizeInput.text_params(@text_params)
-    |> SanitizeInput.textarea_params(@textarea_params)
     |> Apply.create_listing(Session.get_user(conn))
     |> case do
       {:ok, listing} ->
@@ -110,12 +114,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     
     Authorize.ensure_allowed!(conn, [:admin, :listing, :update], listing)
     
-    sanitized_params =
-      listing_params
-      |> SanitizeInput.text_params(@text_params)
-      |> SanitizeInput.textarea_params(@textarea_params)
-      
-    case Apply.update_listing(listing, sanitized_params) do
+    case Apply.update_listing(listing, listing_params) do
       {:ok, listing} ->      
         conn
         |> put_flash(:info, "Listing updated successfully.")

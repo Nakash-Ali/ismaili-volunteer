@@ -18,3 +18,15 @@ section.title .nav-tabs {
 .form-group trix-editor {
 	min-height: 8rem;
 }
+
+label.required-label {
+	position: relative;
+	&:after {
+		content: '*';
+		position: absolute;
+		color: $complement-two;
+		font-size: $font-size-lg;
+		line-height: 1;
+		margin-left: 2px;
+	}
+}

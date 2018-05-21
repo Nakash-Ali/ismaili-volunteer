@@ -18,7 +18,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
     Helpers.static_url(conn, "/" <> Path.join([@static_path, file_name(listing)]))
   end
   
-  def output_path(listing) do
+  def disk_path(listing) do
     Path.join([@static_output, file_name(listing)])
   end
   
@@ -26,7 +26,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
     [
       %{
         webpageUrl: Helpers.listing_listing_social_image_url(conn, :show, listing),
-        outputPath: output_path(listing)
+        outputPath: disk_path(listing)
       }
     ]
   end

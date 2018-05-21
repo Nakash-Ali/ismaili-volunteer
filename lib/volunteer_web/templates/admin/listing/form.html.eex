@@ -9,7 +9,8 @@
 	form: form,
 	field: :position_title,
 	title: "Position title",
-	placeholder: "Musc Teacher"
+	placeholder: "Musc Teacher",
+	required: true
 	%>
 
 	<%= render FormView, "text.html",
@@ -23,28 +24,32 @@
 	form: form,
 	field: :summary_line,
 	title: "Summary",
-	placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents"
+	placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents",
+	required: true
 	%>
 
 	<%= render FormView, "select.html",
 	form: form,
 	field: :region_id,
 	choices: @region_id_choices,
-	title: "Region"
+	title: "Region",
+	required: true
 	%>
 
 	<%= render FormView, "select.html",
 	form: form,
 	field: :group_id,
 	choices: @group_id_choices,
-	title: "Organizing group"
+	title: "Organizing group",
+	required: true
 	%>
 
 	<%= render FormView, "select.html",
 	form: form,
 	field: :organized_by_id,
 	choices: @organized_by_id_choices,
-	title: "Organizing user"
+	title: "Organizing user",
+	required: true
 	%>
 
 	<%= render FormView, "text.html",
@@ -70,7 +75,8 @@
 	toggle_input_clear: true,
 	input_opts: [
 		type: "date"
-	]
+	],
+	required: true
 	%>
 
 	<%= render FormView, "with_toggler.html",
@@ -84,13 +90,15 @@
 	toggle_input_clear: true,
 	input_opts: [
 		type: "date"
-	]
+	],
+	required: true
 	%>
 
 	<%= render FormView, "number.html",
 	form: form,
 	field: :hours_per_week,
-	title: "Hours per week"
+	title: "Hours per week",
+	required: true
 	%>
 
 	<div class="listing-textblob">
@@ -99,7 +107,8 @@
 		field: :program_description,
 		title: "About the program",
 		help_text: "Describe the scope, objectives, and/or mission of the program.",
-		placeholder: "SEED is a..."
+		placeholder: "SEED is a...",
+		required: true
 		%>
 	</div>
 
@@ -109,7 +118,8 @@
 		field: :responsibilities,
 		title: "About the role",
 		help_text: "Describe the day-to-day responsibilities of this role.",
-		placeholder: "You will..."
+		placeholder: "You will...",
+		required: true
 		%>
 	</div>
 
@@ -119,7 +129,8 @@
 		field: :qualifications,
 		title: "About the applicant",
 		help_text: "Describe any and all qualifications for this position. Be specific about must-have skills, experiences, and language requirements.",
-		placeholder: "We're looking for..."
+		placeholder: "We're looking for...",
+		required: true
 		%>
 	</div>
 

@@ -3,12 +3,21 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias VolunteerWeb.Authorize
+  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
   
   # Plugs
 
+  # plug :scrubadub_params, [
+  #   required_key: "listing",
+  #   sanitize_text_params: @text_params,
+  #   sanitize_textarea_params: @textarea_params ]
+  #   when action in [:create, :update]
+  
   plug :load_listing  
+  
   plug :authorize
-  # plug :ensure_approved when action not in [:show]
+  
+  plug :ensure_approved when action not in [:show]
     
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     listing = Apply.get_listing!(id)  |> Repo.preload([:organized_by, :group])

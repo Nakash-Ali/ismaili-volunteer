@@ -16,7 +16,8 @@
 		toggle_input_clear: true,
 		input_opts: [
 			type: "date"
-		]
+		],
+		required: true
 	%>
 	
 	<%= render FormView, "select.html",
@@ -25,7 +26,8 @@
 		title: "Applicable JKs",
 		multiple: true,
 		choices: Volunteer.Legacy.all_jamatkhanas(),
-		choices_opts_template: :multiple_select
+		choices_opts_template: :multiple_select,
+		required: true
 	%>
 
 	<%= inputs_for form, :text_channels, fn form -> %>

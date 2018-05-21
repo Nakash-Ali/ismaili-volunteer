@@ -1,10 +1,14 @@
 <div class="form-group row mb-4">
 	<div class="col-sm-3 text-right">
-		<strong><%= label @form, @field, @title, class: "col-form-label" %></strong>
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
 	</div>
 	<div class="col-sm-9">
 		<%= text_input @form, @field,
-			[class: input_classes(@form, @field, ["form-control"]), placeholder: assigns[:placeholder] || ""]
+			[
+				class: input_classes(@form, @field, ["form-control"]),
+				required: (if assigns[:required] == true, do: true, else: false),
+				placeholder: assigns[:placeholder] || ""
+			]
 			++ Map.get(assigns, :input_opts, []) %>
 		<%= if assigns[:help_text] do %>
 			<small class="form-text text-muted"><%= assigns[:help_text] %></small>

@@ -3,8 +3,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias VolunteerWeb.Authorize
-  alias VolunteerWeb.SanitizeInput
   alias VolunteerWeb.UtilsController
+  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
   
   @text_params [
     "suggested_keywords"
@@ -12,10 +12,18 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   
   # Plugs
 
-  plug :load_listing  
+  plug :scrubadub_params, [
+    required_key: "listing",
+    sanitize_text_params: @text_params ]
+    when action in [:create, :update]
+      
+  plug :load_listing
+  
   plug :authorize
+  
   plug :redirect_to_show_if_exists
     when action in [:new, :create]
+    
   plug :load_tkn_listing_or_redirect_to_correct_id
     when action in [:edit, :update, :delete]
     
@@ -59,7 +67,6 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     tkn_listing_params
-    |> SanitizeInput.text_params(@text_params)
     |> Apply.create_tkn_listing(listing)
     |> case do
       {:ok, _tkn_listing} ->
@@ -105,11 +112,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def update(conn, %{"tkn_listing" => tkn_listing_params}) do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
 
-    sanitized_params =
-      tkn_listing_params
-      |> SanitizeInput.text_params(@text_params)
-      
-    case Apply.update_tkn_listing(tkn_listing, sanitized_params) do
+    case Apply.update_tkn_listing(tkn_listing, tkn_listing_params) do
       {:ok, _tkn_listing} ->
         conn
         |> put_flash(:info, "Listing updated successfully.")

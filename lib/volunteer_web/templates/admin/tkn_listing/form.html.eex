@@ -9,7 +9,8 @@
     form: form,
     field: :openings,
     title: "Number of positions open",
-    placeholder: "3"
+    placeholder: "3",
+	required: true
   %>
 
   <%= render FormView, "select.html",
@@ -17,28 +18,32 @@
     field: :commitment_type,
     title: "Commitment type",
     choices: @commitment_type_choices,
-	choices_opts_template: :single_select
+	choices_opts_template: :single_select,
+	required: true
   %>
   
   <%= render FormView, "select.html",
     form: form,
     field: :location_type,
     title: "Location type",
-    choices: @location_type_choices
+    choices: @location_type_choices,
+	required: true
   %>
   
   <%= render FormView, "select.html",
     form: form,
     field: :search_scope,
     title: "Search scope",
-    choices: @search_scope_choices
+    choices: @search_scope_choices,
+	required: true
   %>
   
   <%= render FormView, "text.html",
     form: form,
     field: :suggested_keywords,
     title: "Suggested keywords",
-	placeholder: "Children, teaching..."
+	placeholder: "Children, teaching...",
+	required: true
   %>
   
   <%= render FormView, "select.html",
