@@ -48,7 +48,7 @@ defmodule VolunteerWeb.SanitizeInput do
   
   def text(input) do
     input
-    |> Floki.text
+    # |> Floki.text
     |> collapse_whitespace
     |> String.trim
   end

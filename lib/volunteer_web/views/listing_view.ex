@@ -44,19 +44,19 @@ defmodule VolunteerWeb.ListingView do
   end
   
   def start_date_and_end_date_html(nil, nil) do
-    {:safe, "<em>#{end_date_text(nil)} #{start_date_text(nil) |> String.downcase}</em>"}
+    ~E"<em><%= end_date_text(nil) %> <%= start_date_text(nil) |> String.downcase %></em>"
   end
   
   def start_date_and_end_date_html(nil, %Date{} = end_date) do
-    {:safe, "<em>#{start_date_text(nil)}</em> to <em>#{end_date_text(end_date)}</em>"}
+    ~E"<em><%= start_date_text(nil) %></em> to <em><%= end_date_text(end_date) %></em>"
   end
   
   def start_date_and_end_date_html(%Date{} = start_date, nil) do
-    {:safe, "<em>#{end_date_text(nil)}</em> starting on <em>#{start_date_text(start_date) }</em>"}
+    ~E"<em><%= end_date_text(nil) %></em> starting on <em><%= start_date_text(start_date) %></em>"
   end
   
   def start_date_and_end_date_html(%Date{} = start_date, %Date{} = end_date) do
-    {:safe, "<em>#{ start_date_text(start_date) }</em> to <em>#{ format_date(end_date) }</em>"}
+    ~E"<em><%= start_date_text(start_date) %></em> to <em><%=  format_date(end_date) %></em>"
   end
 
   def expiry_datetime_text(%DateTime{} = datetime) do
@@ -75,6 +75,6 @@ defmodule VolunteerWeb.ListingView do
   end
   
   def organizer_html(%Apply.Listing{} = listing) do
-    {:safe, "Organized by <em>#{ Title.text(listing.organized_by) }</em> and the <em>#{ Title.text(listing.group) }</em>"}
+    ~E"Organized by <em><%= Title.text(listing.organized_by) %></em> and the <em><%= Title.text(listing.group) %></em>"
   end
 end

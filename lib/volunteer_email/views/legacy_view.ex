@@ -1,12 +1,13 @@
 defmodule VolunteerEmail.LegacyView do
   use VolunteerEmail, :view
+  import Phoenix.HTML
 
   def html_for_key(:email, value) do
-    raw("<span class=\"mobile_link\"><a href=\"mailto:#{value}\">#{value}</a></span>")
+    ~E"<span class=\"mobile_link\"><a href=\"mailto:<%= value %>\"><%= value %></a></span>"
   end
 
   def html_for_key(:phone, value) do
-    raw("<span class=\"mobile_link\"><a href=\"tel:#{value}\">#{value}</a></span>")
+    ~E"<span class=\"mobile_link\"><a href=\"tel:<%= value %>\"><%= value %></a></span>"
   end
 
   def html_for_key(key, value) do
