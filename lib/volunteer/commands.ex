@@ -6,12 +6,10 @@ defmodule Volunteer.Commands do
       Porcelain.spawn("node", args(command_name, config), dir: chdir(), err: :out)
     case Process.await(proc, 30_000) do
       {:error, :timeout} ->
-        true =
-          Process.stop(proc)
-        %Porcelain.Result{status: 0} =
-          pkill(command_name, config)
+        true = Process.stop(proc)
+        %Porcelain.Result{status: 0} = pkill(command_name, config)
         {:error, :timeout}
-      %Result{out: out, status: status} ->
+      {:ok, %Result{out: out, status: status}} ->
         case status do
           0 ->
             {:ok, decode_or_clean_out(out)}

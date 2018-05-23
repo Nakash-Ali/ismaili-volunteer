@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
-const config = require('./setup')('./do_webpage_screenshot_schema.json')
+const { setupConfig, setupTimeout } = require('./setup')
+const config = setupConfig('./do_webpage_screenshot_schema.json')
 
 const { writeFileSync } = require('fs')
 const puppeteer = require('puppeteer')
 const sizeOf = require('image-size')
 
-function logFileSize(obj) {
+function logEncodedObj(obj) {
 	const buff = Buffer.from(JSON.stringify(obj), 'utf8').toString('base64')
 	console.log(buff)
 }
@@ -20,7 +21,7 @@ async function saveImages(imgConfigs) {
 			waitUntil: 'networkidle0'
 		})
 		if (Math.floor(response.status() / 100) !== 2) {
-			throw new Error("failed to load page!")
+			throw new Error('failed to load page!')
 		}
 		const pngFile = await page.screenshot({
 			fullPage: true,
@@ -33,4 +34,7 @@ async function saveImages(imgConfigs) {
 	await browser.close()
 }
 
+const done = setupTimeout()
+
 saveImages(config)
+	.then(done)

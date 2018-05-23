@@ -168,12 +168,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          toggled_listing =
-            Apply.approve_listing!(listing, Session.get_user(conn))
-          
-          ListingSocialImageGenerator.generate_image_async(conn, toggled_listing)
-          
-          toggled_listing
+          Apply.approve_listing!(listing, Session.get_user(conn))
 
         :unapprove ->
           Apply.unapprove_listing!(listing)

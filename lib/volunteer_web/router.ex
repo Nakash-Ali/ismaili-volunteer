@@ -30,7 +30,8 @@ defmodule VolunteerWeb.Router do
     get "/", IndexController, :index
     
     resources "/listings", ListingController, only: [:show] do
-      get "/social_image", ListingSocialImageController, :show
+      get "/social_html", ListingSocialImageController, :show
+      get "/social_image", ListingSocialImageController, :image
     end
   
     get "/listings/preview/index/:id", ListingPreviewController, :index

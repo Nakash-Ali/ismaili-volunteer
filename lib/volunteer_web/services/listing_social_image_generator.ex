@@ -1,42 +1,69 @@
 defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
+  use GenServer
   alias Volunteer.Commands
   alias VolunteerWeb.Router.Helpers
   
   @static_at Application.get_env(:volunteer, VolunteerWeb.Endpoint) |> Keyword.fetch!(:static_at)
-  @static_path Path.join(["images", "listing"])
-  @static_output Path.join([:code.priv_dir(:volunteer), @static_at, @static_path])
+  @static_dir Path.join(["images", "listing"])
+  @disk_dir Path.join([:code.priv_dir(:volunteer), @static_at, @static_dir])
   
-  def file_name(listing) do
+  def start_link do
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+  end
+  
+  def get(conn, listing) do
+    webpage_url = Helpers.listing_listing_social_image_url(conn, :show, listing)
+    GenServer.call(__MODULE__, {:get, webpage_url, listing.id, listing.updated_at}, 30_000)
+  end
+  
+  def init(:ok) do
+    {:ok, %{}}
+  end
+  
+  def handle_call({:get, webpage_url, listing_id, listing_updated_at}, _from, state) do
+    disk_path = image_disk_path(listing_id, listing_updated_at)
+    {:ok, _} =
+      case File.stat(disk_path) do
+        {:ok, %File.Stat{type: :regular}} ->
+          {:ok, :exists}
+        _ ->
+          generate_image!(webpage_url, disk_path)
+      end
+    {:reply, disk_path, state}
+  end
+  
+  def image_filename(listing_id, listing_updated_at) do
     hashed_listing_str =
       :sha
-      |> :crypto.hash("#{listing.id}#{listing.updated_at}")
+      |> :crypto.hash("#{listing_id}#{listing_updated_at}")
       |> Base.hex_encode32(case: :lower, padding: false)
     "#{hashed_listing_str}.png"
   end
   
-  def static_url(conn, listing) do
-    Helpers.static_url(conn, "/" <> Path.join([@static_path, file_name(listing)]))
+  def image_disk_path(filename) do
+    Path.join([@disk_dir, filename])
   end
   
-  def disk_path(listing) do
-    Path.join([@static_output, file_name(listing)])
+  def image_disk_path(listing_id, listing_updated_at) do
+    image_filename(listing_id, listing_updated_at)
+    |> image_disk_path()
   end
   
-  def generate_config(conn, listing) do
+  def image_url(conn, listing) do
+    Helpers.listing_listing_social_image_path(conn, :image, listing)
+  end
+  
+  def generate_config(webpage_url, disk_path) do
     [
       %{
-        webpageUrl: Helpers.listing_listing_social_image_url(conn, :show, listing),
-        outputPath: disk_path(listing)
+        webpageUrl: webpage_url,
+        outputPath: disk_path
       }
     ]
   end
   
-  def generate_image!(conn, listing) do
-    :ok = File.mkdir_p!(@static_output)
-    {:ok, output} = Commands.run("do_webpage_screenshot", generate_config(conn, listing))
-  end
-  
-  def generate_image_async(conn, listing) do
-    Task.async(fn -> generate_image!(conn, listing) end)
+  def generate_image!(webpage_url, disk_path) do
+    :ok = File.mkdir_p!(@disk_dir)
+    Commands.run("do_webpage_screenshot", generate_config(webpage_url, disk_path))
   end
 end

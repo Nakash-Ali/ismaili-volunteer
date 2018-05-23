@@ -2,8 +2,8 @@ defmodule VolunteerWeb.SanitizeInput do
   def scrubadub_params(conn, opts) do
     required_key = Keyword.fetch!(opts, :required_key)
     conn
-    |> Phoenix.Controller.scrub_params(required_key)
-    |> remove_nil_params(required_key)
+    # |> Phoenix.Controller.scrub_params(required_key)
+    # |> remove_nil_params(required_key)
     |> sanitize_params(opts)
   end
   
