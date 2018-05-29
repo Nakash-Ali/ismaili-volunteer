@@ -72,7 +72,6 @@ defmodule Volunteer.Legacy do
     :jamatkhana,
     :affirm,
     :position,
-    :program,
     :this,
     :this_id,
     :organizer,
@@ -181,6 +180,11 @@ defmodule Volunteer.Legacy do
   end
 
   defp construct_subject(%Volunteer.Legacy{} = data) do
-    "#{data.name} - #{data.position} - #{data.program} - Volunteer Application"
+    case Map.get(data, :program, "") do
+      "" ->
+        "#{data.name} - #{data.position} - Volunteer Application"
+      _ ->
+        "#{data.name} - #{data.position} - #{data.program} - Volunteer Application"
+    end
   end
 end
