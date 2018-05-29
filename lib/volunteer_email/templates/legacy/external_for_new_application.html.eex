@@ -1,8 +1,8 @@
 <p>Ya Ali Madad <%= @data.name %>,</p>
 
-<%= if @data.program != "" %>
+<%= if @data.program != "" do %>
 <p>Thank you very much for applying to the position of <%= @data.position %> for <%= @data.program %>!</p>
-<%= else %>
+<% else %>
 <p>Thank you very much for applying to the position of <%= @data.position %>!</p>
 <% end %>
 
