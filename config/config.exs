@@ -13,7 +13,7 @@ config :volunteer,
   
 # Email related settings
 config :volunteer, VolunteerEmail,
-  from_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
+  system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
   
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
