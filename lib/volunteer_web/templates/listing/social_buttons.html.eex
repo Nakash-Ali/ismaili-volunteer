@@ -19,7 +19,7 @@
 		</a>
 	</li><li class="list-inline-item">
 		<a href="https://twitter.com/intent/tweet?<%= %{
-			"url" => Social.url(@listing, @conn)
+			"url" => Social.url(@listing, @conn),
 			"text" => Social.title(@listing)
 		} |> URI.encode_query %>" onclick="<%= Social.popup_onclick(@listing) %>">
 			<i class="fab fa-twitter-square" aria-hidden="true"></i>
