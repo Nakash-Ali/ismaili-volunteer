@@ -5,7 +5,6 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Infrastructure
   alias VolunteerWeb.UtilsController
   alias VolunteerWeb.Authorize
-  alias VolunteerWeb.Services.ListingSocialImageGenerator
   import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
   
   @text_params [
@@ -144,7 +143,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> redirect(to: admin_listing_path(conn, :show, listing))
   end
   
-  def expire(conn, params) do
+  def expire(conn, _params) do
     conn
   end
 
