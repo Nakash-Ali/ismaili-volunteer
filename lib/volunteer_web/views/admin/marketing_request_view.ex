@@ -1,9 +1,7 @@
 defmodule VolunteerWeb.Admin.MarketingRequestView do
   use VolunteerWeb, :view
   alias VolunteerWeb.FormView
-  alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.ListingView
-  alias VolunteerWeb.Presenters.Title
   
   def render("head_extra" <> page, %{conn: conn}) when page in [".new.html"] do
     [
