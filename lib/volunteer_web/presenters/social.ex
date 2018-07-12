@@ -6,6 +6,7 @@ defprotocol VolunteerWeb.Presenters.Social do
   def image_src(data)
   def image_src_size(data)
   def image_abs_url(data, conn)
+  def popup_onclick(data)
 end
 
 defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Apply.Listing do
@@ -20,7 +21,7 @@ defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Apply.Listing do
   end
   
   def title(listing) do
-    "Apply now for #{VolunteerWeb.Presenters.Title.text(listing)}!"
+    "Apply for #{VolunteerWeb.Presenters.Title.text(listing)}!"
   end
   
   def description(listing) do
@@ -36,6 +37,10 @@ defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Apply.Listing do
   end
   
   def image_abs_url(listing, conn) do
-    VolunteerWeb.Services.ListingSocialImageGenerator.static_url(conn, listing)
+    VolunteerWeb.Services.ListingSocialImageGenerator.image_url(conn, listing)
+  end
+  
+  def popup_onclick(_listing) do
+    "window.open(this.href, '_blank', 'left=100,top=100,width=900,height=600,menubar=no,toolbar=no,resizable=yes,scrollbars=yes'); return false;"
   end
 end

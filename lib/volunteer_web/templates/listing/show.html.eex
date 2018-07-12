@@ -6,7 +6,7 @@
 		<li class="list-inline-item mb-0">Listing expires on <em><%= expiry_datetime_text(@listing.expiry_date) %></em></li>
 	</ul>
 	<%= if @listing.approved do %>
-		<!-- <%= render("social_buttons.html", assigns) %> -->
+		<%= render "social_buttons.html", assigns %>
 	<% else %>
 		<p class="mb-0 py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">This position has not yet been <strong>approved</strong> by the respective board or portfolio for public distribution.</p>
 	<% end %>
