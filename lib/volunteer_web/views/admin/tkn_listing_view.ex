@@ -19,7 +19,7 @@ defmodule VolunteerWeb.Admin.TKNListingView do
     ]
   end
   
-  def generate_assignment_data(%{conn: conn, listing: listing, tkn_listing: tkn_listing}) do
+  def generate_assignment_data(%{listing: listing, tkn_listing: tkn_listing}) do
     %{
       country: "Canada",
       group: listing.group.title,
@@ -47,7 +47,7 @@ defmodule VolunteerWeb.Admin.TKNListingView do
     |> encode_for_client
   end
   
-  def generate_assignment_output_filename(%{conn: conn, listing: listing}) do
+  def generate_assignment_output_filename(%{listing: listing}) do
     "#{listing.id} - #{Title.text(listing)} - TKN Assignment Specification"
   end
 end
