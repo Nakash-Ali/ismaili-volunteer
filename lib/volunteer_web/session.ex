@@ -35,8 +35,6 @@ defmodule VolunteerWeb.Session do
   end
 
   defmodule Plugs do
-    import Phoenix.Controller
-    
     if Application.get_env(:volunteer, :mock_sessions, false) == true and Mix.env() == :dev do
       
       def load_current_user(conn, _) do
@@ -51,7 +49,7 @@ defmodule VolunteerWeb.Session do
     else
       
       def load_current_user(conn, _) do
-        case get_session(conn, :current_user_id) do
+        case Phoenix.Controller.get_session(conn, :current_user_id) do
           nil ->
             conn
 
@@ -73,9 +71,9 @@ defmodule VolunteerWeb.Session do
           _ ->
             conn
             |> VolunteerWeb.Session.put_redirect()
-            |> put_flash(:error, "Please log in to view this page")
-            |> redirect(to: Helpers.auth_path(conn, :login))
-            |> halt
+            |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
+            |> Phoenix.Controller.redirect(to: Helpers.auth_path(conn, :login))
+            |> Phoenix.Controller.halt
         end
       end
       
