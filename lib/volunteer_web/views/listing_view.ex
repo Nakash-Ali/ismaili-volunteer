@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.ListingView do
   alias Volunteer.Apply
-  alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.Presenters.{Title, Social}
   
   use VolunteerWeb, :view
   
