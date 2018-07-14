@@ -103,10 +103,10 @@ defmodule Volunteer.Legacy do
     @all_jamatkhanas
   end
 
-  def apply(params) when is_map(params) do
+  def apply(attrs) when is_map(attrs) do
     changeset =
       {%{}, @types}
-      |> Changeset.cast(params, Map.keys(@types))
+      |> Changeset.cast(attrs, Map.keys(@types))
       |> Changeset.validate_required(@required)
       |> Changeset.validate_format(:email, ~r/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
       |> Changeset.validate_inclusion(:jamatkhana, @all_jamatkhanas)
