@@ -136,11 +136,25 @@ defmodule Volunteer.Apply do
     |> Repo.one!()
   end
   
-  def new_marketing_request(assigns) do
-    MarketingRequest.new(%{}, MarketingRequest.TextChannel.types(), assigns)
+  def create_marketing_request(listing, attrs \\ %{}) do
+    MarketingRequest.changeset(
+      MarketingRequest.default_channels(),
+      %{ listing: listing },
+      attrs
+    )
   end
   
-  def create_marketing_request(attrs) do
-    MarketingRequest.changeset(attrs)
+  def send_marketing_request(listing, attrs) do
+    case create_marketing_request(listing, attrs) do
+      %{valid?: true} = changeset ->
+        email =
+          changeset
+          |> Ecto.Changeset.apply_changes
+          |> VolunteerEmail.ApplyEmails.marketing_request(listing)
+          |> VolunteerEmail.Mailer.deliver_now
+        {:ok, email}
+      %{valid?: false} = changeset ->
+        {:error, changeset}
+    end
   end
 end

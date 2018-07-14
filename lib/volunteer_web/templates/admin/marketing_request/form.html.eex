@@ -5,15 +5,10 @@
 		</div>
 	<% end %>
 	
-	<%= render FormView, "with_toggler.html",
+	<%= render FormView, "text.html",
 		form: form,
-		tag: &text_input/3,
 		title: "Start date",
 		field: :start_date,
-		toggle: :start_asap,
-		toggle_label: "Start as soon as possible",
-		toggle_true: :disable,
-		toggle_input_clear: true,
 		input_opts: [
 			type: "date"
 		],
@@ -22,8 +17,8 @@
 	
 	<%= render FormView, "select.html",
 		form: form,
-		field: :jamatkhanas,
 		title: "Applicable JKs",
+		field: :target_jamatkhanas,
 		multiple: true,
 		choices: Volunteer.Legacy.all_jamatkhanas(),
 		choices_opts_template: :multiple_select,
@@ -34,13 +29,14 @@
 		<%= render FormView, "with_toggler.html",
 			form: form,
 			tag: &textarea/3,
-			title: input_value(form, :type),
+			title: input_value(form, :title),
 			field: :text,
 			toggle: :enabled,
 			toggle_label: "Enable",
 			toggle_true: :enable,
 			toggle_input_clear: false
 		%>
+		<%= hidden_input(form, :title) %>
 	<% end %>
   
 	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
