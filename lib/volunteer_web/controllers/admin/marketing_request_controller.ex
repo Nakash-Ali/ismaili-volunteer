@@ -42,7 +42,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
 
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    render_form(conn, Apply.create_marketing_request(listing))
+    render_form(conn, Apply.new_marketing_request(listing))
   end
 
   def create(conn, %{"marketing_request" => marketing_request}) do
@@ -53,7 +53,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
     |> case do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "TKN Listing created successfully.")
+        |> put_flash(:info, "Marketing request created successfully.")
         |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
     
       {:error, %Ecto.Changeset{} = changeset} ->

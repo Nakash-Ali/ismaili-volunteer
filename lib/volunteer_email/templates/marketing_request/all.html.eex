@@ -1,0 +1,61 @@
+<p><em>This is an automated marketing request for a <a>volunteer position</a> posted on <%= Application.fetch_env!(:volunteer, :project_title) %></em></p>
+
+<p>
+  <table>
+    <tbody>
+		<tr>
+			<td>Organized by</td>
+			<td><strong><%= @listing.organized_by.title %></strong></td>
+		</tr>
+		<tr>
+			<td>Board or Portfolio</td>
+			<td><strong><%= @listing.group.title %></strong></td>
+		</tr>
+    </tbody>
+  </table>
+</p>
+
+<p>
+  <table>
+    <tbody>
+		<tr>
+			<td>Position title</td>
+			<td><strong><%= @listing.position_title %></strong></td>
+		</tr>
+		<tr>
+			<td>Program title</td>
+			<td><strong><%= @listing.program_title %></strong></td>
+		</tr>
+    </tbody>
+  </table>
+</p>
+
+<hr />
+
+<h3>Marketing Requests</h3>
+
+<p>
+  <table>
+    <tbody>
+		<tr>
+			<td>Start date</td>
+			<td><strong><%= @marketing_request.start_date %></strong></td>
+		</tr>
+		<tr>
+			<td>Target jamatkhanas</td>
+			<td>
+				<ul>
+					<%= for jk <- @marketing_request.target_jamatkhanas do %>
+					  <li><strong><%= jk %></strong></li>
+					<% end %>
+				</ul>
+			</td>
+		</tr>
+    </tbody>
+  </table>
+</p>
+
+<%= for channel <- @marketing_request.text_channels do %>
+  <p><strong><%= channel.title %></strong></p>
+  <p><%= channel.text %></p>
+<% end %>

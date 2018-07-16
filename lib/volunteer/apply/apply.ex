@@ -136,8 +136,15 @@ defmodule Volunteer.Apply do
     |> Repo.one!()
   end
   
-  def create_marketing_request(listing, attrs \\ %{}) do
-    MarketingRequest.changeset(
+  def new_marketing_request(listing) do
+    MarketingRequest.new(
+      MarketingRequest.default_channels(),
+      %{ listing: listing }
+    )
+  end
+  
+  def create_marketing_request(listing, attrs) do
+    MarketingRequest.create(
       MarketingRequest.default_channels(),
       %{ listing: listing },
       attrs
