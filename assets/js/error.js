@@ -15,8 +15,8 @@ function parseQueryString() {
 	}, {})
 }
 
-function parseEncodedErrorValue(string) {
-	return JSON.parse(atob(string))
+function parseEncodedErrorValue(encoded) {
+	return JSON.parse(atob(encoded))
 }
 
 function parseErrors() {

@@ -9,7 +9,7 @@ defmodule VolunteerWeb.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/static",
+    at: Application.get_env(:volunteer, VolunteerWeb.Endpoint) |> Keyword.fetch!(:static_at),
     from: :volunteer,
     gzip: false,
     only: ~w(css fonts images js doctemplates favicon.ico robots.txt)

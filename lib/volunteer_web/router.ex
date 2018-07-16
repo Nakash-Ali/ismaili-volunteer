@@ -30,7 +30,8 @@ defmodule VolunteerWeb.Router do
     get "/", IndexController, :index
     
     resources "/listings", ListingController, only: [:show] do
-      get "/social_image", ListingSocialImageController, :show
+      get "/social_html", ListingSocialImageController, :show
+      get "/social_image", ListingSocialImageController, :image
     end
   
     get "/listings/preview/index/:id", ListingPreviewController, :index
@@ -51,7 +52,7 @@ defmodule VolunteerWeb.Router do
 
       resources "/listings", ListingController do
         resources "/tkn_listing", TKNListingController, singleton: true
-        resources "/request_marketing", RequestMarketingController, singleton: true, only: [:show, :new, :create]
+        resources "/marketing_request", MarketingRequestController, singleton: true, only: [:show, :new, :create]
       end
 
       post "/listings/:id/approve", ListingController, :approve

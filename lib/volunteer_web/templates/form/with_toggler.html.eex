@@ -1,0 +1,68 @@
+<div class="form-group row mb-4 align-items-center">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
+	</div>
+	<div class="col-sm-9">
+		<div class="row align-items-center">
+			<div class="col-sm-7">
+				<%= @tag.(@form, @field,
+					[
+						value: input_value(@form, @field),
+						type: "text",
+						class: input_classes(@form, @field, [
+							"form-control" | (assigns[:input_classes] || [])
+						]),
+						required: (if assigns[:required] == true, do: true, else: false),
+					]
+					++ Map.get(assigns, :input_opts, [])) %>
+				<%= error_tag @form, @field %>
+			</div>
+			<div class="col-sm-5">
+				<div class="custom-control custom-checkbox">
+					<%= checkbox @form, @toggle, class: input_classes(@form, @field, ["form-check-input"]) %>
+					<%= label @form, @toggle, @toggle_label, class: "form-check-label" %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+ 	(function() {
+	    var toggle_true = "<%= @toggle_true %>"
+		var toggle_input_clear = "<%= @toggle_input_clear %>"
+		var toggle = $("input#<%= input_id @form, @toggle %>")
+	    var target = $("#<%= input_id @form, @field %>")
+		
+		var opposite = {
+			"disable": "enable",
+			"enable": "disable"
+		} 
+		
+		var actions = {
+			enable: function enable() {
+				target.prop("disabled", false)
+			},
+			disable: function disable() {
+				if (toggle_input_clear === "true") {
+					target.val("")
+				}
+		        target.prop("disabled", true)
+			}
+		}
+		
+	    toggle.change(function(event) {
+			event.stopPropagation()
+			if (toggle.prop("checked") === true) {
+				actions[toggle_true]()
+			} else if (toggle.prop("checked") === false) {
+				actions[opposite[toggle_true]]()
+			}
+	    })
+	    
+	    if (toggle.prop("checked") === true) {
+			actions[toggle_true]()
+	    } else {
+			actions[opposite[toggle_true]]()
+		}
+	})()
+</script>

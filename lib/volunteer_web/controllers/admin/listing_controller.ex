@@ -4,8 +4,8 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Apply
   alias Volunteer.Infrastructure
   alias VolunteerWeb.UtilsController
-  alias VolunteerWeb.SanitizeInput
   alias VolunteerWeb.Authorize
+  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
   
   @text_params [
     "position_title",
@@ -21,6 +21,12 @@ defmodule VolunteerWeb.Admin.ListingController do
   
   # Plugs
 
+  plug :scrubadub_params, [
+    required_key: "listing",
+    sanitize_text_params: @text_params,
+    sanitize_textarea_params: @textarea_params ]
+    when action in [:create, :update]
+  
   plug :load_listing
     when action in [:show, :edit, :update, :approve, :unapprove, :refresh_expiry]
 
@@ -71,8 +77,6 @@ defmodule VolunteerWeb.Admin.ListingController do
     Authorize.ensure_allowed!(conn, [:admin, :listing, :create])
     
     listing_params
-    |> SanitizeInput.text_params(@text_params)
-    |> SanitizeInput.textarea_params(@textarea_params)
     |> Apply.create_listing(Session.get_user(conn))
     |> case do
       {:ok, listing} ->
@@ -109,13 +113,8 @@ defmodule VolunteerWeb.Admin.ListingController do
     
     Authorize.ensure_allowed!(conn, [:admin, :listing, :update], listing)
     
-    sanitized_params =
-      listing_params
-      |> SanitizeInput.text_params(@text_params)
-      |> SanitizeInput.textarea_params(@textarea_params)
-      
-    case Apply.update_listing(listing, sanitized_params) do
-      {:ok, listing} ->
+    case Apply.update_listing(listing, listing_params) do
+      {:ok, listing} ->      
         conn
         |> put_flash(:info, "Listing updated successfully.")
         |> redirect(to: admin_listing_path(conn, :show, listing))
@@ -144,7 +143,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> redirect(to: admin_listing_path(conn, :show, listing))
   end
   
-  def expire(conn, params) do
+  def expire(conn, _params) do
     conn
   end
 
@@ -168,12 +167,10 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          listing
-          |> Apply.approve_listing!(Session.get_user(conn))
+          Apply.approve_listing!(listing, Session.get_user(conn))
 
         :unapprove ->
-          listing
-          |> Apply.unapprove_listing!()
+          Apply.unapprove_listing!(listing)
       end
 
     conn

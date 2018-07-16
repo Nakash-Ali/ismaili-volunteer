@@ -13,7 +13,7 @@ config :volunteer,
   
 # Email related settings
 config :volunteer, VolunteerEmail,
-  from_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
+  system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
   
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
@@ -34,6 +34,7 @@ config :volunteer, :social,
 # Configures the endpoint
 config :volunteer, VolunteerWeb.Endpoint,
   url: [host: "localhost"],
+  static_at: "/static",
   static_url: [path: "/static"],
   secret_key_base: "RJhNnMngIMEJY605r0es6uPFY/TF/9u9CEgIp+ioEpML3Q1gE+vjxmZEJEOa7MtW",
   render_errors: [view: VolunteerWeb.ErrorView, accepts: ~w(html json)],

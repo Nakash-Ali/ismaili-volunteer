@@ -1,9 +1,5 @@
 defmodule Volunteer.Legacy do
   alias Ecto.Changeset
-  alias VolunteerEmail.Mailer
-
-  import Bamboo.Email
-  import Bamboo.Phoenix
 
   @all_jamatkhanas [
     "Barrie",
@@ -107,10 +103,10 @@ defmodule Volunteer.Legacy do
     @all_jamatkhanas
   end
 
-  def apply(params) when is_map(params) do
+  def apply(attrs) when is_map(attrs) do
     changeset =
       {%{}, @types}
-      |> Changeset.cast(params, Map.keys(@types))
+      |> Changeset.cast(attrs, Map.keys(@types))
       |> Changeset.validate_required(@required)
       |> Changeset.validate_format(:email, ~r/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
       |> Changeset.validate_inclusion(:jamatkhana, @all_jamatkhanas)
@@ -140,8 +136,6 @@ defmodule Volunteer.Legacy do
     |> Enum.map(fn {key, translated_key} -> {key, translated_key, Map.get(data, key)} end)
   end
 
-  defp get_keys_config(type)
-
   defp get_keys_config(:system) do
     @system_keys
   end
@@ -152,39 +146,10 @@ defmodule Volunteer.Legacy do
 
   defp send_emails(%Volunteer.Legacy{} = data) do
     [
-      data |> external_email |> Mailer.deliver_now(),
-      data |> internal_email |> Mailer.deliver_now()
+      &VolunteerEmail.LegacyEmails.external/1,
+      &VolunteerEmail.LegacyEmails.internal/1,
     ]
-  end
-
-  defp external_email(%Volunteer.Legacy{} = data) do
-    email =
-      Mailer.new_default_email()
-      |> to({data.name, data.email})
-      |> cc([Mailer.from_email(), {data.organizer, data.organizer_email} | data.cc])
-      |> subject(construct_subject(data))
-      |> Mailer.ensure_unique_addresses
-
-    render_email(VolunteerEmail.LegacyView, email, :external_for_new_application, data: data)
-  end
-
-  defp internal_email(%Volunteer.Legacy{} = data) do
-    email =
-      Mailer.new_default_email()
-      |> to({data.organizer, data.organizer_email})
-      |> cc([Mailer.from_email() | data.cc])
-      |> subject("INTERNAL - #{construct_subject(data)}")
-      |> Mailer.ensure_unique_addresses
-
-    render_email(VolunteerEmail.LegacyView, email, :internal_for_new_application, data: data)
-  end
-
-  defp construct_subject(%Volunteer.Legacy{} = data) do
-    case Map.get(data, :program, "") do
-      "" ->
-        "#{data.name} - #{data.position} - Volunteer Application"
-      _ ->
-        "#{data.name} - #{data.position} - #{data.program} - Volunteer Application"
-    end
+    |> Enum.map(&(&1.(data)))
+    |> Enum.map(&VolunteerEmail.Mailer.deliver_now/1)
   end
 end

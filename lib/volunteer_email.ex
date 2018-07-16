@@ -10,6 +10,13 @@ defmodule VolunteerEmail do
       import Bamboo.Email
     end
   end
+  
+  def email do
+    quote do
+      import Bamboo.Email
+      import Bamboo.Phoenix, except: [render: 3]
+    end
+  end
 
   @doc """
   When used, dispatch to the appropriate controller/view/etc.

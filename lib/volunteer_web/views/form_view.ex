@@ -30,4 +30,14 @@ defmodule VolunteerWeb.FormView do
       |> safe_to_string
     hidden_input(form, field, value: escaped_value)
   end
+  
+  def label_classes(assigns, others \\ []) do
+    others
+    |> Enum.concat(label_classes_for_required(assigns))
+    |> Enum.join(" ")
+  end
+  
+  def label_classes_for_required(%{required: true}) do ["required-label"] end
+  def label_classes_for_required(_) do [] end
+  
 end

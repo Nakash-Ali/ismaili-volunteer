@@ -1,0 +1,43 @@
+<%= form_for @changeset, @action_path, fn form -> %>
+	<%= if @changeset.action do %>
+		<div class="alert alert-danger">
+			<p>Oops, something went wrong! Please check the errors below.</p>
+		</div>
+	<% end %>
+	
+	<%= render FormView, "text.html",
+		form: form,
+		title: "Start date",
+		field: :start_date,
+		input_opts: [
+			type: "date"
+		],
+		required: true
+	%>
+	
+	<%= render FormView, "select.html",
+		form: form,
+		title: "Applicable JKs",
+		field: :target_jamatkhanas,
+		multiple: true,
+		choices: Volunteer.Legacy.all_jamatkhanas(),
+		choices_opts_template: :multiple_select,
+		required: true
+	%>
+
+	<%= inputs_for form, :text_channels, fn form -> %>
+		<%= render FormView, "with_toggler.html",
+			form: form,
+			tag: &textarea/3,
+			title: input_value(form, :title),
+			field: :text,
+			toggle: :enabled,
+			toggle_label: "Enable",
+			toggle_true: :enable,
+			toggle_input_clear: false
+		%>
+		<%= hidden_input(form, :title) %>
+	<% end %>
+  
+	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
+<% end %>

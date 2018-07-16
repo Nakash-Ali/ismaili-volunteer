@@ -16,8 +16,6 @@ defmodule VolunteerWeb.Legacy.ListingView do
       organizer_email: listing.organized_by.primary_email,
       basename: Slugify.slugify(listing)
     }
-    |> Poison.encode!
-    |> Base.encode64
-    |> Phoenix.HTML.raw
+    |> encode_for_client
   end
 end

@@ -1,37 +1,54 @@
 <ul class="social list-inline d-print-none">
 	<li class="list-inline-item">
-		<a href="https://www.facebook.com/dialog/share?{{ querify "app_id" .Site.Params.facebookappid "display" "popup" "href" .Permalink | safeURL }}" onclick="{{ .Scratch.Get "social_popup_js" }}">
-			<i class="fa fa-facebook-square" aria-hidden="true"></i>
+		<a href="https://www.facebook.com/dialog/share?<%= %{
+			"app_id" => :volunteer |> Application.get_env(:social) |> Keyword.fetch!(:facebook_app_id),
+			"display" => "popup",
+			"href" => Social.url(@listing, @conn)
+		} |> URI.encode_query %>" onclick="<%= Social.popup_onclick(@listing) %>">
+			<i class="fab fa-facebook-square" aria-hidden="true"></i>
 		</a>
-	</li>
-	<li class="list-inline-item">
-		<a href="https://www.linkedin.com/shareArticle?{{ querify "mini" "true" "url" .Permalink "title" (.Scratch.Get "social_title") "summary" (.Scratch.Get "social_desc") "source" "" | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
-			<i class="fa fa-linkedin-square" aria-hidden="true"></i>
+	</li><li class="list-inline-item">
+		<a href="https://www.linkedin.com/shareArticle?<%= %{
+			"mini" => "true",
+			"url" => Social.url(@listing, @conn),
+			"title" => Social.title(@listing),
+			"summary" => Social.description(@listing),
+			"source" => ""
+		} |> URI.encode_query %>" onclick="<%= Social.popup_onclick(@listing) %>">
+			<i class="fab fa-linkedin" aria-hidden="true"></i>
 		</a>
-	</li>
-	<li class="list-inline-item">
-		<a href="https://twitter.com/intent/tweet?{{ querify "url" .Permalink "text" (.Scratch.Get "social_title") | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
-			<i class="fa fa-twitter-square" aria-hidden="true"></i>
+	</li><li class="list-inline-item">
+		<a href="https://twitter.com/intent/tweet?<%= %{
+			"url" => Social.url(@listing, @conn),
+			"text" => Social.title(@listing)
+		} |> URI.encode_query %>" onclick="<%= Social.popup_onclick(@listing) %>">
+			<i class="fab fa-twitter-square" aria-hidden="true"></i>
 		</a>
-	</li>
-	<li class="list-inline-item">
-		<a href="https://plus.google.com/share?{{ querify "url" .Permalink | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
-			<i class="fa fa-google-plus-square" aria-hidden="true"></i>
+	</li><li class="list-inline-item">
+		<a href="https://plus.google.com/share?<%= %{
+			"url" => Social.url(@listing, @conn)
+		} |> URI.encode_query %>" onclick="<%= Social.popup_onclick(@listing) %>">
+			<i class="fab fa-google-plus-square" aria-hidden="true"></i>
 		</a>
-	</li>
-	<li class="list-inline-item">
-		<a href="http://pinterest.com/pin/create/button/?{{ querify "url" .Permalink "media" (.Scratch.Get "social_img_url") "description" (.Scratch.Get "social_desc") | safeURL }}" onclick="{{ (.Scratch.Get "social_popup_js") }}">
-			<i class="fa fa-pinterest-square" aria-hidden="true"></i>
+	</li><li class="list-inline-item">
+		<a href="http://pinterest.com/pin/create/button/?<%= %{
+			"url" => Social.url(@listing, @conn),
+			"media" => Social.image_abs_url(@listing, @conn),
+			"description" => Social.description(@listing)
+		} |> URI.encode_query %>" onclick="<%= Social.popup_onclick(@listing) %>">
+			<i class="fab fa-pinterest-square" aria-hidden="true"></i>
 		</a>
-	</li>
-	<li class="list-inline-item">
-		<a href="mailto:?to=&body={{ .Permalink }}&subject={{ (.Scratch.Get "social_title") }}">
-			<i class="fa fa-envelope" aria-hidden="true"></i>
+	</li><li class="list-inline-item">
+		<a href="mailto:?<%= %{
+			"to" => "",
+			"body" => Social.url(@listing, @conn),
+			"subject" => Social.title(@listing)
+		} |> URI.encode_query %>">
+			<i class="far fa-envelope" aria-hidden="true"></i>
 		</a>
-	</li>
-	<li class="list-inline-item">
+	</li><li class="list-inline-item">
 		<a href="#" onclick="window.print(0); return false;">
-			<i class="fa fa-print" aria-hidden="true"></i>
+			<i class="far fa-print" aria-hidden="true"></i>
 		</a>
 	</li>
 </ul>

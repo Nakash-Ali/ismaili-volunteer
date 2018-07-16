@@ -4,6 +4,7 @@ defmodule Volunteer.Apply do
   alias Volunteer.Repo
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
+  alias Volunteer.Apply.MarketingRequest
   alias Volunteer.Accounts
 
   def new_listing do
@@ -133,5 +134,34 @@ defmodule Volunteer.Apply do
   def get_tkn_listing_for_listing!(id) do
     query_tkn_listing_for_listing(id)
     |> Repo.one!()
+  end
+  
+  def new_marketing_request(listing) do
+    MarketingRequest.new(
+      MarketingRequest.default_channels(),
+      %{ listing: listing }
+    )
+  end
+  
+  def create_marketing_request(listing, attrs) do
+    MarketingRequest.create(
+      MarketingRequest.default_channels(),
+      %{ listing: listing },
+      attrs
+    )
+  end
+  
+  def send_marketing_request(listing, attrs) do
+    case create_marketing_request(listing, attrs) do
+      %{valid?: true} = changeset ->
+        email =
+          changeset
+          |> Ecto.Changeset.apply_changes
+          |> VolunteerEmail.ApplyEmails.marketing_request(listing)
+          |> VolunteerEmail.Mailer.deliver_now
+        {:ok, email}
+      %{valid?: false} = changeset ->
+        {:error, changeset}
+    end
   end
 end
