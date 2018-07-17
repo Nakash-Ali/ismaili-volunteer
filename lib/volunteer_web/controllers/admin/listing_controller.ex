@@ -10,8 +10,6 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   plug :load_listing
     when action not in [:index, :new, :create]
-  plug :scrub_params, "listing"
-    when action in [:create, :update]
 
   def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
     listing =

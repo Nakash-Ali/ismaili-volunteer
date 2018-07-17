@@ -213,10 +213,10 @@ defmodule Volunteer.Apply.Listing do
         changeset =
           Enum.reduce(parsed_emails, changeset, fn email, changeset ->
             case Regex.match?(re, email) do
-              nil ->
-                add_error(changeset, field, "#{email} is not a valid email")
               true ->
                 changeset
+              _ ->
+                add_error(changeset, field, "#{email} is not a valid email")
             end
           end)
         case Keyword.get(changeset.errors, field) do

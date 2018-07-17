@@ -9,8 +9,6 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   plug :load_listing
   plug :ensure_listing_approved when action not in [:show]
   plug :authorize
-  plug :scrub_params, "marketing_request"
-    when action in [:create]
     
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])

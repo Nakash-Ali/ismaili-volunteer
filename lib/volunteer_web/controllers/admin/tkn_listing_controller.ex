@@ -7,24 +7,17 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   
   # Plugs
 
+  plug :load_tkn_listing
+  plug :load_listing
   plug :redirect_to_show_if_exists
     when action in [:new, :create]
-  plug :load_listing
-  plug :load_tkn_listing
+  plug :redirect_to_show_if_not_exists
+    when action in [:edit, :update, :delete]
   plug :authorize
-  plug :scrub_params, "tkn_listing"
-    when action in [:create, :update]
   
-  def redirect_to_show_if_exists(conn, _) do
-    %Plug.Conn{params: %{"listing_id" => listing_id}} = conn
-    case Apply.get_one_tkn_listing_for_listing(listing_id) do
-      nil ->
-        conn
-      _tkn_listing ->
-        conn
-        |> put_flash(:error, "TKN data already exists, cannot create again! To change, edit instead.")
-        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing_id))
-    end
+  def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
+    tkn_listing = Apply.get_one_tkn_listing_for_listing(id)
+    Plug.Conn.assign(conn, :tkn_listing, tkn_listing)
   end
     
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
@@ -32,9 +25,34 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     Plug.Conn.assign(conn, :listing, listing)
   end
   
-  def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    tkn_listing = Apply.get_one_tkn_listing_for_listing!(id)
-    Plug.Conn.assign(conn, :tkn_listing, tkn_listing)
+  def redirect_to_show_if_exists(conn, _) do
+    %Plug.Conn{
+      assigns: %{tkn_listing: tkn_listing},
+      params: %{"listing_id" => listing_id},
+    } = conn
+    case tkn_listing do
+      nil ->
+        conn
+      _ ->
+        conn
+        |> put_flash(:error, "TKN data already exists, cannot create again! To change, edit instead.")
+        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing_id))
+    end
+  end
+  
+  def redirect_to_show_if_not_exists(conn, _) do
+    %Plug.Conn{
+      assigns: %{tkn_listing: tkn_listing},
+      params: %{"listing_id" => listing_id},
+    } = conn
+    case tkn_listing do
+      nil ->
+        conn
+        |> put_flash(:error, "TKN data does not exist, you must create it first!")
+        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing_id))    
+      _ ->
+        conn
+    end
   end
   
   def authorize(conn, _opts) do
@@ -74,14 +92,14 @@ defmodule VolunteerWeb.Admin.TKNListingController do
       nil ->
         render(
           conn,
-          "none.html",
+          "show_none.html",
           listing: listing
         )
       
       tkn_listing ->
         render(
           conn,
-          "show.html",
+          "show_one.html",
           listing: listing,
           tkn_listing: tkn_listing
         )

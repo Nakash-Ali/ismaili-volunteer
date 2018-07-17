@@ -187,6 +187,10 @@ defmodule Volunteer.Apply.MarketingRequest do
     |> Map.put("text_image_channels", merge_initial_with_attrs_for_channel(initial["text_image_channels"], attrs["text_image_channels"]))
   end
   
+  defp merge_initial_with_attrs_for_channel(initial_channels, nil) do
+    initial_channels
+  end
+  
   defp merge_initial_with_attrs_for_channel(initial_channels, attrs_channels) do
     Map.merge(
       initial_channels,
