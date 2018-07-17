@@ -4,14 +4,14 @@ defmodule VolunteerWeb.ListingSocialImageController do
   alias Volunteer.Apply
   alias VolunteerWeb.Services.ListingSocialImageGenerator
   
-  def show(conn, %{"listing_id" => id}) do
+  def show(conn, %{"id" => id}) do
     listing =
       Apply.get_one_public_listing!(id)
       |> Repo.preload(Apply.Listing.preloadables())
     render(conn, "show.html", listing: listing)
   end
   
-  def image(conn, %{"listing_id" => id}) do
+  def image(conn, %{"id" => id}) do
     listing = Apply.get_one_public_listing!(id)
     disk_path = ListingSocialImageGenerator.get(conn, listing)
     conn
