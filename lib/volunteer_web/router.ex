@@ -29,14 +29,21 @@ defmodule VolunteerWeb.Router do
 
     get "/", IndexController, :index
     
-    resources "/listings", ListingController, only: [:show] do
-      get "/social_html", ListingSocialImageController, :show
-      get "/social_image", ListingSocialImageController, :image
+    scope "/listings/:id" do
+      get "/", ListingController, :show
+      post "/apply", ListingController, :create_application
+      
+      scope "/social" do
+        get "/html", ListingSocialImageController, :show
+        get "/image", ListingSocialImageController, :image
+      end
+      
+      scope "/preview" do
+        get "/index/", ListingPreviewController, :index
+        get "/show/", ListingPreviewController, :show
+      end
     end
-  
-    get "/listings/preview/index/:id", ListingPreviewController, :index
-    get "/listings/preview/show/:id", ListingPreviewController, :show
-
+    
     scope "/auth" do
       get "/login", AuthController, :login
       get "/logout", AuthController, :logout

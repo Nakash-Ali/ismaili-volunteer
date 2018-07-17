@@ -58,7 +58,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
   end
   
   def image_url(conn, listing) do
-    Helpers.listing_listing_social_image_path(conn, :image, listing)
+    Helpers.listing_social_image_path(conn, :image, listing)
   end
   
   def generate_config(webpage_url, disk_path) do
