@@ -31,7 +31,7 @@ defmodule VolunteerWeb.Router do
     
     scope "/listings/:id" do
       get "/", ListingController, :show
-      post "/apply", ListingController, :create_application
+      post "/apply", ListingController, :create_applicant
       
       scope "/social" do
         get "/html", ListingSocialImageController, :show
@@ -60,6 +60,7 @@ defmodule VolunteerWeb.Router do
       resources "/listings", ListingController do
         resources "/tkn_listing", TKNListingController, singleton: true
         resources "/marketing_request", MarketingRequestController, singleton: true, only: [:show, :new, :create]
+        resources "/applicant", ApplicantController, only: [:index]
       end
 
       post "/listings/:id/approve", ListingController, :approve

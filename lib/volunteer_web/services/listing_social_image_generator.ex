@@ -20,7 +20,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
   end
   
   def get(conn, listing) do
-    webpage_url = Helpers.listing_listing_social_image_url(conn, :show, listing)
+    webpage_url = Helpers.listing_social_image_url(conn, :show, listing)
     GenServer.call(__MODULE__, {:get, webpage_url, listing.id, listing.updated_at}, 30_000)
   end
   

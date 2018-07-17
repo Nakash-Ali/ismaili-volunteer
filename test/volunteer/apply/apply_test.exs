@@ -14,7 +14,7 @@ defmodule Volunteer.ApplyTest do
   end
 
   describe "applications" do
-    alias Volunteer.Apply.Application
+    alias Volunteer.Apply.Applicant
 
   end
 end

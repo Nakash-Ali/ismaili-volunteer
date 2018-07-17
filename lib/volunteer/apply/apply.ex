@@ -5,7 +5,7 @@ defmodule Volunteer.Apply do
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
   alias Volunteer.Apply.MarketingRequest
-  alias Volunteer.Apply.Application
+  alias Volunteer.Apply.Applicant
   alias Volunteer.Accounts
 
   def new_listing do
@@ -171,28 +171,52 @@ defmodule Volunteer.Apply do
     end
   end
   
-  def create_application(attrs) do
-    %Application{}
-    |> Application.changeset(attrs)
+  def new_applicant() do
+    %Applicant{}
+    |> Applicant.changeset(%{})
+  end
+  
+  def create_applicant(attrs) do
+    %Applicant{}
+    |> Applicant.changeset(attrs)
     |> Repo.insert
   end
   
-  # TODO: wrap in transaction
-  def create_application_with_user(listing, attrs) do
-    case Accounts.create_user(attrs) do
-      {:ok, user} ->
-        attrs
-        |> Map.put("user_id", user.id)
-        |> Map.put("listing_id", listing.id)
-        |> create_application
-        |> case do
-          {:ok, application} ->
-            {:ok, user, application}
-          {:error, application_changset} ->
-            {:error, user, application_changset}
-        end
-      {:error, user_changeset} ->
-        {:error, user_changeset, nil}
-    end
+  def new_applicant_with_user() do
+    {Accounts.new_user(), new_applicant()}
+  end
+  
+  def create_applicant_with_user(listing, user_attrs, applicant_attrs) do
+    create_applicant_with_user(
+      user_attrs,
+      Map.put(applicant_attrs, "listing_id", listing.id)
+    )
+  end
+  
+  def create_applicant_with_user(user_attrs, applicant_attrs) do
+    Repo.transaction(fn ->
+      user_changeset = 
+        Accounts.User.changeset(%Accounts.User{}, user_attrs)
+      case Repo.insert(user_changeset) do
+        {:error, user_changeset} ->
+          {:error, applicant_changeset} = create_applicant(applicant_attrs)
+          Repo.rollback({user_changeset, applicant_changeset})
+        {:ok, user} ->
+          applicant_attrs
+          |> Map.put("user_id", user.id)
+          |> create_applicant
+          |> case do
+            {:error, applicant_changeset} ->
+              Repo.rollback({user_changeset, applicant_changeset})
+            {:ok, applicant} ->
+              {:ok, {user, applicant}}
+          end
+      end
+    end)
+  end
+  
+  def get_all_applicants() do
+    from(a in Applicant)
+    |> Repo.all()
   end
 end

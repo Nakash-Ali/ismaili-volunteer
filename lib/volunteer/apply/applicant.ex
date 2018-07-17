@@ -1,10 +1,10 @@
-defmodule Volunteer.Apply.Application do
+defmodule Volunteer.Apply.Applicant do
   use Volunteer, :schema
   import Ecto.Changeset
   alias Volunteer.Apply.Listing
   alias Volunteer.Accounts.User
 
-  schema "applications" do
+  schema "applicants" do
     field :preferred_contact, :string
     field :confirm_availability, :boolean, default: false
 
@@ -42,8 +42,8 @@ defmodule Volunteer.Apply.Application do
     ])
   end
 
-  def changeset(application, attrs) do
-    application
+  def changeset(applicant, attrs) do
+    applicant
     |> cast(sanitize(attrs), @attributes_cast_always)
     |> validate_required(@attributes_required_always)
     |> foreign_key_constraint(:listing_id)

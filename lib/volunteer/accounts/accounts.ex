@@ -32,6 +32,11 @@ defmodule Volunteer.Accounts do
     |> Identity.changeset(attrs, user)
     |> Repo.insert!()
   end
+  
+  def new_user() do
+    %User{}
+    |> User.changeset(%{})
+  end
 
   def create_user!(attrs) do
     %User{}

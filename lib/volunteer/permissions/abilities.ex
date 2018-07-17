@@ -25,7 +25,8 @@ defmodule Volunteer.Permissions.Abilities do
       :delete,
       :refresh_expiry,
       :tkn_listing,
-      :marketing_request
+      :marketing_request,
+      :applicant,
     ]
 
     def can?(
@@ -61,6 +62,7 @@ defmodule Volunteer.Permissions.Abilities do
         ) do
       false
     end
+    
   end
   
   def can?(user, action) do
