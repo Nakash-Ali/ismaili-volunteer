@@ -28,12 +28,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     when action in [:create, :update]
   
   plug :load_listing
-    when action in [:show, :edit, :update, :approve, :unapprove, :refresh_expiry]
+    when action not in [:index, :new, :create]
 
   def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
     listing =
       id
-      |> Apply.get_listing!()
+      |> Apply.get_one_admin_listing!()
       |> preload_relations(action_name(conn))
     Plug.Conn.assign(conn, :listing, listing)
   end
@@ -46,7 +46,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     listing |> Repo.preload([:approved_by])
   end
   
-  def preload_relations(listing, action) when action in [:refresh_expiry] do
+  def preload_relations(listing, action) when action in [:refresh_expiry, :expire, :delete] do
     listing
   end
   
@@ -58,10 +58,10 @@ defmodule VolunteerWeb.Admin.ListingController do
     listings =
       case Authorize.is_allowed?(conn, [:admin, :listing, :index_all]) do
         true ->
-          Apply.get_all_listings()
+          Apply.get_all_admin_listings()
 
         false ->
-          Apply.get_all_listings_for_user(Session.get_user(conn))
+          Apply.get_all_admin_listings_for_user(Session.get_user(conn))
       end
       |> Repo.preload([:group, :organized_by])
 
@@ -147,8 +147,8 @@ defmodule VolunteerWeb.Admin.ListingController do
     conn
   end
 
-  def delete(conn, %{"id" => id}) do
-    listing = Apply.get_listing!(id)
+  def delete(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
   
     Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
   

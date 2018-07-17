@@ -48,48 +48,55 @@ defmodule Volunteer.Apply do
     |> Listing.refresh_expiry
     |> Repo.update!()
   end
-
-  def get_all_listings do
+  
+  def get_one_admin_listing!(id) do
+    Repo.get!(Listing, id)
+  end
+  
+  def get_all_admin_listings do
     from(l in Listing)
     |> Repo.all()
   end
-
-  def get_all_listings_for_user(%Accounts.User{id: id}) do
-    from(l in Listing, where: l.created_by_id == ^id or l.organized_by_id == ^id)
+  
+  def get_all_admin_listings_for_user(user) do
+    from(l in Listing)
+    |> query_for_user_listing(user)
     |> Repo.all()
   end
-
-  def get_approved_listings do
-    from(l in Listing, where: l.approved == true)
+  
+  def get_all_public_listings do
+    from(l in Listing)
+    |> query_approved_listing
+    |> query_unexpired_listing
     |> Repo.all()
   end
-
-  def get_listing!(id) do
-    Listing |> Repo.get!(id)
-  end
-
-  def get_active_listing!(id) do
+  
+  def get_one_public_listing!(id) do
     from(l in Listing, where: l.id == ^id)
     |> query_approved_listing
-    |> query_not_expired_listing
+    |> query_unexpired_listing
     |> Repo.one!()
   end
   
-  def get_preview_listing!(id) do
+  def get_one_preview_listing!(id) do
     from(l in Listing, where: l.id == ^id)
-    |> query_not_expired_listing
+    |> query_unexpired_listing
     |> Repo.one!()
   end
   
-  def query_approved_listing(query) do
+  defp query_for_user_listing(query, %Accounts.User{id: id}) do
+    from(l in query, where: l.created_by_id == ^id or l.organized_by_id == ^id)
+  end
+  
+  defp query_approved_listing(query) do
     from(l in query, where: l.approved == true)
   end
   
-  def query_not_expired_listing(query) do
+  defp query_unexpired_listing(query) do
     current_time = DateTime.utc_now()
     from(l in query, where: l.expiry_date >= ^current_time)
   end
-
+  
   def new_tkn_listing() do
     TKNListing.changeset(%TKNListing{}, %{})
   end
@@ -108,32 +115,30 @@ defmodule Volunteer.Apply do
     |> Repo.update()
   end
 
-  def get_tkn_listing!(id) do
-    TKNListing
-    |> Repo.get!(id)
+  def get_one_tkn_listing!(id) do
+    Repo.get!(TKNListing, id)
   end
   
-  def get_tkn_listing(id) do
-    TKNListing
-    |> Repo.get(id)
+  def get_one_tkn_listing(id) do
+    Repo.get(TKNListing, id)
   end
   
   def delete_tkn_listing(%TKNListing{} = tkn_listing) do
-    tkn_listing |> Repo.delete()
+    Repo.delete(tkn_listing)
   end
   
-  def query_tkn_listing_for_listing(id) do
-    from(l in TKNListing, where: l.listing_id == ^id)
+  def get_one_tkn_listing_for_listing!(id) do
+    query_tkn_listing_for_listing(id)
+    |> Repo.one!()
   end
   
-  def get_tkn_listing_for_listing(id) do
+  def get_one_tkn_listing_for_listing(id) do
     query_tkn_listing_for_listing(id)
     |> Repo.one()
   end
   
-  def get_tkn_listing_for_listing!(id) do
-    query_tkn_listing_for_listing(id)
-    |> Repo.one!()
+  defp query_tkn_listing_for_listing(id) do
+    from(l in TKNListing, where: l.listing_id == ^id)
   end
   
   def new_marketing_request(listing) do

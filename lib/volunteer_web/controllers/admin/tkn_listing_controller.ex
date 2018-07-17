@@ -18,7 +18,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     when action in [:create, :update]
       
   plug :load_listing
-  
+
   plug :authorize
   
   plug :redirect_to_show_if_exists
@@ -28,7 +28,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     when action in [:edit, :update, :delete]
     
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Apply.get_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
     Plug.Conn.assign(conn, :listing, listing)
   end
   
@@ -39,7 +39,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   
   def redirect_to_show_if_exists(conn, _) do
     %Plug.Conn{params: %{"listing_id" => listing_id}} = conn
-    case Apply.get_tkn_listing_for_listing(listing_id) do
+    case Apply.get_one_tkn_listing_for_listing(listing_id) do
       nil ->
         conn
       _tkn_listing ->
@@ -51,7 +51,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   
   defp load_tkn_listing_or_redirect_to_correct_id(conn, _) do
     %Plug.Conn{params: %{"listing_id" => listing_id}} = conn
-    tkn_listing = Apply.get_tkn_listing_for_listing!(listing_id)
+    tkn_listing = Apply.get_one_tkn_listing_for_listing!(listing_id)
     assign(conn, :tkn_listing, tkn_listing)
   end
   
@@ -83,7 +83,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     
-    case Apply.get_tkn_listing_for_listing(listing.id) do
+    case Apply.get_one_tkn_listing_for_listing(listing.id) do
       nil ->
         render(
           conn,
