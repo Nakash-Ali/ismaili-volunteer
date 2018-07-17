@@ -5,6 +5,7 @@ defmodule Volunteer.Apply do
   alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
   alias Volunteer.Apply.MarketingRequest
+  alias Volunteer.Apply.Application
   alias Volunteer.Accounts
 
   def new_listing do
@@ -12,8 +13,8 @@ defmodule Volunteer.Apply do
   end
 
   def create_listing(attrs, created_by) do
-    %Listing{}
-    |> Listing.create(attrs, created_by)
+    attrs
+    |> Listing.create(created_by)
     |> Repo.insert()
   end
   
@@ -167,6 +168,31 @@ defmodule Volunteer.Apply do
         {:ok, email}
       %{valid?: false} = changeset ->
         {:error, changeset}
+    end
+  end
+  
+  def create_application(attrs) do
+    %Application{}
+    |> Application.changeset(attrs)
+    |> Repo.insert
+  end
+  
+  # TODO: wrap in transaction
+  def create_application_with_user(listing, attrs) do
+    case Accounts.create_user(attrs) do
+      {:ok, user} ->
+        attrs
+        |> Map.put("user_id", user.id)
+        |> Map.put("listing_id", listing.id)
+        |> create_application
+        |> case do
+          {:ok, application} ->
+            {:ok, user, application}
+          {:error, application_changset} ->
+            {:error, user, application_changset}
+        end
+      {:error, user_changeset} ->
+        {:error, user_changeset, nil}
     end
   end
 end

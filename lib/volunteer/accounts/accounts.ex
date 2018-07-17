@@ -20,12 +20,10 @@ defmodule Volunteer.Accounts do
   end
 
   def get_identity_and_user(provider, provider_id) do
-    from(
-      i in Identity,
+    from(i in Identity,
       where: i.provider == ^provider and i.provider_id == ^provider_id,
       join: u in assoc(i, :user),
-      preload: [user: u]
-    )
+      preload: [user: u])
     |> Repo.one()
   end
 
@@ -40,6 +38,12 @@ defmodule Volunteer.Accounts do
     |> User.changeset(attrs)
     |> Repo.insert!()
   end
+  
+  def create_user(attrs) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
 
   def update_user!(user, attrs \\ %{}) do
     user
@@ -52,7 +56,8 @@ defmodule Volunteer.Accounts do
   end
   
   def get_user_id_choices do
-    from(g in User, select: {g.title, g.id})
+    from(u in User,
+      select: {u.title, u.id})
     |> Repo.all()
   end
 end

@@ -134,11 +134,11 @@ defmodule Volunteer.Apply.MarketingRequest do
   end
   
   def new(channels, assigns) do
-    changeset(channels, assigns, %{})
+    changeset(%__MODULE__{}, channels, assigns, %{})
   end
   
   def create(channels, assigns, attrs) do
-    changeset(channels, assigns, attrs)
+    changeset(%__MODULE__{}, channels, assigns, attrs)
     |> validate_atleast_one_in_any_channel([:text_channels, :image_channels, :text_image_channels])
     |> case do
       %{valid?: true} = changeset ->
@@ -150,13 +150,13 @@ defmodule Volunteer.Apply.MarketingRequest do
     end
   end
 
-  defp changeset(channels, assigns, attrs) do
+  defp changeset(marketing_request, channels, assigns, attrs) do
     fixed_attrs =
       channels
       |> initial(assigns)
       |> merge_initial_with_attrs(attrs)
       |> sanitize
-    %__MODULE__{}
+    marketing_request
     |> cast(fixed_attrs, @attributes_cast_always)
     |> validate_required(@attributes_required_always)
     |> cast_embed(:text_channels)

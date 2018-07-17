@@ -2,7 +2,6 @@ defmodule Volunteer.Apply.Listing do
   use Volunteer, :schema
   use Timex
   import Ecto.Changeset
-  alias Volunteer.Apply.Listing
   alias Volunteer.Apply.TKNListing
   alias Volunteer.Infrastructure.Group
   alias Volunteer.Infrastructure.Region
@@ -83,39 +82,23 @@ defmodule Volunteer.Apply.Listing do
   def preloadables() do
     [:created_by, :approved_by, :region, :group, :organized_by]
   end
-  
-  def sanitize(attrs) do
-    attrs
-    |> Volunteer.SanitizeInput.text_attrs([
-      "position_title",
-      "program_title",
-      "summary_line"
-    ])
-    |> Volunteer.SanitizeInput.html_attrs([
-      "program_description",
-      "qualifications",
-      "responsibilities",
-    ])
-  end
 
   def new() do
-    create(%Listing{}, %{})
+    create(%{})
   end
 
-  def create(listing, attrs, %User{} = user) when listing == %Listing{} do
-    new_attrs =
-      attrs
-      |> Map.put("created_by_id", user.id)
-
-    create(listing, new_attrs)
+  def create(attrs, %User{} = user) do
+    attrs
+    |> Map.put("created_by_id", user.id)
+    |> create()
   end
 
-  def create(listing, attrs) when listing == %Listing{} do
-    listing
+  def create(attrs) do
+    %__MODULE__{}
     |> cast(sanitize(attrs), [:created_by_id] ++ @attributes_cast_always)
     |> validate_required([:created_by_id] ++ @attributes_required_always)
     |> cast_assoc(:tkn_listing)
-    |> common_changeset_funcs
+    |> changeset_common
     |> refresh_expiry
   end
 
@@ -123,10 +106,10 @@ defmodule Volunteer.Apply.Listing do
     listing
     |> cast(sanitize(attrs), @attributes_cast_always)
     |> validate_required(@attributes_required_always)
-    |> common_changeset_funcs
+    |> changeset_common
   end
 
-  def approve(%Listing{approved: false} = listing, %User{} = approved_by) do
+  def approve(%__MODULE__{approved: false} = listing, %User{} = approved_by) do
     listing
     |> change
     |> put_change(:approved, true)
@@ -144,11 +127,11 @@ defmodule Volunteer.Apply.Listing do
     |> put_change(:approved_by, nil)
   end
 
-  def is_approved?(%Listing{approved: true}) do
+  def is_approved?(%__MODULE__{approved: true}) do
     true
   end
 
-  def is_approved?(%Listing{approved: false}) do
+  def is_approved?(%__MODULE__{approved: false}) do
     false
   end
   
@@ -164,15 +147,21 @@ defmodule Volunteer.Apply.Listing do
     })
   end
   
-  def now_expiry_date() do
-    Timex.now() |> Timex.shift(hours: -1) |> Timex.to_datetime()
+  defp sanitize(attrs) do
+    attrs
+    |> Volunteer.SanitizeInput.text_attrs([
+      "position_title",
+      "program_title",
+      "summary_line"
+    ])
+    |> Volunteer.SanitizeInput.html_attrs([
+      "program_description",
+      "qualifications",
+      "responsibilities",
+    ])
   end
 
-  def refreshed_expiry_date() do
-    Timex.now() |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime()
-  end
-
-  def common_changeset_funcs(changeset) do
+  defp changeset_common(changeset) do
     changeset
     |> validate_length(:position_title, max: 140)
     |> validate_length(:program_title, max: 140)
@@ -187,7 +176,7 @@ defmodule Volunteer.Apply.Listing do
     |> unapprove
   end
 
-  def manage_date_with_toggle(changeset, date_field, toggle_field) do
+  defp manage_date_with_toggle(changeset, date_field, toggle_field) do
     case get_field(changeset, toggle_field) do
       nil ->
         manage_toggle(changeset, date_field, toggle_field)
@@ -200,7 +189,7 @@ defmodule Volunteer.Apply.Listing do
     end
   end
 
-  def manage_toggle(changeset, date_field, toggle_field) do
+  defp manage_toggle(changeset, date_field, toggle_field) do
     case get_field(changeset, date_field) do
       nil ->
         put_change(changeset, toggle_field, true)
@@ -210,7 +199,7 @@ defmodule Volunteer.Apply.Listing do
     end
   end
   
-  def manage_cc_emails_field(changeset) do
+  defp manage_cc_emails_field(changeset) do
     field = :cc_emails
     re = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
     case get_field(changeset, field, "") do
@@ -237,5 +226,13 @@ defmodule Volunteer.Apply.Listing do
             changeset
         end
     end
+  end
+  
+  defp now_expiry_date() do
+    Timex.now() |> Timex.shift(hours: -1) |> Timex.to_datetime()
+  end
+
+  defp refreshed_expiry_date() do
+    Timex.now() |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime()
   end
 end

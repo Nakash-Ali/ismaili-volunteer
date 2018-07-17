@@ -1,7 +1,6 @@
 defmodule Volunteer.Apply.Application do
   use Volunteer, :schema
   import Ecto.Changeset
-  alias Volunteer.Apply.Application
   alias Volunteer.Apply.Listing
   alias Volunteer.Accounts.User
 
@@ -17,18 +16,36 @@ defmodule Volunteer.Apply.Application do
 
     timestamps()
   end
+  
+  @attributes_cast_always [
+    :listing_id,
+    :user_id,
+    :preferred_contact,
+    :confirm_availability,
+    :additional_info,
+    :hear_about,
+  ]
 
-  def changeset(%Application{} = application, attrs) when application == %Application{} do
-    application
-    |> cast(attrs, [
-      :listing_id,
-      :user_id,
-      :preferred_contact,
-      :confirm_availability,
-      :additional_info,
-      :hear_about
+  @attributes_required_always [
+    :listing_id,
+    :user_id,
+    :preferred_contact,
+    :confirm_availability,
+  ]
+  
+  def sanitize(attrs) do
+    attrs
+    |> Volunteer.SanitizeInput.text_attrs([
+      "preferred_contact",
+      "additional_info",
+      "hear_about",
     ])
-    |> validate_required([:listing_id, :user_id, :preferred_contact, :confirm_availability])
+  end
+
+  def changeset(application, attrs) do
+    application
+    |> cast(sanitize(attrs), @attributes_cast_always)
+    |> validate_required(@attributes_required_always)
     |> foreign_key_constraint(:listing_id)
     |> foreign_key_constraint(:user_id)
   end
