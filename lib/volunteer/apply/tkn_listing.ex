@@ -140,6 +140,11 @@ defmodule Volunteer.Apply.TKNListing do
       "More than 15 years",
     ]
   end
+  
+  def sanitize(attrs) do
+    attrs
+    |> Volunteer.SanitizeInput.text_attrs(["suggested_keywords"])
+  end
 
   def changeset(%TKNListing{} = tkn_listing, %{} = attrs, %Listing{} = listing) do
     new_attrs =
@@ -151,7 +156,7 @@ defmodule Volunteer.Apply.TKNListing do
 
   def changeset(%TKNListing{} = tkn_listing, %{} = attrs) do
     tkn_listing
-    |> cast(attrs, @attributes_cast_always)
+    |> cast(sanitize(attrs), @attributes_cast_always)
     |> validate_required(@attributes_required_always)
     |> foreign_key_constraint(:listing_id)
     |> validate_inclusion(:commitment_type, commitment_type_choices())

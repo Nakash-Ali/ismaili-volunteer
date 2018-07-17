@@ -3,31 +3,21 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias VolunteerWeb.Authorize
-  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
   
   # Plugs
-
-  # plug :scrubadub_params, [
-  #   required_key: "listing",
-  #   sanitize_text_params: @text_params,
-  #   sanitize_textarea_params: @textarea_params ]
-  #   when action in [:create, :update]
   
   plug :load_listing
+  plug :ensure_listing_approved when action not in [:show]
   plug :authorize
-  plug :ensure_approved when action not in [:show]
+  plug :scrub_params, "marketing_request"
+    when action in [:create]
     
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
     Plug.Conn.assign(conn, :listing, listing)
   end
   
-  def authorize(conn, _opts) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :marketing_request], listing)
-  end
-  
-  def ensure_approved(conn, _opts) do
+  def ensure_listing_approved(conn, _opts) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     case listing.approved do
       true ->
@@ -36,6 +26,11 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
         conn
         |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
     end
+  end
+  
+  def authorize(conn, _opts) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :marketing_request], listing)
   end
   
   # Controller Actions

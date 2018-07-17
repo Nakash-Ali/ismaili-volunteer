@@ -5,30 +5,13 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Infrastructure
   alias VolunteerWeb.UtilsController
   alias VolunteerWeb.Authorize
-  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
-  
-  @text_params [
-    "position_title",
-    "program_title",
-    "summary_line"
-  ]
-  
-  @textarea_params [
-    "program_description",
-    "qualifications",
-    "responsibilities",
-  ]
   
   # Plugs
 
-  plug :scrubadub_params, [
-    required_key: "listing",
-    sanitize_text_params: @text_params,
-    sanitize_textarea_params: @textarea_params ]
-    when action in [:create, :update]
-  
   plug :load_listing
     when action not in [:index, :new, :create]
+  plug :scrub_params, "listing"
+    when action in [:create, :update]
 
   def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
     listing =

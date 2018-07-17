@@ -4,38 +4,16 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   alias Volunteer.Apply
   alias VolunteerWeb.Authorize
   alias VolunteerWeb.UtilsController
-  import VolunteerWeb.SanitizeInput, only: [scrubadub_params: 2]
-  
-  @text_params [
-    "suggested_keywords"
-  ]
   
   # Plugs
 
-  plug :scrubadub_params, [
-    required_key: "listing",
-    sanitize_text_params: @text_params ]
-    when action in [:create, :update]
-      
-  plug :load_listing
-
-  plug :authorize
-  
   plug :redirect_to_show_if_exists
     when action in [:new, :create]
-    
-  plug :load_tkn_listing_or_redirect_to_correct_id
-    when action in [:edit, :update, :delete]
-    
-  def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
-    Plug.Conn.assign(conn, :listing, listing)
-  end
-  
-  def authorize(conn, _opts) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
-  end
+  plug :load_listing
+  plug :load_tkn_listing
+  plug :authorize
+  plug :scrub_params, "tkn_listing"
+    when action in [:create, :update]
   
   def redirect_to_show_if_exists(conn, _) do
     %Plug.Conn{params: %{"listing_id" => listing_id}} = conn
@@ -48,11 +26,20 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing_id))
     end
   end
+    
+  def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
+    listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    Plug.Conn.assign(conn, :listing, listing)
+  end
   
-  defp load_tkn_listing_or_redirect_to_correct_id(conn, _) do
-    %Plug.Conn{params: %{"listing_id" => listing_id}} = conn
-    tkn_listing = Apply.get_one_tkn_listing_for_listing!(listing_id)
-    assign(conn, :tkn_listing, tkn_listing)
+  def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
+    tkn_listing = Apply.get_one_tkn_listing_for_listing!(id)
+    Plug.Conn.assign(conn, :tkn_listing, tkn_listing)
+  end
+  
+  def authorize(conn, _opts) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
   end
   
   # Controller Actions
@@ -66,8 +53,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def create(conn, %{"tkn_listing" => tkn_listing_params}) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    tkn_listing_params
-    |> Apply.create_tkn_listing(listing)
+    listing
+    |> Apply.create_tkn_listing(tkn_listing_params)
     |> case do
       {:ok, _tkn_listing} ->
         conn

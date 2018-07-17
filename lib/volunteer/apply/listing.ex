@@ -83,6 +83,20 @@ defmodule Volunteer.Apply.Listing do
   def preloadables() do
     [:created_by, :approved_by, :region, :group, :organized_by]
   end
+  
+  def sanitize(attrs) do
+    attrs
+    |> Volunteer.SanitizeInput.text_attrs([
+      "position_title",
+      "program_title",
+      "summary_line"
+    ])
+    |> Volunteer.SanitizeInput.html_attrs([
+      "program_description",
+      "qualifications",
+      "responsibilities",
+    ])
+  end
 
   def new() do
     create(%Listing{}, %{})
@@ -98,7 +112,7 @@ defmodule Volunteer.Apply.Listing do
 
   def create(listing, attrs) when listing == %Listing{} do
     listing
-    |> cast(attrs, [:created_by_id] ++ @attributes_cast_always)
+    |> cast(sanitize(attrs), [:created_by_id] ++ @attributes_cast_always)
     |> validate_required([:created_by_id] ++ @attributes_required_always)
     |> cast_assoc(:tkn_listing)
     |> common_changeset_funcs
@@ -107,7 +121,7 @@ defmodule Volunteer.Apply.Listing do
 
   def edit(listing, attrs) do
     listing
-    |> cast(attrs, @attributes_cast_always)
+    |> cast(sanitize(attrs), @attributes_cast_always)
     |> validate_required(@attributes_required_always)
     |> common_changeset_funcs
   end
@@ -196,11 +210,10 @@ defmodule Volunteer.Apply.Listing do
     end
   end
   
-  # TODO: remove this once CC has been properly implemented
   def manage_cc_emails_field(changeset) do
     field = :cc_emails
     re = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-    case get_field(changeset, field) do
+    case get_field(changeset, field, "") do
       "" ->
         changeset
       raw_emails ->

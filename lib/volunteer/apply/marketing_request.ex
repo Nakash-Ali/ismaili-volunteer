@@ -150,20 +150,21 @@ defmodule Volunteer.Apply.MarketingRequest do
     end
   end
 
-  def changeset(channels, assigns, attrs) do
-    merged_attrs =
+  defp changeset(channels, assigns, attrs) do
+    fixed_attrs =
       channels
       |> initial(assigns)
       |> merge_initial_with_attrs(attrs)
+      |> sanitize
     %__MODULE__{}
-    |> cast(merged_attrs, @attributes_cast_always)
+    |> cast(fixed_attrs, @attributes_cast_always)
     |> validate_required(@attributes_required_always)
     |> cast_embed(:text_channels)
     |> cast_embed(:image_channels)
     |> cast_embed(:text_image_channels)
   end
   
-  def initial(channels, assigns) do
+  defp initial(channels, assigns) do
     %{
       "text_channels" => initial_channels_for_type(TextChannel, channels, assigns),
       "image_channels" => initial_channels_for_type(ImageChannel, channels, assigns),
@@ -171,7 +172,7 @@ defmodule Volunteer.Apply.MarketingRequest do
     }
   end
   
-  def initial_channels_for_type(required_channel_type, channels, assigns) do
+  defp initial_channels_for_type(required_channel_type, channels, assigns) do
     channels
     |> Enum.map(fn title -> {Map.fetch!(@mapping, title), title} end)
     |> Enum.filter(fn {channel_type, _title} -> channel_type == required_channel_type end)
@@ -179,16 +180,14 @@ defmodule Volunteer.Apply.MarketingRequest do
     |> Volunteer.Utils.list_to_map
   end
   
-  def merge_initial_with_attrs(initial, attrs) do
+  defp merge_initial_with_attrs(initial, attrs) do
     Map.merge(initial, attrs)
-    |> Map.put("text_channels", merge_channel("text_channels", initial, attrs))
-    |> Map.put("image_channels", merge_channel("image_channels", initial, attrs))
-    |> Map.put("text_image_channels", merge_channel("text_image_channels", initial, attrs))
+    |> Map.put("text_channels", merge_initial_with_attrs_for_channel(initial["text_channels"], attrs["text_channels"]))
+    |> Map.put("image_channels", merge_initial_with_attrs_for_channel(initial["image_channels"], attrs["image_channels"]))
+    |> Map.put("text_image_channels", merge_initial_with_attrs_for_channel(initial["text_image_channels"], attrs["text_image_channels"]))
   end
   
-  def merge_channel(key, initial, attrs) do
-    initial_channels = Map.get(initial, key, %{})
-    attrs_channels = Map.get(attrs, key, %{})
+  defp merge_initial_with_attrs_for_channel(initial_channels, attrs_channels) do
     Map.merge(
       initial_channels,
       attrs_channels,
@@ -196,7 +195,18 @@ defmodule Volunteer.Apply.MarketingRequest do
     )
   end
   
-  def validate_atleast_one_in_any_channel(changeset, channels) do
+  defp sanitize(attrs) do
+    attrs
+    |> Map.put("text_channels", sanitize_for_channel(attrs["text_channels"]))
+    |> Map.put("image_channels", sanitize_for_channel(attrs["image_channels"]))
+    |> Map.put("text_image_channels", sanitize_for_channel(attrs["text_image_channels"]))
+  end
+  
+  defp sanitize_for_channel(attrs) do
+    Volunteer.Utils.update_all_values(attrs, &Volunteer.SanitizeInput.text_attrs(&1, ["title", "text"]))
+  end
+  
+  defp validate_atleast_one_in_any_channel(changeset, channels) do
     channels
     |> Enum.flat_map(&get_field(changeset, &1, []))
     |> Enum.filter(&Map.get(&1, :enabled, false))
@@ -209,7 +219,7 @@ defmodule Volunteer.Apply.MarketingRequest do
     end
   end
   
-  def filter_disabled_channel(changeset, channel) do
+  defp filter_disabled_channel(changeset, channel) do
     filtered = 
       changeset
       |> get_field(channel)

@@ -17,33 +17,33 @@ defmodule Volunteer.Apply do
     |> Repo.insert()
   end
   
-  def edit_listing(%Listing{} = listing, attrs \\ %{}) do
-    listing |> Listing.edit(attrs)
+  def edit_listing(listing, attrs \\ %{}) do
+    Listing.edit(listing, attrs)
   end
 
-  def update_listing(%Listing{} = listing, attrs \\ %{}) do
+  def update_listing(listing, attrs \\ %{}) do
     listing
     |> edit_listing(attrs)
     |> Repo.update()
   end
 
-  def delete_listing(%Listing{} = listing) do
-    listing |> Repo.delete()
+  def delete_listing(listing) do
+    Repo.delete(listing)
   end
 
-  def approve_listing!(%Listing{} = listing, approved_by) do
+  def approve_listing!(listing, approved_by) do
     listing
     |> Listing.approve(approved_by)
     |> Repo.update!()
   end
 
-  def unapprove_listing!(%Listing{} = listing) do
+  def unapprove_listing!(listing) do
     listing
     |> Listing.unapprove()
     |> Repo.update!()
   end
   
-  def refresh_expiry_for_listing!(%Listing{} = listing) do
+  def refresh_expiry_for_listing!(listing) do
     listing
     |> Listing.refresh_expiry
     |> Repo.update!()
@@ -101,7 +101,7 @@ defmodule Volunteer.Apply do
     TKNListing.changeset(%TKNListing{}, %{})
   end
 
-  def create_tkn_listing(attrs, listing) do
+  def create_tkn_listing(listing, attrs) do
     TKNListing.changeset(%TKNListing{}, attrs, listing)
     |> Repo.insert()
   end
@@ -123,7 +123,7 @@ defmodule Volunteer.Apply do
     Repo.get(TKNListing, id)
   end
   
-  def delete_tkn_listing(%TKNListing{} = tkn_listing) do
+  def delete_tkn_listing(tkn_listing) do
     Repo.delete(tkn_listing)
   end
   
