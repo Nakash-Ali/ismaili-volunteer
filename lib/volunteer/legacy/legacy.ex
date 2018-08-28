@@ -31,7 +31,7 @@ defmodule Volunteer.Legacy do
     "Willowdale",
     "Windsor"
   ]
-  
+
   @all_contact_methods [
     "phone",
     "email"
@@ -98,7 +98,7 @@ defmodule Volunteer.Legacy do
   ]
 
   defstruct Map.keys(@types) |> Enum.map(fn key -> {key, Map.get(@defaults, key, nil)} end)
-  
+
   def all_jamatkhanas do
     @all_jamatkhanas
   end
@@ -147,9 +147,9 @@ defmodule Volunteer.Legacy do
   defp send_emails(%Volunteer.Legacy{} = data) do
     [
       &VolunteerEmail.LegacyEmails.external/1,
-      &VolunteerEmail.LegacyEmails.internal/1,
+      &VolunteerEmail.LegacyEmails.internal/1
     ]
-    |> Enum.map(&(&1.(data)))
+    |> Enum.map(& &1.(data))
     |> Enum.map(&VolunteerEmail.Mailer.deliver_now/1)
   end
 end

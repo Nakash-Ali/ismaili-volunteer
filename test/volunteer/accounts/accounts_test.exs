@@ -5,11 +5,9 @@ defmodule Volunteer.AccountsTest do
 
   describe "users" do
     alias Volunteer.Accounts.User
-
   end
 
   describe "identities" do
     alias Volunteer.Accounts.Identity
-
   end
 end

@@ -10,7 +10,7 @@ defmodule VolunteerEmail do
       import Bamboo.Email
     end
   end
-  
+
   def email do
     quote do
       import Bamboo.Email

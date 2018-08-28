@@ -1,37 +1,36 @@
 defmodule VolunteerWeb.PageTitle do
-  
   @suffix Application.fetch_env!(:volunteer, :project_title)
   @joiner " - "
-  
+
   def render(assigns) do
     assigns |> title |> join
   end
-  
+
   defp join(title_string) when is_binary(title_string) do
     join([title_string])
   end
-  
+
   defp join(list_of_title_strings) when is_list(list_of_title_strings) do
-    [ @suffix | list_of_title_strings ]
-    |> Enum.reverse
+    [@suffix | list_of_title_strings]
+    |> Enum.reverse()
     |> Enum.join(@joiner)
   end
-  
+
   def title(%{view_module: VolunteerWeb.ListingView, listing: listing}) do
     [
       "Listings",
-      VolunteerWeb.Presenters.Title.text(listing),
+      VolunteerWeb.Presenters.Title.text(listing)
     ]
   end
-  
+
   def title(%{view_module: VolunteerWeb.Legacy.ApplyView, view_template: "error.html"}) do
     "Error"
   end
-  
+
   def title(%{view_module: VolunteerWeb.Legacy.ApplyView, view_template: "thank_you.html"}) do
     "Thank you!"
   end
-  
+
   def title(_) do
     []
   end

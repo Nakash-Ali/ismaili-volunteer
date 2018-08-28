@@ -13,7 +13,7 @@ defmodule VolunteerWeb.Legacy.ApplyController do
   def thank_you(conn, _params) do
     render(conn, "thank_you.html")
   end
-  
+
   def error(conn, _params) do
     render(conn, "error.html")
   end

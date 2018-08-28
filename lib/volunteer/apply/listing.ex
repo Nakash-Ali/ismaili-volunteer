@@ -34,7 +34,7 @@ defmodule Volunteer.Apply.Listing do
     field :program_description, :string
     field :responsibilities, :string
     field :qualifications, :string
-    
+
     field :cc_emails, :string, default: ""
 
     has_one :tkn_listing, TKNListing
@@ -62,7 +62,7 @@ defmodule Volunteer.Apply.Listing do
     :program_description,
     :responsibilities,
     :qualifications,
-    :cc_emails,
+    :cc_emails
   ]
 
   @attributes_required_always [
@@ -78,7 +78,7 @@ defmodule Volunteer.Apply.Listing do
     :responsibilities,
     :qualifications
   ]
-  
+
   def preloadables() do
     [:created_by, :approved_by, :region, :group, :organized_by]
   end
@@ -134,7 +134,7 @@ defmodule Volunteer.Apply.Listing do
   def is_approved?(%__MODULE__{approved: false}) do
     false
   end
-  
+
   def expire(listing) do
     change(listing, %{
       expiry_date: now_expiry_date()
@@ -146,7 +146,7 @@ defmodule Volunteer.Apply.Listing do
       expiry_date: refreshed_expiry_date()
     })
   end
-  
+
   defp sanitize(attrs) do
     attrs
     |> Volunteer.SanitizeInput.text_attrs([
@@ -157,7 +157,7 @@ defmodule Volunteer.Apply.Listing do
     |> Volunteer.SanitizeInput.html_attrs([
       "program_description",
       "qualifications",
-      "responsibilities",
+      "responsibilities"
     ])
   end
 
@@ -198,36 +198,42 @@ defmodule Volunteer.Apply.Listing do
         put_change(changeset, toggle_field, false)
     end
   end
-  
+
   defp manage_cc_emails_field(changeset) do
     field = :cc_emails
     re = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+
     case get_field(changeset, field, "") do
       "" ->
         changeset
+
       raw_emails ->
         parsed_emails =
           raw_emails
           |> String.split(",")
           |> Enum.map(&String.trim/1)
+
         changeset =
           Enum.reduce(parsed_emails, changeset, fn email, changeset ->
             case Regex.match?(re, email) do
               true ->
                 changeset
+
               _ ->
                 add_error(changeset, field, "#{email} is not a valid email")
             end
           end)
+
         case Keyword.get(changeset.errors, field) do
           nil ->
             put_change(changeset, field, Enum.join(parsed_emails, ","))
+
           _ ->
             changeset
         end
     end
   end
-  
+
   defp now_expiry_date() do
     Timex.now() |> Timex.shift(hours: -1) |> Timex.to_datetime()
   end

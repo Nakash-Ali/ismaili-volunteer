@@ -3,9 +3,10 @@ defmodule VolunteerWeb.Router do
   import VolunteerWeb.Session.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
 
   pipeline :browser do
-    if Mix.env == :prod do
+    if Mix.env() == :prod do
       plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
     end
+
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -28,22 +29,22 @@ defmodule VolunteerWeb.Router do
     pipe_through :browser
 
     get "/", IndexController, :index
-    
+
     scope "/listings/:id" do
       get "/", ListingController, :show
       post "/apply", ListingController, :create_applicant
-      
+
       scope "/social" do
         get "/html", ListingSocialImageController, :show
         get "/image", ListingSocialImageController, :image
       end
-      
+
       scope "/preview" do
         get "/index/", ListingPreviewController, :index
         get "/show/", ListingPreviewController, :show
       end
     end
-    
+
     scope "/auth" do
       get "/login", AuthController, :login
       get "/logout", AuthController, :logout
@@ -59,7 +60,11 @@ defmodule VolunteerWeb.Router do
 
       resources "/listings", ListingController do
         resources "/tkn_listing", TKNListingController, singleton: true
-        resources "/marketing_request", MarketingRequestController, singleton: true, only: [:show, :new, :create]
+
+        resources "/marketing_request", MarketingRequestController,
+          singleton: true,
+          only: [:show, :new, :create]
+
         resources "/applicant", ApplicantController, only: [:index]
       end
 
@@ -73,11 +78,12 @@ defmodule VolunteerWeb.Router do
   if Mix.env() == :dev do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
-  
+
   def configure_sentry_context(conn, _params) do
     case conn.assigns[:current_user] do
       nil ->
         conn
+
       user ->
         Sentry.Context.set_user_context(%{title: user.title, id: user.id})
         conn

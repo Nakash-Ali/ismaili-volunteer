@@ -5,20 +5,20 @@ defmodule VolunteerWeb.Admin.TKNListingView do
   alias VolunteerWeb.ListingView, as: PublicListingView
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.Presenters.Title
-  
+
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
       render(VolunteerWeb.VendorView, "choices.html"),
-      stylesheet_tag(conn, "/css/admin/common.css"),
+      stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
-  
+
   def render("head_extra" <> _, %{conn: conn}) do
     [
       stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
-  
+
   def generate_assignment_data(%{listing: listing, tkn_listing: tkn_listing}) do
     %{
       country: "Canada",
@@ -42,11 +42,11 @@ defmodule VolunteerWeb.Admin.TKNListingView do
       search_scope: tkn_listing.search_scope,
       responsibilities: listing.responsibilities,
       qualifications: listing.qualifications,
-      suggested_keywords: tkn_listing.suggested_keywords,
+      suggested_keywords: tkn_listing.suggested_keywords
     }
     |> encode_for_client
   end
-  
+
   def generate_assignment_output_filename(%{listing: listing}) do
     "#{listing.id} - #{Title.text(listing)} - TKN Assignment Specification"
   end

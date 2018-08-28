@@ -30,13 +30,16 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
 
   def handle_call({:get, webpage_url, listing_id, listing_updated_at}, _from, state) do
     disk_path = image_disk_path(listing_id, listing_updated_at)
+
     {:ok, _} =
       case File.stat(disk_path) do
         {:ok, %File.Stat{type: :regular}} ->
           {:ok, :exists}
+
         _ ->
           generate_image!(webpage_url, disk_path)
       end
+
     {:reply, disk_path, state}
   end
 
@@ -54,6 +57,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
       :sha
       |> :crypto.hash("#{listing_id}#{listing_updated_at}")
       |> Base.hex_encode32(case: :lower, padding: false)
+
     "#{hashed_listing_str}.png"
   end
 

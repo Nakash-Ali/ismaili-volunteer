@@ -5,6 +5,5 @@ defmodule Volunteer.PermissionsTest do
 
   describe "roles" do
     alias Volunteer.Permissions.Role
-
   end
 end

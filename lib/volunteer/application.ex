@@ -13,7 +13,7 @@ defmodule Volunteer.Application do
       # Start the social_image generator
       worker(VolunteerWeb.Services.ListingSocialImageGenerator, []),
       # Start the endpoint when the application starts
-      supervisor(VolunteerWeb.Endpoint, []),
+      supervisor(VolunteerWeb.Endpoint, [])
     ]
 
     # Capture all errors, that aren't caught by Plug

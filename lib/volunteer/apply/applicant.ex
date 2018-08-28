@@ -16,29 +16,29 @@ defmodule Volunteer.Apply.Applicant do
 
     timestamps()
   end
-  
+
   @attributes_cast_always [
     :listing_id,
     :user_id,
     :preferred_contact,
     :confirm_availability,
     :additional_info,
-    :hear_about,
+    :hear_about
   ]
 
   @attributes_required_always [
     :listing_id,
     :user_id,
     :preferred_contact,
-    :confirm_availability,
+    :confirm_availability
   ]
-  
+
   def sanitize(attrs) do
     attrs
     |> Volunteer.SanitizeInput.text_attrs([
       "preferred_contact",
       "additional_info",
-      "hear_about",
+      "hear_about"
     ])
   end
 

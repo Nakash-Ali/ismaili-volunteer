@@ -3,34 +3,36 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias VolunteerWeb.Authorize
-  
+
   # Plugs
-  
+
   plug :load_listing
   plug :ensure_listing_approved when action not in [:show]
   plug :authorize
-    
+
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
     Plug.Conn.assign(conn, :listing, listing)
   end
-  
+
   def ensure_listing_approved(conn, _opts) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
+
     case listing.approved do
       true ->
         conn
+
       false ->
         conn
         |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
     end
   end
-  
+
   def authorize(conn, _opts) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     Authorize.ensure_allowed!(conn, [:admin, :listing, :marketing_request], listing)
   end
-  
+
   # Controller Actions
 
   def new(conn, _params) do
@@ -40,7 +42,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
 
   def create(conn, %{"marketing_request" => marketing_request}) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    
+
     listing
     |> Apply.send_marketing_request(marketing_request)
     |> case do
@@ -48,7 +50,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
         conn
         |> put_flash(:info, "Marketing request created successfully.")
         |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
-    
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render_form(conn, changeset)
     end
@@ -60,7 +62,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   end
 
   # Utilities
-  
+
   defp render_form(conn, %Ecto.Changeset{} = changeset, template \\ "new.html", opts \\ []) do
     render(
       conn,

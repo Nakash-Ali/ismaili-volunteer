@@ -1,13 +1,13 @@
 defmodule VolunteerWeb.Legacy.ListingView do
   use VolunteerWeb, :view
   alias VolunteerWeb.Presenters.Title
-  
+
   @env Application.fetch_env!(:volunteer, Volunteer.Legacy)
-  
+
   def submit_url() do
     Keyword.fetch!(@env, :submit_url)
   end
-  
+
   def form_data(listing) do
     %{
       approved: listing.approved,

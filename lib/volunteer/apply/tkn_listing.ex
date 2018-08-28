@@ -20,7 +20,7 @@ defmodule Volunteer.Apply.TKNListing do
 
     timestamps()
   end
-  
+
   @attributes_cast_always [
     :listing_id,
     :openings,
@@ -31,7 +31,7 @@ defmodule Volunteer.Apply.TKNListing do
     :function,
     :industry,
     :education_level,
-    :work_experience_level,
+    :work_experience_level
   ]
 
   @attributes_required_always [
@@ -40,41 +40,41 @@ defmodule Volunteer.Apply.TKNListing do
     :commitment_type,
     :location_type,
     :search_scope,
-    :suggested_keywords,
+    :suggested_keywords
   ]
-  
+
   def commitment_type_choices do
     [
       "Full-time",
       "Part-time",
-      "Both",
+      "Both"
     ]
   end
-  
+
   def location_type_choices do
     [
       "On-site",
       "Remote / Homebase",
-      "Both",
+      "Both"
     ]
   end
-  
+
   def search_scope_choices do
     [
       "In-country",
-      "International",
+      "International"
     ]
   end
-  
+
   def function_choices do
     [
       "Administration and operations",
       "Program development / implementation",
       "Strategic",
-      "Team / event-based",
+      "Team / event-based"
     ]
   end
-  
+
   def industry_choices do
     [
       "Accounting",
@@ -114,10 +114,10 @@ defmodule Volunteer.Apply.TKNListing do
       "Transportation",
       "Travel / Tourism / Hospitality",
       "Urban / Land Planning",
-      "Other",
+      "Other"
     ]
   end
-  
+
   def education_level_choices do
     [
       "Primary",
@@ -126,10 +126,10 @@ defmodule Volunteer.Apply.TKNListing do
       "Undergraduate (Bachelors)",
       "Professional School",
       "Masters",
-      "PhD",
+      "PhD"
     ]
   end
-  
+
   def work_experience_level_choices do
     [
       "Less than 1 year",
@@ -137,10 +137,10 @@ defmodule Volunteer.Apply.TKNListing do
       "3 - 5 years",
       "6 - 9 years",
       "10 - 14 years",
-      "More than 15 years",
+      "More than 15 years"
     ]
   end
-  
+
   def sanitize(attrs) do
     attrs
     |> Volunteer.SanitizeInput.text_attrs(["suggested_keywords"])

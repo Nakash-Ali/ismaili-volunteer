@@ -6,9 +6,9 @@ defmodule Volunteer.Mixfile do
       app: :volunteer,
       version: "1.1.0",
       elixir: "~> 1.6",
-      elixirc_paths: elixirc_paths(Mix.env),
+      elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
     ]
@@ -64,7 +64,7 @@ defmodule Volunteer.Mixfile do
       {:floki, "~> 0.20.0"},
       {:slugger, "~> 0.2"},
       {:appsignal, "~> 1.5"},
-      {:porcelain, "~> 2.0"},
+      {:porcelain, "~> 2.0"}
     ]
   end
 
