@@ -10,6 +10,7 @@ defmodule Volunteer.Commands do
         %Porcelain.Result{status: 0} = pkill(command_name, config)
         {:error, :timeout}
       {:ok, %Result{out: out, status: status}} ->
+        IO.inspect(out)
         case status do
           0 ->
             {:ok, decode_or_clean_out(out)}
@@ -18,7 +19,7 @@ defmodule Volunteer.Commands do
         end
     end
   end
-  
+
   def pkill(command_name, config) do
     Porcelain.exec("pkill", [
       "-fi",
@@ -26,7 +27,7 @@ defmodule Volunteer.Commands do
       encode_config(config),
     ])
   end
-  
+
   def args(command_name, config) do
     [
       "--abort-on-uncaught-exception",
@@ -34,21 +35,21 @@ defmodule Volunteer.Commands do
       "--config=#{encode_config(config)}",
     ]
   end
-  
+
   def chdir() do
     :code.priv_dir(:volunteer) |> to_string
   end
-  
+
   def command_path(command_name) do
     "./commands/#{command_name}.js"
   end
-  
+
   def encode_config(config) do
     config
     |> Poison.encode!
     |> Base.encode64
   end
-  
+
   def decode_or_clean_out(raw) do
     str = String.trim(raw)
     case Base.decode64(str) do

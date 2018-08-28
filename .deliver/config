@@ -98,7 +98,7 @@ build_static_assets() {
   "
 }
 
-copy_static_assets(){
+copy_static_assets() {
   status "Copying static assets"
   __sync_remote "
     [ -f ~/.profile ] && source ~/.profile
