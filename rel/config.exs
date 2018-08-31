@@ -39,7 +39,7 @@ environment :prod do
   set include_erts: true
   set include_src: false
   set cookie: secret_key_generator.(64) |> String.to_atom
-  
+
   set pre_start_hooks: "rel/hooks/pre_start"
 end
 
