@@ -10,5 +10,4 @@ config :volunteer, VolunteerWeb.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :volunteer, Volunteer.Repo,
-  pool: Ecto.Adapters.SQL.Sandbox
+config :volunteer, Volunteer.Repo, pool: Ecto.Adapters.SQL.Sandbox

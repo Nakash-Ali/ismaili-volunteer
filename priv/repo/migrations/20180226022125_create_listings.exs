@@ -4,7 +4,7 @@ defmodule Volunteer.Repo.Migrations.CreateListings do
   def change do
     create table(:listings) do
       add :expiry_date, :timestamptz, null: false
-      
+
       add :created_by_id, references(:users, on_delete: :restrict), null: false
 
       add :approved, :boolean, default: false, null: false

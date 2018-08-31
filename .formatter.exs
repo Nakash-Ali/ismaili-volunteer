@@ -6,6 +6,18 @@
   ],
   import_deps: Volunteer.Mixfile.deps() |> Enum.map(fn dep_tup -> elem(dep_tup, 0) end),
   locals_without_parens: [
+    # Ecto.Migration
+    create: :*,
+    create_if_not_exists: :*,
+    alter: :*,
+    drop: :*,
+    drop_if_exists: :*,
+    rename: :*,
+    add: :*,
+    remove: :*,
+    modify: :*,
+    execute: :*,
+
     # Ecto.Query
     from: 2,
 

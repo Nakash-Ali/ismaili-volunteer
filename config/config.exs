@@ -10,18 +10,18 @@ config :volunteer,
   ecto_repos: [Volunteer.Repo],
   project_title: "OpportunitiesToServe",
   contact_email: "hrontario@iicanada.net"
-  
+
 # Email related settings
 config :volunteer, VolunteerEmail,
   system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
-  
+
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
   submit_url: "/legacy/apply",
   static_site: "",
   redirect_next_path: "/legacy/thank_you",
   redirect_error_path: "/legacy/error"
-  
+
 # Configure social constants
 config :volunteer, :social,
   title: "OpportunitiesToServe",
@@ -38,8 +38,7 @@ config :volunteer, VolunteerWeb.Endpoint,
   static_url: [path: "/static"],
   secret_key_base: "RJhNnMngIMEJY605r0es6uPFY/TF/9u9CEgIp+ioEpML3Q1gE+vjxmZEJEOa7MtW",
   render_errors: [view: VolunteerWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Volunteer.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Volunteer.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configure your database
 config :volunteer, Volunteer.Repo,
@@ -51,8 +50,7 @@ config :volunteer, Volunteer.Repo,
   hostname: "127.0.0.1"
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer,
-  adapter: Bamboo.LocalAdapter
+config :volunteer, VolunteerEmail.Mailer, adapter: Bamboo.LocalAdapter
 
 # Configure hammer rate-limiter
 config :hammer,
@@ -66,9 +64,9 @@ config :hammer,
 
 # Configure Sentry's error logging
 config :sentry,
-  environment_name: Mix.env,
+  environment_name: Mix.env(),
   enable_source_code_context: true,
-  root_source_code_path: File.cwd!,
+  root_source_code_path: File.cwd!(),
   tags: %{
     env: "production"
   },
@@ -77,7 +75,8 @@ config :sentry,
 # Configure Ueberauth
 config :ueberauth, Ueberauth,
   providers: [
-    microsoft: {Ueberauth.Strategy.Microsoft, [default_scope: "https://graph.microsoft.com/user.read"]},
+    microsoft:
+      {Ueberauth.Strategy.Microsoft, [default_scope: "https://graph.microsoft.com/user.read"]}
   ]
 
 # Configures Elixir's Logger
@@ -93,6 +92,6 @@ config :recaptcha,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"
 
 import_config "appsignal.exs"

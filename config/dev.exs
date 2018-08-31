@@ -52,11 +52,9 @@ config :volunteer, VolunteerWeb.Endpoint,
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :volunteer, Volunteer.Repo,
-  pool_size: 10
+config :volunteer, Volunteer.Repo, pool_size: 10
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer,
-  adapter: Bamboo.LocalAdapter
+config :volunteer, VolunteerEmail.Mailer, adapter: Bamboo.LocalAdapter
 
 import_config "dev.secret.exs"
