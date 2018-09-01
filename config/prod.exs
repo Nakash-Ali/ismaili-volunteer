@@ -40,7 +40,7 @@ config :volunteer, VolunteerEmail.Mailer, adapter: Bamboo.SendGridAdapter
 # Do not print debug messages in production
 config :logger, level: :info
 
-# Configure template metrics  
+# Configure template metrics
 config :phoenix, :template_engines,
   eex: Appsignal.Phoenix.Template.EExEngine,
   exs: Appsignal.Phoenix.Template.ExsEngine

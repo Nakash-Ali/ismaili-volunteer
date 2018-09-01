@@ -48,7 +48,7 @@ defmodule Volunteer.Mixfile do
       {:gettext, "~> 0.13"},
       {:cowboy, "~> 1.0"},
       {:edeliver, "~> 1.4", only: [:dev, :test]},
-      {:distillery, ">= 0.8.0"},
+      {:distillery, ">= 1.5.3"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},

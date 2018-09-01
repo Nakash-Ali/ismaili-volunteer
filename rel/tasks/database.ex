@@ -17,7 +17,10 @@ defmodule Volunteer.ReleaseTasks.Database do
 
     # # Load the code for app, but don't start it
     IO.puts("Loading #{me}..")
-    :ok = Application.load(me)
+    case Application.load(me) do
+      :ok -> :ok
+      {:error, {:already_loaded, :volunteer}} -> :ok
+    end
 
     # Start apps necessary for executing migrations
     IO.puts("Starting dependencies..")
