@@ -13,28 +13,17 @@
 <section class="container my-5">
 	<%= for listing <- @listings do %>
 		<div class="my-4">
-			<div class="d-flex flex-row flex-wrap align-items-center">
-				<h6 class="m-0"><%= Title.html(listing) %></h6>
-				<%= if Volunteer.Apply.Listing.is_approved?(listing) do %>
-					<p class="ml-3 m-0 font-family-sans-serif text-success">This listing is live!</p>
-				<% else %>
-					<p class="ml-3 m-0 font-family-sans-serif text-warning">This listing has not been approved</p>
-				<% end %>
-			</div>
+			<a href="<%= admin_listing_path(@conn, :show, listing) %>">
+				<div class="d-flex flex-row flex-wrap align-items-center">
+					<h6 class="mb-1"><%= Title.html(listing) %></h6>
+				</div>
+			</a>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">
 				<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
-				<li class="list-inline-item">Listing expires on <em><%= PublicListingView.expiry_datetime_text(listing.expiry_date) %></em></li>
 			</ul>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">
-				<li class="list-inline-item">
-					<%= link "Info", to: admin_listing_path(@conn, :show, listing) %>
-				</li>
-				<li class="list-inline-item">
-					<%= link "TKN", to: admin_listing_tkn_listing_path(@conn, :show, listing) %>
-				</li>
-				<li class="list-inline-item">
-					<%= link "Marketing", to: admin_listing_marketing_request_path(@conn, :show, listing) %>
-				</li>
+				<% {state_text, state_class} = listing_state_text_and_class(listing) %>
+				<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
 			</ul>
 		</div>
 	<% end %>

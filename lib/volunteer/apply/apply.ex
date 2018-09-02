@@ -32,27 +32,27 @@ defmodule Volunteer.Apply do
     Repo.delete(listing)
   end
 
-  def approve_listing!(listing, approved_by) do
+  def approve_listing_if_not_expired!(listing, approved_by) do
     listing
-    |> Listing.approve(approved_by)
+    |> Listing.approve_if_not_expired(approved_by)
     |> Repo.update!()
   end
 
-  def unapprove_listing!(listing) do
+  def unapprove_listing_if_not_expired!(listing) do
     listing
-    |> Listing.unapprove()
-    |> Repo.update!()
-  end
-
-  def refresh_expiry_for_listing!(listing) do
-    listing
-    |> Listing.refresh_expiry()
+    |> Listing.unapprove_if_not_expired()
     |> Repo.update!()
   end
 
   def expire_listing!(listing) do
     listing
     |> Listing.expire()
+    |> Repo.update!()
+  end
+
+  def refresh_and_maybe_unapprove_listing!(listing) do
+    listing
+    |> Listing.refresh_and_maybe_unapprove()
     |> Repo.update!()
   end
 

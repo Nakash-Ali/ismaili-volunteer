@@ -24,11 +24,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     listing |> Repo.preload(Apply.Listing.preloadables())
   end
 
-  def preload_relations(listing, action) when action in [:approve, :unapprove] do
+  def preload_relations(listing, action)
+      when action in [:approve, :unapprove, :refresh_expiry, :expire] do
     listing |> Repo.preload([:approved_by])
   end
 
-  def preload_relations(listing, action) when action in [:refresh_expiry, :expire, :delete] do
+  def preload_relations(listing, action) when action in [:delete] do
     listing
   end
 
@@ -118,7 +119,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     Authorize.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
-    Apply.refresh_expiry_for_listing!(listing)
+    Apply.refresh_and_maybe_unapprove_listing!(listing)
 
     conn
     |> put_flash(:info, "Successfully refreshed listing expiry.")
@@ -136,17 +137,17 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> redirect(to: admin_listing_path(conn, :show, listing))
   end
 
-  def delete(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
-
-    {:ok, _listing} = Apply.delete_listing(listing)
-
-    conn
-    |> put_flash(:info, "Listing deleted successfully.")
-    |> redirect(to: admin_listing_path(conn, :index))
-  end
+  # def delete(conn, _params) do
+  #   %Plug.Conn{assigns: %{listing: listing}} = conn
+  #
+  #   Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+  #
+  #   {:ok, _listing} = Apply.delete_listing(listing)
+  #
+  #   conn
+  #   |> put_flash(:info, "Listing deleted successfully.")
+  #   |> redirect(to: admin_listing_path(conn, :index))
+  # end
 
   defp toggle_approval(conn, _params, action) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
@@ -156,10 +157,10 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          Apply.approve_listing!(listing, Session.get_user(conn))
+          Apply.approve_listing_if_not_expired!(listing, Session.get_user(conn))
 
         :unapprove ->
-          Apply.unapprove_listing!(listing)
+          Apply.unapprove_listing_if_not_expired!(listing)
       end
 
     conn

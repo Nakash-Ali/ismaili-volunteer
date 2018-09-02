@@ -158,15 +158,15 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     end
   end
 
-  def delete(conn, _paramss) do
-    %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
-
-    {:ok, _tkn_listing} = Apply.delete_tkn_listing(tkn_listing)
-
-    conn
-    |> put_flash(:info, "Listing deleted successfully.")
-    |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
-  end
+  # def delete(conn, _paramss) do
+  #   %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
+  #
+  #   {:ok, _tkn_listing} = Apply.delete_tkn_listing(tkn_listing)
+  #
+  #   conn
+  #   |> put_flash(:info, "Listing deleted successfully.")
+  #   |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
+  # end
 
   # Utilities
 

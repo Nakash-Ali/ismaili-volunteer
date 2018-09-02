@@ -44,6 +44,7 @@ defmodule VolunteerWeb.Session do
         else
           nil
         end
+
       id ->
         id
     end
@@ -56,6 +57,7 @@ defmodule VolunteerWeb.Session do
   defmodule Plugs do
     def load_current_user(conn, _) do
       user_id = VolunteerWeb.Session.get_current_user_id(conn)
+
       try do
         user = Accounts.get_user!(user_id)
         VolunteerWeb.Session.put_user(conn, user)
@@ -74,7 +76,7 @@ defmodule VolunteerWeb.Session do
           |> VolunteerWeb.Session.put_redirect()
           |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
           |> Phoenix.Controller.redirect(to: Helpers.auth_path(conn, :login))
-          |> Phoenix.Controller.halt()
+          |> Plug.Conn.halt()
       end
     end
   end

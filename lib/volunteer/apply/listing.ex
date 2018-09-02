@@ -109,30 +109,41 @@ defmodule Volunteer.Apply.Listing do
     |> changeset_common
   end
 
-  def approve(%__MODULE__{approved: false} = listing, %User{} = approved_by) do
+  def approve_if_not_expired(listing, user) do
+    if is_expired?(listing) do
+      listing
+      |> change()
+      |> add_error(:approved, "cannot approve expired listing")
+    else
+      approve(listing, user)
+    end
+  end
+
+  def unapprove_if_not_expired(listing) do
+    if is_expired?(listing) do
+      listing
+      |> change()
+      |> add_error(:approved, "cannot unapprove expired listing")
+    else
+      unapprove(listing)
+    end
+  end
+
+  defp approve(%__MODULE__{approved: false} = listing, %User{} = approved_by) do
     listing
-    |> change
+    |> change()
     |> put_change(:approved, true)
     |> put_change(:approved_on, Timex.now())
     |> put_assoc(:approved_by, approved_by)
     |> foreign_key_constraint(:approved_by_id)
-    |> refresh_expiry
   end
 
-  def unapprove(listing) do
+  defp unapprove(listing) do
     listing
     |> change
     |> put_change(:approved, false)
     |> put_change(:approved_on, nil)
     |> put_change(:approved_by, nil)
-  end
-
-  def is_approved?(%__MODULE__{approved: approved}) do
-    approved
-  end
-
-  def is_expired?(%__MODULE__{expiry_date: expiry_date}) do
-    Timex.now >= expiry_date
   end
 
   def expire(listing) do
@@ -141,10 +152,39 @@ defmodule Volunteer.Apply.Listing do
     })
   end
 
-  def refresh_expiry(listing) do
+  def refresh_and_maybe_unapprove(listing) do
+    if is_expired?(listing) do
+      unapprove(listing)
+    else
+      listing
+    end
+    |> refresh_expiry()
+  end
+
+  defp refresh_expiry(listing) do
     change(listing, %{
       expiry_date: refreshed_expiry_date()
     })
+  end
+
+  def is_approved?(%__MODULE__{approved: approved}) do
+    approved
+  end
+
+  def is_expired?(%__MODULE__{expiry_date: expiry_date}) do
+    Timex.compare(Timex.now("UTC"), expiry_date) == 1
+  end
+
+  def is_public?(listing) do
+    is_approved?(listing) and not is_expired?(listing)
+  end
+
+  def is_previewable?(listing) do
+    not is_approved?(listing) and not is_expired?(listing)
+  end
+
+  def is_delete_allowed?(listing) do
+    is_expired?(listing)
   end
 
   defp sanitize(attrs) do
@@ -235,10 +275,10 @@ defmodule Volunteer.Apply.Listing do
   end
 
   defp now_expiry_date() do
-    Timex.now() |> Timex.shift(minutes: -5) |> Timex.to_datetime()
+    Timex.now("UTC") |> Timex.shift(minutes: -5) |> Timex.to_datetime("UTC")
   end
 
   defp refreshed_expiry_date() do
-    Timex.now() |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime()
+    Timex.now("UTC") |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime("UTC")
   end
 end

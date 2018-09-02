@@ -9,9 +9,9 @@
 			<div class="btn-group mr-2" role="group">
 				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_tkn_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
-			<div class="btn-group" role="group">
+			<!-- <div class="btn-group" role="group">
 				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_tkn_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </section>
@@ -21,42 +21,42 @@
 		title_text: "Number of positions open",
 		body_text: @tkn_listing.openings
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Commitment type",
 		body_text: @tkn_listing.commitment_type
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Location type",
 		body_text: @tkn_listing.location_type
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Search scope",
 		body_text: @tkn_listing.search_scope
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Suggested keywords",
 		body_text: @tkn_listing.suggested_keywords
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Position function",
 		body_text: @tkn_listing.function
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Position industry",
 		body_text: @tkn_listing.industry
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Education level",
 		body_text: @tkn_listing.education_level
 	%>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Years of work experience",
 		body_text: @tkn_listing.work_experience_level

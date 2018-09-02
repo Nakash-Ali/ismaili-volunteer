@@ -35,4 +35,16 @@ defmodule VolunteerWeb.Admin.ListingView do
       end
     end)
   end
+
+  def listing_state_text_and_class(listing) do
+    if Volunteer.Apply.Listing.is_expired?(listing) do
+      {"Expired and archived", "text-danger"}
+    else
+      if Volunteer.Apply.Listing.is_approved?(listing) do
+        {"Approved and alive", "text-success"}
+      else
+        {"Waiting for approval", "text-warning"}
+      end
+    end
+  end
 end

@@ -1,25 +1,43 @@
 <%= render __MODULE__, "sub_title.html", assigns, active_nav: "info" %>
 
 <section class="container">
-	<div class="d-flex flex-row align-items-center">
-		<!-- <h5 class="mb-0 mr-4">Something</h5> -->
-		<div class="btn-toolbar justify-content-end font-family-sans-serif ml-auto" role="toolbar">
-			<div class="btn-group mr-2" role="group">
-				<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh Expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
-				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
-			</div>
-			<div class="btn-group" role="group">
-				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Expire listing"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
-			</div>
-			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
-				<div class="btn-group ml-2" role="group">
+	<div class="d-flex flex-row align-items-center justify-content-space-between">
+		<div class="btn-toolbar justify-content-end font-family-sans-serif mr-auto" role="toolbar">
+			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) and not Volunteer.Apply.Listing.is_expired?(@listing) do %>
+				<div class="btn-group mr-2" role="group">
 					<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
-						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-danger" %>
+						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
 					<% else %>
 						<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
 					<% end %>
 				</div>
 			<% end %>
+			<!-- <div class="btn-group mr-2" role="group">
+				<%= if Volunteer.Apply.Listing.is_delete_allowed?(@listing) do %>
+					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Permanently Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure? Permanently deleting a listing should be your last resort!"], class: "btn btn-outline-danger btn-xs" %>
+				<% else %>
+					<button disabled class="btn btn-xs"><i class="far fa-trash-alt mr-1" aria-hidden="true"></i>Cannot delete active listing</button>
+				<% end %>
+			</div> -->
+		</div>
+		<div class="btn-toolbar justify-content-start font-family-sans-serif ml-auto" role="toolbar">
+			<div class="btn-group ml-2" role="group">
+				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+			</div>
+			<div class="btn-group ml-2" role="group">
+				<%= if Volunteer.Apply.Listing.is_expired?(@listing) do %>
+					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+				<% else %>
+					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+				<% end %>
+			</div>
+			<div class="btn-group ml-2" role="group">
+				<%= if not Volunteer.Apply.Listing.is_expired?(@listing) do %>
+					<%= link {:safe, "<i class=\"far fa-times-circle mr-1\" aria-hidden=\"true\"></i> Expire and archive"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+				<% else %>
+					<button disabled class="btn btn-xs"><i class="far fa-times-circle mr-1" aria-hidden="true"></i>Listing archived</button>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </section>
