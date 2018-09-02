@@ -8,18 +8,18 @@
 				<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh Expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
 				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
+			<div class="btn-group" role="group">
+				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Expire listing"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+			</div>
 			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
-				<div class="btn-group mr-2" role="group">
+				<div class="btn-group ml-2" role="group">
 					<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
-						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-danger" %>
 					<% else %>
 						<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
 					<% end %>
 				</div>
 			<% end %>
-			<div class="btn-group" role="group">
-				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
-			</div>
 		</div>
 	</div>
 </section>
@@ -35,7 +35,7 @@
 		<%= render AdminView, "definition_container.html",
 			title_text: "Approved by",
 			body_text: @listing.approved_by.title %>
-		
+
 		<%= render AdminView, "definition_container.html",
 			title_text: "Approval date",
 			body_text: PublicListingView.format_datetime(@listing.approved_on) %>
@@ -46,39 +46,39 @@
 	<%= render AdminView, "definition_container.html",
 		title_text: "Position title",
 		body_text: @listing.position_title %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Program title",
 		body_text: @listing.program_title %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Summary",
 		body_text: @listing.summary_line %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Region",
 		body_text: @listing.region.title %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Organizing group",
 		body_text: @listing.group.title %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Organizing user",
 		body_text: @listing.organized_by.title %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "CC'ed emails",
 		body_text: @listing.cc_emails %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Start date",
 		body_text: PublicListingView.start_date_text(@listing.start_date) %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "End date",
 		body_text: PublicListingView.end_date_text(@listing.end_date) %>
-		
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Hours per week",
 		body_text: @listing.hours_per_week %>
@@ -106,11 +106,11 @@
 	<%= render AdminView, "definition_container.html",
 		title_text: "Created by",
 		body_text: @listing.created_by.title %>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Creation date",
 		body_text: PublicListingView.format_datetime(@listing.inserted_at) %>
-	
+
 	<%= render AdminView, "definition_container.html",
 		title_text: "Last updated date",
 		body_text: PublicListingView.format_datetime(@listing.updated_at) %>

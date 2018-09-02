@@ -127,12 +127,12 @@ defmodule Volunteer.Apply.Listing do
     |> put_change(:approved_by, nil)
   end
 
-  def is_approved?(%__MODULE__{approved: true}) do
-    true
+  def is_approved?(%__MODULE__{approved: approved}) do
+    approved
   end
 
-  def is_approved?(%__MODULE__{approved: false}) do
-    false
+  def is_expired?(%__MODULE__{expiry_date: expiry_date}) do
+    Timex.now >= expiry_date
   end
 
   def expire(listing) do
@@ -235,7 +235,7 @@ defmodule Volunteer.Apply.Listing do
   end
 
   defp now_expiry_date() do
-    Timex.now() |> Timex.shift(hours: -1) |> Timex.to_datetime()
+    Timex.now() |> Timex.shift(minutes: -5) |> Timex.to_datetime()
   end
 
   defp refreshed_expiry_date() do

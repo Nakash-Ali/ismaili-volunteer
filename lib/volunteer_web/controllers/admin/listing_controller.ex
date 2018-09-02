@@ -126,7 +126,14 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   def expire(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+    Apply.expire_listing!(listing)
+
     conn
+    |> put_flash(:info, "Successfully expired listing.")
+    |> redirect(to: admin_listing_path(conn, :show, listing))
   end
 
   def delete(conn, _params) do

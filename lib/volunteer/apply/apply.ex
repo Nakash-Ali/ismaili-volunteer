@@ -50,6 +50,12 @@ defmodule Volunteer.Apply do
     |> Repo.update!()
   end
 
+  def expire_listing!(listing) do
+    listing
+    |> Listing.expire()
+    |> Repo.update!()
+  end
+
   def get_one_admin_listing!(id) do
     Repo.get!(Listing, id)
   end
