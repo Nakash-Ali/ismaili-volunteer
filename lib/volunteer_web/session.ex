@@ -3,6 +3,8 @@ defmodule VolunteerWeb.Session do
   alias VolunteerWeb.Router.Helpers
   alias Volunteer.Accounts
 
+  @mock_sessions_user_id 1
+
   def login(conn, %Accounts.User{} = user) do
     put_session(conn, :current_user_id, user.id)
   end
@@ -34,44 +36,45 @@ defmodule VolunteerWeb.Session do
     end
   end
 
+  def get_current_user_id(conn) do
+    case Plug.Conn.get_session(conn, :current_user_id) do
+      nil ->
+        if VolunteerWeb.Session.should_mock_sessions?() do
+          @mock_sessions_user_id
+        else
+          nil
+        end
+      id ->
+        id
+    end
+  end
+
+  def should_mock_sessions?() do
+    Application.get_env(:volunteer, :mock_sessions, false) == true and Mix.env() == :dev
+  end
+
   defmodule Plugs do
-    if Application.get_env(:volunteer, :mock_sessions, false) == true and Mix.env() == :dev do
-      def load_current_user(conn, _) do
-        user = Accounts.get_user!(1)
+    def load_current_user(conn, _) do
+      user_id = VolunteerWeb.Session.get_current_user_id(conn)
+      try do
+        user = Accounts.get_user!(user_id)
         VolunteerWeb.Session.put_user(conn, user)
+      rescue
+        _ -> VolunteerWeb.Session.logout(conn)
       end
+    end
 
-      def ensure_authenticated(conn, _) do
-        conn
-      end
-    else
-      def load_current_user(conn, _) do
-        case Plug.Conn.get_session(conn, :current_user_id) do
-          nil ->
-            conn
+    def ensure_authenticated(conn, _) do
+      case VolunteerWeb.Session.get_user(conn) do
+        %Accounts.User{} ->
+          conn
 
-          id ->
-            try do
-              user = Accounts.get_user!(id)
-              VolunteerWeb.Session.put_user(conn, user)
-            rescue
-              _ -> VolunteerWeb.Session.logout(conn)
-            end
-        end
-      end
-
-      def ensure_authenticated(conn, _) do
-        case VolunteerWeb.Session.get_user(conn) do
-          %Accounts.User{} ->
-            conn
-
-          _ ->
-            conn
-            |> VolunteerWeb.Session.put_redirect()
-            |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
-            |> Phoenix.Controller.redirect(to: Helpers.auth_path(conn, :login))
-            |> Phoenix.Controller.halt()
-        end
+        _ ->
+          conn
+          |> VolunteerWeb.Session.put_redirect()
+          |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
+          |> Phoenix.Controller.redirect(to: Helpers.auth_path(conn, :login))
+          |> Phoenix.Controller.halt()
       end
     end
   end
