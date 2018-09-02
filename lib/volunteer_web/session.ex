@@ -46,7 +46,7 @@ defmodule VolunteerWeb.Session do
       end
     else
       def load_current_user(conn, _) do
-        case Phoenix.Controller.get_session(conn, :current_user_id) do
+        case Plug.Conn.get_session(conn, :current_user_id) do
           nil ->
             conn
 
