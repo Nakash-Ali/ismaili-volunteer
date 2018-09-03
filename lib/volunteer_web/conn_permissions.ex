@@ -1,5 +1,4 @@
-defmodule VolunteerWeb.Authorize do
-  alias Volunteer.Permissions.Abilities
+defmodule VolunteerWeb.ConnPermissions do
   alias VolunteerWeb.Session
 
   defmodule NotAllowedError do
@@ -18,6 +17,6 @@ defmodule VolunteerWeb.Authorize do
 
   def is_allowed?(%Plug.Conn{} = conn, action, subject \\ nil) do
     user = Session.get_user(conn)
-    Abilities.can?(user, action, subject)
+    Volunteer.Permissions.is_allowed?(user, action, subject)
   end
 end

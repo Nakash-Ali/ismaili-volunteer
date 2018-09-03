@@ -4,7 +4,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Apply
   alias Volunteer.Infrastructure
   alias VolunteerWeb.UtilsController
-  alias VolunteerWeb.Authorize
+  alias VolunteerWeb.ConnPermissions
 
   # Plugs
 
@@ -36,10 +36,10 @@ defmodule VolunteerWeb.Admin.ListingController do
   # Controller Actions
 
   def index(conn, _params) do
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :index])
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :index])
 
     listings =
-      case Authorize.is_allowed?(conn, [:admin, :listing, :index_all]) do
+      case ConnPermissions.is_allowed?(conn, [:admin, :listing, :index_all]) do
         true ->
           Apply.get_all_admin_listings()
 
@@ -52,12 +52,12 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   def new(conn, _params) do
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :create])
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
     render_form(conn, Apply.new_listing())
   end
 
   def create(conn, %{"listing" => listing_params}) do
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :create])
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
 
     listing_params
     |> Apply.create_listing(Session.get_user(conn))
@@ -74,14 +74,14 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :show], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :show], listing)
     render(conn, "show.html", listing: listing)
   end
 
   def edit(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :update], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
 
     render_form(
       conn,
@@ -94,7 +94,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   def update(conn, %{"listing" => listing_params}) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :update], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
 
     case Apply.update_listing(listing, listing_params) do
       {:ok, listing} ->
@@ -118,7 +118,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   def refresh_expiry(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
     Apply.refresh_and_maybe_unapprove_listing!(listing)
 
     conn
@@ -129,7 +129,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   def expire(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
     Apply.expire_listing!(listing)
 
     conn
@@ -140,7 +140,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   # def delete(conn, _params) do
   #   %Plug.Conn{assigns: %{listing: listing}} = conn
   #
-  #   Authorize.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+  #   ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
   #
   #   {:ok, _listing} = Apply.delete_listing(listing)
   #
@@ -152,7 +152,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   defp toggle_approval(conn, _params, action) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    Authorize.ensure_allowed!(conn, [:admin, :listing, action], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, action], listing)
 
     toggled_listing =
       case action do

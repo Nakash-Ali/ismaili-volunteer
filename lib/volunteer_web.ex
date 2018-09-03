@@ -48,7 +48,7 @@ defmodule VolunteerWeb do
       import VolunteerWeb.Gettext
       import VolunteerWeb.MiscHelpers
       alias VolunteerWeb.Session
-      alias VolunteerWeb.Authorize
+      alias VolunteerWeb.ConnPermissions
 
       def render(view_module, view_template, assigns, opts) do
         render(view_module, view_template, Enum.concat(assigns, opts))

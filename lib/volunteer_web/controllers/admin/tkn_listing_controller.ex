@@ -2,7 +2,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Apply
-  alias VolunteerWeb.Authorize
+  alias VolunteerWeb.ConnPermissions
   alias VolunteerWeb.UtilsController
 
   # Plugs
@@ -67,7 +67,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
   def authorize(conn, _opts) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
   end
 
   # Controller Actions

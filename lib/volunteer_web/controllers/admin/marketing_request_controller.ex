@@ -2,7 +2,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Apply
-  alias VolunteerWeb.Authorize
+  alias VolunteerWeb.ConnPermissions
 
   # Plugs
 
@@ -30,7 +30,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
 
   def authorize(conn, _opts) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :marketing_request], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :marketing_request], listing)
   end
 
   # Controller Actions

@@ -3,7 +3,7 @@
 <section class="container">
 	<div class="d-flex flex-row align-items-center justify-content-space-between">
 		<div class="btn-toolbar justify-content-end font-family-sans-serif mr-auto" role="toolbar">
-			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) and not Volunteer.Apply.Listing.is_expired?(@listing) do %>
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) and not Volunteer.Apply.Listing.is_expired?(@listing) do %>
 				<div class="btn-group mr-2" role="group">
 					<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
 						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>

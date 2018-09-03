@@ -2,7 +2,7 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Apply
-  alias VolunteerWeb.Authorize
+  alias VolunteerWeb.ConnPermissions
 
   # Plugs
 
@@ -16,7 +16,7 @@ defmodule VolunteerWeb.Admin.ApplicantController do
 
   def authorize(conn, _opts) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    Authorize.ensure_allowed!(conn, [:admin, :listing, :applicant], listing)
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :applicant], listing)
   end
 
   # Controller Actions

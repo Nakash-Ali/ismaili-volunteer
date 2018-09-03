@@ -16,9 +16,7 @@ defmodule Volunteer.Permissions.Role do
   end
 
   @role_types [
-    :superadmin,
-    :admin,
-    :organizer
+    "admin"
   ]
 
   @attributes_cast_always [
