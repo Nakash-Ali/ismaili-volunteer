@@ -65,7 +65,7 @@ defmodule Volunteer.Mixfile do
       {:slugger, "~> 0.2"},
       {:appsignal, "~> 1.5"},
       {:porcelain, "~> 2.0"},
-      {:joken, "~> 2.0-rc0"}
+      {:jose, "~> 1.8"}
     ]
   end
 

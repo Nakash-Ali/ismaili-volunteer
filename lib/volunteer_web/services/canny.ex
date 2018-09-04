@@ -8,20 +8,26 @@ defmodule VolunteerWeb.Services.Canny do
   end
 
   def generate_sso_token(%{
-      id: id,
-      title: name,
-      primary_email: email,
-    }) do
-    {:ok, token, _claims} =
-      Joken.generate_and_sign(
-        %{},
-        %{
-          id: id,
-          name: name,
-          email: email,
-        },
-        Joken.Signer.create("HS256", Application.fetch_env!(:volunteer, :canny_private_key))
-      )
+        id: id,
+        title: name,
+        primary_email: email
+      }) do
+    jwk = %{
+      "kty" => "oct",
+      "k" => Application.fetch_env!(:volunteer, :canny_private_key) |> Base.url_encode64()
+    }
+
+    jws = %{
+      "alg" => "HS256"
+    }
+
+    jwt = %{
+      "id" => id,
+      "name" => name,
+      "email" => email
+    }
+
+    {_meta, token} = JOSE.JWT.sign(jwk, jws, jwt) |> JOSE.JWS.compact()
     token
   end
 end
