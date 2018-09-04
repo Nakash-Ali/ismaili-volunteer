@@ -64,7 +64,8 @@ defmodule Volunteer.Mixfile do
       {:floki, "~> 0.20.0"},
       {:slugger, "~> 0.2"},
       {:appsignal, "~> 1.5"},
-      {:porcelain, "~> 2.0"}
+      {:porcelain, "~> 2.0"},
+      {:joken, "~> 2.0-rc0"}
     ]
   end
 

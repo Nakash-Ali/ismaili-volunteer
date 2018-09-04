@@ -1,0 +1,8 @@
+<%= render AdminView, "sub_title.html" do %>
+	<h4 class="mb-4">Feedback</h4>
+<% end %>
+
+<section class="container my-5">
+	<%= render VolunteerWeb.VendorView, "canny.html",
+		VolunteerWeb.Services.Canny.config("admin", VolunteerWeb.Session.get_user(@conn)) %>
+</section>
