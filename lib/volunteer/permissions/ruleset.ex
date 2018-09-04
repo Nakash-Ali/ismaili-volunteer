@@ -2,6 +2,11 @@ defmodule Volunteer.Permissions.Ruleset do
   alias Volunteer.Accounts.User
   alias Volunteer.Apply.Listing
 
+  @superusers [
+    "alizain.feerasta@iicanada.net",
+    "hussein.kermally@iicanada.net",
+  ]
+
   @admin_listing_member_actions [
     :show,
     :update,
@@ -30,7 +35,11 @@ defmodule Volunteer.Permissions.Ruleset do
 
   def admin_ruleset() do
     [
-      fn %User{}, [:admin, :listing, action | _], _
+      fn %User{primary_email: primary_email}, _action, _subject
+        when primary_email in @superusers ->
+        :allow
+      end,
+      fn %User{}, [:admin, :listing, action | _], _subject
          when action in [:index, :create] ->
         :allow
       end,
