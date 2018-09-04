@@ -62,6 +62,10 @@ defmodule Volunteer.Accounts do
     User |> Repo.get!(id)
   end
 
+  def get_user(id) do
+    User |> Repo.get(id)
+  end
+
   def get_user_id_choices do
     from(
       u in User,
