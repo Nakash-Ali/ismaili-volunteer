@@ -56,10 +56,6 @@ defmodule Volunteer.Apply do
     |> Repo.update!()
   end
 
-  def is_delete_allowed?(listing) do
-    false
-  end
-
   def get_one_admin_listing!(id) do
     Repo.get!(Listing, id)
   end

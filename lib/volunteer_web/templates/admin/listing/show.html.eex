@@ -9,15 +9,12 @@
 				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
 			<div class="btn-group" role="group">
-				<%= link {:safe, "<i class=\"far fa-times-circle mr-1\" aria-hidden=\"true\"></i> Expire listing"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
-				<%= if Volunteer.Apply.is_delete_allowed?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Permanently Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
-				<% end %>
+				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Expire listing"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
 			</div>
 			<%= if Authorize.is_allowed?(@conn, [:admin, :listing, :unapprove], @listing) do %>
 				<div class="btn-group ml-2" role="group">
 					<%= if Volunteer.Apply.Listing.is_approved?(@listing) do %>
-						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+						<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-Approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-danger" %>
 					<% else %>
 						<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
 					<% end %>
