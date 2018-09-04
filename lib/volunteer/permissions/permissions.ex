@@ -1,7 +1,7 @@
 defmodule Volunteer.Permissions do
   import Ecto.Query, warn: false
   alias Volunteer.Permissions.HardcodedRoles
-  alias Volunteer.Permissions.Rulesets
+  alias Volunteer.Permissions.Ruleset
 
   def is_allowed?(user, action) do
     is_allowed?(user, action, nil)

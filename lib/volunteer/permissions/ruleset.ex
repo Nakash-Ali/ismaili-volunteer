@@ -20,7 +20,7 @@ defmodule Volunteer.Permissions.Ruleset do
         result
 
       nil ->
-        evaluate?(user, action, subject, ruleset)
+        evaluate(user, action, subject, ruleset)
     end
   end
 
