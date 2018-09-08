@@ -137,17 +137,17 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> redirect(to: admin_listing_path(conn, :show, listing))
   end
 
-  # def delete(conn, _params) do
-  #   %Plug.Conn{assigns: %{listing: listing}} = conn
-  #
-  #   ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
-  #
-  #   {:ok, _listing} = Apply.delete_listing(listing)
-  #
-  #   conn
-  #   |> put_flash(:info, "Listing deleted successfully.")
-  #   |> redirect(to: admin_listing_path(conn, :index))
-  # end
+  def delete(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+
+    {:ok, _listing} = Apply.delete_listing(listing)
+
+    conn
+    |> put_flash(:info, "Listing deleted successfully.")
+    |> redirect(to: admin_listing_path(conn, :index))
+  end
 
   defp toggle_approval(conn, _params, action) do
     %Plug.Conn{assigns: %{listing: listing}} = conn

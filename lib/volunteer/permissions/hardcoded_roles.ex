@@ -2,13 +2,11 @@ defmodule Volunteer.Permissions.HardcodedRoles do
   @roles_by_region %{
     # Canada
     1 => %{
-      "alizain.feerasta@iicanada.net" => "admin",
-      "hussein.kermally@iicanada.net" => "admin"
+      "___@iicanada.net" => "admin",
     },
     # Ontario
     2 => %{
-      "alizain.feerasta@iicanada.net" => "admin",
-      "hussein.kermally@iicanada.net" => "admin"
+      "___@iicanada.net" => "admin",
     }
   }
 

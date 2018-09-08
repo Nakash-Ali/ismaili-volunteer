@@ -187,6 +187,10 @@ defmodule Volunteer.Apply.Listing do
     is_expired?(listing)
   end
 
+  def is_approve_allowed?(listing) do
+    is_expired?(listing) == false
+  end
+
   defp sanitize(attrs) do
     attrs
     |> Volunteer.SanitizeInput.text_attrs([
