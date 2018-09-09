@@ -1,6 +1,6 @@
 <section class="container text-center my-7">
 	<div class="row justify-content-center">
-		<div class="col-sm-6 col-md-5 col-lg-3">
+		<div class="col-sm-7 col-md-6 col-lg-4">
 			<p><strong>To apply for opportunities, you do not need to log in!</strong></p>
 			<div class="font-family-sans-serif mb-3 mt-5">
 				<%= link "Login with @iicanada.net", to: auth_path(@conn, :request, "microsoft"), class: "btn btn-primary font-family-sans-serif" %>
