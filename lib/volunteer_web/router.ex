@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
-  import VolunteerWeb.Session.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
+  import VolunteerWeb.UserSession.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
 
   pipeline :browser do
     if Mix.env() == :prod do

@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.AuthController do
   use VolunteerWeb, :controller
-  alias VolunteerWeb.Session
+  alias VolunteerWeb.UserSession
   alias VolunteerWeb.Router
 
   plug Ueberauth
@@ -17,7 +17,7 @@ defmodule VolunteerWeb.AuthController do
 
   def logout(conn, _params) do
     conn
-    |> Session.logout()
+    |> UserSession.logout()
     |> put_flash(:info, "You have been logged out!")
     |> redirect(to: Router.Helpers.index_path(conn, :index))
   end
@@ -32,9 +32,9 @@ defmodule VolunteerWeb.AuthController do
     case Volunteer.Accounts.Auth.upsert_together_and_return(auth) do
       {:ok, user} ->
         conn
-        |> Session.login(user)
+        |> UserSession.login(user)
         |> put_flash(:info, "Successfully authenticated.")
-        |> redirect(to: Session.get_redirect(conn))
+        |> redirect(to: UserSession.get_redirect(conn))
 
       {:error, reason} ->
         conn

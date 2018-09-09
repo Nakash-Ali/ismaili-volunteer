@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.NavbarItems do
   import VolunteerWeb.Router.Helpers
-  alias VolunteerWeb.Session
+  alias VolunteerWeb.UserSession
 
   @item_module VolunteerWeb.LayoutView
   @item_template "navbar_item.html"
@@ -20,10 +20,10 @@ defmodule VolunteerWeb.NavbarItems do
   end
 
   def user_nav_items(%{conn: conn}) do
-    case Session.logged_in?(conn) do
+    case UserSession.logged_in?(conn) do
       true ->
         [
-          {VolunteerWeb.Presenters.Title.text(Session.get_user(conn)), nil},
+          {VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)), nil},
           {"Logout", auth_path(conn, :logout)}
         ]
 
@@ -35,7 +35,7 @@ defmodule VolunteerWeb.NavbarItems do
   end
 
   def primary_admin_nav_item(%{conn: conn}) do
-    case Session.logged_in?(conn) do
+    case UserSession.logged_in?(conn) do
       true ->
         [
           {"Admin", admin_index_path(conn, :index)}

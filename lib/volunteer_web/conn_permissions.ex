@@ -1,5 +1,5 @@
 defmodule VolunteerWeb.ConnPermissions do
-  alias VolunteerWeb.Session
+  alias VolunteerWeb.UserSession
 
   defmodule NotAllowedError do
     defexception message: "forbidden to access this resource", plug_status: 403
@@ -16,7 +16,7 @@ defmodule VolunteerWeb.ConnPermissions do
   end
 
   def is_allowed?(%Plug.Conn{} = conn, action, subject \\ nil) do
-    user = Session.get_user(conn)
+    user = UserSession.get_user(conn)
     Volunteer.Permissions.is_allowed?(user, action, subject)
   end
 end

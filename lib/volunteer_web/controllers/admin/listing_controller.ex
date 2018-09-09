@@ -44,7 +44,7 @@ defmodule VolunteerWeb.Admin.ListingController do
           Apply.get_all_admin_listings()
 
         false ->
-          Apply.get_all_admin_listings_for_user(Session.get_user(conn))
+          Apply.get_all_admin_listings_for_user(UserSession.get_user(conn))
       end
       |> Repo.preload([:group, :organized_by])
 
@@ -60,7 +60,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
 
     listing_params
-    |> Apply.create_listing(Session.get_user(conn))
+    |> Apply.create_listing(UserSession.get_user(conn))
     |> case do
       {:ok, listing} ->
         conn
@@ -157,7 +157,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          Apply.approve_listing_if_not_expired!(listing, Session.get_user(conn))
+          Apply.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
 
         :unapprove ->
           Apply.unapprove_listing_if_not_expired!(listing)
