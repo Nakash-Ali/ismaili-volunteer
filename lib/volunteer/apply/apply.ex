@@ -104,6 +104,11 @@ defmodule Volunteer.Apply do
     from(l in query, where: l.expiry_date >= ^current_time)
   end
 
+  defp query_unended_listing(query) do
+    current_date = Date.utc_today()
+    from(l in query, where: l.end_date >= ^current_date or is_nil(l.end_date))
+  end
+
   def new_tkn_listing() do
     TKNListing.changeset(%TKNListing{}, %{})
   end
