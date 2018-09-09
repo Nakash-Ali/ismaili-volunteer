@@ -2,6 +2,28 @@
 	<h4 class="mb-4">Feedback</h4>
 <% end %>
 
+<section class="container">
+	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
+		<%= if @should_anonymize do %>
+			<div class="btn-group mr-2" role="group">
+				<button class="btn" disabled href="#">You're currently anonymous</button>
+			</div>
+			<div class="btn-group mr-2" role="group">
+				<a class="btn btn-outline-warning" href="#" onclick="putQueryInLocation('anonymize', 'false'); return false;">Become yourself</a>
+			</div>
+		<% else %>
+			<div class="btn-group mr-2" role="group">
+				<button class="btn" disabled href="#">You're currently posting as <%= @canny_user.name %></button>
+			</div>
+			<div class="btn-group mr-2" role="group">
+				<a class="btn btn-outline-warning" href="#" onclick="putQueryInLocation('anonymize', 'true'); return false;">Become anonymous</a>
+			</div>
+		<% end %>
+	</div>
+</section>
+
+
+
 <section class="container my-5">
 	<%= render VolunteerWeb.VendorView, "canny.html", @canny_assigns %>
 </section>

@@ -1,37 +1,38 @@
 defmodule VolunteerWeb.Admin.FeedbackController do
   use VolunteerWeb, :controller
 
-  def index(conn, _params) do
-    # should_anonymize =
-    #   Map.get(params, "anonymize", "false")
+  def index(conn, params) do
+    should_anonymize =
+      params
+      |> Map.get("anonymize", "false")
+      |> booleanize
 
     canny_user =
       conn
       |> VolunteerWeb.UserSession.get_user
-      # |> get_canny_user_params(should_anonymize)
-      |> get_canny_user_params()
+      |> get_canny_user_params(should_anonymize)
 
     canny_assigns =
       VolunteerWeb.Services.Canny.get_config("admin", canny_user)
 
-    render(conn, "index.html", canny_assigns: canny_assigns)
+    render(conn, "index.html", canny_assigns: canny_assigns, canny_user: canny_user, should_anonymize: should_anonymize)
   end
 
-  # def get_canny_user_params(user, "true"), do: get_canny_user_params(user, true)
-  # def get_canny_user_params(user, "false"), do: get_canny_user_params(user, false)
+  defp booleanize("true"), do: true
+  defp booleanize(_value), do: false
 
-  # def get_canny_user_params(user, true) do
-  #   user_id_hash =
-  #     :crypto.hash(:sha256, "#{user.id}") |> Base.url_encode64
-  #
-  #   %{
-  #     id: user_id_hash,
-  #     name: "Anonymous",
-  #     email: user.primary_email
-  #   }
-  # end
+  defp get_canny_user_params(user, true) do
+    user_id_hash =
+      :crypto.hash(:sha256, "#{user.id}") |> Base.url_encode64()
 
-  def get_canny_user_params(user) do
+    %{
+      id: user_id_hash,
+      name: "Anonymous",
+      email: "#{user_id_hash}@iicanada.net"
+    }
+  end
+
+  defp get_canny_user_params(user, false) do
     %{
       id: user.id,
       name: user.title,

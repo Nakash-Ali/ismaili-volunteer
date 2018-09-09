@@ -19,3 +19,12 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import queryString from "query-string"
+
+window.putQueryInLocation = function(key, value) {
+	const parsed = queryString.parse(window.location.search)
+	parsed[key] = value
+	const stringified = queryString.stringify(parsed);
+	window.location.search = stringified;
+}
