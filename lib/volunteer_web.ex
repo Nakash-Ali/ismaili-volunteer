@@ -23,7 +23,7 @@ defmodule VolunteerWeb do
       import Plug.Conn
       import VolunteerWeb.Router.Helpers
       import VolunteerWeb.Gettext
-      alias VolunteerWeb.Session
+      alias VolunteerWeb.UserSession
 
       action_fallback VolunteerWeb.FallbackController
     end
@@ -47,7 +47,7 @@ defmodule VolunteerWeb do
       import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
       import VolunteerWeb.MiscHelpers
-      alias VolunteerWeb.Session
+      alias VolunteerWeb.UserSession
       alias VolunteerWeb.ConnPermissions
 
       def render(view_module, view_template, assigns, opts) do
