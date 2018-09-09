@@ -1,6 +1,5 @@
 %{
   "apex": {:hex, :apex, "1.2.0", "2da5035ef5fc59da2c24187a880b1b6d38b6b67c19b89a6265f5986ff0e85b1f", [:mix], [], "hexpm"},
-  "appsignal": {:hex, :appsignal, "1.5.0", "c0f6f0eeb209d3b20b10965a688aa1d7cfb2f2406b8e6a6410db3ac475b22e71", [:make, :mix], [{:decorator, "~> 1.2.3", [hex: :decorator, repo: "hexpm", optional: false]}, {:httpoison, "~> 0.11", [hex: :httpoison, repo: "hexpm", optional: false]}, {:phoenix, ">= 1.2.0", [hex: :phoenix, repo: "hexpm", optional: true]}, {:plug, ">= 1.1.0", [hex: :plug, repo: "hexpm", optional: true]}, {:poison, ">= 1.3.0", [hex: :poison, repo: "hexpm", optional: false]}], "hexpm"},
   "artificery": {:hex, :artificery, "0.2.6", "f602909757263f7897130cbd006b0e40514a541b148d366ad65b89236b93497a", [:mix], [], "hexpm"},
   "bamboo": {:git, "https://github.com/thoughtbot/bamboo.git", "d7cb30fe995dbdf7f7ac9810f8e0722fbab7d812", [branch: "master"]},
   "bamboo_smtp": {:git, "https://github.com/fewlinesco/bamboo_smtp.git", "f9728ca36116711a1b697fe82bf155d8904774f8", [branch: "master"]},

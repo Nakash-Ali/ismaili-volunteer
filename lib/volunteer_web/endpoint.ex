@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :volunteer
-  use Appsignal.Phoenix
 
   socket "/socket", VolunteerWeb.UserSocket
 
