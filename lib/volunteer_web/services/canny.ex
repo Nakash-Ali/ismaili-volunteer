@@ -1,17 +1,13 @@
 defmodule VolunteerWeb.Services.Canny do
-  def config("admin", user) do
+  def get_config("admin", user) do
     %{
       board_token: "cd9750db-a512-715a-4227-f1c4353cc9dd",
       base_path: "/admin/feedback",
-      sso_token: generate_sso_token(user)
+      sso_token: encode_token(user)
     }
   end
 
-  def generate_sso_token(%{
-        id: id,
-        title: name,
-        primary_email: email
-      }) do
+  def encode_token(token_claims) do
     jwk = %{
       "kty" => "oct",
       "k" => Application.fetch_env!(:volunteer, :canny_private_key) |> Base.url_encode64()
@@ -21,13 +17,10 @@ defmodule VolunteerWeb.Services.Canny do
       "alg" => "HS256"
     }
 
-    jwt = %{
-      "id" => id,
-      "name" => name,
-      "email" => email
-    }
+    {_meta, token} =
+      JOSE.JWT.sign(jwk, jws, token_claims)
+      |> JOSE.JWS.compact()
 
-    {_meta, token} = JOSE.JWT.sign(jwk, jws, jwt) |> JOSE.JWS.compact()
     token
   end
 end
