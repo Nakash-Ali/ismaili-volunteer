@@ -48,7 +48,7 @@ defmodule VolunteerWeb.NavbarItems do
 
   def admin_nav_items(%{conn: conn}) do
     [
-      {"Feeback", admin_feedback_path(conn, :index, [])}
+      {"Feedback", admin_feedback_path(conn, :index, [])}
     ]
   end
 
