@@ -11,8 +11,6 @@ defmodule VolunteerWeb.Admin.FeedbackController do
       # |> get_canny_user_params(should_anonymize)
       |> get_canny_user_params()
 
-    IO.inspect(canny_user)
-
     canny_assigns =
       VolunteerWeb.Services.Canny.get_config("admin", canny_user)
 
