@@ -22,7 +22,7 @@ defmodule Volunteer.Permissions do
     Map.put(
       user,
       :group_roles,
-      HardcodedRoles.group_roles_for_user(user)
+      get_for_user(user, :group)
     )
   end
 
@@ -30,7 +30,24 @@ defmodule Volunteer.Permissions do
     Map.put(
       user,
       :region_roles,
-      HardcodedRoles.region_roles_for_user(user)
+      get_for_user(user, :region)
     )
+  end
+
+  def get_for_user(user, scope, role_types_to_include) do
+    user
+    |> get_for_user(scope)
+    |> Enum.filter(fn {_group_id, role_type} ->
+      Enum.member?(role_types_to_include, role_type)
+    end)
+    |> Enum.into(%{})
+  end
+
+  def get_for_user(user, :group) do
+    HardcodedRoles.group_roles_for_user(user)
+  end
+
+  def get_for_user(user, :region) do
+    HardcodedRoles.region_roles_for_user(user)
   end
 end

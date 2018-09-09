@@ -1,4 +1,8 @@
 defmodule Volunteer.Permissions.HardcodedRoles do
+  @role_types [
+    "admin"
+  ]
+
   @roles_by_region %{
     # Canada
     1 => %{
@@ -20,8 +24,8 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     roles_for_user(@roles_by_group, user)
   end
 
-  def roles_for_user(roles_by_scope, %{primary_email: primary_email}) do
-    Enum.reduce(roles_by_scope, %{}, fn {scope_id, scope_map}, user_roles ->
+  def roles_for_user(roles_by_scope_type, %{primary_email: primary_email}) do
+    Enum.reduce(roles_by_scope_type, %{}, fn {scope_id, scope_map}, user_roles ->
       case Map.get(scope_map, primary_email, nil) do
         nil ->
           user_roles

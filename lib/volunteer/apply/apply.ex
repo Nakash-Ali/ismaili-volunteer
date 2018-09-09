@@ -65,9 +65,20 @@ defmodule Volunteer.Apply do
     |> Repo.all()
   end
 
-  def get_all_admin_listings_for_user(user) do
-    from(l in Listing)
-    |> query_for_user_listing(user)
+  def get_all_admin_listings_for_user(%Accounts.User{id: id} = user) do
+    group_ids =
+      Volunteer.Permissions.get_for_user(user, :group, ["admin"])
+      |> Map.keys()
+
+    region_ids =
+      Volunteer.Permissions.get_for_user(user, :region, ["admin"])
+      |> Map.keys()
+
+    from(l in Listing,
+      where: l.created_by_id == ^id
+          or l.organized_by_id == ^id
+          or l.group_id in ^group_ids
+          or l.group_id in ^region_ids)
     |> Repo.all()
   end
 
