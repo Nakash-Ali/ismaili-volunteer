@@ -1,4 +1,6 @@
-<section class="title mb-4 text-center">
+<%= render VolunteerWeb.FlashView, "all.html", conn: @conn %>
+
+<section class="title mb-4 pt-4 text-center">
 	<div class="container">
 		<%= assigns[:do] %>
 	</div>

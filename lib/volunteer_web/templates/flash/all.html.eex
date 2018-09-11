@@ -1,0 +1,3 @@
+<%= for config <- flash_configs() do %>
+	<%= render "single.html", Map.put(config, :conn, @conn) %>
+<% end %>

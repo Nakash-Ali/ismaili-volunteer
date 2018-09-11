@@ -3,16 +3,33 @@
 @import "../listing-textblob";
 
 header {
-	background: #F7F7F7;
+	// background: #F7F7F7;
+	// background: $gray-800;
+	// color: #FFF;
+	//
+	// .navbar-dark .navbar-nav .nav-link {
+    // 	color: rgba(255, 255, 255, 0.6);
+	// }
+	//
+	// .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+    // 	color: rgba(255, 255, 255, 0.9);
+	// }
 }
 
 section.title {
 	background: #F7F7F7;
 	border-bottom: 1px solid $nav-tabs-border-color;
+	border-top: 1px solid $nav-tabs-border-color;
+	box-shadow: inset 0px 10px 20px -14px rgba(0, 0, 0, 0.10),
+				inset 0px -10px 20px -14px rgba(0, 0, 0, 0.10);
+}
+
+.alert + section.title {
+	border-top: 0px;
 }
 
 section.title .nav-tabs {
-	margin-bottom: -1px;	
+	margin-bottom: -1px;
 }
 
 .form-group trix-editor {

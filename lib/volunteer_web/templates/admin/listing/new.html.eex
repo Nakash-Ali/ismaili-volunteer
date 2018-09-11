@@ -1,4 +1,4 @@
-<%= render AdminView, "sub_title.html" do %>
+<%= render AdminView, "sub_title.html", assigns do %>
 	<h4 class="mb-4">Create a New Listing</h4>
 <% end %>
 

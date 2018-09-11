@@ -7,4 +7,8 @@ defmodule VolunteerWeb.Admin.FeedbackView do
       stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
+
+  def render("body_footer" <> _, _assigns) do
+    []
+  end
 end
