@@ -49,6 +49,12 @@ defmodule Volunteer.Listings do
     |> Repo.update!()
   end
 
+  def expiry_reminder_sent!(listing) do
+    listing
+    |> Listing.expiry_reminder_sent
+    |> Repo.update!()
+  end
+
   def refresh_and_maybe_unapprove_listing!(listing) do
     listing
     |> Listing.refresh_and_maybe_unapprove()
@@ -101,6 +107,14 @@ defmodule Volunteer.Listings do
     |> Repo.one!()
   end
 
+  def get_all_listings_for_expiry_reminder(expiry_date) do
+    from(l in Listing)
+    |> query_unexpired_listing
+    |> query_listings_expiring_before(expiry_date)
+    |> query_expiry_reminder_not_sent()
+    |> Repo.all()
+  end
+
   defp query_for_user_listing(query, %Accounts.User{id: id}) do
     from(l in query, where: l.created_by_id == ^id or l.organized_by_id == ^id)
   end
@@ -117,6 +131,14 @@ defmodule Volunteer.Listings do
   defp query_unended_listing(query) do
     current_date = Date.utc_today()
     from(l in query, where: l.end_date >= ^current_date or is_nil(l.end_date))
+  end
+
+  def query_listings_expiring_before(query, expiry_date) do
+    from(l in query, where: l.expiry_date <= ^expiry_date)
+  end
+
+  def query_expiry_reminder_not_sent(query) do
+    from(l in query, where: l.expiry_reminder_sent == false)
   end
 
   def new_tkn_listing() do

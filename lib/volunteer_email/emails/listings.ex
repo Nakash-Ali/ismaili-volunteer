@@ -18,10 +18,25 @@ defmodule VolunteerEmail.ListingsEmails do
       |> subject("Marketing request - #{Title.text(listing)}")
 
     render_email(
-      VolunteerEmail.MarketingRequestView,
+      VolunteerEmail.ListingsView,
       email,
-      "all.html",
+      "marketing_request.html",
       marketing_request: marketing_request,
+      listing: listing
+    )
+  end
+
+  def expiry_reminder(%Listing{} = listing) do
+    email =
+      Mailer.new_default_email()
+      |> to({listing.organized_by.title, listing.organized_by.primary_email})
+      |> cc(Listing.get_cc_emails(listing))
+      |> subject("Expiration Reminder! #{Title.text(listing)}")
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      "expiry_reminder.html",
       listing: listing
     )
   end

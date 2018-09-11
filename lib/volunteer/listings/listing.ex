@@ -9,6 +9,7 @@ defmodule Volunteer.Listings.Listing do
 
   schema "listings" do
     field :expiry_date, :utc_datetime
+    field :expiry_reminder_sent, :boolean
 
     belongs_to :created_by, User
 
@@ -163,8 +164,23 @@ defmodule Volunteer.Listings.Listing do
 
   defp refresh_expiry(listing) do
     change(listing, %{
-      expiry_date: refreshed_expiry_date()
+      expiry_date: refreshed_expiry_date(),
+      expiry_reminder_sent: false
     })
+  end
+
+  def expiry_reminder_sent(listing) do
+    change(listing, %{
+      expiry_reminder_sent: true
+    })
+  end
+
+  def get_cc_emails(%{cc_emails: ""}) do
+    []
+  end
+
+  def get_cc_emails(%{cc_emails: cc_emails}) do
+    String.split(cc_emails, ",")
   end
 
   def is_approved?(%__MODULE__{approved: approved}) do

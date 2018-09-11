@@ -10,6 +10,8 @@ defmodule Volunteer.Application do
     children = [
       # Start the Ecto repository
       supervisor(Volunteer.Repo, []),
+      # Start the scheduler
+      worker(Volunteer.Scheduler, []),
       # Start the social_image generator
       worker(VolunteerWeb.Services.ListingSocialImageGenerator, []),
       # Start the endpoint when the application starts
