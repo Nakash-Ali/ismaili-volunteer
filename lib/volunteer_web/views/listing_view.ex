@@ -1,5 +1,5 @@
 defmodule VolunteerWeb.ListingView do
-  alias Volunteer.Apply
+  alias Volunteer.Listings
   alias VolunteerWeb.Presenters.{Title, Social}
 
   use VolunteerWeb, :view
@@ -74,7 +74,7 @@ defmodule VolunteerWeb.ListingView do
     |> Timex.format!("{WDfull}, {D} {Mfull} {YYYY} at {h24}:{m} ({Zabbr})")
   end
 
-  def organizer_html(%Apply.Listing{} = listing) do
+  def organizer_html(%Listings.Listing{} = listing) do
     ~E"Organized by <em><%= Title.text(listing.organized_by) %></em> and the <em><%= Title.text(listing.group) %></em>"
   end
 end

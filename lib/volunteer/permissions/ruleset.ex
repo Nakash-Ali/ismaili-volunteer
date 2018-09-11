@@ -1,6 +1,6 @@
 defmodule Volunteer.Permissions.Ruleset do
   alias Volunteer.Accounts.User
-  alias Volunteer.Apply.Listing
+  alias Volunteer.Listings.Listing
 
   @superusers [
     "alizain.feerasta@iicanada.net",

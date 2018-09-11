@@ -2,14 +2,15 @@ defmodule VolunteerWeb.ListingController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Apply
+  alias Volunteer.Listings
 
   def show(conn, %{"id" => id}) do
-    listing = Apply.get_one_public_listing!(id) |> Repo.preload(Apply.Listing.preloadables())
+    listing = Listings.get_one_public_listing!(id) |> Repo.preload(Listings.Listing.preloadables())
     render_form(conn, Apply.new_applicant_with_user(), listing: listing)
   end
 
   def create_applicant(conn, %{"id" => id} = params) do
-    listing = Apply.get_one_public_listing!(id)
+    listing = Listings.get_one_public_listing!(id)
 
     case Apply.create_applicant_with_user(listing, params["user"], params["applicant"]) do
       {:ok, _structs} ->

@@ -1,7 +1,7 @@
 defmodule VolunteerWeb.Admin.TKNListingController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
-  alias Volunteer.Apply
+  alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
   alias VolunteerWeb.UtilsController
 
@@ -19,12 +19,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   plug :authorize
 
   def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    tkn_listing = Apply.get_one_tkn_listing_for_listing(id)
+    tkn_listing = Listings.get_one_tkn_listing_for_listing(id)
     Plug.Conn.assign(conn, :tkn_listing, tkn_listing)
   end
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing = Listings.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
     Plug.Conn.assign(conn, :listing, listing)
   end
 
@@ -77,7 +77,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
     render_form(
       conn,
-      Apply.new_tkn_listing(),
+      Listings.new_tkn_listing(),
       "new.html",
       action_path: admin_listing_tkn_listing_path(conn, :create, listing)
     )
@@ -87,7 +87,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     listing
-    |> Apply.create_tkn_listing(tkn_listing_params)
+    |> Listings.create_tkn_listing(tkn_listing_params)
     |> case do
       {:ok, _tkn_listing} ->
         conn
@@ -107,7 +107,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    case Apply.get_one_tkn_listing_for_listing(listing.id) do
+    case Listings.get_one_tkn_listing_for_listing(listing.id) do
       nil ->
         render(
           conn,
@@ -127,7 +127,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
   def edit(conn, _params) do
     %Plug.Conn{assigns: %{tkn_listing: tkn_listing, listing: listing}} = conn
-    changeset = Apply.edit_tkn_listing(tkn_listing)
+    changeset = Listings.edit_tkn_listing(tkn_listing)
 
     render_form(
       conn,
@@ -141,7 +141,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def update(conn, %{"tkn_listing" => tkn_listing_params}) do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
 
-    case Apply.update_tkn_listing(tkn_listing, tkn_listing_params) do
+    case Listings.update_tkn_listing(tkn_listing, tkn_listing_params) do
       {:ok, _tkn_listing} ->
         conn
         |> put_flash(:info, "Listing updated successfully.")
@@ -161,7 +161,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   # def delete(conn, _paramss) do
   #   %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
   #
-  #   {:ok, _tkn_listing} = Apply.delete_tkn_listing(tkn_listing)
+  #   {:ok, _tkn_listing} = Listings.delete_tkn_listing(tkn_listing)
   #
   #   conn
   #   |> put_flash(:info, "Listing deleted successfully.")
@@ -180,20 +180,20 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           listing: conn.assigns[:listing],
           back_path: admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
           commitment_type_choices:
-            UtilsController.blank_select_choice() ++ Apply.TKNListing.commitment_type_choices(),
+            UtilsController.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
           location_type_choices:
-            UtilsController.blank_select_choice() ++ Apply.TKNListing.location_type_choices(),
+            UtilsController.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
           search_scope_choices:
-            UtilsController.blank_select_choice() ++ Apply.TKNListing.search_scope_choices(),
+            UtilsController.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),
           function_choices:
-            UtilsController.blank_select_choice() ++ Apply.TKNListing.function_choices(),
+            UtilsController.blank_select_choice() ++ Listings.TKNListing.function_choices(),
           industry_choices:
-            UtilsController.blank_select_choice() ++ Apply.TKNListing.industry_choices(),
+            UtilsController.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
           education_level_choices:
-            UtilsController.blank_select_choice() ++ Apply.TKNListing.education_level_choices(),
+            UtilsController.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
           work_experience_level_choices:
             UtilsController.blank_select_choice() ++
-              Apply.TKNListing.work_experience_level_choices()
+              Listings.TKNListing.work_experience_level_choices()
         ]
     )
   end

@@ -1,7 +1,7 @@
 defmodule Volunteer.Apply.Applicant do
   use Volunteer, :schema
   import Ecto.Changeset
-  alias Volunteer.Apply.Listing
+  alias Volunteer.Listings.Listing
   alias Volunteer.Accounts.User
 
   schema "applicants" do

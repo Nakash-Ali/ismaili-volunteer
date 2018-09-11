@@ -3,11 +3,11 @@
 	<ul class="item-meta list-inline font-family-sans-serif mb-0">
 		<% {state_text, state_class} = listing_state_text_and_class(@listing) %>
 		<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
-		<%= if Volunteer.Apply.Listing.is_previewable?(@listing) do %>
+		<%= if Volunteer.Listings.Listing.is_previewable?(@listing) do %>
 			<li class="list-inline-item">Preview <%= link "public listing", to: listing_preview_path(@conn, :show, @listing), target: "_blank" %></li>
 			<li class="list-inline-item">Preview on <%= link "home", to: listing_preview_path(@conn, :index, @listing), target: "_blank" %></li>
 		<% end %>
-		<%= if Volunteer.Apply.Listing.is_public?(@listing) do %>
+		<%= if Volunteer.Listings.Listing.is_public?(@listing) do %>
 			<li class="list-inline-item">View <%= link "public listing", to: listing_path(@conn, :show, @listing), target: "_blank" %></li>
 		<% end %>
 	</ul>

@@ -1,7 +1,7 @@
 defmodule VolunteerWeb.Admin.ListingController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
-  alias Volunteer.Apply
+  alias Volunteer.Listings
   alias Volunteer.Infrastructure
   alias VolunteerWeb.UtilsController
   alias VolunteerWeb.ConnPermissions
@@ -14,14 +14,14 @@ defmodule VolunteerWeb.Admin.ListingController do
   def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
     listing =
       id
-      |> Apply.get_one_admin_listing!()
+      |> Listings.get_one_admin_listing!()
       |> preload_relations(action_name(conn))
 
     Plug.Conn.assign(conn, :listing, listing)
   end
 
   def preload_relations(listing, action) when action in [:show, :edit, :update] do
-    listing |> Repo.preload(Apply.Listing.preloadables())
+    listing |> Repo.preload(Listings.Listing.preloadables())
   end
 
   def preload_relations(listing, action)
@@ -41,10 +41,10 @@ defmodule VolunteerWeb.Admin.ListingController do
     listings =
       case ConnPermissions.is_allowed?(conn, [:admin, :listing, :index_all]) do
         true ->
-          Apply.get_all_admin_listings()
+          Listings.get_all_admin_listings()
 
         false ->
-          Apply.get_all_admin_listings_for_user(UserSession.get_user(conn))
+          Listings.get_all_admin_listings_for_user(UserSession.get_user(conn))
       end
       |> Repo.preload([:group, :organized_by])
 
@@ -53,14 +53,14 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def new(conn, _params) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
-    render_form(conn, Apply.new_listing())
+    render_form(conn, Listings.new_listing())
   end
 
   def create(conn, %{"listing" => listing_params}) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
 
     listing_params
-    |> Apply.create_listing(UserSession.get_user(conn))
+    |> Listings.create_listing(UserSession.get_user(conn))
     |> case do
       {:ok, listing} ->
         conn
@@ -85,7 +85,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     render_form(
       conn,
-      Apply.edit_listing(listing),
+      Listings.edit_listing(listing),
       "edit.html",
       listing: listing
     )
@@ -96,7 +96,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
 
-    case Apply.update_listing(listing, listing_params) do
+    case Listings.update_listing(listing, listing_params) do
       {:ok, listing} ->
         conn
         |> put_flash(:info, "Listing updated successfully.")
@@ -119,7 +119,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
-    Apply.refresh_and_maybe_unapprove_listing!(listing)
+    Listings.refresh_and_maybe_unapprove_listing!(listing)
 
     conn
     |> put_flash(:info, "Successfully refreshed listing expiry.")
@@ -130,7 +130,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
-    Apply.expire_listing!(listing)
+    Listings.expire_listing!(listing)
 
     conn
     |> put_flash(:info, "Successfully expired listing.")
@@ -142,7 +142,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
 
-    {:ok, _listing} = Apply.delete_listing(listing)
+    {:ok, _listing} = Listings.delete_listing(listing)
 
     conn
     |> put_flash(:info, "Listing deleted successfully.")
@@ -157,10 +157,10 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          Apply.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
+          Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
 
         :unapprove ->
-          Apply.unapprove_listing_if_not_expired!(listing)
+          Listings.unapprove_listing_if_not_expired!(listing)
       end
 
     conn

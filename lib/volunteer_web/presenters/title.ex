@@ -20,7 +20,7 @@ defimpl VolunteerWeb.Presenters.Title, for: Any do
   end
 end
 
-defimpl VolunteerWeb.Presenters.Title, for: Volunteer.Apply.Listing do
+defimpl VolunteerWeb.Presenters.Title, for: Volunteer.Listings.Listing do
   import Phoenix.HTML
 
   def text(listing) do

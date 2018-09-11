@@ -1,10 +1,10 @@
-defmodule VolunteerEmail.ApplyEmails do
+defmodule VolunteerEmail.ListingsEmails do
   use VolunteerEmail, :email
   alias VolunteerEmail.Mailer
-  alias Volunteer.Apply
+  alias Volunteer.Listings.{Listing, MarketingRequest}
   alias VolunteerWeb.Presenters.Title
 
-  def marketing_request(%Apply.MarketingRequest{} = marketing_request, %Apply.Listing{} = listing) do
+  def marketing_request(%MarketingRequest{} = marketing_request, %Listing{} = listing) do
     email =
       Mailer.new_default_email()
       |> to({"Zahra Nurmohamed", "zahra.nurmohamed@iicanada.net"})

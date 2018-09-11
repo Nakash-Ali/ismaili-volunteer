@@ -2,6 +2,7 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Apply
+  alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
 
   # Plugs
@@ -10,7 +11,7 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   plug :authorize
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing = Listings.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
     Plug.Conn.assign(conn, :listing, listing)
   end
 

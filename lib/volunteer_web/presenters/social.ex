@@ -9,7 +9,7 @@ defprotocol VolunteerWeb.Presenters.Social do
   def popup_onclick(data)
 end
 
-defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Apply.Listing do
+defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Listings.Listing do
   import VolunteerWeb.Router.Helpers
 
   def url(listing, conn) do

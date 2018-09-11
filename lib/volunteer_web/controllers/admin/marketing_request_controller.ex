@@ -1,7 +1,7 @@
 defmodule VolunteerWeb.Admin.MarketingRequestController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
-  alias Volunteer.Apply
+  alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
 
   # Plugs
@@ -11,7 +11,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   plug :authorize
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Apply.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing = Listings.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
     Plug.Conn.assign(conn, :listing, listing)
   end
 
@@ -37,14 +37,14 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
 
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-    render_form(conn, Apply.new_marketing_request(listing))
+    render_form(conn, Listings.new_marketing_request(listing))
   end
 
   def create(conn, %{"marketing_request" => marketing_request}) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     listing
-    |> Apply.send_marketing_request(marketing_request)
+    |> Listings.send_marketing_request(marketing_request)
     |> case do
       {:ok, _} ->
         conn

@@ -1,4 +1,4 @@
-defmodule Volunteer.Apply.MarketingRequest do
+defmodule Volunteer.Listings.MarketingRequest do
   import Ecto.Changeset
 
   defmodule ChannelAttrs do

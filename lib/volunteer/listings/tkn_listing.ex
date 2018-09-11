@@ -1,8 +1,8 @@
-defmodule Volunteer.Apply.TKNListing do
+defmodule Volunteer.Listings.TKNListing do
   use Volunteer, :schema
   import Ecto.Changeset
-  alias Volunteer.Apply.TKNListing
-  alias Volunteer.Apply.Listing
+  alias Volunteer.Listings.TKNListing
+  alias Volunteer.Listings.Listing
 
   schema "tkn_listings" do
     field :openings, :integer

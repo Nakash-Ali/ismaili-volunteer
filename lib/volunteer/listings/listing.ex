@@ -1,8 +1,8 @@
-defmodule Volunteer.Apply.Listing do
+defmodule Volunteer.Listings.Listing do
   use Volunteer, :schema
   use Timex
   import Ecto.Changeset
-  alias Volunteer.Apply.TKNListing
+  alias Volunteer.Listings.TKNListing
   alias Volunteer.Infrastructure.Group
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Accounts.User
