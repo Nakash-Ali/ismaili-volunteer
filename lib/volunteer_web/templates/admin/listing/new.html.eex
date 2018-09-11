@@ -1,5 +1,5 @@
 <%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2">Create a New Listing</h4>
+	<h4 class="mb-2 py-2q">Create a New Listing</h4>
 <% end %>
 
 <section class="container my-3">

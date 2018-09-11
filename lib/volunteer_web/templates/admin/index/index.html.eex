@@ -1,5 +1,5 @@
 <%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2">Admin</h4>
+	<h4 class="mb-2 py-2q">Admin</h4>
 <% end %>
 
 <section class="container my-3">
