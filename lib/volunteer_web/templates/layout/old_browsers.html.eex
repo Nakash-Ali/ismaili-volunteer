@@ -1,9 +1,9 @@
 <div id="old-browsers" style="display: none;">
 	<div class="container">
-		<div class="py-3">
-			<h4 class="mb-1">Warning!</h4>
-			<p class="mb-1">You're using an older browser that doesn't support all the features this site uses. Some things may not work correctly for you, and you may also have <strong>security vulunerabilities</strong>.</p>
-			<p class="mb-1">You can fix this by downloading the latest <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener">Firefox</a>, <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">Chrome</a>, <a href="https://support.apple.com/downloads/safari" target="_blank" rel="noopener">Safari</a>, or <a href="https://www.opera.com/download" target="_blank" rel="noopener">Opera</a> browser. Happy volunteering!</p>
+		<div class="py-1">
+			<h4 class="mb-1q">Warning!</h4>
+			<p class="mb-1q">You're using an older browser that doesn't support all the features this site uses. Some things may not work correctly for you, and you may also have <strong>security vulunerabilities</strong>.</p>
+			<p class="mb-1q">You can fix this by downloading the latest <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener">Firefox</a>, <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">Chrome</a>, <a href="https://support.apple.com/downloads/safari" target="_blank" rel="noopener">Safari</a>, or <a href="https://www.opera.com/download" target="_blank" rel="noopener">Opera</a> browser. Happy volunteering!</p>
 		</div>
 	</div>
 </div>

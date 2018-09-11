@@ -45,15 +45,16 @@ $spacer-x: $spacer;
 $spacer-y: $spacer;
 $spacers: (
   0: 0,
-  1: ($spacer * .25),
-  2: ($spacer * .5),
-  3: ($spacer * 1),
-  4: ($spacer * 2),
-  5: ($spacer * 4),
-  6: ($spacer * 6),
-  7: ($spacer * 8),
-  8: ($spacer * 10),
-  9: ($spacer * 12),
+  1q: ($spacer * .25),
+  2q: ($spacer * .5),
+  3q: ($spacer * .75),
+  1: ($spacer * 1),
+  2: ($spacer * 2),
+  3: ($spacer * 4),
+  4: ($spacer * 6),
+  5: ($spacer * 8),
+  6: ($spacer * 10),
+  7: ($spacer * 12),
 );
 $border-width: 1px;
 

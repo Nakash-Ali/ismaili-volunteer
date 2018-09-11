@@ -1,21 +1,21 @@
 <%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-4">Listings</h4>
+	<h4 class="mb-2">Listings</h4>
 <% end %>
 
 <section class="container">
 	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
 		<div class="btn-group" role="group">
-			<%= link {:safe, "<i class=\"far fa-plus mr-1\" aria-hidden=\"true\"></i> Create"}, to: admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
+			<%= link {:safe, "<i class=\"far fa-plus mr-1q\" aria-hidden=\"true\"></i> Create"}, to: admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
 		</div>
 	</div>
 </section>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= for listing <- @listings do %>
-		<div class="my-4">
+		<div class="my-2">
 			<a href="<%= admin_listing_path(@conn, :show, listing) %>">
 				<div class="d-flex flex-row flex-wrap align-items-center">
-					<h6 class="mb-1"><%= Title.html(listing) %></h6>
+					<h6 class="mb-1q"><%= Title.html(listing) %></h6>
 				</div>
 			</a>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">

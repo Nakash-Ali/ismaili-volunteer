@@ -1,5 +1,5 @@
 <%= render ListingView, "sub_title.html", assigns, active_nav: "tkn" %>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= render "form.html", assigns %>
 </section>

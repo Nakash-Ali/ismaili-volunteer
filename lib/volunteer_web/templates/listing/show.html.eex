@@ -1,6 +1,6 @@
-<section class="container title mt-6 mb-6">
-	<h1 class="mb-1"><%= Title.html(@listing) %></h1>
-	<ul class="mb-2 posted-expiry item-meta item-meta-underline list-inline font-family-sans-serif">
+<section class="container title mt-4 mb-4">
+	<h1 class="mb-1q"><%= Title.html(@listing) %></h1>
+	<ul class="mb-2q posted-expiry item-meta item-meta-underline list-inline font-family-sans-serif">
 		<li class="list-inline-item mb-0">Volunteer opportunity</li>
 		<li class="list-inline-item mb-0"><%= organizer_html(@listing) %></li>
 		<li class="list-inline-item mb-0">Listing expires on <em><%= expiry_datetime_text(@listing.expiry_date) %></em></li>
@@ -8,22 +8,22 @@
 	<%= if @listing.approved do %>
 		<%= render "social_buttons.html", assigns %>
 	<% else %>
-		<p class="mb-0 py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">This position has not yet been <strong>approved</strong> by the respective board or portfolio for public distribution.</p>
+		<p class="mb-0 py-2q px-1 font-family-sans-serif rounded bg-danger text-white text-center">This position has not yet been <strong>approved</strong> by the respective board or portfolio for public distribution.</p>
 	<% end %>
 </section>
-<section class="container content mb-6">
+<section class="container content mb-4">
 	<div class="row">
 		<div class="col-lg-9 last-child-mb-0 item-meta-underline">
 			<%= render "textblob.html", listing: @listing, time_commitment: true %>
 		</div>
 	</div>
 </section>
-<section class="container apply mb-8 d-print-none">
+<section class="container apply mb-6 d-print-none">
 	<div class="row">
 		<div class="col-lg-9">
-			<h2 class="mb-4">Apply</h2>
+			<h2 class="mb-2">Apply</h2>
 			<noscript>
-				<p class="py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">To prevent spam, JavaScript is required to validate and submit this form. We're sorry for the inconvenience!</p>
+				<p class="py-2q px-1 font-family-sans-serif rounded bg-danger text-white text-center">To prevent spam, JavaScript is required to validate and submit this form. We're sorry for the inconvenience!</p>
 			</noscript>
 			<!-- <p class="font-family-sans-serif text-right required-label required-label-legend">Required</p> -->
 			<form data-form-marker class="font-family-sans-serif">
@@ -43,15 +43,15 @@
 				<div class="row">
 					<div class="offset-md-4 col-md-8">
 						<%= if @listing.approved do %>
-							<div class="mt-4">
+							<div class="mt-2">
 								<div class="g-recaptcha" data-size="normal" data-sitekey="6LfwojoUAAAAAJrvY69kP9MJCSvyvg-DakXkxh7X" data-callback="handleCaptchaSubmit"></div>
 							</div>
-							<div id="submit-container" class="mt-3">
+							<div id="submit-container" class="mt-1">
 								<!-- subumit button gets injected here -->
 							</div>
 						<% else %>
-							<div class="mt-4">
-								<p class="mb-0 py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">Cannot submit un-approved listings.</p>
+							<div class="mt-2">
+								<p class="mb-0 py-2q px-1 font-family-sans-serif rounded bg-danger text-white text-center">Cannot submit un-approved listings.</p>
 							</div>
 						<% end %>
 					</div>

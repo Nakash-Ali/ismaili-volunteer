@@ -1,4 +1,4 @@
-<div class="row mb-3">
+<div class="row mb-1">
 	<div class="col-3 text-right">
 		<strong><p class="m-0"><%= assigns[:title_text] %></p></strong>
 	</div>

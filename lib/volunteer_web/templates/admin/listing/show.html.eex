@@ -4,56 +4,56 @@
 	<div class="d-flex flex-row align-items-center justify-content-space-between">
 		<div class="btn-toolbar justify-content-end font-family-sans-serif mr-auto" role="toolbar">
 			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
-				<div class="btn-group mr-2" role="group">
+				<div class="btn-group mr-2q" role="group">
 					<%= if Volunteer.Listings.Listing.is_approve_allowed?(@listing) do %>
 						<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
 						<% else %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
+							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success btn-xs" %>
 						<% end %>
 					<% else %>
-						<button disabled class="btn btn-outline-secondary btn-xs"><i class="far fa-thumbs-up mr-1" aria-hidden="true"></i>Cannot approve archived listing</button>
+						<button disabled class="btn btn-outline-secondary btn-xs"><i class="far fa-thumbs-up mr-1q" aria-hidden="true"></i>Cannot approve archived listing</button>
 					<% end %>
 				</div>
 			<% end %>
-			<div class="btn-group mr-2" role="group">
+			<div class="btn-group mr-2q" role="group">
 				<%= if Volunteer.Listings.Listing.is_delete_allowed?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1\" aria-hidden=\"true\"></i> Permanently Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure? Permanently deleting a listing is non-reversible!"], class: "btn btn-outline-danger btn-xs" %>
+					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Permanently Delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure? Permanently deleting a listing is non-reversible!"], class: "btn btn-outline-danger btn-xs" %>
 				<% else %>
-					<button disabled class="btn btn-outline-secondary btn-xs"><i class="far fa-trash-alt mr-1" aria-hidden="true"></i>Cannot delete active listing</button>
+					<button disabled class="btn btn-outline-secondary btn-xs"><i class="far fa-trash-alt mr-1q" aria-hidden="true"></i>Cannot delete active listing</button>
 				<% end %>
 			</div>
 		</div>
 		<div class="btn-toolbar justify-content-start font-family-sans-serif ml-auto" role="toolbar">
-			<div class="btn-group ml-2" role="group">
-				<%= link {:safe, "<i class=\"far fa-pen mr-1\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+			<div class="btn-group ml-2q" role="group">
+				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
-			<div class="btn-group ml-2" role="group">
+			<div class="btn-group ml-2q" role="group">
 				<%= if Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
 				<% else %>
-					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1\" aria-hidden=\"true\"></i> Refresh expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
 				<% end %>
 			</div>
-			<div class="btn-group ml-2" role="group">
+			<div class="btn-group ml-2q" role="group">
 				<%= if not Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-times-circle mr-1\" aria-hidden=\"true\"></i> Expire and archive"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+					<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
 				<% else %>
-					<button disabled class="btn btn-outline-secondary btn-xs"><i class="far fa-times-circle mr-1" aria-hidden="true"></i>Listing archived</button>
+					<button disabled class="btn btn-outline-secondary btn-xs"><i class="far fa-times-circle mr-1q" aria-hidden="true"></i>Listing archived</button>
 				<% end %>
 			</div>
 		</div>
 	</div>
 </section>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= render AdminView, "definition_container.html",
 		title_text: "Expiry date",
 		body_text: PublicListingView.expiry_datetime_text(@listing.expiry_date) %>
 </section>
 
 <%= if @listing.approved do %>
-	<section class="container my-5">
+	<section class="container my-3">
 		<%= render AdminView, "definition_container.html",
 			title_text: "Approved by",
 			body_text: @listing.approved_by.title %>
@@ -64,7 +64,7 @@
 	</section>
 <% end %>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= render AdminView, "definition_container.html",
 		title_text: "Position title",
 		body_text: @listing.position_title %>
@@ -106,7 +106,7 @@
 		body_text: @listing.hours_per_week %>
 </section>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= render AdminView, "definition_container.html", title_text: "About the program" do %>
 		<div class="listing-textblob">
 			<%= PublicListingView.transform_textblob_content @listing.program_description %>
@@ -124,7 +124,7 @@
 	<% end %>
 </section>
 
-<section class="container my-5 mb-7">
+<section class="container my-3 mb-5">
 	<%= render AdminView, "definition_container.html",
 		title_text: "Created by",
 		body_text: @listing.created_by.title %>

@@ -9,7 +9,7 @@
 	<%= transform_textblob_content @listing.qualifications %>
 	
 	<%= if assigns[:time_commitment] do %>
-		<h4 class="textblob-section-title mb-3">Time Commitment</h4>
+		<h4 class="textblob-section-title mb-1">Time Commitment</h4>
 		<%= render "meta.html", listing: @listing %>
 		<!-- {{ with .Params.commitments }}
 			<p>Your commitment will include:</p>

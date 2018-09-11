@@ -1,8 +1,8 @@
 <%= render ListingView, "sub_title.html", assigns, active_nav: "applicants" %>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= for applicant <- @applicants do %>
-		<div class="my-4">
+		<div class="my-2">
 			<div class="d-flex flex-row flex-wrap align-items-center">
 				<h6 class="m-0"><%= IO.inspect(applicant) %></h6>
 			</div>

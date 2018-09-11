@@ -31,7 +31,7 @@ function parseErrors() {
 }
 
 function baseErrorCard(content, type = 'danger') {
-	return $(`<div class="card border-${type} text-${type} mb-5 font-family-sans-serif">${content}</div>`)
+	return $(`<div class="card border-${type} text-${type} mb-3 font-family-sans-serif">${content}</div>`)
 }
 
 function changesetErrorCard(key, errorsList) {
@@ -65,7 +65,7 @@ function handleSystemChangesetErrors(obj) {
 		</div>
 		<div class="card-body">
 			<h4 class="card-title">It seems like the form was misconfigured! Please contact an <a href="mailto:${errorEmail}?subject=${errorSubject}&body=${errorBody}">administrator</a>.</h4>
-			<p class="mb-1">Be sure to include the following error code in your email!</p>
+			<p class="mb-1q">Be sure to include the following error code in your email!</p>
 			<code class="mb-0 text-${errorType}"><strong>${errorBody}</strong></code>
 		</div>
 		`, errorType))
@@ -81,7 +81,7 @@ function handleErrors(obj) {
 		</div>
 		<div class="card-body">
 			<h4 class="card-title">${obj.message}. Go <a href="javascript:window.history.back()">back</a>?</h4>
-			<p class="mb-1">Or, contact an <a href="mailto:${errorEmail}?subject=${errorSubject}&body=${errorBody}">administrator</a>. Be sure to include the following error code in your email!</p>
+			<p class="mb-1q">Or, contact an <a href="mailto:${errorEmail}?subject=${errorSubject}&body=${errorBody}">administrator</a>. Be sure to include the following error code in your email!</p>
 			<code class="mb-0 text-${errorType}"><strong>${errorBody}</strong></code>
 		</div>
 		`, errorType))

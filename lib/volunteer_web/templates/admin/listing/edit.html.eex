@@ -1,13 +1,13 @@
 <%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2">Edit <%= Title.html(@listing) %></h4>
-	<ul class="item-meta list-inline font-family-sans-serif mb-4">
+	<h4 class="mb-2q">Edit <%= Title.html(@listing) %></h4>
+	<ul class="item-meta list-inline font-family-sans-serif mb-2">
 		<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
 			<li class="list-inline-item text-danger">Saving any changes will un-approve the listing!</li>
 		<% end %>
 	</ul>
 <% end %>
 
-<section class="container my-5">
+<section class="container my-3">
 	<%= render "form.html",
 	  changeset: @changeset,
 	  action_path: admin_listing_path(@conn, :update, @listing),

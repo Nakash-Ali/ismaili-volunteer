@@ -88,7 +88,7 @@ const instance = $form.parsley({
 		return el.$element.closest('.form-group')
 	},
 	errorsWrapper: '<div class="feedback-container col-sm-8 offset-4"></div>',
-	errorTemplate: '<div class="invalid-feedback mt-2" style="display: inherit;"></div>'
+	errorTemplate: '<div class="invalid-feedback mt-2q" style="display: inherit;"></div>'
 })
 
 instance.on('form:error', function formOnError() {

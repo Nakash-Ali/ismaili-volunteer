@@ -1,58 +1,58 @@
 <section class="jumbotron py-0 m-0">
 	<div id="images-target" class="jumbotron-background"></div>
 	<div class="container text-center">
-		<header class="mt-3 mb-9 py-2">
+		<header class="mt-1 mb-7 py-2q">
 			<nav class="navbar navbar-expand-lg navbar-dark px-0 py-0">
 				<%= render LayoutView, "navbar.html", Map.put(assigns, :img_path, "/images/logo-light.png") %>
 			</nav>
 		</header>
-		<div class="pb-5">
+		<div class="pb-3">
 			<!-- Useless spacer div, because I'm lazy and I like bootstrap -->
 			<!-- Why the spacer? For dramatic affect - duh! Ideally, the eye should start at the logo at the top left, follow the glass ceiling of the jamatkhana, through the pretty illegible text, to the CTA! -->
 		</div>
-		<h1 class="mb-4">Find volunteer opportunities<br>within Jamati programs and institutions</h1>
-		<div class="mb-9">
-			<a data-smooth data-smooth-offset="-64" href="#opportunities"><h6 class="cta mb-0">Find Opportunities <i class="ml-1 far fa-chevron-right" style="font-size: 0.92em;"aria-hidden="true"></i></h6></a>
+		<h1 class="mb-2">Find volunteer opportunities<br>within Jamati programs and institutions</h1>
+		<div class="mb-7">
+			<a data-smooth data-smooth-offset="-64" href="#opportunities"><h6 class="cta mb-0">Find Opportunities <i class="ml-1q far fa-chevron-right" style="font-size: 0.92em;"aria-hidden="true"></i></h6></a>
 		</div>
 	</div>
 </section>
-<section class="container my-9">
-	<h2 class="mb-5">Why <%= Application.fetch_env!(:volunteer, :project_title) %>?</h2>
+<section class="container my-7">
+	<h2 class="mb-3">Why <%= Application.fetch_env!(:volunteer, :project_title) %>?</h2>
 	<div class="row font-family-sans-serif">
-		<div class="col-md-12 col-lg-4 px-md-4 d-flex flex-row mb-4 mb-lg-0">
-			<img class="mb-1" src="<%= static_path(@conn, "/images/icon-transparent-green.png") %>" width="auto" height="68">
-			<div class="ml-4">
-				<h5 class="mb-1">Transparent & Accessible</h5>
+		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row mb-2 mb-lg-0">
+			<img class="mb-1q" src="<%= static_path(@conn, "/images/icon-transparent-green.png") %>" width="auto" height="68">
+			<div class="ml-2">
+				<h5 class="mb-1q">Transparent & Accessible</h5>
 				<p class="mb-0 font-weight-light">Find opportunities regardless of where you live or who you know.</p>
 			</div>
 		</div>
-		<div class="col-md-12 col-lg-4 px-md-4 d-flex flex-row mb-4 mb-lg-0">
-			<img class="mb-1" src="<%= static_path(@conn, "/images/icon-fit-green.png") %>" width="auto" height="68">
-			<div class="ml-4">
-				<h5 class="mb-1">The Right Fit</h5>
+		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row mb-2 mb-lg-0">
+			<img class="mb-1q" src="<%= static_path(@conn, "/images/icon-fit-green.png") %>" width="auto" height="68">
+			<div class="ml-2">
+				<h5 class="mb-1q">The Right Fit</h5>
 				<p class="mb-0 font-weight-light">Contribute with your skillset and expertise wherever you're interested.</p>
 			</div>
 		</div>
-		<div class="col-md-12 col-lg-4 px-md-4 d-flex flex-row">
-			<img class="mb-1" src="<%= static_path(@conn, "/images/icon-apply-green.png") %>" width="auto" height="68">
-			<div class="ml-4">
-				<h5 class="mb-1">Apply Now</h5>
+		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row">
+			<img class="mb-1q" src="<%= static_path(@conn, "/images/icon-apply-green.png") %>" width="auto" height="68">
+			<div class="ml-2">
+				<h5 class="mb-1q">Apply Now</h5>
 				<p class="mb-0 font-weight-light">Once you find something, apply right here to start the process.</p>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="container my-9 pb-3">
+<section class="container my-7 pb-1">
 	<div class="row justify-content-sm-center">
 		<div class="col col-md-11 col-lg-8">
 			<blockquote class="mb-0">
-				<p class="quote mb-3">... Canadian [volunteering] spirit resonates with a cherished principle in Shia Ismaili culture – the importance of contributing one's individual energies on a voluntary basis to improving the lives of others. This is not a matter of philanthropy, but rather of self-fulfillment – “enlightened self-fulfillment.”</p>
-				<cite class="row d-flex flex-row mt-3 justify-content-center align-items-center">
+				<p class="quote mb-1">... Canadian [volunteering] spirit resonates with a cherished principle in Shia Ismaili culture – the importance of contributing one's individual energies on a voluntary basis to improving the lives of others. This is not a matter of philanthropy, but rather of self-fulfillment – “enlightened self-fulfillment.”</p>
+				<cite class="row d-flex flex-row mt-1 justify-content-center align-items-center">
 					<div class="col-auto">
 						<img style="max-height: 140px;" class="avatar img-responsive" src="<%= static_path(@conn, "/images/agakhanquote.small.png") %>"></img>
 					</div>
 					<div class="col-auto">
-						<h5 class="mb-1">His Highness the Aga Khan</h5>
+						<h5 class="mb-1q">His Highness the Aga Khan</h5>
 						<p style="max-width: 260px;" class="mb-0 font-weight-light font-family-sans-serif">From his address to both Houses of the Parliament of Canada in Ottawa on the 27<sup>th</sup> of February 2014.</p>
 					</div>
 				</cite>
