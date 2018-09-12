@@ -1,4 +1,5 @@
-#!/usr/bin/env node
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
 const { setupConfig, setupTimeout } = require('./setup')
 const config = setupConfig('./do_webpage_screenshot_schema.json')
