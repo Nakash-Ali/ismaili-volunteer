@@ -2,7 +2,7 @@ defmodule Volunteer.Commands do
   alias Porcelain.{Result, Process}
 
   def run(command_name, config) do
-    proc = Porcelain.spawn("node", args(command_name, config), dir: chdir(), err: :out)
+    proc = Porcelain.spawn("nodejs", args(command_name, config), dir: chdir(), err: :out)
 
     case Process.await(proc, 30_000) do
       {:error, :timeout} ->
