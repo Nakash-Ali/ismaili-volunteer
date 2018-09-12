@@ -44,7 +44,7 @@ defmodule Volunteer.Commands do
   end
 
   def command_path(command_name) do
-    "./commands/#{command_name}.js"
+    "./commands/compiled/#{command_name}/index.js"
   end
 
   def encode_config(config) do

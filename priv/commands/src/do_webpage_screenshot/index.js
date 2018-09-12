@@ -1,17 +1,18 @@
 #!/bin/sh
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-const { setupConfig, setupTimeout } = require('./setup')
-const config = setupConfig('./do_webpage_screenshot_schema.json')
+"use strict";
 
-const { writeFileSync } = require('fs')
-const puppeteer = require('puppeteer')
-const sizeOf = require('image-size')
+process.stdin.on('end', () => { process.exit(1) })
+process.on('unhandledRejection', up => { throw up })
 
-function logEncodedObj(obj) {
-	const buff = Buffer.from(JSON.stringify(obj), 'utf8').toString('base64')
-	console.log(buff)
-}
+import "@babel/polyfill";
+
+import { writeFileSync } from "fs"
+import puppeteer from "puppeteer"
+import sizeOf from "image-size"
+import { setupConfig, setupTimeout, logEncodedObj } from "../utils"
+import schema from "./schema.js"
 
 async function saveImages(imgConfigs) {
 	const browser = await puppeteer.launch()
@@ -35,6 +36,7 @@ async function saveImages(imgConfigs) {
 	await browser.close()
 }
 
+const config = setupConfig(schema)
 const done = setupTimeout()
 
 saveImages(config)
