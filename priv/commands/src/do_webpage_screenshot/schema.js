@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Config",
     "type": "array",

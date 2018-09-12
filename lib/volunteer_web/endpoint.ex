@@ -57,4 +57,21 @@ defmodule VolunteerWeb.Endpoint do
       {:ok, config}
     end
   end
+
+  def local_port do
+    :volunteer
+    |> Application.get_env(VolunteerWeb.Endpoint)
+    |> Keyword.fetch!(:http)
+    |> Keyword.fetch!(:port)
+  end
+
+  def local_url(path) do
+    %URI{
+      scheme: "http",
+      host: "localhost",
+      port: local_port(),
+      path: path
+    }
+    |> to_string()
+  end
 end

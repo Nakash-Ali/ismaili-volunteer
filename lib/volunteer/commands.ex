@@ -1,8 +1,15 @@
 defmodule Volunteer.Commands do
   alias Porcelain.{Result, Process}
 
+  def get_node() do
+    case Mix.env() do
+      :prod -> "nodejs"
+      :dev -> "node"
+    end
+  end
+
   def run(command_name, config) do
-    proc = Porcelain.spawn("nodejs", args(command_name, config), dir: chdir(), err: :out)
+    proc = Porcelain.spawn(get_node(), args(command_name, config), dir: chdir(), err: :out)
 
     case Process.await(proc, 30_000) do
       {:error, :timeout} ->
@@ -17,7 +24,7 @@ defmodule Volunteer.Commands do
           0 ->
             {:ok, decode_or_clean_out(out)}
 
-          1 ->
+          _ ->
             {:error, decode_or_clean_out(out)}
         end
     end
@@ -44,7 +51,7 @@ defmodule Volunteer.Commands do
   end
 
   def command_path(command_name) do
-    "./commands/compiled/#{command_name}/index.js"
+    "./commands/src/#{command_name}/index.js"
   end
 
   def encode_config(config) do

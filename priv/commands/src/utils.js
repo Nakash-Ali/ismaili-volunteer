@@ -1,9 +1,9 @@
-import { argv } from "yargs"
-import Ajv from "ajv"
+const { argv } = require("yargs")
+const Ajv = require("ajv")
 
 const ajv = new Ajv()
 
-export function setupConfig(schema) {
+function setupConfig(schema) {
 	var parsedConfig = {}
 
 	try {
@@ -19,7 +19,7 @@ export function setupConfig(schema) {
 	return parsedConfig
 }
 
-export function setupTimeout(timeout = 30000) {
+function setupTimeout(timeout = 30000) {
 	timeout = parseInt(timeout, 10)
 	if (isNaN(timeout) || timeout <= 0 || timeout > 120 * 1000) {
 		console.error('timeout must be a non-negative integer less than 2 minutes (in milliseconds)')
@@ -29,7 +29,13 @@ export function setupTimeout(timeout = 30000) {
 	return () => clearTimeout(pid)
 }
 
-export function logEncodedObj(obj) {
+function logEncodedObj(obj) {
 	const buff = Buffer.from(JSON.stringify(obj), 'utf8').toString('base64')
 	console.log(buff)
+}
+
+module.exports = {
+	setupConfig,
+	setupTimeout,
+	logEncodedObj
 }

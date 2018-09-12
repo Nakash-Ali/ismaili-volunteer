@@ -6,20 +6,18 @@
 process.stdin.on('end', () => { process.exit(1) })
 process.on('unhandledRejection', up => { throw up })
 
-import "@babel/polyfill";
-
-import { writeFileSync } from "fs"
-import puppeteer from "puppeteer"
-import sizeOf from "image-size"
-import { setupConfig, setupTimeout, logEncodedObj } from "../utils"
-import schema from "./schema.js"
+const { writeFileSync } = require("fs")
+const puppeteer = require("puppeteer")
+const sizeOf = require("image-size")
+const { setupConfig, setupTimeout, logEncodedObj } = require("../utils")
+const schema = require("./schema.js")
 
 async function saveImages(imgConfigs) {
-	const browser = await puppeteer.launch()
+	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
 	const imgAwaits = imgConfigs.map(async conf => {
 		const page = await browser.newPage()
 		const response = await page.goto(conf.webpageUrl, {
-			timeout: 3000,
+			timeout: 6000,
 			waitUntil: 'networkidle0'
 		})
 		if (Math.floor(response.status() / 100) !== 2) {
