@@ -65,14 +65,4 @@ defmodule VolunteerWeb.Endpoint do
     |> Keyword.fetch!(:port)
     |> String.to_integer()
   end
-
-  def local_url(path) do
-    %URI{
-      scheme: "http",
-      host: "localhost",
-      port: local_port(),
-      path: path
-    }
-    |> to_string()
-  end
 end

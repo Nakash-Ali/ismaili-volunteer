@@ -15,18 +15,12 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
     Path.join([:code.priv_dir(:volunteer), static_at(), static_dir()])
   end
 
-  def get_webpage_url(conn, listing) do
-    conn
-    |> Helpers.listing_social_image_path(:show, listing)
-    |> VolunteerWeb.Endpoint.local_url()
-  end
-
   def start_link do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
   def get(conn, listing) do
-    webpage_url = get_webpage_url(conn, listing)
+    webpage_url = Helpers.listing_social_image_url(conn, :show, listing)
     GenServer.call(__MODULE__, {:get, webpage_url, listing.id, listing.updated_at}, 30_000)
   end
 
