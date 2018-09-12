@@ -168,7 +168,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       end
 
     conn
-    |> put_flash(:success, "Listing #{action}ed successfully.")
+    |> put_flash(:success, "Listing #{action}d successfully.")
     |> redirect(to: admin_listing_path(conn, :show, toggled_listing))
   end
 
