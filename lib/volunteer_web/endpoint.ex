@@ -63,6 +63,7 @@ defmodule VolunteerWeb.Endpoint do
     |> Application.get_env(VolunteerWeb.Endpoint)
     |> Keyword.fetch!(:http)
     |> Keyword.fetch!(:port)
+    |> String.to_integer()
   end
 
   def local_url(path) do
