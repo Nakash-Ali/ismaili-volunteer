@@ -64,11 +64,13 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> case do
       {:ok, listing} ->
         conn
-        |> put_flash(:info, "Listing created successfully.")
+        |> put_flash(:success, "Listing created successfully.")
         |> redirect(to: admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render_form(conn, changeset)
+        conn
+        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(changeset)
     end
   end
 
@@ -99,11 +101,13 @@ defmodule VolunteerWeb.Admin.ListingController do
     case Listings.update_listing(listing, listing_params) do
       {:ok, listing} ->
         conn
-        |> put_flash(:info, "Listing updated successfully.")
+        |> put_flash(:success, "Listing updated successfully.")
         |> redirect(to: admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render_form(conn, changeset, "edit.html", listing: listing)
+        conn
+        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(changeset, "edit.html", listing: listing)
     end
   end
 
@@ -122,7 +126,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     Listings.refresh_and_maybe_unapprove_listing!(listing)
 
     conn
-    |> put_flash(:info, "Successfully refreshed listing expiry.")
+    |> put_flash(:success, "Successfully refreshed listing expiry.")
     |> redirect(to: admin_listing_path(conn, :show, listing))
   end
 
@@ -133,7 +137,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     Listings.expire_listing!(listing)
 
     conn
-    |> put_flash(:info, "Successfully expired listing.")
+    |> put_flash(:success, "Successfully expired listing.")
     |> redirect(to: admin_listing_path(conn, :show, listing))
   end
 
@@ -145,7 +149,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     {:ok, _listing} = Listings.delete_listing(listing)
 
     conn
-    |> put_flash(:info, "Listing deleted successfully.")
+    |> put_flash(:success, "Listing deleted successfully.")
     |> redirect(to: admin_listing_path(conn, :index))
   end
 
@@ -164,7 +168,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       end
 
     conn
-    |> put_flash(:info, "Listing #{action}ed successfully.")
+    |> put_flash(:success, "Listing #{action}ed successfully.")
     |> redirect(to: admin_listing_path(conn, :show, toggled_listing))
   end
 

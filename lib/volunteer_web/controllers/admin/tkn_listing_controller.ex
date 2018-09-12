@@ -91,12 +91,13 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     |> case do
       {:ok, _tkn_listing} ->
         conn
-        |> put_flash(:info, "TKN Listing created successfully.")
+        |> put_flash(:success, "TKN Listing created successfully.")
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render_form(
-          conn,
+        conn
+        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(
           changeset,
           "new.html",
           action_path: admin_listing_tkn_listing_path(conn, :create, listing)
@@ -144,12 +145,13 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     case Listings.update_tkn_listing(tkn_listing, tkn_listing_params) do
       {:ok, _tkn_listing} ->
         conn
-        |> put_flash(:info, "Listing updated successfully.")
+        |> put_flash(:success, "Listing updated successfully.")
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render_form(
-          conn,
+        conn
+        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(
           changeset,
           "edit.html",
           tkn_listing: tkn_listing,

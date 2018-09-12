@@ -48,11 +48,13 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
     |> case do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "Marketing request created successfully.")
+        |> put_flash(:success, "Marketing request created successfully.")
         |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render_form(conn, changeset)
+        conn
+        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(changeset)
     end
   end
 

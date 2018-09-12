@@ -1,10 +1,4 @@
 <%= form_for @changeset, @action_path, fn form -> %>
-  <%= if @changeset.action do %>
-     <div class="alert alert-danger my-2">
-       <p class="mb-0">Oops, something went wrong! Please check the errors below.</p>
-     </div>
-  <% end %>
-
   <%= render FormView, "number.html",
     form: form,
     field: :openings,
@@ -21,7 +15,7 @@
 	choices_opts_template: :single_select,
 	required: true
   %>
-  
+
   <%= render FormView, "select.html",
     form: form,
     field: :location_type,
@@ -29,7 +23,7 @@
     choices: @location_type_choices,
 	required: true
   %>
-  
+
   <%= render FormView, "select.html",
     form: form,
     field: :search_scope,
@@ -37,7 +31,7 @@
     choices: @search_scope_choices,
 	required: true
   %>
-  
+
   <%= render FormView, "text.html",
     form: form,
     field: :suggested_keywords,
@@ -45,28 +39,28 @@
 	placeholder: "Children, teaching...",
 	required: true
   %>
-  
+
   <%= render FormView, "select.html",
     form: form,
     field: :function,
     title: "Position function",
     choices: @function_choices
   %>
-  
+
   <%= render FormView, "select.html",
     form: form,
     field: :industry,
     title: "Position industry",
     choices: @industry_choices
   %>
-  
+
   <%= render FormView, "select.html",
     form: form,
     field: :education_level,
     title: "Education level",
     choices: @education_level_choices
   %>
-  
+
   <%= render FormView, "select.html",
     form: form,
     field: :work_experience_level,
