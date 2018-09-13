@@ -67,6 +67,7 @@ defmodule Volunteer.Listings do
 
   def get_all_admin_listings do
     from(l in Listing)
+    |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
 
@@ -84,6 +85,7 @@ defmodule Volunteer.Listings do
           or l.organized_by_id == ^id
           or l.group_id in ^group_ids
           or l.group_id in ^region_ids)
+    |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
 
@@ -91,6 +93,7 @@ defmodule Volunteer.Listings do
     from(l in Listing)
     |> query_approved_listing
     |> query_unexpired_listing
+    |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
 
