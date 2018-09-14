@@ -65,13 +65,101 @@ defmodule Volunteer.Listings do
     Repo.get!(Listing, id)
   end
 
-  def get_all_admin_listings do
+  def get_all_admin_listings(opts \\ []) do
+    filters = Keyword.get(opts, :filters)
+    IO.inspect(filters)
     from(l in Listing)
+    |> query_listings_with_filters(Keyword.get(opts, :filters))
     |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
 
-  def get_all_admin_listings_for_user(%Accounts.User{id: id} = user) do
+  def get_all_admin_listings_for_user(user, opts \\ []) do
+    from(l in Listing)
+    |> query_for_user_listing(user)
+    |> query_listings_with_filters(Keyword.get(opts, :filters))
+    |> order_by(desc: :expiry_date)
+    |> Repo.all()
+  end
+
+  def get_all_public_listings do
+    from(l in Listing)
+    |> query_approved_listing()
+    |> query_unexpired_listing()
+    |> order_by(desc: :expiry_date)
+    |> Repo.all()
+  end
+
+  def get_one_public_listing!(id) do
+    from(l in Listing, where: l.id == ^id)
+    |> query_approved_listing()
+    |> query_unexpired_listing()
+    |> Repo.one!()
+  end
+
+  def get_one_preview_listing!(id) do
+    from(l in Listing, where: l.id == ^id)
+    |> query_unexpired_listing()
+    |> Repo.one!()
+  end
+
+  def get_all_listings_for_expiry_reminder(expiry_date) do
+    from(l in Listing)
+    |> query_unexpired_listing()
+    |> query_listings_expiring_before(expiry_date)
+    |> query_expiry_reminder_not_sent()
+    |> Repo.all()
+  end
+
+  defp query_listings_with_filters(query, nil) do
+    query
+  end
+
+  defp query_listings_with_filters(query, filters) when filters == %{} do
+    query
+  end
+
+  defp query_listings_with_filters(query, %{approved: true, unapproved: true, expired: true}) do
+    query
+  end
+
+  defp query_listings_with_filters(query, %{approved: false, unapproved: false, expired: false}) do
+    from(l in query, where: fragment("1=0"))
+  end
+
+  defp query_listings_with_filters(query, %{approved: true, unapproved: false, expired: false}) do
+    query_approved_listing(query)
+    |> query_unexpired_listing()
+  end
+
+  defp query_listings_with_filters(query, %{approved: true, unapproved: true, expired: false}) do
+    query_unexpired_listing(query)
+  end
+
+  defp query_listings_with_filters(query, %{approved: true, unapproved: false, expired: true}) do
+    current_time = DateTime.utc_now()
+    from(l in query,
+      where: l.approved == true
+          or l.expiry_date < ^current_time)
+  end
+
+  defp query_listings_with_filters(query, %{approved: false, unapproved: true, expired: false}) do
+    query_unapproved_listing(query)
+    |> query_unexpired_listing()
+  end
+
+  defp query_listings_with_filters(query, %{approved: false, unapproved: true, expired: true}) do
+    current_time = DateTime.utc_now()
+    from(l in query,
+      where: l.approved == false
+          or l.expiry_date < ^current_time)
+  end
+
+  defp query_listings_with_filters(query, %{approved: false, unapproved: false, expired: true}) do
+    query_expired_listing(query)
+  end
+
+  defp query_for_user_listing(query, %Accounts.User{id: id} = user) do
     group_ids =
       Volunteer.Permissions.get_for_user(user, :group, ["admin"])
       |> Map.keys()
@@ -80,60 +168,29 @@ defmodule Volunteer.Listings do
       Volunteer.Permissions.get_for_user(user, :region, ["admin"])
       |> Map.keys()
 
-    from(l in Listing,
+    from(l in query,
       where: l.created_by_id == ^id
           or l.organized_by_id == ^id
           or l.group_id in ^group_ids
           or l.group_id in ^region_ids)
-    |> order_by(desc: :expiry_date)
-    |> Repo.all()
-  end
-
-  def get_all_public_listings do
-    from(l in Listing)
-    |> query_approved_listing
-    |> query_unexpired_listing
-    |> order_by(desc: :expiry_date)
-    |> Repo.all()
-  end
-
-  def get_one_public_listing!(id) do
-    from(l in Listing, where: l.id == ^id)
-    |> query_approved_listing
-    |> query_unexpired_listing
-    |> Repo.one!()
-  end
-
-  def get_one_preview_listing!(id) do
-    from(l in Listing, where: l.id == ^id)
-    |> query_unexpired_listing
-    |> Repo.one!()
-  end
-
-  def get_all_listings_for_expiry_reminder(expiry_date) do
-    from(l in Listing)
-    |> query_unexpired_listing
-    |> query_listings_expiring_before(expiry_date)
-    |> query_expiry_reminder_not_sent()
-    |> Repo.all()
-  end
-
-  defp query_for_user_listing(query, %Accounts.User{id: id}) do
-    from(l in query, where: l.created_by_id == ^id or l.organized_by_id == ^id)
   end
 
   defp query_approved_listing(query) do
     from(l in query, where: l.approved == true)
   end
 
+  defp query_unapproved_listing(query) do
+    from(l in query, where: l.approved == false)
+  end
+
+  defp query_expired_listing(query) do
+    current_time = DateTime.utc_now()
+    from(l in query, where: l.expiry_date < ^current_time)
+  end
+
   defp query_unexpired_listing(query) do
     current_time = DateTime.utc_now()
     from(l in query, where: l.expiry_date >= ^current_time)
-  end
-
-  defp query_unended_listing(query) do
-    current_date = Date.utc_today()
-    from(l in query, where: l.end_date >= ^current_date or is_nil(l.end_date))
   end
 
   def query_listings_expiring_before(query, expiry_date) do

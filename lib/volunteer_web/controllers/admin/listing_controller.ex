@@ -3,8 +3,8 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Repo
   alias Volunteer.Listings
   alias Volunteer.Infrastructure
-  alias VolunteerWeb.UtilsController
   alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.Admin.ListingParams
 
   # Plugs
 
@@ -35,20 +35,23 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   # Controller Actions
 
-  def index(conn, _params) do
+  def index(conn, params) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :index])
 
-    listings =
-      case ConnPermissions.is_allowed?(conn, [:admin, :listing, :index_all]) do
-        true ->
-          Listings.get_all_admin_listings()
+    {filter_changes, filter_data} =
+      ListingParams.IndexFilters.changes_and_data(params["filters"])
 
-        false ->
-          Listings.get_all_admin_listings_for_user(UserSession.get_user(conn))
+    listings =
+      if ConnPermissions.is_allowed?(conn, [:admin, :listing, :index_all]) do
+        Listings.get_all_admin_listings(filters: filter_data)
+      else
+        conn
+        |> UserSession.get_user()
+        |> Listings.get_all_admin_listings_for_user(filters: filter_data)
       end
       |> Repo.preload([:group, :organized_by])
 
-    render(conn, "index.html", listings: listings)
+    render(conn, "index.html", listings: listings, filters: filter_changes)
   end
 
   def new(conn, _params) do
@@ -189,14 +192,14 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   defp get_region_id_choices() do
-    UtilsController.blank_select_choice() ++ Infrastructure.get_region_id_choices()
+    ControllerUtils.blank_select_choice() ++ Infrastructure.get_region_id_choices()
   end
 
   defp get_group_id_choices() do
-    UtilsController.blank_select_choice() ++ Infrastructure.get_group_id_choices()
+    ControllerUtils.blank_select_choice() ++ Infrastructure.get_group_id_choices()
   end
 
   defp get_user_id_choices() do
-    UtilsController.blank_select_choice() ++ Volunteer.Accounts.get_user_id_choices()
+    ControllerUtils.blank_select_choice() ++ Volunteer.Accounts.get_user_id_choices()
   end
 end

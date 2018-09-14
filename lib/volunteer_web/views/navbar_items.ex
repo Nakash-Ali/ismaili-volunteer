@@ -6,11 +6,11 @@ defmodule VolunteerWeb.NavbarItems do
   @item_template "navbar_item.html"
 
   def nav_items(["VolunteerWeb", "Admin" | _], assigns) do
-    primary_admin_nav_item(assigns) ++ admin_nav_items(assigns) ++ user_nav_items(assigns)
+    admin_nav_items(assigns) ++ primary_admin_nav_item(assigns) ++ user_nav_items(assigns)
   end
 
   def nav_items(["VolunteerWeb" | _], assigns) do
-    iicanada_nav_items() ++ primary_admin_nav_item(assigns) ++ user_nav_items(assigns)
+    primary_admin_nav_item(assigns) ++ user_nav_items(assigns)
   end
 
   def iicanada_nav_items do
@@ -48,7 +48,8 @@ defmodule VolunteerWeb.NavbarItems do
 
   def admin_nav_items(%{conn: conn}) do
     [
-      {"Feedback", admin_feedback_path(conn, :index, [])}
+      {"Listings", admin_listing_path(conn, :index)},
+      {"Feedback", admin_feedback_path(conn, :index, [])},
     ]
   end
 

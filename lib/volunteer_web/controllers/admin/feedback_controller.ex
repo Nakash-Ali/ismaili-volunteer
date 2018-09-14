@@ -1,11 +1,12 @@
 defmodule VolunteerWeb.Admin.FeedbackController do
   use VolunteerWeb, :controller
+  alias VolunteerWeb.ControllerUtils
 
   def index(conn, params) do
     should_anonymize =
       params
       |> Map.get("anonymize", "false")
-      |> booleanize
+      |> ControllerUtils.booleanize
 
     canny_user =
       conn
@@ -17,9 +18,6 @@ defmodule VolunteerWeb.Admin.FeedbackController do
 
     render(conn, "index.html", canny_assigns: canny_assigns, canny_user: canny_user, should_anonymize: should_anonymize)
   end
-
-  defp booleanize("true"), do: true
-  defp booleanize(_value), do: false
 
   defp get_canny_user_params(user, true) do
     user_id_hash =

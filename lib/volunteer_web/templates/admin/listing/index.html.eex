@@ -3,9 +3,32 @@
 <% end %>
 
 <section class="container">
-	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
+	<div class="btn-toolbar justify-content-between font-family-sans-serif" role="toolbar">
 		<div class="btn-group" role="group">
 			<%= link {:safe, "<i class=\"far fa-plus mr-1q\" aria-hidden=\"true\"></i> Create"}, to: admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
+		</div>
+		<div class="ml-1">
+			<%= form_for @filters, admin_listing_path(@conn, :index), [as: :filters, method: :get, class: "m-0"], fn f -> %>
+				<% fields = [
+					{:approved, "Approved and alive"},
+					{:unapproved, "Waiting for approval"},
+					{:expired, "Expired and archived"},
+				] %>
+				<small class="btn text-muted mr-2q" style="cursor: auto;">Filters</small>
+				<%= for {key, str} <- fields do %>
+					<%= hidden_input f, key, [value: "false", checked: true] %>
+				<% end %>
+				<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+					<%= for {key, str} <- fields do %>
+						<% checked = if input_value(f, key) == "true" or input_value(f, key) == true, do: true, else: false %>
+						<label class="btn btn-outline-secondary <%= if checked, do: "active" %>">
+							<%= text_input f, key, [value: "true", checked: checked, type: "checkbox"] %>
+							<%= str %>
+						</label>
+					<% end %>
+				</div>
+				<%= submit {:safe, "<i class=\"far fa-check mr-1q\" aria-hidden=\"true\"></i> Apply"}, class: "btn btn-sm btn-outline-dark ml-2q pl-3q pr-1" %>
+			<% end %>
 		</div>
 	</div>
 </section>
