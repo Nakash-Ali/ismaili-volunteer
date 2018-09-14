@@ -3,20 +3,20 @@
 <% end %>
 
 <section class="container">
-	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
+	<div class="btn-toolbar justify-content-end align-items-center font-family-sans-serif" role="toolbar">
 		<%= if @should_anonymize do %>
-			<div class="btn-group mr-2q" role="group">
-				<small class="btn text-muted" style="cursor: auto;">You're currently anonymous</small>
+			<div class="text-right mr-1">
+				<p style="font-size: 1rem;" class="m-0">You're currently anonymous. <span class="text-danger">You won't get email notifications when posting or voting anonymously!</span></p>
 			</div>
 			<div class="btn-group mr-2q" role="group">
-				<a class="btn btn-outline-warning" href="#" onclick="putQueryInLocation('anonymize', 'false'); return false;">Become yourself</a>
+				<a class="btn btn-outline-secondary" href="#" onclick="putQueryInLocation('anonymize', 'false'); return false;">Become yourself</a>
 			</div>
 		<% else %>
-			<div class="btn-group mr-2q" role="group">
-				<small class="btn text-muted" style="cursor: auto;">You're currently posting as <%= @canny_user.name %></small>
+			<div class="text-right mr-1">
+				<p style="font-size: 1rem;" class="m-0">You're currently posting as <%= @canny_user.name %></p>
 			</div>
 			<div class="btn-group mr-2q" role="group">
-				<a class="btn btn-outline-warning" href="#" onclick="putQueryInLocation('anonymize', 'true'); return false;">Become anonymous</a>
+				<a class="btn btn-outline-secondary" href="#" onclick="putQueryInLocation('anonymize', 'true'); return false;">Become anonymous</a>
 			</div>
 		<% end %>
 	</div>
