@@ -4,6 +4,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Listings
   alias Volunteer.Infrastructure
   alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.ControllerUtils
   alias VolunteerWeb.Admin.ListingParams
 
   # Plugs
