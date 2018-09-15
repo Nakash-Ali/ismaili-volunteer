@@ -1,7 +1,7 @@
 defmodule Volunteer.Permissions.HardcodedRoles do
-  @role_types [
-    "admin"
-  ]
+  # @role_types [
+  #   "admin"
+  # ]
 
   @roles_by_region %{
     # Canada
