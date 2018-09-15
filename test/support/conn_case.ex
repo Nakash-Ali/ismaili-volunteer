@@ -23,6 +23,12 @@ defmodule VolunteerWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint VolunteerWeb.Endpoint
+
+      def create_and_login_user(conn) do
+        user = Volunteer.TestFactory.user!()
+        conn = Plug.Conn.assign(conn, :current_user_id, user.id)
+        {:ok, conn, user}
+      end
     end
   end
 

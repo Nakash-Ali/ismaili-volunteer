@@ -3,8 +3,6 @@ defmodule VolunteerWeb.UserSession do
   alias VolunteerWeb.Router.Helpers
   alias Volunteer.Accounts
 
-  @mock_sessions_user_id 1
-
   def login(conn, %Accounts.User{} = user) do
     put_session(conn, :current_user_id, user.id)
   end
@@ -36,22 +34,14 @@ defmodule VolunteerWeb.UserSession do
     end
   end
 
-  def get_current_user_id(conn) do
-    case Plug.Conn.get_session(conn, :current_user_id) do
-      nil ->
-        if VolunteerWeb.UserSession.should_mock_sessions?() do
-          @mock_sessions_user_id
-        else
-          nil
-        end
-
-      id ->
-        id
+  if Enum.member?([:dev, :test], Mix.env()) and Application.get_env(:volunteer, :mock_sessions, false) == true do
+    def get_current_user_id(conn) do
+      conn.assigns[:current_user_id] || 1
     end
-  end
-
-  def should_mock_sessions?() do
-    Application.get_env(:volunteer, :mock_sessions, false) == true and Mix.env() == :dev
+  else
+    def get_current_user_id(conn) do
+      Plug.Conn.get_session(conn, :current_user_id)
+    end
   end
 
   defmodule Plugs do

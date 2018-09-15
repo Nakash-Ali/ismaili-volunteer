@@ -1,5 +1,9 @@
 use Mix.Config
 
+# General application configuration
+config :volunteer,
+  mock_sessions: true
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :volunteer, VolunteerWeb.Endpoint,

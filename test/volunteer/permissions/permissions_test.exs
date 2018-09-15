@@ -1,9 +1,9 @@
 defmodule Volunteer.PermissionsTest do
   use Volunteer.DataCase
 
-  alias Volunteer.Permissions
+  # alias Volunteer.Permissions
 
   describe "roles" do
-    alias Volunteer.Permissions.Role
+    # alias Volunteer.Permissions.Role
   end
 end

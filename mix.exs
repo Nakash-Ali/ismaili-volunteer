@@ -61,7 +61,8 @@ defmodule Volunteer.Mixfile do
       {:floki, "~> 0.20.0"},
       {:slugger, "~> 0.2"},
       {:porcelain, "~> 2.0"},
-      {:jose, "~> 1.8"}
+      {:jose, "~> 1.8"},
+      {:faker, "~> 0.10", only: [:dev, :test]}
     ]
   end
 

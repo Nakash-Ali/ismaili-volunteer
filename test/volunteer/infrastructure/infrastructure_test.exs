@@ -1,21 +1,21 @@
 defmodule Volunteer.InfrastructureTest do
   use Volunteer.DataCase
 
-  alias Volunteer.Infrastructure
+  # alias Volunteer.Infrastructure
 
   describe "groups" do
-    alias Volunteer.Infrastructure.Group
+    # alias Volunteer.Infrastructure.Group
   end
 
   describe "regions" do
-    alias Volunteer.Infrastructure.Region
+    # alias Volunteer.Infrastructure.Region
   end
 
   describe "addresses" do
-    alias Volunteer.Infrastructure.Address
+    # alias Volunteer.Infrastructure.Address
   end
 
   describe "jamatkhanas" do
-    alias Volunteer.Infrastructure.Jamatkhana
+    # alias Volunteer.Infrastructure.Jamatkhana
   end
 end
