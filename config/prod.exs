@@ -23,6 +23,10 @@ config :volunteer, VolunteerWeb.Endpoint,
   server: true,
   code_reloader: false
 
+# General application configuration
+config :volunteer,
+  send_analytics: true
+
 # Configure database
 config :volunteer, Volunteer.Repo,
   loggers: [Ecto.LogEntry],

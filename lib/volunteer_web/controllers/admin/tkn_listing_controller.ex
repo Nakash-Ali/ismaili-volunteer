@@ -75,6 +75,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
+    VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "new", Slugify.slugify(listing), conn)
+
     render_form(
       conn,
       Listings.new_tkn_listing(),
@@ -90,6 +92,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     |> Listings.create_tkn_listing(tkn_listing_params)
     |> case do
       {:ok, _tkn_listing} ->
+        VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "create", Slugify.slugify(listing), conn)
+
         conn
         |> put_flash(:success, "TKN Listing created successfully.")
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
@@ -107,6 +111,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "show", Slugify.slugify(listing), conn)
 
     case Listings.get_one_tkn_listing_for_listing(listing.id) do
       nil ->
@@ -130,6 +136,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     %Plug.Conn{assigns: %{tkn_listing: tkn_listing, listing: listing}} = conn
     changeset = Listings.edit_tkn_listing(tkn_listing)
 
+    VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "edit", Slugify.slugify(listing), conn)
+
     render_form(
       conn,
       changeset,
@@ -144,6 +152,8 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
     case Listings.update_tkn_listing(tkn_listing, tkn_listing_params) do
       {:ok, _tkn_listing} ->
+        VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "update", Slugify.slugify(listing), conn)
+
         conn
         |> put_flash(:success, "Listing updated successfully.")
         |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))

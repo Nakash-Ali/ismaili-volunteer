@@ -16,6 +16,8 @@ defmodule VolunteerWeb.ListingSocialImageController do
     listing = Listings.get_one_public_listing!(id)
     disk_path = ListingSocialImageGenerator.get(conn, listing)
 
+    VolunteerWeb.Services.Analytics.track_event("Listing - SocialImage", "image", listing.id, conn)
+
     conn
     |> put_resp_content_type("image/png", nil)
     |> send_file(200, disk_path)

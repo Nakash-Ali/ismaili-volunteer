@@ -39,6 +39,8 @@ defmodule VolunteerWeb.Admin.ListingController do
   def index(conn, params) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :index])
 
+    VolunteerWeb.Services.Analytics.track_event("Listing", "index", nil, conn)
+
     {filter_changes, filter_data} =
       ListingParams.IndexFilters.changes_and_data(params["filters"])
 
@@ -57,6 +59,9 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   def new(conn, _params) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "new", nil, conn)
+
     render_form(conn, Listings.new_listing())
   end
 
@@ -67,6 +72,8 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> Listings.create_listing(UserSession.get_user(conn))
     |> case do
       {:ok, listing} ->
+        VolunteerWeb.Services.Analytics.track_event("Listing", "create", Slugify.slugify(listing), conn)
+
         conn
         |> put_flash(:success, "Listing created successfully.")
         |> redirect(to: admin_listing_path(conn, :show, listing))
@@ -81,13 +88,17 @@ defmodule VolunteerWeb.Admin.ListingController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :show], listing)
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "show", Slugify.slugify(listing), conn)
+
     render(conn, "show.html", listing: listing)
   end
 
   def edit(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "edit", Slugify.slugify(listing), conn)
 
     render_form(
       conn,
@@ -104,6 +115,8 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     case Listings.update_listing(listing, listing_params) do
       {:ok, listing} ->
+        VolunteerWeb.Services.Analytics.track_event("Listing", "update", Slugify.slugify(listing), conn)
+
         conn
         |> put_flash(:success, "Listing updated successfully.")
         |> redirect(to: admin_listing_path(conn, :show, listing))
@@ -129,6 +142,8 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
     Listings.refresh_and_maybe_unapprove_listing!(listing)
 
+    VolunteerWeb.Services.Analytics.track_event("Listing", "refresh_expiry", Slugify.slugify(listing), conn)
+
     conn
     |> put_flash(:success, "Successfully refreshed listing expiry.")
     |> redirect(to: admin_listing_path(conn, :show, listing))
@@ -140,6 +155,8 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
     Listings.expire_listing!(listing)
 
+    VolunteerWeb.Services.Analytics.track_event("Listing", "expire", Slugify.slugify(listing), conn)
+
     conn
     |> put_flash(:success, "Successfully expired listing.")
     |> redirect(to: admin_listing_path(conn, :show, listing))
@@ -149,8 +166,9 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
-
     {:ok, _listing} = Listings.delete_listing(listing)
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "delete", Slugify.slugify(listing), conn)
 
     conn
     |> put_flash(:success, "Listing deleted successfully.")
@@ -159,7 +177,6 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   defp toggle_approval(conn, _params, action) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
-
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, action], listing)
 
     toggled_listing =
@@ -170,6 +187,8 @@ defmodule VolunteerWeb.Admin.ListingController do
         :unapprove ->
           Listings.unapprove_listing_if_not_expired!(listing)
       end
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", action, Slugify.slugify(listing), conn)
 
     conn
     |> put_flash(:success, "Listing #{action}d successfully.")

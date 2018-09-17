@@ -5,7 +5,13 @@ defmodule VolunteerWeb.ListingController do
   alias Volunteer.Listings
 
   def show(conn, %{"id" => id}) do
-    listing = Listings.get_one_public_listing!(id) |> Repo.preload(Listings.Listing.preloadables())
+    listing =
+      id
+      |> Listings.get_one_public_listing!()
+      |> Repo.preload(Listings.Listing.preloadables())
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "show", Slugify.slugify(listing), conn)
+
     render_form(conn, Apply.new_applicant_with_user(), listing: listing)
   end
 

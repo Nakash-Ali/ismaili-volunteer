@@ -4,10 +4,14 @@ defmodule VolunteerWeb.UserSession do
   alias Volunteer.Accounts
 
   def login(conn, %Accounts.User{} = user) do
+    VolunteerWeb.Services.Analytics.track_event("Session", "login", nil, nil)
+
     put_session(conn, :current_user_id, user.id)
   end
 
   def logout(conn) do
+    VolunteerWeb.Services.Analytics.track_event("Session", "logout", nil, nil)
+
     configure_session(conn, drop: true)
   end
 

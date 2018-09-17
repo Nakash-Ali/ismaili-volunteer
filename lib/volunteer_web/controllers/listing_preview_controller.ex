@@ -9,6 +9,8 @@ defmodule VolunteerWeb.ListingPreviewController do
       |> Listings.get_one_preview_listing!()
       |> Repo.preload(Listings.Listing.preloadables())
 
+    VolunteerWeb.Services.Analytics.track_event("Listing - Preview", "index", listing.id, conn)
+
     render(conn, VolunteerWeb.ListingPreviewView, "index.html", listings: [listing])
   end
 
@@ -17,6 +19,8 @@ defmodule VolunteerWeb.ListingPreviewController do
       id
       |> Listings.get_one_preview_listing!()
       |> Repo.preload(Listings.Listing.preloadables())
+
+    VolunteerWeb.Services.Analytics.track_event("Listing - Preview", "show", listing.id, conn)
 
     render(conn, VolunteerWeb.ListingView, "show.html", listing: listing)
   end

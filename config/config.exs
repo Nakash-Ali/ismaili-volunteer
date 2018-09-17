@@ -9,7 +9,8 @@ use Mix.Config
 config :volunteer,
   ecto_repos: [Volunteer.Repo],
   project_title: "OpportunitiesToServe",
-  contact_email: "hrontario@iicanada.net"
+  contact_email: "hrontario@iicanada.net",
+  send_analytics: false
 
 # Email related settings
 config :volunteer, VolunteerEmail,
