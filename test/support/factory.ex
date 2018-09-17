@@ -1,8 +1,8 @@
-defmodule Volunteer.TestFactory do
+defmodule Volunteer.TestSupport.Factory do
   defmodule Params do
     def user(overrides) do
       %{
-        id: System.unique_integer([:positive]),
+        id: Volunteer.TestSupport.IntegerAgent.get(),
         title: Faker.Name.name(),
         given_name: Faker.Name.first_name(),
         sur_name: Faker.Name.last_name(),
@@ -14,7 +14,7 @@ defmodule Volunteer.TestFactory do
 
     def region(overrides) do
       %{
-        id: System.unique_integer([:positive]),
+        id: Volunteer.TestSupport.IntegerAgent.get(),
         title: Faker.Address.city(),
       }
       |> Map.merge(overrides)
@@ -22,26 +22,27 @@ defmodule Volunteer.TestFactory do
 
     def group(overrides) do
       %{
-        id: System.unique_integer([:positive]),
+        id: Volunteer.TestSupport.IntegerAgent.get(),
         title: Faker.Company.name(),
-        region_id: System.unique_integer([:positive])
+        region_id: Volunteer.TestSupport.IntegerAgent.get()
       }
       |> Map.merge(overrides)
     end
 
     def listing(overrides) do
       %{
-        id: System.unique_integer([:positive]),
-        created_by: System.unique_integer([:positive]),
+        id: Volunteer.TestSupport.IntegerAgent.get(),
+        expiry_date: Faker.DateTime.forward(6),
+        created_by_id: Volunteer.TestSupport.IntegerAgent.get(),
         position_title: Faker.Superhero.name(),
         program_title: Faker.Commerce.department(),
         summary_line: Faker.Lorem.words(4..12) |> Enum.join(" "),
-        region_id: System.unique_integer([:positive]),
-        group_id: System.unique_integer([:positive]),
-        organized_by_id: System.unique_integer([:positive]),
+        region_id: Volunteer.TestSupport.IntegerAgent.get(),
+        group_id: Volunteer.TestSupport.IntegerAgent.get(),
+        organized_by_id: Volunteer.TestSupport.IntegerAgent.get(),
         start_date: Faker.Date.backward(100),
         end_date: Faker.Date.forward(200),
-        hours_per_week: Faker.random_between(0, 10),
+        hours_per_week: Faker.random_between(1, 10),
         program_description: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         responsibilities: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
@@ -51,7 +52,10 @@ defmodule Volunteer.TestFactory do
   end
 
   def user!(opts \\ %{}, repo \\ Volunteer.Repo) do
-    overrides = Map.get(opts, :overrides, %{})
+    overrides =
+      opts
+      |> Map.get(:overrides, %{})
+      |> Map.put_new_lazy(:inserted_at, fn -> Faker.DateTime.backward(24) end)
 
     Volunteer.Accounts.User
     |> struct(Params.user(overrides))
@@ -59,7 +63,10 @@ defmodule Volunteer.TestFactory do
   end
 
   def region!(opts \\ %{}, repo \\ Volunteer.Repo) do
-    overrides = Map.get(opts, :overrides, %{})
+    overrides =
+      opts
+      |> Map.get(:overrides, %{})
+      |> Map.put_new_lazy(:inserted_at, fn -> Faker.DateTime.backward(24) end)
 
     Volunteer.Infrastructure.Region
     |> struct(Params.region(overrides))
@@ -70,10 +77,68 @@ defmodule Volunteer.TestFactory do
     overrides =
       opts
       |> Map.get(:overrides, %{})
+      |> Map.put_new_lazy(:inserted_at, fn -> Faker.DateTime.backward(24) end)
       |> Map.put_new_lazy(:region_id, fn -> region!().id end)
 
     Volunteer.Infrastructure.Group
     |> struct(Params.group(overrides))
+    |> repo.insert!()
+  end
+
+  def listing!(opts \\ %{}, repo \\ Volunteer.Repo) do
+    overrides =
+      Map.get(opts, :overrides, %{})
+
+    inserted_at =
+      Map.get_lazy(opts, :overrides, fn -> Faker.DateTime.backward(24) end)
+
+    region_id =
+      Map.get_lazy(overrides, :region_id, fn -> region!().id end)
+
+    group_id =
+      Map.get_lazy(overrides, :group_id, fn -> group!(%{
+        overrides: %{ region_id: region_id }
+      }).id end)
+
+    created_by_id =
+      Map.get_lazy(overrides, :created_by_id, fn -> user!().id end)
+
+    organized_by_id =
+      Map.get_lazy(overrides, :organized_by_id, fn -> user!().id end)
+
+    expiry_date =
+      if Map.get(opts, :expired?, false) do
+        Faker.DateTime.between(inserted_at, Faker.DateTime.backward(1))
+      else
+        Faker.DateTime.forward(8)
+      end
+
+    {approved, approved_on, approved_by_id} =
+      if Map.get(opts, :approved?, false) do
+        approved_on = Faker.DateTime.between(inserted_at, Faker.DateTime.backward(1))
+        approved_by_id = Map.get_lazy(overrides, :approved_by_id, fn -> user!().id end)
+        {true, approved_on, approved_by_id}
+      else
+        {false, nil, nil}
+      end
+
+    params =
+      %{
+        inserted_at: inserted_at,
+        region_id: region_id,
+        group_id: group_id,
+        created_by_id: created_by_id,
+        organized_by_id: organized_by_id,
+        expiry_date: expiry_date,
+        approved: approved,
+        approved_on: approved_on,
+        approved_by_id: approved_by_id,
+      }
+      |> Map.merge(overrides)
+      |> Params.listing()
+
+    Volunteer.Listings.Listing
+    |> struct(params)
     |> repo.insert!()
   end
 end

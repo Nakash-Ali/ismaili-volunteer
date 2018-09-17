@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.Admin.ListingControllerTest do
   use VolunteerWeb.ConnCase
-  alias Volunteer.TestFactory
+  alias Volunteer.TestSupport.Factory
 
   describe "new/2" do
     test "renders form", %{conn: conn} do
@@ -16,10 +16,10 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
     test "redirects to show when data is valid", %{conn: conn} do
       {:ok, conn, user} = create_and_login_user(conn)
 
-      %{id: group_id, region_id: region_id} = TestFactory.group!()
+      %{id: group_id, region_id: region_id} = Factory.group!()
 
       listing_params =
-        TestFactory.Params.listing(%{
+        Factory.Params.listing(%{
           group_id: group_id,
           region_id: region_id,
           organized_by_id: user.id,

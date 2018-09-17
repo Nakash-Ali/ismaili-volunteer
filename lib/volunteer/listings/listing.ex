@@ -226,6 +226,7 @@ defmodule Volunteer.Listings.Listing do
     |> validate_length(:position_title, max: 140)
     |> validate_length(:program_title, max: 140)
     |> validate_length(:summary_line, max: 140)
+    |> validate_number(:hours_per_week, greater_than: 0)
     |> foreign_key_constraint(:region_id)
     |> foreign_key_constraint(:group_id)
     |> foreign_key_constraint(:created_by_id)
