@@ -75,7 +75,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "new", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Admin - Listing - TKN", "new", Slugify.slugify(listing), conn)
 
     render_form(
       conn,
@@ -92,7 +92,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     |> Listings.create_tkn_listing(tkn_listing_params)
     |> case do
       {:ok, _tkn_listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "create", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event("Admin - Listing - TKN", "create", Slugify.slugify(listing), conn)
 
         conn
         |> put_flash(:success, "TKN Listing created successfully.")
@@ -112,7 +112,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "show", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Admin - Listing - TKN", "show", Slugify.slugify(listing), conn)
 
     case Listings.get_one_tkn_listing_for_listing(listing.id) do
       nil ->
@@ -136,7 +136,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     %Plug.Conn{assigns: %{tkn_listing: tkn_listing, listing: listing}} = conn
     changeset = Listings.edit_tkn_listing(tkn_listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "edit", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Admin - Listing - TKN", "edit", Slugify.slugify(listing), conn)
 
     render_form(
       conn,
@@ -152,7 +152,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
     case Listings.update_tkn_listing(tkn_listing, tkn_listing_params) do
       {:ok, _tkn_listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing - TKN", "update", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event("Admin - Listing - TKN", "update", Slugify.slugify(listing), conn)
 
         conn
         |> put_flash(:success, "Listing updated successfully.")

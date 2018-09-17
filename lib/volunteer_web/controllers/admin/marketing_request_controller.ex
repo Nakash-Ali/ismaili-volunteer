@@ -38,7 +38,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    VolunteerWeb.Services.Analytics.track_event("Listing - Marketing Request", "new", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Admin - Listing - Marketing Request", "new", Slugify.slugify(listing), conn)
 
     render_form(conn, Listings.new_marketing_request(listing))
   end
@@ -50,7 +50,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
     |> Listings.send_marketing_request(marketing_request)
     |> case do
       {:ok, _} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing - Marketing Request", "create", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event("Admin - Listing - Marketing Request", "create", Slugify.slugify(listing), conn)
 
         conn
         |> put_flash(:success, "Marketing request created successfully.")
