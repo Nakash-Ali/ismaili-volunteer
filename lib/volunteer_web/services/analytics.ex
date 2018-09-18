@@ -25,10 +25,9 @@ defmodule VolunteerWeb.Services.Analytics do
   end
 
   def extract_conn_params(_conn) do
-    # %{
-    #   "cid" => "XXXXXXXXXXXXXXXXXXXXXX"
-    # }
-    %{}
+    %{
+      "cid" => "XXXXXXXXXXXXXXXXXXXXXX"
+    }
   end
 
   def headers() do

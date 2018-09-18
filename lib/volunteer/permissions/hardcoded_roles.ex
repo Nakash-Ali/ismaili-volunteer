@@ -14,7 +14,22 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     }
   }
 
-  @roles_by_group %{}
+  @roles_by_group %{
+    # Council for Ontario
+    1 => %{},
+    # Council for Canada
+    2 => %{},
+    # Aga Khan Education Board for Ontario
+    3 => %{},
+    # Aga Khan Health Board for Ontario
+    4 => %{
+      "aly-khan.lalani@iicanada.net" => "admin",
+      "anar.pardhan@iicanada.net" => "admin",
+      "salima.k.shariff@iicanada.net" => "admin"
+    },
+    # ITREB Ontario
+    5 => %{}
+  }
 
   def region_roles_for_user(user) do
     roles_for_user(@roles_by_region, user)
