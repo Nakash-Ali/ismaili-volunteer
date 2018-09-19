@@ -1,6 +1,7 @@
 defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
   import VolunteerWeb.UserSession.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
+  import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
 
   pipeline :browser do
     if Mix.env() == :prod do
@@ -12,6 +13,7 @@ defmodule VolunteerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :ensure_unique_session_identifier
     plug :load_current_user
     plug :configure_sentry_context
     plug VolunteerWeb.HTMLMinifier

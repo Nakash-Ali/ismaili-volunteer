@@ -66,8 +66,6 @@ defmodule Volunteer.Listings do
   end
 
   def get_all_admin_listings(opts \\ []) do
-    filters = Keyword.get(opts, :filters)
-    IO.inspect(filters)
     from(l in Listing)
     |> query_listings_with_filters(Keyword.get(opts, :filters))
     |> order_by(desc: :expiry_date)
@@ -124,7 +122,7 @@ defmodule Volunteer.Listings do
   end
 
   defp query_listings_with_filters(query, %{approved: false, unapproved: false, expired: false}) do
-    from(l in query, where: fragment("1=0"))
+    from(l in query, where: fragment("1 = 0"))
   end
 
   defp query_listings_with_filters(query, %{approved: true, unapproved: false, expired: false}) do

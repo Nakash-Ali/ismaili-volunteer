@@ -39,7 +39,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   def index(conn, params) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :index])
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "index", nil, conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_index", nil, conn)
 
     {filter_changes, filter_data} =
       ListingParams.IndexFilters.changes_and_data(params["filters"])
@@ -60,7 +60,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   def new(conn, _params) do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "new", nil, conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_new", nil, conn)
 
     render_form(conn, Listings.new_listing())
   end
@@ -72,7 +72,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> Listings.create_listing(UserSession.get_user(conn))
     |> case do
       {:ok, listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "create", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event("Listing", "admin_create", Slugify.slugify(listing), conn)
 
         conn
         |> put_flash(:success, "Listing created successfully.")
@@ -89,7 +89,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :show], listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "show", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_show", Slugify.slugify(listing), conn)
 
     render(conn, "show.html", listing: listing)
   end
@@ -98,7 +98,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "edit", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_edit", Slugify.slugify(listing), conn)
 
     render_form(
       conn,
@@ -115,7 +115,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     case Listings.update_listing(listing, listing_params) do
       {:ok, listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "update", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event("Listing", "admin_update", Slugify.slugify(listing), conn)
 
         conn
         |> put_flash(:success, "Listing updated successfully.")
@@ -142,7 +142,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
     Listings.refresh_and_maybe_unapprove_listing!(listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "refresh_expiry", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_refresh_expiry", Slugify.slugify(listing), conn)
 
     conn
     |> put_flash(:success, "Successfully refreshed listing expiry.")
@@ -155,7 +155,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
     Listings.expire_listing!(listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "expire", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_expire", Slugify.slugify(listing), conn)
 
     conn
     |> put_flash(:success, "Successfully expired listing.")
@@ -168,7 +168,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
     {:ok, _listing} = Listings.delete_listing(listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", "delete", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_delete", Slugify.slugify(listing), conn)
 
     conn
     |> put_flash(:success, "Listing deleted successfully.")
@@ -188,7 +188,7 @@ defmodule VolunteerWeb.Admin.ListingController do
           Listings.unapprove_listing_if_not_expired!(listing)
       end
 
-    VolunteerWeb.Services.Analytics.track_event("Admin - Listing", action, Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_#{action}", Slugify.slugify(listing), conn)
 
     conn
     |> put_flash(:success, "Listing #{action}d successfully.")
