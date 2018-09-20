@@ -3,7 +3,7 @@ defmodule VolunteerWeb.Admin.ListingView do
   alias VolunteerWeb.FormView
   alias VolunteerWeb.ListingView, as: PublicListingView
   alias VolunteerWeb.AdminView
-  alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.Presenters.{Title, Temporal}
 
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [

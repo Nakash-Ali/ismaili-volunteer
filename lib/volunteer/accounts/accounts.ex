@@ -1,5 +1,5 @@
 defmodule Volunteer.Accounts do
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query
 
   alias Volunteer.Repo
   alias Volunteer.Accounts.User
@@ -71,6 +71,12 @@ defmodule Volunteer.Accounts do
       u in User,
       select: {u.title, u.id}
     )
+    |> Repo.all()
+  end
+
+  def get_all_users do
+    from(u in User, select: u)
+    |> order_by(desc: :inserted_at)
     |> Repo.all()
   end
 end

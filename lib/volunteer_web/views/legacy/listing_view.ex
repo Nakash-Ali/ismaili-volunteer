@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.Legacy.ListingView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.Presenters.{Title, JSON}
 
   @env Application.fetch_env!(:volunteer, Volunteer.Legacy)
 
@@ -16,6 +16,6 @@ defmodule VolunteerWeb.Legacy.ListingView do
       organizer_email: listing.organized_by.primary_email,
       basename: Slugify.slugify(listing)
     }
-    |> encode_for_client
+    |> JSON.encode_for_client
   end
 end

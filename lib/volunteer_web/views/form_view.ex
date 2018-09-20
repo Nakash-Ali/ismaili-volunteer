@@ -1,5 +1,6 @@
 defmodule VolunteerWeb.FormView do
   use VolunteerWeb, :view
+  alias VolunteerWeb.Presenters.JSON
 
   def is_submitted?(form) do
     form.source.action != nil

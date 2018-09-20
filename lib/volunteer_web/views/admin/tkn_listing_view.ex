@@ -4,7 +4,7 @@ defmodule VolunteerWeb.Admin.TKNListingView do
   alias VolunteerWeb.AdminView
   alias VolunteerWeb.ListingView, as: PublicListingView
   alias VolunteerWeb.Admin.ListingView
-  alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.Presenters.{Title, JSON}
 
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
@@ -44,7 +44,7 @@ defmodule VolunteerWeb.Admin.TKNListingView do
       qualifications: listing.qualifications,
       suggested_keywords: tkn_listing.suggested_keywords
     }
-    |> encode_for_client
+    |> JSON.encode_for_client
   end
 
   def generate_assignment_output_filename(%{listing: listing}) do

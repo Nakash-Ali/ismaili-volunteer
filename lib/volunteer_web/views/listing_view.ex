@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.ListingView do
   alias Volunteer.Listings
-  alias VolunteerWeb.Presenters.{Title, Social}
+  alias VolunteerWeb.Presenters.{Title, Social, Temporal}
 
   use VolunteerWeb, :view
 
@@ -32,7 +32,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def start_date_text(%Date{} = start_date) do
-    format_date(start_date)
+    Temporal.format_date(start_date)
   end
 
   def end_date_text(nil) do
@@ -40,7 +40,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def end_date_text(%Date{} = start_date) do
-    format_date(start_date)
+    Temporal.format_date(start_date)
   end
 
   def start_date_and_end_date_html(nil, nil) do
@@ -56,22 +56,11 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def start_date_and_end_date_html(%Date{} = start_date, %Date{} = end_date) do
-    ~E"<em><%= start_date_text(start_date) %></em> to <em><%=  format_date(end_date) %></em>"
+    ~E"<em><%= start_date_text(start_date) %></em> to <em><%=  Temporal.format_date(end_date) %></em>"
   end
 
   def expiry_datetime_text(%DateTime{} = datetime) do
-    format_datetime(datetime)
-  end
-
-  def format_date(%Date{} = date) do
-    date
-    |> Timex.format!("{D} {Mfull} {YYYY}")
-  end
-
-  def format_datetime(%DateTime{} = datetime) do
-    datetime
-    |> Timex.Timezone.convert("America/Toronto")
-    |> Timex.format!("{WDfull}, {D} {Mfull} {YYYY} at {h24}:{m} ({Zabbr})")
+    Temporal.format_datetime(datetime)
   end
 
   def organizer_html(%Listings.Listing{} = listing) do

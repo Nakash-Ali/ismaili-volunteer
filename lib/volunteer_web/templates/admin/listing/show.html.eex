@@ -56,7 +56,7 @@
 
 		<%= render AdminView, "definition_container.html",
 			title_text: "Approval date",
-			body_text: PublicListingView.format_datetime(@listing.approved_on) %>
+			body_text: Temporal.format_datetime(@listing.approved_on) %>
 	</section>
 <% end %>
 
@@ -127,9 +127,9 @@
 
 	<%= render AdminView, "definition_container.html",
 		title_text: "Creation date",
-		body_text: PublicListingView.format_datetime(@listing.inserted_at) %>
+		body_text: Temporal.format_datetime(@listing.inserted_at) %>
 
 	<%= render AdminView, "definition_container.html",
 		title_text: "Last updated date",
-		body_text: PublicListingView.format_datetime(@listing.updated_at) %>
+		body_text: Temporal.format_datetime(@listing.updated_at) %>
 </section>

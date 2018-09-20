@@ -75,6 +75,8 @@ defmodule VolunteerWeb.Router do
       post "/listings/:id/refresh_expiry", ListingController, :refresh_expiry
       post "/listings/:id/expire", ListingController, :expire
 
+      resources "/users", UsersController, only: [:index]
+
       get "/feedback/*path", FeedbackController, :index
     end
   end

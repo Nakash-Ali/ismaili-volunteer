@@ -4,6 +4,6 @@
   </li>
 <% else %>
 	<li class="nav-item">
-	  <a class="nav-link" href="<%= @item_href %>"><%= @item_text %></a>
+	  <a class="nav-link <%= if @item_active?, do: "active" %>" href="<%= @item_href %>"><%= @item_text %></a>
 	</li>
 <% end %>

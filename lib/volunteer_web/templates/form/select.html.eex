@@ -32,7 +32,7 @@
 				"paste": false,
 			}
 		<% end %>
-		var passedConfig = JSON.parse(atob(("<%= encode_for_client(assigns[:choices_opts]) %>")))
+		var passedConfig = JSON.parse(atob(("<%= JSON.encode_for_client(assigns[:choices_opts]) %>")))
 		var config = Object.assign(defaultConfig, passedConfig)
 		// new Choices("#<%= input_id(@form, @field) %>", config)
 	})();
