@@ -1,22 +1,39 @@
 defmodule VolunteerEmail.Transformers do
   def ensure_unique_addresses(email) do
-    with seen_emails <- update_seen_emails([email.to], %{}),
-         {filtered_cc, seen_emails} <- filter_emails(email.cc, seen_emails),
-         {filtered_bcc, _seen_emails} <- filter_emails(email.bcc, seen_emails),
-         do:
-           email
-           |> Map.put(:cc, filtered_cc)
-           |> Map.put(:bcc, filtered_bcc)
+    with seen_emails <- update_seen_emails(MapSet.new(), [email.to]),
+         {filtered_cc, seen_emails} <- filter_emails(Map.get(email, :cc, nil), seen_emails),
+         {filtered_bcc, _seen_emails} <- filter_emails(Map.get(email, :bcc, nil), seen_emails)
+    do
+      email
+      |> Map.put(:cc, filtered_cc)
+      |> Map.put(:bcc, filtered_bcc)
+    end
   end
 
-  defp update_seen_emails(filtered_pairs, seen_emails) do
-    filtered_pairs
-    |> Enum.map(fn
-      addr when is_binary(addr) -> {addr, true}
-      {_name, addr} -> {addr, true}
-    end)
-    |> Enum.into(%{})
-    |> Map.merge(seen_emails)
+  defp update_seen_emails(seen_emails, []) do
+    seen_emails
+  end
+
+  defp update_seen_emails(seen_emails, [curr_pair | remaining_pairs]) do
+    seen_emails
+    |> update_pair_in_seen_emails(curr_pair)
+    |> update_seen_emails(remaining_pairs)
+  end
+
+  defp update_pair_in_seen_emails(seen_emails, pair_to_check) do
+    MapSet.put(seen_emails, normalized_addr_only(pair_to_check))
+  end
+
+  defp is_pair_in_seen_emails?(seen_emails, pair_to_check) do
+    MapSet.member?(seen_emails, normalized_addr_only(pair_to_check))
+  end
+
+  defp normalized_addr_only({_name, addr}) do
+    normalized_addr_only(addr)
+  end
+
+  defp normalized_addr_only(addr) when is_binary(addr) do
+    Volunteer.EmailNormalizer.normalize(addr)
   end
 
   defp filter_emails(nil, seen_emails) do
@@ -37,28 +54,19 @@ defmodule VolunteerEmail.Transformers do
   end
 
   defp filter_emails(pairs_to_filter, seen_emails, filtered_pairs) do
-    {pair_to_check, new_pairs_to_filyer} = List.pop_at(pairs_to_filter, 0)
-    addr = normalized_addr_only(pair_to_check)
+    [pair_to_check | new_pairs_to_filter] = pairs_to_filter
 
     new_filtered_pairs =
-      case seen_emails[addr] do
-        nil ->
-          [pair_to_check | filtered_pairs]
-
-        _ ->
-          filtered_pairs
+      if is_pair_in_seen_emails?(seen_emails, pair_to_check) do
+        filtered_pairs
+      else
+        [pair_to_check | filtered_pairs]
       end
 
-    new_seen_emails = Map.put(seen_emails, addr, true)
-    filter_emails(new_pairs_to_filyer, new_seen_emails, new_filtered_pairs)
-  end
-
-  defp normalized_addr_only({_name, addr}) do
-    normalized_addr_only(addr)
-  end
-
-  defp normalized_addr_only(addr) when is_binary(addr) do
-    addr
-    |> String.downcase()
+    filter_emails(
+      new_pairs_to_filter,
+      update_pair_in_seen_emails(seen_emails, pair_to_check),
+      new_filtered_pairs
+    )
   end
 end

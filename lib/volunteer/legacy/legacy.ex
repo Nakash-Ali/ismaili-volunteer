@@ -1,5 +1,5 @@
 defmodule Volunteer.Legacy do
-  alias Ecto.Changeset
+  import Ecto.Changeset
 
   @all_jamatkhanas [
     "Barrie",
@@ -103,22 +103,25 @@ defmodule Volunteer.Legacy do
     @all_jamatkhanas
   end
 
-  def apply(attrs) when is_map(attrs) do
-    changeset =
-      {%{}, @types}
-      |> Changeset.cast(attrs, Map.keys(@types))
-      |> Changeset.validate_required(@required)
-      |> Changeset.validate_format(:email, ~r/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
-      |> Changeset.validate_inclusion(:jamatkhana, @all_jamatkhanas)
-      |> Changeset.validate_inclusion(:preferred_contact, @all_contact_methods)
-      |> Changeset.validate_acceptance(:affirm)
+  def changeset(attrs) when is_map(attrs) do
+    {%{}, @types}
+    |> cast(attrs, Map.keys(@types))
+    |> validate_required(@required)
+    |> validate_inclusion(:jamatkhana, @all_jamatkhanas)
+    |> validate_inclusion(:preferred_contact, @all_contact_methods)
+    |> validate_acceptance(:affirm)
+    |> Volunteer.EmailNormalizer.validate_and_normalize_change(:email)
+    |> Volunteer.EmailNormalizer.validate_and_normalize_change(:organizer_email)
+    |> Volunteer.EmailNormalizer.validate_and_normalize_change(:cc, %{type: :list, filter_empty: true})
+  end
 
-    with %{valid?: true} <- changeset,
-         data <- struct(Volunteer.Legacy, changeset |> Changeset.apply_changes()),
+  def apply(attrs) do
+    with %{valid?: true} = changes <- changeset(attrs),
+         data <- struct(Volunteer.Legacy, apply_changes(changes)),
          sent_emails <- send_emails(data) do
       {:ok, data, sent_emails}
     else
-      %Ecto.Changeset{valid?: false} -> {:error, changeset}
+      %Ecto.Changeset{valid?: false} = changes -> {:error, changes}
       {:error, error} -> {:error, error}
     end
   end
@@ -149,7 +152,7 @@ defmodule Volunteer.Legacy do
       &VolunteerEmail.LegacyEmails.external/1,
       &VolunteerEmail.LegacyEmails.internal/1
     ]
-    |> Enum.map(& &1.(data))
+    |> Enum.map(&(&1.(data)))
     |> Enum.map(&VolunteerEmail.Mailer.deliver_now/1)
   end
 end

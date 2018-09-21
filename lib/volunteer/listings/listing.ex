@@ -233,7 +233,7 @@ defmodule Volunteer.Listings.Listing do
     |> foreign_key_constraint(:organized_by_id)
     |> manage_date_with_toggle(:start_date, :start_date_toggle)
     |> manage_date_with_toggle(:end_date, :end_date_toggle)
-    |> manage_cc_emails_field
+    |> Volunteer.EmailNormalizer.validate_and_normalize_change(:cc_emails, %{type: :comma_separated, filter_empty: true})
     |> unapprove
   end
 
@@ -257,41 +257,6 @@ defmodule Volunteer.Listings.Listing do
 
       _ ->
         put_change(changeset, toggle_field, false)
-    end
-  end
-
-  defp manage_cc_emails_field(changeset) do
-    field = :cc_emails
-    re = ~r/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-
-    case get_field(changeset, field, "") do
-      "" ->
-        changeset
-
-      raw_emails ->
-        parsed_emails =
-          raw_emails
-          |> String.split(",")
-          |> Enum.map(&String.trim/1)
-
-        changeset =
-          Enum.reduce(parsed_emails, changeset, fn email, changeset ->
-            case Regex.match?(re, email) do
-              true ->
-                changeset
-
-              _ ->
-                add_error(changeset, field, "#{email} is not a valid email")
-            end
-          end)
-
-        case Keyword.get(changeset.errors, field) do
-          nil ->
-            put_change(changeset, field, Enum.join(parsed_emails, ","))
-
-          _ ->
-            changeset
-        end
     end
   end
 
