@@ -1,30 +1,37 @@
 <section id="opportunities" class="container listing-section my-7">
-	<div class="d-flex flex-row flex-nowrap justify-content-between align-items-center mb-3">
+	<div class="d-flex flex-row justify-content-between align-items-end mb-1">
 		<h2 class="section-title mb-0">Volunteer opportunities</h2>
-		<h4 class="listings-number mb-0 ml-1"><%= length(@listings) %></h4>
+		<h6 class="mb-2q ml-auto text-muted"><%= VolunteerWeb.IndexView.listing_count_text(@listings) %></h6>
+	</div>
+	<div class="mb-4 font-family-sans-serif d-flex flex-row flex-nowrap justify-content-end align-items-center">
+		<%= if assigns[:filters] do %>
+			<%= form_for assigns[:filters], index_path(@conn, :index), [as: :filters, method: :get, class: "m-0 form-inline"], fn f -> %>
+				<%= label(f, :region_id, "Region", class: "sr-only") %>
+				<%= select(f, :region_id, assigns[:region_id_choices], class: "form-control") %>
+				<div class="btn-group ml-1">
+					<%= submit {:safe, "<i class=\"far fa-search mr-1q\" aria-hidden=\"true\"></i> Filter"}, class: "btn btn-outline-primary pl-3q pr-1" %>
+					<%= if assigns[:filters_active?] do %>
+						<%= link {:safe, "<i class=\"far fa-times mr-1q\" aria-hidden=\"true\"></i> Reset"}, to: index_path(@conn, :index), class: "btn btn-outline-secondary" %>
+					<% end %>
+				</div>
+			<% end %>
+		<% end %>
 	</div>
 	<ul class="listing list-unstyled mb-0">
-    <%= for listing <- @listings do %>
-      <li class="listing-item mt-2">
-        <h5 class="item-title mb-0"><a href="<%= listing_path(@conn, :show, listing) %>"><%= Title.html(listing) %></a></h5>
-        <%= render ListingView, "meta.html", listing: listing %>
-        <p class="mt-0 mb-0"><%= listing.summary_line %></p>
-      </li>
-    <% end %>
+		<%= for listing <- @listings do %>
+			<li class="listing-item mt-2">
+				<h5 class="item-title mb-1q"><a href="<%= listing_path(@conn, :show, listing) %>"><%= Title.html(listing) %></a></h5>
+				<%= render ListingView, "meta.html", listing: listing, show: [:region, :group, :hours_per_week, :start_date_and_end_date] %>
+				<p class="mt-0 mb-0"><%= listing.summary_line %></p>
+			</li>
+	    <% end %>
 	</ul>
 	<div class="row">
 		<div class="col-md-8">
-			<%= if length(@listings) > 0 do %>
-				<div class="found-none mt-3">
-					<h5 class="mb-2q">Didn't find anything?</h5>
-					<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up!</p>
-				</div>
-			<% else %>
-				<div class="found-none">
-					<h5 class="mb-2q">Oops! It seems like there are no openings right now.</h5>
-					<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up!</p>
-				</div>
-			<% end %>
+			<div class="found-none mt-4">
+				<h5 class="mb-2q">Didn't find anything?</h5>
+				<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up!</p>
+			</div>
 		</div>
 	</div>
 	<div class="pb-7"></div>

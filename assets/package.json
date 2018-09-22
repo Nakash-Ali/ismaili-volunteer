@@ -10,7 +10,7 @@
 		"scripts": "npm run modernizr && npm run rollup",
 		"scss": "./node_modules/.bin/node-sass-chokidar ./css --output ../priv/static/css --include-path ./node_modules --output-style compressed",
 		"styles": "npm run scss && ./node_modules/.bin/postcss ../priv/static/css/*.css --replace",
-		"fontawesome": "cp -r node_modules/@fortawesome/fontawesome-pro-webfonts/webfonts/. ./static/fonts",
+		"fontawesome": "cp -r node_modules/@fortawesome/fontawesome-pro/webfonts/. ./static/fonts",
 		"fonts": "npm run fontawesome",
 		"static": "cp -r ./static/. ../priv/static",
 		"minify_scripts": "find . -path '*priv/static/js*' -name '*.js' -exec ./node_modules/.bin/uglifyjs '{}' -o '{}' ';'",
@@ -48,7 +48,7 @@
 		"uglify-js": "^2.8.22"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-pro-webfonts": "^1.0.8",
+		"@fortawesome/fontawesome-pro": "^5.3.1",
 		"bootstrap": "4.1.0",
 		"jquery": "^3.1.1",
 		"jump.js": "^1.0.2",

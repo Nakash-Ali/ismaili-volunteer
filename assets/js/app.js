@@ -29,3 +29,7 @@ window.putQueryInLocation = function(key, value) {
 	const stringified = queryString.stringify(parsed);
 	window.location.search = stringified;
 }
+
+window.putHashInLocation = function(value) {
+	window.location.hash = value
+}

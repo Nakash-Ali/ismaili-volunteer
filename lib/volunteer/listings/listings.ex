@@ -67,7 +67,7 @@ defmodule Volunteer.Listings do
 
   def get_all_admin_listings(opts \\ []) do
     from(l in Listing)
-    |> query_listings_with_filters(Keyword.get(opts, :filters))
+    |> query_listings_with_admin_state_filters(Keyword.get(opts, :filters, %{}))
     |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
@@ -75,15 +75,16 @@ defmodule Volunteer.Listings do
   def get_all_admin_listings_for_user(user, opts \\ []) do
     from(l in Listing)
     |> query_for_user_listing(user)
-    |> query_listings_with_filters(Keyword.get(opts, :filters))
+    |> query_listings_with_admin_state_filters(Keyword.get(opts, :filters, %{}))
     |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
 
-  def get_all_public_listings do
+  def get_all_public_listings(opts \\ []) do
     from(l in Listing)
     |> query_approved_listing()
     |> query_unexpired_listing()
+    |> query_listings_with_region_filters(Keyword.get(opts, :filters, %{}))
     |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
@@ -109,51 +110,47 @@ defmodule Volunteer.Listings do
     |> Repo.all()
   end
 
-  defp query_listings_with_filters(query, nil) do
+  defp query_listings_with_admin_state_filters(query, filters) when filters == %{} do
     query
   end
 
-  defp query_listings_with_filters(query, filters) when filters == %{} do
+  defp query_listings_with_admin_state_filters(query, %{approved: true, unapproved: true, expired: true}) do
     query
   end
 
-  defp query_listings_with_filters(query, %{approved: true, unapproved: true, expired: true}) do
-    query
-  end
-
-  defp query_listings_with_filters(query, %{approved: false, unapproved: false, expired: false}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: false, unapproved: false, expired: false}) do
     from(l in query, where: fragment("1 = 0"))
   end
 
-  defp query_listings_with_filters(query, %{approved: true, unapproved: false, expired: false}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: true, unapproved: false, expired: false}) do
     query_approved_listing(query)
     |> query_unexpired_listing()
   end
 
-  defp query_listings_with_filters(query, %{approved: true, unapproved: true, expired: false}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: true, unapproved: true, expired: false}) do
     query_unexpired_listing(query)
   end
 
-  defp query_listings_with_filters(query, %{approved: true, unapproved: false, expired: true}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: true, unapproved: false, expired: true}) do
     current_time = DateTime.utc_now()
     from(l in query,
       where: l.approved == true
           or l.expiry_date < ^current_time)
   end
 
-  defp query_listings_with_filters(query, %{approved: false, unapproved: true, expired: false}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: false, unapproved: true, expired: false}) do
     query_unapproved_listing(query)
     |> query_unexpired_listing()
   end
 
-  defp query_listings_with_filters(query, %{approved: false, unapproved: true, expired: true}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: false, unapproved: true, expired: true}) do
     current_time = DateTime.utc_now()
     from(l in query,
       where: l.approved == false
           or l.expiry_date < ^current_time)
   end
 
-  defp query_listings_with_filters(query, %{approved: false, unapproved: false, expired: true}) do
+  defp query_listings_with_admin_state_filters(query, %{approved: false, unapproved: false, expired: true}) do
     query_expired_listing(query)
   end
 
@@ -197,6 +194,18 @@ defmodule Volunteer.Listings do
 
   def query_expiry_reminder_not_sent(query) do
     from(l in query, where: l.expiry_reminder_sent == false)
+  end
+
+  defp query_listings_with_region_filters(query, filters) when filters == %{} do
+    query
+  end
+
+  defp query_listings_with_region_filters(query, %{region_id: nil}) do
+    query
+  end
+
+  defp query_listings_with_region_filters(query, %{region_id: region_id}) do
+    from(l in query, where: l.region_id == ^region_id)
   end
 
   def new_tkn_listing() do

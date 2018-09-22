@@ -1,8 +1,8 @@
 <section class="container title mt-4 mb-4">
 	<h1 class="mb-1q"><%= Title.html(@listing) %></h1>
 	<ul class="mb-2q posted-expiry item-meta item-meta-underline list-inline font-family-sans-serif">
-		<li class="list-inline-item mb-0">Volunteer opportunity</li>
-		<li class="list-inline-item mb-0"><%= organizer_html(@listing) %></li>
+		<li class="list-inline-item mb-0"><%= VolunteerWeb.Presenters.Title.text(@listing.region) %></li>
+		<li class="list-inline-item mb-0"><%= VolunteerWeb.Presenters.Title.text(@listing.group) %></li>
 		<li class="list-inline-item mb-0">Listing expires on <em><%= expiry_datetime_text(@listing.expiry_date) %></em></li>
 	</ul>
 	<%= if @listing.approved do %>
@@ -28,7 +28,7 @@
 			<!-- <p class="font-family-sans-serif text-right required-label required-label-legend">Required</p> -->
 			<form data-form-marker class="font-family-sans-serif">
 				<%= render VolunteerWeb.Legacy.ListingView, "form.html" %>
-				
+
 				<%= if @listing.approved do %>
 					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token %>">
 				<% end %>

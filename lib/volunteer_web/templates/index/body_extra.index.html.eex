@@ -1,0 +1,6 @@
+<script type="text/javascript" src="/static/js/smooth.js"></script>
+<%= if assigns[:filters_active?] do %>
+	<script type="text/javascript">
+		window.location.hash = "opportunities"
+	</script>
+<% end %>

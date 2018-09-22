@@ -14,9 +14,11 @@ defmodule VolunteerWeb.IndexView do
     []
   end
 
-  def render("body_extra.index.html", %{conn: conn}) do
-    [
-      script_tag(conn, "/js/smooth.js")
-    ]
+  def listing_count_text(listings) do
+    case length(listings) do
+      0 -> "Found nothing"
+      1 -> "Found 1 listing"
+      len -> "Found #{len} listings"
+    end
   end
 end

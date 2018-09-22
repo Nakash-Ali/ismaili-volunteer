@@ -100,12 +100,12 @@ cite {
 
 section.listing-section {
 
-	@include tufte-anchor-underline($body-bg, $link-color, $link-hover-color);
+	.listing {
+		@include tufte-anchor-underline($body-bg, $link-color, $link-hover-color);
+	}
 
 	.listings-number {
-		position: relative;
-		top: -2px;
-		padding: 6px 16px;
+		padding: 7px 16px 10px;
 		line-height: 1;
 		background: $gray-200;
 		border-radius: 10px;
