@@ -33,10 +33,33 @@ defmodule Volunteer.Permissions.Ruleset do
     :deny
   end
 
+  def true_or_nil(true), do: true
+  def true_or_nil(_), do: nil
+
+  def apply_with_rescue(func, args) do
+    try do
+      apply(func, args)
+    rescue
+      FunctionClauseError -> nil
+    end
+  end
+
   def admin_ruleset() do
+    superuser_ruleset() ++ listing_ruleset()
+  end
+
+  def superuser_ruleset() do
     [
       fn %User{primary_email: primary_email}, _action, _subject
         when primary_email in @superusers ->
+        :allow
+      end,
+    ]
+  end
+
+  def listing_ruleset() do
+    [
+      fn %User{}, [:admin, :listing], _subject ->
         :allow
       end,
       fn %User{}, [:admin, :listing, action | _], _subject
@@ -62,16 +85,5 @@ defmodule Volunteer.Permissions.Ruleset do
         end
       end
     ]
-  end
-
-  def true_or_nil(true), do: true
-  def true_or_nil(_), do: nil
-
-  def apply_with_rescue(func, args) do
-    try do
-      apply(func, args)
-    rescue
-      FunctionClauseError -> nil
-    end
   end
 end
