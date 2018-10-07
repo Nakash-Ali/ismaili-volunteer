@@ -1,5 +1,4 @@
 defmodule Volunteer.Permissions.Ruleset do
-  alias Volunteer.Accounts.User
   alias Volunteer.Listings.Listing
 
   @superusers [
