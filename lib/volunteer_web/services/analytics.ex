@@ -33,7 +33,7 @@ defmodule VolunteerWeb.Services.Analytics do
       if Application.get_env(:volunteer, :send_analytics) do
         Task.start(__MODULE__, :post, [params])
       else
-        Logger.debug "Analytics request for #{inspect(params)}, ignoring"
+        Logger.debug "Ignoring analytics request for #{inspect(params)}"
       end
     end
 
