@@ -65,7 +65,7 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
         assert html =~ expected
       end)
 
-      assert html =~ "Waiting for approval"
+      assert html =~ "Requires approval"
     end
   end
 end

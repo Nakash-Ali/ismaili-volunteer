@@ -43,7 +43,7 @@ defmodule VolunteerWeb.Admin.ListingView do
       if Volunteer.Listings.Listing.is_approved?(listing) do
         {"Approved and alive", "text-success"}
       else
-        {"Waiting for approval", "text-warning"}
+        {"Requires approval", "text-warning"}
       end
     end
   end

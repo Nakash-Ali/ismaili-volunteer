@@ -11,7 +11,7 @@
 			<%= form_for @filters, admin_listing_path(@conn, :index), [as: :filters, method: :get, class: "m-0"], fn f -> %>
 				<% fields = [
 					{:approved, "Approved and alive"},
-					{:unapproved, "Waiting for approval"},
+					{:unapproved, "Requires approval"},
 					{:expired, "Expired and archived"},
 				] %>
 				<small class="btn text-muted mr-2q" style="cursor: auto;">Filters</small>
