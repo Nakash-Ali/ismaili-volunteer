@@ -50,4 +50,14 @@ defmodule Volunteer.Permissions do
   def get_for_user(user, :region) do
     HardcodedRoles.region_roles_for_user(user)
   end
+
+  def get_all_allowed_users(action, subject, get_all_users \\ &Volunteer.Accounts.get_all_users/0) do
+    get_all_users.()
+    |> Enum.filter(fn user ->
+      user
+      |> annotate_group_roles_for_user()
+      |> annotate_region_roles_for_user()
+      |> is_allowed?(action, subject)
+    end)
+  end
 end

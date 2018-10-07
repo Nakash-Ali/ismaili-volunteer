@@ -3,8 +3,8 @@
 <section class="container">
 	<div class="d-flex flex-row align-items-center justify-content-space-between">
 		<div class="btn-toolbar justify-content-end font-family-sans-serif mr-auto" role="toolbar">
-			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
-				<div class="btn-group mr-2q" role="group">
+			<div class="btn-group mr-2q" role="group">
+				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
 					<%= if Volunteer.Listings.Listing.is_approve_allowed?(@listing) do %>
 						<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
 							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning btn-reg" %>
@@ -14,8 +14,19 @@
 					<% else %>
 						<button disabled class="btn btn-outline-secondary btn-reg"><i class="far fa-thumbs-up mr-1q" aria-hidden="true"></i>Cannot approve archived listing</button>
 					<% end %>
-				</div>
-			<% end %>
+				<% else %>
+					<div class="dropdown">
+						<button class="btn btn-outline-primary dropdown-toggle" type="button" id="allApproversDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Request approval
+						</button>
+						<div class="dropdown-menu" aria-labelledby="allApproversDropdown">
+							<%= for user <- @all_approvers do %>
+								<a class="dropdown-item" href="<%= request_approval_link(@conn, @listing, user) %>"><%= user.title %></a>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			</div>
 		</div>
 		<div class="btn-toolbar justify-content-start font-family-sans-serif ml-auto" role="toolbar">
 			<div class="btn-group ml-2q" role="group">

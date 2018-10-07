@@ -47,4 +47,14 @@ defmodule VolunteerWeb.Admin.ListingView do
       end
     end
   end
+
+  def request_approval_link(conn, listing, approver) do
+    subject = "Approval request for #{Title.text(listing)}"
+    body = """
+           Ya Ali Madad #{approver.given_name},
+           I would like your approval of
+           #{admin_listing_url(conn, :show, listing)}.
+           """ |> String.replace("\n", " ")
+    "mailto:#{approver.primary_email}?subject=#{subject}&body=#{body}"
+  end
 end

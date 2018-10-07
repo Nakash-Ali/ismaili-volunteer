@@ -91,7 +91,9 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_show", Slugify.slugify(listing), conn)
 
-    render(conn, "show.html", listing: listing)
+    all_approvers = Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
+
+    render(conn, "show.html", listing: listing, all_approvers: all_approvers)
   end
 
   def edit(conn, _params) do
