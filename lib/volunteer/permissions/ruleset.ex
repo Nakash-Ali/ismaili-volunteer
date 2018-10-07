@@ -50,7 +50,7 @@ defmodule Volunteer.Permissions.Ruleset do
 
   def superuser_ruleset() do
     [
-      fn %User{primary_email: primary_email}, _action, _subject
+      fn %{primary_email: primary_email}, _action, _subject
         when primary_email in @superusers ->
         :allow
       end,
@@ -59,18 +59,18 @@ defmodule Volunteer.Permissions.Ruleset do
 
   def listing_ruleset() do
     [
-      fn %User{}, [:admin, :listing], _subject ->
+      fn %{}, [:admin, :listing], _subject ->
         :allow
       end,
-      fn %User{}, [:admin, :listing, action | _], _subject
+      fn %{}, [:admin, :listing, action | _], _subject
          when action in [:index, :create] ->
         :allow
       end,
-      fn %User{id: user_id}, [:admin, :listing, action | _], %Listing{created_by_id: user_id}
+      fn %{id: user_id}, [:admin, :listing, action | _], %Listing{created_by_id: user_id}
          when action in @admin_listing_member_actions ->
         :allow
       end,
-      fn %User{id: user_id}, [:admin, :listing, action | _], %Listing{organized_by_id: user_id}
+      fn %{id: user_id}, [:admin, :listing, action | _], %Listing{organized_by_id: user_id}
          when action in @admin_listing_member_actions ->
         :allow
       end,
