@@ -5,12 +5,10 @@
 		{{ end }}
 	{{ end }} -->
 
-	<%= if Enum.member?(@show, :hours_per_week) do %>
-		<%= if @listing.hours_per_week != nil do %>
-			<li class="list-inline-item"><i class="far fa-clock mr-2q" aria-hidden="true"></i>
-				<em><%= @listing.hours_per_week %> <%= hours_per_week_label(@listing.hours_per_week) %></em>
-			</li>
-		<% end %>
+	<%= if Enum.member?(@show, :time_commitment) do %>
+		<li class="list-inline-item"><i class="far fa-clock mr-2q" aria-hidden="true"></i>
+			<em><%= time_commitment_text(@listing) %></em>
+		</li>
 	<% end %>
 
 	<%= if Enum.member?(@show, :start_date_and_end_date) do %>

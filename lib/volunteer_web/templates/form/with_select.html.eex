@@ -1,0 +1,28 @@
+<div class="form-group row mb-2 align-items-top">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
+	</div>
+	<div class="col-sm-9">
+		<div class="row align-items-top">
+			<div class="col-sm-5">
+				<%= @tag.(@form, @field,
+					[
+						value: input_value(@form, @field),
+						class: input_classes(@form, @field, [
+							"form-control" | (assigns[:input_classes] || [])
+						]),
+						required: (if assigns[:required] == true, do: true, else: false),
+					]
+					++ Map.get(assigns, :input_opts, [])) %>
+				<%= error_tag @form, @field %>
+			</div>
+			<div class="col-sm-7">
+				<%= select(@form, @select, @select_choices,
+					[
+						class: input_classes(@form, @field, ["form-control"]),
+						required: (if assigns[:required] == true, do: true, else: false)
+					]) %>
+			</div>
+		</div>
+	</div>
+</div>

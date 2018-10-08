@@ -32,12 +32,12 @@
 		var toggle_input_clear = "<%= @toggle_input_clear %>"
 		var toggle = $("input#<%= input_id @form, @toggle %>")
 	    var target = $("#<%= input_id @form, @field %>")
-		
+
 		var opposite = {
 			"disable": "enable",
 			"enable": "disable"
-		} 
-		
+		}
+
 		var actions = {
 			enable: function enable() {
 				target.prop("disabled", false)
@@ -49,7 +49,7 @@
 		        target.prop("disabled", true)
 			}
 		}
-		
+
 	    toggle.change(function(event) {
 			event.stopPropagation()
 			if (toggle.prop("checked") === true) {
@@ -58,7 +58,7 @@
 				actions[opposite[toggle_true]]()
 			}
 	    })
-	    
+
 	    if (toggle.prop("checked") === true) {
 			actions[toggle_true]()
 	    } else {

@@ -88,10 +88,13 @@
 	required: true
 	%>
 
-	<%= render FormView, "number.html",
+	<%= render FormView, "with_select.html",
 	form: form,
-	field: :hours_per_week,
-	title: "Hours per week",
+	tag: &number_input/3,
+	title: "Time commitment",
+	field: :time_commitment_amount,
+	select: :time_commitment_type,
+	select_choices: @time_commitment_type_choices,
 	required: true
 	%>
 

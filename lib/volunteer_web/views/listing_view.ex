@@ -19,12 +19,24 @@ defmodule VolunteerWeb.ListingView do
     |> raw
   end
 
-  def hours_per_week_label(1) do
-    "hour/week"
+  def time_commitment_text(%{time_commitment_amount: amount, time_commitment_type: type}) do
+    time_commitment_text(amount, type)
   end
 
-  def hours_per_week_label(hours) when hours > 1 do
-    "hours/week"
+  def time_commitment_text(1, "hour(s)" <> period) do
+    "1 hour#{period}"
+  end
+
+  def time_commitment_text(amount, "hour(s)" <> period) when amount > 1 do
+    "#{amount} hours#{period}"
+  end
+
+  def time_commitment_text(1, "day(s)" <> period) do
+    "1 hour#{period}"
+  end
+
+  def time_commitment_text(amount, "day(s)" <> period) when amount > 1 do
+    "#{amount} days#{period}"
   end
 
   def start_date_text(nil) do

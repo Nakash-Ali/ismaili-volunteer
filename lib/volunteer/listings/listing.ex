@@ -32,6 +32,9 @@ defmodule Volunteer.Listings.Listing do
 
     field :hours_per_week, :integer
 
+    field :time_commitment_amount, :integer
+    field :time_commitment_type, :string
+
     field :program_description, :string
     field :responsibilities, :string
     field :qualifications, :string
@@ -46,8 +49,6 @@ defmodule Volunteer.Listings.Listing do
     timestamps()
   end
 
-  @refresh_expiry_days_by 14
-
   @attributes_cast_always [
     :position_title,
     :program_title,
@@ -59,7 +60,8 @@ defmodule Volunteer.Listings.Listing do
     :start_date_toggle,
     :end_date,
     :end_date_toggle,
-    :hours_per_week,
+    :time_commitment_amount,
+    :time_commitment_type,
     :program_description,
     :responsibilities,
     :qualifications,
@@ -74,11 +76,27 @@ defmodule Volunteer.Listings.Listing do
     :organized_by_id,
     :start_date_toggle,
     :end_date_toggle,
-    :hours_per_week,
+    :time_commitment_amount,
+    :time_commitment_type,
     :program_description,
     :responsibilities,
     :qualifications
   ]
+
+  def refresh_expiry_days_by() do
+    14
+  end
+
+  def time_commitment_type_choices() do
+    [
+      "day(s)",
+      "day(s)/week",
+      "day(s)/month",
+      "hour(s)",
+      "hour(s)/week",
+      "hour(s)/month",
+    ]
+  end
 
   def preloadables() do
     [:created_by, :approved_by, :region, :group, :organized_by]
@@ -226,7 +244,8 @@ defmodule Volunteer.Listings.Listing do
     |> validate_length(:position_title, max: 140)
     |> validate_length(:program_title, max: 140)
     |> validate_length(:summary_line, max: 140)
-    |> validate_number(:hours_per_week, greater_than: 0)
+    |> validate_number(:time_commitment_amount, greater_than: 0)
+    |> validate_inclusion(:time_commitment_type, time_commitment_type_choices())
     |> foreign_key_constraint(:region_id)
     |> foreign_key_constraint(:group_id)
     |> foreign_key_constraint(:created_by_id)
@@ -265,6 +284,6 @@ defmodule Volunteer.Listings.Listing do
   end
 
   defp refreshed_expiry_date() do
-    Timex.now("UTC") |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime("UTC")
+    Timex.now("UTC") |> Timex.shift(days: refresh_expiry_days_by()) |> Timex.to_datetime("UTC")
   end
 end
