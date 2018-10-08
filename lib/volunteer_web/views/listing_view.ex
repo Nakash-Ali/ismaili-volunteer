@@ -26,15 +26,12 @@ defmodule VolunteerWeb.ListingView do
   def time_commitment_text(1, "hour(s)" <> period) do
     "1 hour#{period}"
   end
-
   def time_commitment_text(amount, "hour(s)" <> period) when amount > 1 do
     "#{amount} hours#{period}"
   end
-
   def time_commitment_text(1, "day(s)" <> period) do
-    "1 hour#{period}"
+    "1 day#{period}"
   end
-
   def time_commitment_text(amount, "day(s)" <> period) when amount > 1 do
     "#{amount} days#{period}"
   end

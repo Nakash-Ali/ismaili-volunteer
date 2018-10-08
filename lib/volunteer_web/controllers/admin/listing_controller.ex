@@ -62,7 +62,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_new", nil, conn)
 
-    render_form(conn, Listings.new_listing())
+    render_new_form(conn, Listings.new_listing())
   end
 
   def create(conn, %{"listing" => listing_params}) do
@@ -81,7 +81,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
-        |> render_form(changeset)
+        |> render_new_form(changeset)
     end
   end
 
@@ -102,12 +102,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_edit", Slugify.slugify(listing), conn)
 
-    render_form(
-      conn,
-      Listings.edit_listing(listing),
-      "edit.html",
-      listing: listing
-    )
+    render_edit_form(conn, Listings.edit_listing(listing), listing)
   end
 
   def update(conn, %{"listing" => listing_params}) do
@@ -126,7 +121,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
-        |> render_form(changeset, "edit.html", listing: listing)
+        |> render_edit_form(changeset, listing)
     end
   end
 
@@ -199,7 +194,37 @@ defmodule VolunteerWeb.Admin.ListingController do
 
   # Utilities
 
-  defp render_form(conn, %Ecto.Changeset{} = changeset, template \\ "new.html", opts \\ []) do
+  defp render_new_form(conn, changeset) do
+    render_form(
+      conn,
+      changeset,
+      "new.html",
+      action_path: admin_listing_path(conn, :create),
+      back_path: admin_listing_path(conn, :index),
+      draft_content: %{
+        position_title: "Draft position...",
+        summary_line: "Draft summary...",
+        time_commitment_amount: "1",
+        time_commitment_type: "hour(s)/week",
+        program_description: "Draft description...",
+        responsibilities: "Draft responsibilities...",
+        qualifications: "Draft qualifications..."
+      }
+    )
+  end
+
+  defp render_edit_form(conn, changeset, listing) do
+    render_form(
+      conn,
+      changeset,
+      "edit.html",
+      listing: listing,
+      action_path: admin_listing_path(conn, :update, listing),
+      back_path: admin_listing_path(conn, :show, listing),
+    )
+  end
+
+  defp render_form(conn, %Ecto.Changeset{} = changeset, template, opts \\ []) do
     render(
       conn,
       template,
