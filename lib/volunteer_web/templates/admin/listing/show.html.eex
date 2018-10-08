@@ -108,8 +108,8 @@
 		body_text: PublicListingView.end_date_text(@listing.end_date) %>
 
 	<%= render AdminView, "definition_container.html",
-		title_text: "Hours per week",
-		body_text: @listing.hours_per_week %>
+		title_text: "Time commitment",
+		body_text: PublicListingView.time_commitment_text(@listing) %>
 </section>
 
 <section class="container my-3">
