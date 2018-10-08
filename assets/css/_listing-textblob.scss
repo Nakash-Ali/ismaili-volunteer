@@ -10,11 +10,12 @@
 		font-family: $font-family-serif;
 		margin-bottom: 0;
 	}
-	
+
 	.textblob-section-title {
 		font-family: $font-family-sans-serif;
-		margin-top: map-get($spacers, 4);
-		marin-bottom: $headings-margin-bottom;
+		margin-top: map-get($spacers, 3);
+		margin-bottom: map-get($spacers, 1);
+		padding-bottom: map-get($spacers, 2q);
 		font-size: $h6-font-size;
 		text-transform: uppercase;
 	    color: $primary;
@@ -22,16 +23,16 @@
 			margin-top: 0;
 		}
 	}
-	
+
 	blockquote {
 		margin: 0 0 1rem 0;
 		padding-left: 0.75rem;
 		border-left: 0.25rem solid $gray-300;
 	}
-	
+
 	.trix-button--icon-heading-1 {
 		display: none;
-		
+
 		& + button.trix-button {
 			border-left: none
 		}
