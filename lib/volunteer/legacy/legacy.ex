@@ -4,7 +4,6 @@ defmodule Volunteer.Legacy do
   @all_jamatkhanas [
     "Barrie",
     "Belleville",
-    "Bobcaygeon",
     "Brampton",
     "Brantford",
     "Don Mills",
@@ -22,6 +21,7 @@ defmodule Volunteer.Legacy do
     "Mississauga",
     "Niagara Falls",
     "Oshawa",
+    "Peterborough",
     "Pickering",
     "Richmond Hill",
     "Scarborough",
