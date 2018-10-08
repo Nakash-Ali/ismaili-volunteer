@@ -220,11 +220,11 @@ defmodule VolunteerWeb.Admin.ListingController do
       "edit.html",
       listing: listing,
       action_path: admin_listing_path(conn, :update, listing),
-      back_path: admin_listing_path(conn, :show, listing),
+      back_path: admin_listing_path(conn, :show, listing)
     )
   end
 
-  defp render_form(conn, %Ecto.Changeset{} = changeset, template, opts \\ []) do
+  defp render_form(conn, %Ecto.Changeset{} = changeset, template, opts) do
     render(
       conn,
       template,
