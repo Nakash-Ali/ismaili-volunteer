@@ -37,7 +37,7 @@ defmodule VolunteerWeb.Admin.TKNListingView do
       start_date: PublicListingView.start_date_text(listing.start_date),
       end_date: PublicListingView.end_date_text(listing.end_date),
       commitment_type: tkn_listing.commitment_type,
-      hours_per_week: listing.hours_per_week,
+      time_commitment: PublicListingView.time_commitment_text(listing),
       location_type: tkn_listing.location_type,
       search_scope: tkn_listing.search_scope,
       responsibilities: listing.responsibilities,
