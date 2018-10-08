@@ -32,6 +32,8 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
           :group_id,
           :organized_by_id,
           :hours_per_week,
+          :time_commitment_amount,
+          :time_commitment_type,
           :program_description,
           :responsibilities,
           :qualifications,
