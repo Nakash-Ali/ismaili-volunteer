@@ -28,7 +28,12 @@ defmodule Volunteer.Permissions.HardcodedRoles do
       "salima.k.shariff@iicanada.net" => "admin"
     },
     # ITREB Ontario
-    5 => %{}
+    5 => %{},
+    # Economic Planning Board (EPB) Ontario
+    6 => %{
+      "farhad.shariff@iicanada.net" => "admin",
+      "amreen.poonawala@iicanada.net" => "admin"
+    }
   }
 
   def region_roles_for_user(user) do
