@@ -22,6 +22,7 @@ defmodule Volunteer.Repo.Migrations.AddTimeCommitmentTypeToListings do
     end)
 
     alter table(:listings) do
+      modify :hours_per_week, :integer, null: true
       modify :time_commitment_amount, :integer, null: false
       modify :time_commitment_type, :string, null: false
     end

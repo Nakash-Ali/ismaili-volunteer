@@ -39,14 +39,6 @@ defmodule VolunteerWeb.ListingView do
     "#{amount} days#{period}"
   end
 
-  def hours_per_week_label(1) do
-    "hour/week"
-  end
-
-  def hours_per_week_label(hours) when hours > 1 do
-    "hours/week"
-  end
-
   def start_date_text(nil) do
     "Starting immediately"
   end

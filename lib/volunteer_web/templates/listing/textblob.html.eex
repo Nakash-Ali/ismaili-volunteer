@@ -10,7 +10,7 @@
 
 	<%= if assigns[:time_commitment] do %>
 		<h4 class="textblob-section-title mb-1">Time Commitment</h4>
-		<%= render "meta.html", listing: @listing, show: [:hours_per_week, :start_date_and_end_date] %>
+		<%= render "meta.html", listing: @listing, show: [:time_commitment, :start_date_and_end_date] %>
 		<!-- {{ with .Params.commitments }}
 			<p>Your commitment will include:</p>
 			<ul>

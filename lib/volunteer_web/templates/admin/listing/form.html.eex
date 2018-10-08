@@ -98,13 +98,6 @@
 	required: true
 	%>
 
-	<%= render FormView, "number.html",
-	form: form,
-	field: :hours_per_week,
-	title: "Hours per week",
-	required: true
-	%>
-
 	<div class="listing-textblob">
 		<%= render FormView, "textarea.html",
 		form: form,
