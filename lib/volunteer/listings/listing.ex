@@ -49,8 +49,6 @@ defmodule Volunteer.Listings.Listing do
     timestamps()
   end
 
-  @refresh_expiry_days_by 14
-
   @attributes_cast_always [
     :position_title,
     :program_title,
@@ -86,6 +84,10 @@ defmodule Volunteer.Listings.Listing do
     :responsibilities,
     :qualifications
   ]
+
+  def refresh_expiry_days_by() do
+    14
+  end
 
   def time_commitment_type_choices() do
     [
@@ -284,6 +286,6 @@ defmodule Volunteer.Listings.Listing do
   end
 
   defp refreshed_expiry_date() do
-    Timex.now("UTC") |> Timex.shift(days: @refresh_expiry_days_by) |> Timex.to_datetime("UTC")
+    Timex.now("UTC") |> Timex.shift(days: refresh_expiry_days_by()) |> Timex.to_datetime("UTC")
   end
 end

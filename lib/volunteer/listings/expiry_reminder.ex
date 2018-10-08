@@ -1,12 +1,14 @@
 defmodule Volunteer.Listings.ExpiryReminder do
   alias Volunteer.Repo
 
-  @future_expiry_to_check [days: 15]
+  def future_expiry_to_check() do
+    Volunteer.Listings.Listing.refresh_expiry_days_by() + 1
+  end
 
   def get_and_notify_all() do
     future_expiry_date =
       Timex.now("UTC")
-      |> Timex.shift(@future_expiry_to_check)
+      |> Timex.shift(days: future_expiry_to_check())
       |> Timex.to_datetime("UTC")
 
     future_expiry_date
