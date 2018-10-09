@@ -37,7 +37,8 @@ defmodule VolunteerWeb.NavbarItems do
           true ->
             [
               {"Admin", admin_index_path(conn, :index)},
-              {"Documentation", "https://drive.google.com/open?id=1Hvf9o_d5BPXYh0UJvvGO8GfAyCbia088"},
+              # TODO: Enable documentation
+              # {"Documentation", "https://drive.google.com/open?id=1Hvf9o_d5BPXYh0UJvvGO8GfAyCbia088"},
             ]
 
           false ->
