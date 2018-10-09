@@ -20,7 +20,10 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Council for Canada
     2 => %{},
     # Aga Khan Education Board for Ontario
-    3 => %{},
+    3 => %{
+      "rahima.alani2@iicanada.net" => "admin",
+      "armeen.dhanjee@iicanada.net" => "admin"
+    },
     # Aga Khan Health Board for Ontario
     4 => %{
       "aly-khan.lalani@iicanada.net" => "admin",
@@ -33,6 +36,12 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     6 => %{
       "farhad.shariff@iicanada.net" => "admin",
       "amreen.poonawala@iicanada.net" => "admin"
+    },
+    # Aga Khan Youth and Sports Board (AKYSB) Ontario
+    7 => %{
+      "azrah.manji@iicanada.net" => "admin",
+      "fazila.jiwa@iicanada.net" => "admin",
+      "hussain.peermohammad@iicanada.net" => "admin"
     }
   }
 

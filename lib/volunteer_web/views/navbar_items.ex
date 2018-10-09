@@ -36,7 +36,8 @@ defmodule VolunteerWeb.NavbarItems do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              {"Admin", admin_index_path(conn, :index)}
+              {"Admin", admin_index_path(conn, :index)},
+              {"Documentation", "https://drive.google.com/open?id=1Hvf9o_d5BPXYh0UJvvGO8GfAyCbia088"},
             ]
 
           false ->
