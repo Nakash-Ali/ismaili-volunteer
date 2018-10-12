@@ -57,4 +57,7 @@ defmodule VolunteerWeb.Admin.ListingView do
            """ |> String.replace("\n", " ")
     "mailto:#{approver.primary_email}?subject=#{subject}&body=#{body}"
   end
+
+  def expiry_reminder_sent(true), do: "Sent"
+  def expiry_reminder_sent(false), do: "Not sent"
 end

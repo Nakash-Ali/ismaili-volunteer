@@ -19,7 +19,6 @@ defmodule VolunteerEmail.Mailer do
   def finalize_email(email) do
     email
     |> VolunteerEmail.Transformers.ensure_unique_addresses()
-    |> IO.inspect(pretty: true)
   end
 
   def new_default_email() do

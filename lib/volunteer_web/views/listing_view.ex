@@ -72,6 +72,10 @@ defmodule VolunteerWeb.ListingView do
     Temporal.format_datetime(datetime)
   end
 
+  def expires_in(%{expiry_date: expiry_date}) do
+    Temporal.format_duration_from_now(expiry_date)
+  end
+
   def organizer_html(%Listings.Listing{} = listing) do
     ~E"Organized by <em><%= Title.text(listing.organized_by) %></em> and the <em><%= Title.text(listing.group) %></em>"
   end

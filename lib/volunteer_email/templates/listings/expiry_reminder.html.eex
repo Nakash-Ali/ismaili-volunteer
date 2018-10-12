@@ -1,0 +1,8 @@
+<p>Ya Ali Madad <%= Title.text(@listing.organized_by) %>,</p>
+
+<p>This is a reminder that your listing, <%= link Title.text(@listing), to: Helpers.admin_listing_url(VolunteerWeb.Endpoint, :show, @listing) %>, will expire in <strong><%= PublicListingView.expires_in(@listing) %></strong>.</p>
+
+<p>If it hasn't been filled yet, please refresh expiration as soon as possible.</p>
+
+<p>Best Regards,<br>
+<%= Application.fetch_env!(:volunteer, :project_title) %></p>

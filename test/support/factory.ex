@@ -91,7 +91,7 @@ defmodule Volunteer.TestSupport.Factory do
       Map.get(opts, :overrides, %{})
 
     inserted_at =
-      Map.get_lazy(opts, :overrides, fn -> Faker.DateTime.backward(24) end)
+      Map.get_lazy(overrides, :inserted_at, fn -> Faker.DateTime.backward(24) end)
 
     region_id =
       Map.get_lazy(overrides, :region_id, fn -> region!().id end)

@@ -60,6 +60,9 @@
 	<%= render AdminView, "definition_container.html",
 		title_text: "Expiry date",
 		body_text: PublicListingView.expiry_datetime_text(@listing.expiry_date) %>
+	<%= render AdminView, "definition_container.html",
+		title_text: "Expiry reminder",
+		body_text: expiry_reminder_sent(@listing.expiry_reminder_sent) %>
 </section>
 
 <%= if @listing.approved do %>
