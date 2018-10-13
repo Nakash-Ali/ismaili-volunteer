@@ -1,12 +1,13 @@
 defmodule Volunteer.Permissions.HardcodedRoles do
   # @role_types [
-  #   "admin"
+  #   "admin",
+  #   "cc_team"
   # ]
 
   @roles_by_region %{
     # Canada
     1 => %{
-      "___@iicanada.net" => "admin",
+      "___@iicanada.net" => "cc_team",
     },
     # Ontario
     2 => %{
@@ -44,6 +45,10 @@ defmodule Volunteer.Permissions.HardcodedRoles do
       "hussain.peermohammad@iicanada.net" => "admin"
     }
   }
+
+  def region_roles(region_id) do
+    Map.get(@roles_by_region, region_id, %{})
+  end
 
   def region_roles_for_user(user) do
     roles_for_user(@roles_by_region, user)

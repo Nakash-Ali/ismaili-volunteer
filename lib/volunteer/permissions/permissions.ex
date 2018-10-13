@@ -60,4 +60,13 @@ defmodule Volunteer.Permissions do
       |> is_allowed?(action, subject)
     end)
   end
+
+  def get_for_region(region_id, role_types_to_include) do
+    region_id
+    |> HardcodedRoles.region_roles()
+    |> Enum.filter(fn {_email, role_type} ->
+      Enum.member?(role_types_to_include, role_type)
+    end)
+    |> Enum.into(%{})
+  end
 end

@@ -39,14 +39,14 @@ defmodule Volunteer.Infrastructure.Group do
   #   case parent do
   #     nil ->
   #       changes
-  # 
+  #
   #     %Group{} ->
   #       changes
   #       |> put_assoc(:parent, parent)
   #       |> put_change(:parent_path, parent_path(parent))
   #   end
   # end
-  # 
+  #
   # defp parent_path(%Group{} = parent) do
   #   parent.parent_path ++ [parent.id]
   # end
