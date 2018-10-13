@@ -32,9 +32,19 @@ defmodule Volunteer.Listings do
   end
 
   def approve_listing_if_not_expired!(listing, approved_by) do
-    listing
-    |> Listing.approve_if_not_expired(approved_by)
-    |> Repo.update!()
+    {:ok, approved_listing} =
+      Repo.transaction(fn ->
+        approved_listing =
+          listing
+          |> Listing.approve_if_not_expired(approved_by)
+          |> Repo.update!()
+
+        # {:ok, _email} =
+        #   Volunteer.Listings.ChangeNotification.on_approval(approved_listing, approved_by)
+
+        approved_listing
+      end)
+    approved_listing
   end
 
   def unapprove_listing_if_not_expired!(listing) do
@@ -272,9 +282,9 @@ defmodule Volunteer.Listings do
       %{valid?: true} = changeset ->
         email =
           changeset
-          |> Ecto.Changeset.apply_changes()
-          |> VolunteerEmail.ListingsEmails.marketing_request(listing)
-          |> VolunteerEmail.Mailer.deliver_now()
+          # |> Ecto.Changeset.apply_changes()
+          # |> VolunteerEmail.ListingsEmails.marketing_request(listing)
+          # |> VolunteerEmail.Mailer.deliver_now()
 
         {:ok, email}
 

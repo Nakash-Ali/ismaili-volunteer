@@ -1,7 +1,7 @@
 defmodule Volunteer.Listings.ExpiryReminderTest do
   use Volunteer.DataCase
-  use Bamboo.Test
   alias Volunteer.TestSupport.Factory
+  alias Volunteer.TestSupport.Emails
 
   describe "get_listings_to_notify/0" do
     test "gets the correct listings to notify" do
@@ -40,7 +40,7 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
           }
         })
 
-      assert [email] = Volunteer.Listings.ExpiryReminder.get_and_notify_all()
+      assert [{:ok, email}] = Volunteer.Listings.ExpiryReminder.get_and_notify_all()
 
       assert id ==
         email
@@ -48,7 +48,7 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
         |> Map.get(:listing)
         |> Map.get(:id)
 
-      assert_delivered_email email
+      Emails.assert_delivered email
 
       assert true ==
         Volunteer.Listings.Listing

@@ -51,7 +51,7 @@ config :volunteer, Volunteer.Repo,
   hostname: "127.0.0.1"
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: Bamboo.LocalAdapter
+config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.LocalAdapter
 
 # Configure hammer rate-limiter
 config :hammer,

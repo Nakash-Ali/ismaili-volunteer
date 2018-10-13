@@ -3,19 +3,20 @@ defmodule Volunteer.Listings.ExpiryReminder do
 
   @future_expiry_date_shift 2
 
+  def future_expiry_date() do
+    Timex.now("UTC")
+    |> Timex.shift(days: @future_expiry_date_shift)
+    |> Timex.to_datetime("UTC")
+  end
+
   def get_and_notify_all() do
     Enum.map(get_listings_to_notify(), &notify_and_update_listing/1)
   end
 
   def get_listings_to_notify() do
-    future_expiry_date =
-      Timex.now("UTC")
-      |> Timex.shift(days: @future_expiry_date_shift)
-      |> Timex.to_datetime("UTC")
-
-    future_expiry_date
+    future_expiry_date()
     |> Volunteer.Listings.get_all_listings_for_expiry_reminder()
-    |> Repo.preload([:organized_by])
+    |> Repo.preload([:organized_by, :created_by])
   end
 
   def notify_and_update_listing(listing) do
@@ -26,6 +27,6 @@ defmodule Volunteer.Listings.ExpiryReminder do
 
     Volunteer.Listings.expiry_reminder_sent!(listing)
 
-    email
+    {:ok, email}
   end
 end

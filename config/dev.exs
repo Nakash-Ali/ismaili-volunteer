@@ -55,6 +55,6 @@ config :phoenix, :stacktrace_depth, 20
 config :volunteer, Volunteer.Repo, pool_size: 10
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: Bamboo.LocalAdapter
+config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.LocalAdapter
 
 import_config "dev.secret.exs"

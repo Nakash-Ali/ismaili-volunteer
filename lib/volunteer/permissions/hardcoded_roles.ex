@@ -6,13 +6,9 @@ defmodule Volunteer.Permissions.HardcodedRoles do
 
   @roles_by_region %{
     # Canada
-    1 => %{
-      "___@iicanada.net" => "cc_team",
-    },
+    1 => %{},
     # Ontario
-    2 => %{
-      "___@iicanada.net" => "admin",
-    }
+    2 => %{}
   }
 
   @roles_by_group %{

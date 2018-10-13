@@ -17,4 +17,4 @@ config :logger, level: :warn
 config :volunteer, Volunteer.Repo, pool: Ecto.Adapters.SQL.Sandbox
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: Bamboo.TestAdapter
+config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.TestAdapter
