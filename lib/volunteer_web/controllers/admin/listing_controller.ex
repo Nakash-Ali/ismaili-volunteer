@@ -30,7 +30,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     listing |> Repo.preload([:approved_by])
   end
 
-  def preload_relations(listing, action) when action in [:delete] do
+  def preload_relations(listing, action) when action in [:approve_confirmation, :delete] do
     listing
   end
 
@@ -125,12 +125,48 @@ defmodule VolunteerWeb.Admin.ListingController do
     end
   end
 
+  def approve_confirmation(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :approve], listing)
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_approve_confirmation", Slugify.slugify(listing), conn)
+
+    render(
+      conn,
+      VolunteerWeb.ConfirmView,
+      "full_screen.html",
+      fragment_module: view_module(conn),
+      fragment_template: "approve_confirmation.fragment.html",
+      listing: listing
+    )
+  end
+
   def approve(conn, params) do
     toggle_approval(conn, params, :approve)
   end
 
   def unapprove(conn, params) do
     toggle_approval(conn, params, :unapprove)
+  end
+
+  defp toggle_approval(conn, _params, action) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, action], listing)
+
+    toggled_listing =
+      case action do
+        :approve ->
+          Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
+
+        :unapprove ->
+          Listings.unapprove_listing_if_not_expired!(listing)
+      end
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_#{action}", Slugify.slugify(listing), conn)
+
+    conn
+    |> put_flash(:success, "Listing #{action}d successfully.")
+    |> redirect(to: admin_listing_path(conn, :show, toggled_listing))
   end
 
   def refresh_expiry(conn, _params) do
@@ -170,26 +206,6 @@ defmodule VolunteerWeb.Admin.ListingController do
     conn
     |> put_flash(:success, "Listing deleted successfully.")
     |> redirect(to: admin_listing_path(conn, :index))
-  end
-
-  defp toggle_approval(conn, _params, action) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, action], listing)
-
-    toggled_listing =
-      case action do
-        :approve ->
-          Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
-
-        :unapprove ->
-          Listings.unapprove_listing_if_not_expired!(listing)
-      end
-
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_#{action}", Slugify.slugify(listing), conn)
-
-    conn
-    |> put_flash(:success, "Listing #{action}d successfully.")
-    |> redirect(to: admin_listing_path(conn, :show, toggled_listing))
   end
 
   # Utilities

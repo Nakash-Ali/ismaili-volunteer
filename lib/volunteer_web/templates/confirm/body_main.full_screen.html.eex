@@ -1,0 +1,3 @@
+<main role="main" class="d-flex align-items-center">
+	<%= render "full_screen.html", assigns %>
+</main>

@@ -69,6 +69,10 @@ small {
 	font-family: $font-family-serif;
 }
 
+.blockquote-border {
+	border-left: 6px solid $gray-200;
+}
+
 #old-browsers {
 	background: $danger;
 	color: #FFF;

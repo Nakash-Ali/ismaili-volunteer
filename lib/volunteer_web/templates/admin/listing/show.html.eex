@@ -9,7 +9,7 @@
 						<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
 							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
 						<% else %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-success" %>
+							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
 						<% end %>
 					</div>
 				<% end %>

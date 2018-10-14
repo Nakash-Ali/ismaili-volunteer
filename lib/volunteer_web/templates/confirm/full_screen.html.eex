@@ -1,0 +1,7 @@
+<div class="container-fluid p-1 pt-2 pb-4 p-sm-2 pt-sm-3 pb-sm-5" style="word-break: break-word;">
+  <div class="row no-gutters justify-content-center">
+    <div class="col col-md-10 col-lg-8 col-xl-7">
+      <%= render(assigns[:fragment_module], assigns[:fragment_template], assigns) %>
+    </div>
+  </div>
+</div>
