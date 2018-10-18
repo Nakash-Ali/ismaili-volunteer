@@ -1,0 +1,22 @@
+<%= render "old_browsers.html" %>
+
+<div class="wrapper d-flex flex-column flex-nowrap">
+
+	<%= assigns[:do] %>
+
+</div>
+
+<link rel="stylesheet" href="https://use.typekit.net/imw4stg.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/3.21.0/raven.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	Raven.config('https://8130b93bc1e74deab16568c276e3134e@sentry.io/253594').install()
+</script>
+
+<script src="<%= static_path(@conn, "/js/modernizr.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/old_browsers.js") %>"></script>
+<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+<%= render_or_fallback("body_extra", assigns) %>
+
+<%= render_or_fallback("analytics", assigns) %>

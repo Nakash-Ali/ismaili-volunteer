@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<%= render "head.html", assigns %>
+</head>
+<body>
+	<%= render_with_block "body.html", assigns do %>
+
+		<main role="main" class="d-flex align-items-center">
+			<div class="container-fluid p-1 pt-2 pb-4 p-sm-2 pt-sm-3 pb-sm-5" style="word-break: break-word;">
+				<div class="row no-gutters justify-content-center">
+					<div class="col col-md-10 col-lg-8 col-xl-7">
+						<%= render @view_module, @view_template, assigns %>
+					</div>
+				</div>
+			</div>
+		</main>
+
+	<% end %>
+</body>
+</html>

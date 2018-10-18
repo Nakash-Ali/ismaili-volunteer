@@ -4,6 +4,10 @@ defmodule VolunteerWeb.LayoutView do
   alias VolunteerWeb.SocialTags
   alias VolunteerWeb.NavbarItems
 
+  def render_with_block(template, assigns, [do: __block] = opts) do
+    render(template, Enum.concat(assigns, opts))
+  end
+
   def render_or_fallback(prefix, assigns) do
     %{view_module: view_module, view_template: view_template} = assigns
 
