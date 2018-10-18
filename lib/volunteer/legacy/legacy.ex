@@ -153,6 +153,6 @@ defmodule Volunteer.Legacy do
       &VolunteerEmail.LegacyEmails.internal/1
     ]
     |> Enum.map(&(&1.(data)))
-    |> Enum.map(&VolunteerEmail.Mailer.deliver_now/1)
+    |> Enum.map(&VolunteerEmail.Mailer.deliver_now!/1)
   end
 end

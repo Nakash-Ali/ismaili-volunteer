@@ -4,9 +4,9 @@ defmodule VolunteerEmail.LegacyEmails do
 
   def external(%Volunteer.Legacy{} = data) do
     email =
-      Mailer.new_default_email()
+      Mailer.new_default_email(2)
       |> to({data.name, data.email})
-      |> cc([Mailer.system_email(), {data.organizer, data.organizer_email} | data.cc])
+      |> cc([Mailer.system_email(2), {data.organizer, data.organizer_email} | data.cc])
       |> subject(construct_subject(data))
 
     render_email(VolunteerEmail.LegacyView, email, :external_for_new_application, data: data)
@@ -14,9 +14,9 @@ defmodule VolunteerEmail.LegacyEmails do
 
   def internal(%Volunteer.Legacy{} = data) do
     email =
-      Mailer.new_default_email()
+      Mailer.new_default_email(2)
       |> to({data.organizer, data.organizer_email})
-      |> cc([Mailer.system_email() | data.cc])
+      |> cc([Mailer.system_email(2) | data.cc])
       |> subject("INTERNAL - #{construct_subject(data)}")
 
     render_email(VolunteerEmail.LegacyView, email, :internal_for_new_application, data: data)

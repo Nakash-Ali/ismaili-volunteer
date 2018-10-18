@@ -12,10 +12,6 @@ config :volunteer,
   contact_email: "hrontario@iicanada.net",
   send_analytics: false
 
-# Email related settings
-config :volunteer, VolunteerEmail,
-  system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"}
-
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
   submit_url: "/legacy/apply",
