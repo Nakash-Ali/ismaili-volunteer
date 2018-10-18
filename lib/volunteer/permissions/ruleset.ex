@@ -10,6 +10,7 @@ defmodule Volunteer.Permissions.Ruleset do
     :show,
     :update,
     :delete,
+    :request_approval,
     :refresh_expiry,
     :tkn_listing,
     :marketing_request,
@@ -73,13 +74,13 @@ defmodule Volunteer.Permissions.Ruleset do
          when action in @admin_listing_member_actions ->
         :allow
       end,
-      fn %{region_roles: region_roles}, [:admin, :listing | _], %Listing{region_id: region_id} ->
-        if region_roles[region_id] == "admin" do
+      fn %{group_roles: group_roles}, [:admin, :listing | _], %Listing{group_id: group_id} ->
+        if group_roles[group_id] == "admin" do
           :allow
         end
       end,
-      fn %{group_roles: group_roles}, [:admin, :listing | _], %Listing{group_id: group_id} ->
-        if group_roles[group_id] == "admin" do
+      fn %{region_roles: region_roles}, [:admin, :listing | _], %Listing{region_id: region_id} ->
+        if region_roles[region_id] == "cc_team" do
           :allow
         end
       end

@@ -8,7 +8,9 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Canada
     1 => %{},
     # Ontario
-    2 => %{}
+    2 => %{
+      "zahra.nurmohamed@iicanada.net" => "cc_team"
+    }
   }
 
   @roles_by_group %{
