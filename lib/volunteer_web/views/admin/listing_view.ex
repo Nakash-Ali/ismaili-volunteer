@@ -1,5 +1,6 @@
 defmodule VolunteerWeb.Admin.ListingView do
   use VolunteerWeb, :view
+  alias Volunteer.Listings
   alias VolunteerWeb.FormView
   alias VolunteerWeb.ListingView, as: PublicListingView
   alias VolunteerWeb.AdminView
@@ -58,6 +59,62 @@ defmodule VolunteerWeb.Admin.ListingView do
     "mailto:#{approver.primary_email}?subject=#{subject}&body=#{body}"
   end
 
-  def expiry_reminder_sent(true), do: "Sent"
-  def expiry_reminder_sent(false), do: "Not sent"
+  def expiry_reminder_sent_text(true), do: "Sent"
+  def expiry_reminder_sent_text(false), do: "Not sent"
+
+  def approved_text(%{approved: approved}), do: approved_text(approved)
+  def approved_text(true), do: "Yes, approved"
+  def approved_text(false), do: "No, not yet"
+
+  def definition_list(:expiry, listing) do
+    [
+      {"Expiry date", PublicListingView.expiry_datetime_text(listing.expiry_date)},
+      {"Expiry reminder", expiry_reminder_sent_text(listing.expiry_reminder_sent)},
+    ]
+  end
+
+  def definition_list(:approval, listing) do
+    if Listings.Listing.is_approved?(listing) do
+      [
+        {"Approved?", approved_text(listing)},
+        {"Approved by", listing.approved_by.title},
+        {"Approval date", Temporal.format_datetime(listing.approved_on)},
+      ]
+    else
+      [
+        {"Approved?", approved_text(listing)},
+      ]
+    end
+  end
+
+  def definition_list(:details, listing) do
+    [
+      {"Position title", listing.position_title},
+      {"Program title", listing.program_title},
+      {"Summary", listing.summary_line},
+      {"Region", listing.region.title},
+      {"Organizing group", listing.group.title},
+      {"Organizing user", listing.organized_by.title},
+      {"CC'ed emails", listing.cc_emails},
+      {"Start date", PublicListingView.start_date_text(listing.start_date)},
+      {"End date", PublicListingView.end_date_text(listing.end_date)},
+      {"Time commitment", PublicListingView.time_commitment_text(listing)},
+    ]
+  end
+
+  def definition_list(:textblob, listing) do
+    [
+      {"About the program", PublicListingView.transform_textblob_content(listing.program_description)},
+      {"About the role", PublicListingView.transform_textblob_content(listing.responsibilities)},
+      {"About the applicant", PublicListingView.transform_textblob_content(listing.qualifications)},
+    ]
+  end
+
+  def definition_list(:meta, listing) do
+    [
+      {"Created by", listing.created_by.title},
+      {"Creation date", Temporal.format_datetime(listing.inserted_at)},
+      {"Last updated date", Temporal.format_datetime(listing.updated_at)},
+    ]
+  end
 end

@@ -70,9 +70,10 @@ defmodule VolunteerWeb.Router do
         resources "/applicant", ApplicantController, only: [:index]
       end
 
-      get "/listings/:id/approve_confirmation", ListingController, :approve_confirmation
+      get "/listings/:id/approve", ListingController, :approve_confirmation
       post "/listings/:id/approve", ListingController, :approve
       post "/listings/:id/unapprove", ListingController, :unapprove
+      post "/listings/:id/request_approval", ListingController, :request_approval
       post "/listings/:id/refresh_expiry", ListingController, :refresh_expiry
       post "/listings/:id/expire", ListingController, :expire
 

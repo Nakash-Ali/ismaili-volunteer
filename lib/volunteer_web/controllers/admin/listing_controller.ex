@@ -21,16 +21,33 @@ defmodule VolunteerWeb.Admin.ListingController do
     Plug.Conn.assign(conn, :listing, listing)
   end
 
-  def preload_relations(listing, action) when action in [:show, :edit, :update] do
+  def preload_relations(listing, action) when action in [
+    :show,
+    :edit,
+    :update,
+    :request_approval,
+    # :approve_confirmation,
+    :approve,
+    :unapprove,
+    :refresh_expiry,
+    :expire,
+    # :delete
+  ] do
     listing |> Repo.preload(Listings.Listing.preloadables())
   end
 
-  def preload_relations(listing, action)
-      when action in [:approve, :unapprove, :refresh_expiry, :expire] do
-    listing |> Repo.preload([:approved_by])
-  end
-
-  def preload_relations(listing, action) when action in [:approve_confirmation, :delete] do
+  def preload_relations(listing, action) when action in [
+    # :show,
+    # :edit,
+    # :update,
+    # :request_approval,
+    :approve_confirmation,
+    # :approve,
+    # :unapprove,
+    # :refresh_expiry,
+    # :expire,
+    :delete
+  ] do
     listing
   end
 
@@ -91,9 +108,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_show", Slugify.slugify(listing), conn)
 
-    all_approvers = Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
-
-    render(conn, "show.html", listing: listing, all_approvers: all_approvers)
+    render(conn, "show.html", listing: listing)
   end
 
   def edit(conn, _params) do
@@ -125,24 +140,37 @@ defmodule VolunteerWeb.Admin.ListingController do
     end
   end
 
+  def request_approval(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :request_approval], listing)
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_request_approval", Slugify.slugify(listing), conn)
+
+    Volunteer.Listings.request_approval!(listing, UserSession.get_user(conn))
+
+    conn
+    |> put_flash(:success, "Your request for approval has been submitted for this listing.")
+    |> redirect(to: admin_listing_path(conn, :show, listing))
+  end
+
   def approve_confirmation(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :approve], listing)
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_approve_confirmation", Slugify.slugify(listing), conn)
 
-    render(
-      conn,
-      VolunteerWeb.ConfirmView,
-      "full_screen.html",
-      fragment_module: view_module(conn),
-      fragment_template: "approve_confirmation.fragment.html",
-      listing: listing
-    )
+    render_approve_confirmation(conn, ListingParams.ApproveChecks.new(), listing)
   end
 
   def approve(conn, params) do
-    toggle_approval(conn, params, :approve)
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    case ListingParams.ApproveChecks.changeset(params["checks"]) do
+      %{valid?: true} ->
+        toggle_approval(conn, params, :approve)
+      changeset ->
+        render_approve_confirmation(conn, changeset, listing)
+    end
   end
 
   def unapprove(conn, params) do
@@ -209,6 +237,19 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   # Utilities
+
+  defp render_approve_confirmation(conn, changeset, listing) do
+    conn
+    |> put_layout({VolunteerWeb.LayoutView, "full_screen.html"})
+    |> render(
+      "approve_confirmation.html",
+      listing: listing,
+      checks: ListingParams.ApproveChecks.checks(),
+      checks_changes: changeset,
+      action_path: admin_listing_path(conn, :approve, listing),
+      back_path: admin_listing_path(conn, :show, listing)
+    )
+  end
 
   defp render_new_form(conn, changeset) do
     render_form(

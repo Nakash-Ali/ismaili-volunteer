@@ -17,14 +17,7 @@
 					<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
 						<button disabled class="btn btn-outline-secondary">Listing approved</button>
 					<% else %>
-						<button class="btn btn-outline-primary dropdown-toggle" type="button" id="allApproversDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Request approval
-						</button>
-						<div class="dropdown-menu" aria-labelledby="allApproversDropdown">
-							<%= for user <- @all_approvers do %>
-								<a class="dropdown-item" href="<%= request_approval_link(@conn, @listing, user) %>"><%= user.title %></a>
-							<% end %>
-						</div>
+						<%= link "Request Approval", to: admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
 					<% end %>
 				</div>
 			<% else %>
@@ -57,96 +50,35 @@
 </section>
 
 <section class="container my-3">
-	<%= render AdminView, "definition_container.html",
-		title_text: "Expiry date",
-		body_text: PublicListingView.expiry_datetime_text(@listing.expiry_date) %>
-	<%= render AdminView, "definition_container.html",
-		title_text: "Expiry reminder",
-		body_text: expiry_reminder_sent(@listing.expiry_reminder_sent) %>
-</section>
-
-<%= if @listing.approved do %>
-	<section class="container my-3">
-		<%= render AdminView, "definition_container.html",
-			title_text: "Approved by",
-			body_text: @listing.approved_by.title %>
-
-		<%= render AdminView, "definition_container.html",
-			title_text: "Approval date",
-			body_text: Temporal.format_datetime(@listing.approved_on) %>
-	</section>
-<% end %>
-
-<section class="container my-3">
-	<%= render AdminView, "definition_container.html",
-		title_text: "Position title",
-		body_text: @listing.position_title %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Program title",
-		body_text: @listing.program_title %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Summary",
-		body_text: @listing.summary_line %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Region",
-		body_text: @listing.region.title %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Organizing group",
-		body_text: @listing.group.title %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Organizing user",
-		body_text: @listing.organized_by.title %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "CC'ed emails",
-		body_text: @listing.cc_emails %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Start date",
-		body_text: PublicListingView.start_date_text(@listing.start_date) %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "End date",
-		body_text: PublicListingView.end_date_text(@listing.end_date) %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Time commitment",
-		body_text: PublicListingView.time_commitment_text(@listing) %>
+	<%= for {title, body} <- definition_list(:expiry, @listing) do %>
+		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
+	<% end %>
 </section>
 
 <section class="container my-3">
-	<%= render AdminView, "definition_container.html", title_text: "About the program" do %>
-		<div class="listing-textblob">
-			<%= PublicListingView.transform_textblob_content @listing.program_description %>
-		</div>
+	<%= for {title, body} <- definition_list(:approval, @listing) do %>
+		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
-	<%= render AdminView, "definition_container.html", title_text: "About the role" do %>
-		<div class="listing-textblob">
-			<%= PublicListingView.transform_textblob_content @listing.responsibilities %>
-		</div>
+</section>
+
+<section class="container my-3">
+	<%= for {title, body} <- definition_list(:details, @listing) do %>
+		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
-	<%= render AdminView, "definition_container.html", title_text: "About the applicant" do %>
-		<div class="listing-textblob">
-			<%= PublicListingView.transform_textblob_content @listing.qualifications %>
-		</div>
+</section>
+
+<section class="container my-3">
+	<%= for {title, body} <- definition_list(:textblob, @listing) do %>
+		<%= render AdminView, "definition_container.html", title_text: title do %>
+			<div class="listing-textblob">
+				<%= body %>
+			</div>
+		<% end %>
 	<% end %>
 </section>
 
 <section class="container my-3 mb-5">
-	<%= render AdminView, "definition_container.html",
-		title_text: "Created by",
-		body_text: @listing.created_by.title %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Creation date",
-		body_text: Temporal.format_datetime(@listing.inserted_at) %>
-
-	<%= render AdminView, "definition_container.html",
-		title_text: "Last updated date",
-		body_text: Temporal.format_datetime(@listing.updated_at) %>
+	<%= for {title, body} <- definition_list(:meta, @listing) do %>
+		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
+	<% end %>
 </section>

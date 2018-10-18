@@ -1,0 +1,27 @@
+<%= if not @checks_changes.valid? do %>
+	<div class="p-1 mb-1 bg-danger text-white font-family-sans-serif rounded">
+		<h5 class="m-0"><i class="ml-3q fas fa-exclamation-triangle mr-1"></i> Please make sure you have confirmed everything!</h5>
+	</div>
+<% else %>
+	<div class="p-1 mb-1 bg-warning text-white font-family-sans-serif rounded">
+		<h5 class="m-0"><i class="ml-3q fas fa-exclamation-triangle mr-1"></i>Approve Listing</h5>
+	</div>
+<% end %>
+<p class="font-family-sans-serif"><strong>Once you approve this listing</strong>, it will be <em>publicly accessible</em> to anyone with an internet connection (including all jamati members). As the approver, it is <em>your responsibility</em> to ensure that the content and quality of this listing reflects the very best of our institutions to our jamat and the world.</p>
+<%= form_for @checks_changes, @action_path, [as: :checks, novalidate: "true"], fn f -> %>
+	<div class="my-2 px-2 blockquote-border" style="font-style: italic;">
+		<p class="mb-3q">By approving this listing, I hereby certify that:</p>
+		<%= for {key, value} <- @checks do %>
+			<div class="form-group mb-3q">
+				<div class="form-check">
+					<%= checkbox f, key, class: "form-check-input" %>
+					<%= label f, key, class: "form-check-label ml-1" do value end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	<div class="font-family-sans-serif form-group mt-2 text-right">
+		<%= link "No, don't approve!", to: @back_path, class: "btn btn-outline-primary px-1 mr-1" %>
+		<%= submit "Yes, certify and approve listing", class: "btn btn-primary px-1" %>
+	</div>
+<% end %>

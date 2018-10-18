@@ -4,11 +4,10 @@
 	<div class="row justify-content-center">
 		<div class="col-sm-5">
 			<%= if @listing.approved do %>
-				<p>Get the word out for this listing!</p>
-				<!-- <p>You now have easy access to all jamati marketing channels. Get the word out for this listing!</p>
+				<p>You now have easy access to all jamati marketing channels. Get the word out for this listing!</p>
 				<div class="font-family-sans-serif mt-2">
 					<%= link {:safe, "<i class=\"far fa-bullhorn mr-1q\" aria-hidden=\"true\"></i> Send marketing request"}, to: admin_listing_marketing_request_path(@conn, :new, @listing), class: "btn btn-primary" %>
-				</div> -->
+				</div>
 				<div class="font-family-sans-serif mt-1">
 					<%= link {:safe, "<i class=\"far fa-image mr-1q\" aria-hidden=\"true\"></i> View shareable image"}, to: VolunteerWeb.Services.ListingSocialImageGenerator.image_url(@conn, @listing), target: "_blank", class: "btn btn-outline-primary" %>
 				</div>
