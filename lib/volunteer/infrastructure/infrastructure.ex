@@ -45,4 +45,8 @@ defmodule Volunteer.Infrastructure do
   def get_jamatkhana!(id) do
     Jamatkhana |> Repo.get!(id)
   end
+
+  def get_region_config(region_id, key) do
+    Volunteer.Infrastructure.HardcodedConfig.get_region_config(region_id, key)
+  end
 end
