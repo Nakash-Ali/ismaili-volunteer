@@ -52,31 +52,6 @@ defmodule VolunteerEmail.ListingsEmails do
     )
   end
 
-  def request_approval(%Listing{} = listing, %User{} = requested_by) do
-    subject_str =
-      generate_subject("Request for Approval", listing)
-
-    to_address_list =
-      Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
-
-    cc_address_list =
-      [requested_by] ++ generate_all_address_list(listing)
-
-    email =
-      Mailer.new_default_email(listing.region_id)
-      |> subject(subject_str)
-      |> to(to_address_list)
-      |> cc(cc_address_list)
-
-    render_email(
-      VolunteerEmail.ListingsView,
-      email,
-      "request_approval.html",
-      listing: listing,
-      requested_by: requested_by
-    )
-  end
-
   def on_change(%Listing{} = listing, %User{} = changed_by) do
     subject_str =
       generate_subject("Request for Approval", listing)
@@ -93,6 +68,31 @@ defmodule VolunteerEmail.ListingsEmails do
       "on_change.html",
       listing: listing,
       changed_by: changed_by
+    )
+  end
+
+  def request_approval(%Listing{} = listing, %User{} = requested_by) do
+    subject_str =
+      generate_subject("Request for Approval", listing)
+
+    users_with_approval_permissions =
+      Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
+
+    cc_address_list =
+      [requested_by] ++ generate_all_address_list(listing)
+
+    email =
+      Mailer.new_default_email(listing.region_id)
+      |> subject(subject_str)
+      |> to(users_with_approval_permissions)
+      |> cc(cc_address_list)
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      "request_approval.html",
+      listing: listing,
+      requested_by: requested_by
     )
   end
 
@@ -119,15 +119,13 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   defp on_approve_or_unapprove(%Listing{} = listing, %User{} = action_by, config) do
-    region_emails =
+    cc_team =
       listing.region_id
       |> Volunteer.Permissions.get_for_region(["cc_team"])
       |> Map.keys()
 
-    group_emails =
-      listing.group_id
-      |> Volunteer.Permissions.get_for_group(["admin"])
-      |> Map.keys()
+    users_with_approval_permissions =
+      Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
 
     subject_str =
       generate_subject(config.subject_prefix, listing)
@@ -136,7 +134,7 @@ defmodule VolunteerEmail.ListingsEmails do
       generate_all_address_list(listing)
 
     cc_address_list =
-      [action_by] ++ region_emails ++ group_emails
+      [action_by] ++ cc_team ++ users_with_approval_permissions
 
     email =
       Mailer.new_default_email(listing.region_id)
