@@ -2,39 +2,47 @@ defmodule VolunteerEmail.ListingsEmails do
   use VolunteerEmail, :email
   alias VolunteerEmail.Mailer
   alias Volunteer.Accounts.User
-  alias Volunteer.Listings.Listing
+  alias Volunteer.Listings.{Listing, MarketingRequest}
   alias VolunteerWeb.Presenters.Title
 
-  # def marketing_request(%MarketingRequest{} = marketing_request, %Listing{} = listing) do
-  #   email =
-  #     Mailer.new_default_email()
-  #     |> to({"Zahra Nurmohamed", "zahra.nurmohamed@iicanada.net"})
-  #     |> cc([
-  #       {"Amaan Ismail", "amaanki786@gmail.com"},
-  #       {"Rahim Ladha", "rahim.ladha@iicanada.net"},
-  #       {listing.organized_by.title, listing.organized_by.primary_email},
-  #       Mailer.system_email()
-  #     ])
-  #     |> put_header("Reply-To", listing.organized_by.primary_email)
-  #     |> subject("Marketing request - #{Title.text(listing)}")
-  #
-  #   render_email(
-  #     VolunteerEmail.ListingsView,
-  #     email,
-  #     "marketing_request.html",
-  #     marketing_request: marketing_request,
-  #     listing: listing
-  #   )
-  # end
+  def marketing_request(%MarketingRequest{} = marketing_request, %Listing{} = listing) do
+    subject_str =
+      generate_subject("Marketing Request", listing)
 
-  def expiry_reminder(%Listing{} = listing) do
-    subject_str = "Expiration Reminder! #{Title.text(listing)}"
+    {:ok, to_address_list} =
+      Volunteer.Infrastructure.get_region_config(listing.region_id, :marketing_request_email)
+
+    cc_address_list =
+      generate_all_address_list(listing)
+
+    reply_to_address =
+      listing.organized_by.primary_email
 
     email =
-      Mailer.new_default_email()
+      Mailer.new_default_email(listing.region_id)
+      |> subject(subject_str)
+      |> to(to_address_list)
+      |> cc(cc_address_list)
+      |> put_header("Reply-To", reply_to_address)
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      "marketing_request.html",
+      marketing_request: marketing_request,
+      listing: listing
+    )
+  end
+
+  def expiry_reminder(%Listing{} = listing) do
+    subject_str =
+      generate_subject("Expiration Reminder", listing)
+
+    email =
+      Mailer.new_default_email(listing.region_id)
+      |> subject(subject_str)
       |> to(generate_primary_address_list(listing))
       |> cc(generate_secondary_address_list(listing))
-      |> subject(subject_str)
 
     render_email(
       VolunteerEmail.ListingsView,
@@ -44,27 +52,113 @@ defmodule VolunteerEmail.ListingsEmails do
     )
   end
 
-  def on_approval(%Listing{} = listing, %User{} = approved_by, to_notify_address_list) do
-    subject_str = "Listing Approved! #{Title.text(listing)}"
+  def request_approval(%Listing{} = listing, %User{} = requested_by) do
+    subject_str =
+      generate_subject("Request for Approval", listing)
 
-    to_emails =
-      to_notify_address_list ++ generate_primary_address_list(listing) ++ generate_secondary_address_list(listing)
+    to_address_list =
+      Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
 
-    cc_emails = [approved_by]
+    cc_address_list =
+      [requested_by] ++ generate_all_address_list(listing)
 
     email =
-      Mailer.new_default_email()
-      |> to(to_emails)
-      |> cc(cc_emails)
+      Mailer.new_default_email(listing.region_id)
       |> subject(subject_str)
+      |> to(to_address_list)
+      |> cc(cc_address_list)
 
     render_email(
       VolunteerEmail.ListingsView,
       email,
-      "on_approval.html",
+      "request_approval.html",
       listing: listing,
-      approved_by: approved_by
+      requested_by: requested_by
     )
+  end
+
+  def on_change(%Listing{} = listing, %User{} = changed_by) do
+    subject_str =
+      generate_subject("Request for Approval", listing)
+
+    email =
+      Mailer.new_default_email(listing.region_id)
+      |> subject(subject_str)
+      |> to(generate_all_address_list(listing))
+      |> cc(changed_by)
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      "on_change.html",
+      listing: listing,
+      changed_by: changed_by
+    )
+  end
+
+  def on_approval(%Listing{} = listing, %User{} = approved_by) do
+    on_approve_or_unapprove(
+      listing,
+      approved_by,
+      %{
+        subject_prefix: "Listing Approved",
+        template: "on_approval.html"
+      }
+    )
+  end
+
+  def on_unapproval(%Listing{} = listing, %User{} = unapproved_by) do
+    on_approve_or_unapprove(
+      listing,
+      unapproved_by,
+      %{
+        subject_prefix: "Listing Un-approved",
+        template: "on_unapproval.html"
+      }
+    )
+  end
+
+  defp on_approve_or_unapprove(%Listing{} = listing, %User{} = action_by, config) do
+    region_emails =
+      listing.region_id
+      |> Volunteer.Permissions.get_for_region(["cc_team"])
+      |> Map.keys()
+
+    group_emails =
+      listing.group_id
+      |> Volunteer.Permissions.get_for_group(["admin"])
+      |> Map.keys()
+
+    subject_str =
+      generate_subject(config.subject_prefix, listing)
+
+    to_address_list =
+      generate_all_address_list(listing)
+
+    cc_address_list =
+      [action_by] ++ region_emails ++ group_emails
+
+    email =
+      Mailer.new_default_email(listing.region_id)
+      |> subject(subject_str)
+      |> to(to_address_list)
+      |> cc(cc_address_list)
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      config.template,
+      listing: listing,
+      action_by: action_by
+    )
+  end
+
+  defp generate_subject(prefix, listing) do
+    "#{prefix} --- #{Title.text(listing)}"
+  end
+
+  defp generate_all_address_list(%Listing{} = listing) do
+    generate_primary_address_list(listing) ++ generate_secondary_address_list(listing)
   end
 
   defp generate_primary_address_list(%Listing{} = listing) do

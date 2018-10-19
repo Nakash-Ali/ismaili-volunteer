@@ -10,6 +10,10 @@ config :volunteer, VolunteerWeb.Endpoint,
   http: [port: 4001],
   server: false
 
+# Configure your database
+config :volunteer, Volunteer.Repo,
+  database: "postgres_test"
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 

@@ -31,6 +31,12 @@ defmodule Volunteer.Listings do
     Repo.delete(listing)
   end
 
+  def request_approval!(listing, requested_by) do
+    listing
+    |> VolunteerEmail.ListingsEmails.request_approval(requested_by)
+    |> VolunteerEmail.Mailer.deliver_now!()
+  end
+
   def approve_listing_if_not_expired!(listing, approved_by) do
     {:ok, approved_listing} =
       Repo.transaction(fn ->
@@ -39,8 +45,10 @@ defmodule Volunteer.Listings do
           |> Listing.approve_if_not_expired(approved_by)
           |> Repo.update!()
 
-        # {:ok, _email} =
-        #   Volunteer.Listings.ChangeNotification.on_approval(approved_listing, approved_by)
+        _email =
+          approved_listing
+          |> VolunteerEmail.ListingsEmails.on_approval(approved_by)
+          |> VolunteerEmail.Mailer.deliver_now!()
 
         approved_listing
       end)
@@ -275,21 +283,23 @@ defmodule Volunteer.Listings do
       %{listing: listing},
       attrs
     )
+    |> Ecto.Changeset.apply_action(:insert)
   end
 
   def send_marketing_request(listing, attrs) do
     case create_marketing_request(listing, attrs) do
-      %{valid?: true} = changeset ->
+      {:ok, marketing_request} ->
+        preloaded_listing =
+          Repo.preload(listing, Volunteer.Listings.Listing.preloadables())
+
         email =
-          changeset
-          # |> Ecto.Changeset.apply_changes()
-          # |> VolunteerEmail.ListingsEmails.marketing_request(listing)
-          # |> VolunteerEmail.Mailer.deliver_now()
+          VolunteerEmail.ListingsEmails.marketing_request(marketing_request, preloaded_listing)
+          |> VolunteerEmail.Mailer.deliver_now!()
 
         {:ok, email}
 
-      %{valid?: false} = changeset ->
-        {:error, changeset}
+      {:error, _changeset} = result ->
+        result
     end
   end
 end

@@ -18,6 +18,7 @@
 				]
 				++ Map.get(assigns, :input_opts, [])) %>
 		<% end %>
+		<%= render "help_text.html", assigns %>
 	    <%= error_tag @form, @field %>
 	</div>
 </div>

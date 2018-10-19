@@ -2,7 +2,6 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
   use Ecto.Schema
   import Ecto.Changeset
   alias Volunteer.Listings.MarketingRequest.ChannelAttrs
-  alias VolunteerWeb.Presenters.Title
 
   embedded_schema do
     field :enabled, :boolean, default: false
@@ -24,11 +23,16 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
     }
   end
 
-  defp apply_template("JK announcement", %{listing: listing}) do
-    "#{listing.group.title} is looking for volunteers for #{listing.program_title}. To learn more, go to https://iicanada.org/serveontario"
-  end
-
   defp apply_template(_title, %{listing: listing}) do
-    "#{listing.group.title} is looking for a #{Title.text(listing)}. For more information on this and other volunteer opportunities, go to https://iicanada.org/serveontario"
+    {:ok, website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :website)
+
+    for_text =
+      if listing.program_title != "" do
+        "volunteers for #{listing.program_title}"
+      else
+        "a #{listing.position_title}"
+      end
+
+    "#{listing.group.title} is looking for #{for_text}. For more information on this and other volunteer opportunities, go to #{website}"
   end
 end

@@ -69,4 +69,13 @@ defmodule Volunteer.Permissions do
     end)
     |> Enum.into(%{})
   end
+
+  def get_for_group(group_id, role_types_to_include) do
+    group_id
+    |> HardcodedRoles.group_roles()
+    |> Enum.filter(fn {_email, role_type} ->
+      Enum.member?(role_types_to_include, role_type)
+    end)
+    |> Enum.into(%{})
+  end
 end

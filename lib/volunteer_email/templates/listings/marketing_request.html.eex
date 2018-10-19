@@ -1,61 +1,33 @@
-<p><em>This is an automated marketing request for a <a>volunteer position</a> posted on <%= Application.fetch_env!(:volunteer, :project_title) %></em></p>
+<p>Ya Ali Madad,</p>
+
+<p>Marketing has been requested for the following volunteer listing:</p>
+
+<p><%= render "details.html", listing: @listing, sections: [:reference] %></p>
+
+<p>The request is as follows:</p>
 
 <p>
   <table>
     <tbody>
 		<tr>
-			<td>Organized by</td>
-			<td><strong><%= @listing.organized_by.title %></strong></td>
+			<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;">Start date</td>
+			<td style="padding: 4px 0px;"><%= @marketing_request.start_date %></td>
 		</tr>
 		<tr>
-			<td>Board or Portfolio</td>
-			<td><strong><%= @listing.group.title %></strong></td>
+			<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;">Target jamatkhanas</td>
+			<td style="padding: 4px 0px;"><%= Enum.join(@marketing_request.target_jamatkhanas, ", ") %></td>
 		</tr>
     </tbody>
+	<tbody>
+		<%= for channel <- @marketing_request.text_channels do %>
+			<tr>
+				<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;"><%= channel.title %></td>
+				<td style="padding: 4px 0px;"><%= channel.text %></td>
+			</tr>
+		<% end %>
+	</tbody>
   </table>
 </p>
 
-<p>
-  <table>
-    <tbody>
-		<tr>
-			<td>Position title</td>
-			<td><strong><%= @listing.position_title %></strong></td>
-		</tr>
-		<tr>
-			<td>Program title</td>
-			<td><strong><%= @listing.program_title %></strong></td>
-		</tr>
-    </tbody>
-  </table>
-</p>
-
-<hr />
-
-<h3>Marketing Requests</h3>
-
-<p>
-  <table>
-    <tbody>
-		<tr>
-			<td>Start date</td>
-			<td><strong><%= @marketing_request.start_date %></strong></td>
-		</tr>
-		<tr>
-			<td>Target jamatkhanas</td>
-			<td>
-				<ul>
-					<%= for jk <- @marketing_request.target_jamatkhanas do %>
-					  <li><strong><%= jk %></strong></li>
-					<% end %>
-				</ul>
-			</td>
-		</tr>
-    </tbody>
-  </table>
-</p>
-
-<%= for channel <- @marketing_request.text_channels do %>
-  <p><strong><%= channel.title %></strong></p>
-  <p><%= channel.text %></p>
-<% end %>
+<p>Best Regards,<br>
+<%= Application.fetch_env!(:volunteer, :project_title) %></p>

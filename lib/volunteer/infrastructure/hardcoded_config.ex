@@ -3,12 +3,14 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Canada
     1 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      marketing_request_email: []
+      marketing_request_email: [],
+      website: "https://iicanada.org/serveontario",
     },
     # Ontario
     2 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      marketing_request_email: ["cfo-announcements@iicanada.net"]
+      marketing_request_email: ["cfo-announcements@iicanada.net"],
+      website: "https://iicanada.org/serveontario",
     }
   }
 

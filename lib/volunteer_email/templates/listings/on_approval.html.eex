@@ -1,0 +1,10 @@
+<p>Ya Ali Madad,</p>
+
+<p>Congratulations! The following listing has been <strong>approved by <%= Title.text(@action_by) %></strong> and is now live on the website.</p>
+
+<p>Please note the Communications Team for your region and the admins for your board/portfolio have been cc'ed in this email for any follow-up.</p>
+
+<p><%= render "details.html", listing: @listing, sections: [:links, :expiry, :approval, :details, :textblob, :meta] %></p>
+
+<p>Best Regards,<br>
+<%= Application.fetch_env!(:volunteer, :project_title) %></p>

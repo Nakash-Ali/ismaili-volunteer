@@ -13,12 +13,12 @@ defmodule Volunteer.ListingsTest do
 
       assert [] ==
         expiry_date
-        |> Timex.shift(seconds: -5)
+        |> Timex.shift(seconds: -1)
         |> Volunteer.Listings.get_all_listings_for_expiry_reminder()
 
       assert [unexpired_and_unreminded] ==
         expiry_date
-        |> Timex.shift(seconds: 5)
+        |> Timex.shift(seconds: 1)
         |> Volunteer.Listings.get_all_listings_for_expiry_reminder()
     end
   end

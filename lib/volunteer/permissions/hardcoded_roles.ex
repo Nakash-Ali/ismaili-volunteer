@@ -48,6 +48,10 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     Map.get(@roles_by_region, region_id, %{})
   end
 
+  def group_roles(group_id) do
+    Map.get(@roles_by_group, group_id, %{})
+  end
+
   def region_roles_for_user(user) do
     roles_for_user(@roles_by_region, user)
   end

@@ -9,9 +9,15 @@ defmodule VolunteerWeb.ErrorHelpers do
     error_tag(form, field, class: "invalid-feedback")
   end
 
-  def error_tag(form, field, class: class) do
+  def error_tag(form, field, func) when is_function(func) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:div, translate_error(error), class: class)
+      error |> translate_error() |> func.()
+    end)
+  end
+
+  def error_tag(form, field, class: class) do
+    error_tag(form, field, fn error ->
+      content_tag(:div, error, class: class)
     end)
   end
 

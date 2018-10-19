@@ -1,6 +1,10 @@
-<p>Ya Ali Madad <%= Title.text(@listing.organized_by) %>,</p>
+<p>Ya Ali Madad,</p>
 
-<p>This is a reminder that your listing, <%= link Title.text(@listing), to: Helpers.admin_listing_url(VolunteerWeb.Endpoint, :show, @listing) %>, will expire in <strong><%= PublicListingView.expires_in(@listing) %></strong>.</p>
+<p>This is an <strong>expiration reminder</strong> for the following listing:</p>
+
+<p><%= render "details.html", listing: @listing, sections: [:reference] %></p>
+
+<p>If you take no action, <strong>it will expire in <%= PublicListingView.expires_in(@listing) %></strong></p>
 
 <p>If it hasn't been filled yet, please refresh expiration as soon as possible.</p>
 

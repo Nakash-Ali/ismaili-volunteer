@@ -16,14 +16,14 @@ defmodule Volunteer.Listings.ExpiryReminder do
   def get_listings_to_notify() do
     future_expiry_date()
     |> Volunteer.Listings.get_all_listings_for_expiry_reminder()
-    |> Repo.preload([:organized_by, :created_by])
+    |> Repo.preload(Volunteer.Listings.Listing.preloadables())
   end
 
   def notify_and_update_listing(listing) do
     email =
       listing
       |> VolunteerEmail.ListingsEmails.expiry_reminder()
-      |> VolunteerEmail.Mailer.deliver_now()
+      |> VolunteerEmail.Mailer.deliver_now!()
 
     Volunteer.Listings.expiry_reminder_sent!(listing)
 

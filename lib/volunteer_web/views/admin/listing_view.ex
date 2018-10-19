@@ -66,6 +66,15 @@ defmodule VolunteerWeb.Admin.ListingView do
   def approved_text(true), do: "Yes, approved"
   def approved_text(false), do: "No, not yet"
 
+  def definition_list(:reference, listing) do
+    definition_list(:links, listing) ++
+    [
+      {"Title", Title.text(listing)},
+      {"Region", listing.region.title},
+      {"Organizing group", listing.group.title}
+    ]
+  end
+
   def definition_list(:expiry, listing) do
     [
       {"Expiry date", PublicListingView.expiry_datetime_text(listing.expiry_date)},
@@ -115,6 +124,13 @@ defmodule VolunteerWeb.Admin.ListingView do
       {"Created by", listing.created_by.title},
       {"Creation date", Temporal.format_datetime(listing.inserted_at)},
       {"Last updated date", Temporal.format_datetime(listing.updated_at)},
+    ]
+  end
+
+  def definition_list(:links, listing) do
+    url = admin_listing_url(VolunteerWeb.Endpoint, :show, listing)
+    [
+      {"URL", link(url, to: url)},
     ]
   end
 end

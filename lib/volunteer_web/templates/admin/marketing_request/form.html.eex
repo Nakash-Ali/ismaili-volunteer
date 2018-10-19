@@ -1,4 +1,10 @@
 <%= form_for @changeset, @action_path, fn form -> %>
+	<div class="mb-2">
+		<%= error_tag form, :_minimum_channels, fn error -> %>
+			<div class="alert alert-danger"><%= error %></div>
+		<% end %>
+	</div>
+
 	<%= render FormView, "text.html",
 		form: form,
 		title: "Start date",
@@ -16,7 +22,8 @@
 		multiple: true,
 		choices: Volunteer.Legacy.all_jamatkhanas(),
 		choices_opts_template: :multiple_select,
-		required: true
+		required: true,
+		help_text: "You can select multiple Jamatkhanas from this list"
 	%>
 
 	<%= inputs_for form, :text_channels, fn form -> %>
