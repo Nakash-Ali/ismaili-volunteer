@@ -34,7 +34,8 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Economic Planning Board (EPB) Ontario
     6 => %{
       "farhad.shariff@iicanada.net" => "admin",
-      "amreen.poonawala@iicanada.net" => "admin"
+      "amreen.poonawala@iicanada.net" => "admin",
+      "alykhan.nensi@iicanada.net" => "admin",
     },
     # Aga Khan Youth and Sports Board (AKYSB) Ontario
     7 => %{
