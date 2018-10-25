@@ -9,7 +9,7 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     1 => %{},
     # Ontario
     2 => %{
-      "zahra.nurmohamed@iicanada.net" => "cc_team"
+      # "zahra.nurmohamed@iicanada.net" => "cc_team"
     }
   }
 
