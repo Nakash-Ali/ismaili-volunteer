@@ -15,6 +15,7 @@ import "phoenix_html"
 import "popper.js"
 import "bootstrap/js/dist/button"
 import "bootstrap/js/dist/dropdown"
+import "iframe-resizer/js/iframeResizer.contentWindow.js"
 
 // Import local files
 //

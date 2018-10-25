@@ -16,6 +16,7 @@ defmodule VolunteerWeb.Router do
     plug :ensure_unique_session_identifier
     plug :load_current_user
     plug :configure_sentry_context
+    plug :allow_embedding_as_frame
     plug VolunteerWeb.HTMLMinifier
   end
 
@@ -87,7 +88,7 @@ defmodule VolunteerWeb.Router do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 
-  def configure_sentry_context(conn, _params) do
+  def configure_sentry_context(conn, _opts) do
     case conn.assigns[:current_user] do
       nil ->
         conn
@@ -96,5 +97,9 @@ defmodule VolunteerWeb.Router do
         Sentry.Context.set_user_context(%{title: user.title, id: user.id})
         conn
     end
+  end
+
+  def allow_embedding_as_frame(conn, _opts) do
+    Plug.Conn.delete_resp_header(conn, "x-frame-options")
   end
 end
