@@ -2,8 +2,8 @@
 
 .item-meta {
 	color: $gray-600;
-	li {
-		margin-right: 0.4rem;
+	li.list-inline-item {
+		margin-right: map-get($spacers, 3q);
 		em {
 			color: $gray-600;
 			font-weight: 400;
@@ -20,7 +20,7 @@
 			color: $gray-300;
 			font-family: $font-family-serif;
 			font-weight: 100;
-			margin-left: 0.6rem;
+			margin-left: map-get($spacers, 3q);
 		}
 		&:last-child:after {
 			content: none;

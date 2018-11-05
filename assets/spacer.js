@@ -9,4 +9,4 @@ function spacer(arr, factor, count) {
 	return spacer(arr, factor, count -1)
 }
 
-console.log(spacer([2, 1], 1.25, 5))
+console.log(spacer([2, 1], 1.25, 6))

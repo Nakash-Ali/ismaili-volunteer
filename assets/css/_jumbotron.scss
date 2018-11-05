@@ -1,0 +1,58 @@
+.jumbotron {
+	font-family: $font-family-sans-serif;
+	position: relative;
+	background: transparent;
+	overflow: hidden;
+	color: $white;
+	border-radius: unset;
+
+	h1 {
+		line-height: 1.2;
+	}
+
+	.jumbotron-background {
+		position: absolute;
+		top: -10px;
+		bottom: -10px;
+		left: -10px;
+		right: -10px;
+		transition: background-image 0.6s ease-in-out;
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		opacity: 1;
+		z-index: -1;
+
+		&:after {
+			content: '';
+			background: -webkit-linear-gradient(-90deg, hsla(177, 26%, 6%, 0.64), hsla(177, 26%, 2%, 0.90));
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+
+	}
+
+	.cta {
+		color: $primary;
+		background-color: #FFF;
+		text-decoration: none;
+		padding: 1.25rem 1.75rem;
+		border-radius: $border-radius;
+		box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.2);
+		display: inline-block;
+		transition: 0.2s all ease-in-out;
+		text-transform: uppercase;
+		position: relative;
+		font-weight: 500;
+		&:hover {
+			cursor: pointer;
+			color: #FFF;
+			background-color: $primary;
+			box-shadow: 0px 4px 12px 1px rgba(0, 0, 0, 0.32);
+		}
+	}
+
+}

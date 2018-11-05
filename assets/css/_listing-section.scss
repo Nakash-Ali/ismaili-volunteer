@@ -1,0 +1,34 @@
+.listing-section {
+
+	.listing {
+		@include tufte-anchor-underline($body-bg, $link-color, $link-hover-color);
+	}
+
+	.listings-number {
+		padding: 7px 16px 10px;
+		line-height: 1;
+		background: $gray-200;
+		border-radius: 10px;
+		color: $gray-600;
+		margin-left: 1rem;
+	}
+
+	h5 a {
+		strong {
+			font-weight: 600;
+		}
+	}
+
+	.item-commitment {
+		color: $gray-600;
+		.time {
+			color: $gray-600;
+			font-size: $h1-font-size;
+			line-height: 1;
+		}
+	}
+
+	.found-none {
+		color: $gray-600;
+	}
+}

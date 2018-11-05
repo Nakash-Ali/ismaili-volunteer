@@ -8,7 +8,8 @@ const FILE_NAMES = [
 	'form_submit',
 	'old_browsers',
 	'smooth',
-	'doc_generator'
+	'doc_generator',
+	'iframe_resizer'
 ]
 
 function buildConfig(name) {
