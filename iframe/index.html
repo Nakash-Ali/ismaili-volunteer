@@ -1,0 +1,40 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>IICanada.org</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+		<script async src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.2/iframeResizer.js" integrity="sha256-iaYEL4Ixi0rOON6zlZCRTfRciVPrSvN3bPawzXUM+sA=" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+
+		<style>
+			.ots-iframe {
+				width: 1px;
+				min-width: 100%;
+				border: 0;
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+
+		<iframe class="ots-iframe" id="ots-iframe-1" sandbox="allow-same-origin allow-scripts allow-forms" scrolling="no"></iframe>
+		<script>
+			(function() {
+				const $frame = $("#ots-iframe-1")
+				$frame.on("load", function() {
+					iFrameResize({heightCalculationMethod: "max"}, "#ots-iframe-1")
+				})
+				$frame.attr("src", "http://embedded.localhost:4000")
+			})()
+		</script>
+
+	</body>
+
+</html>
