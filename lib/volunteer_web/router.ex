@@ -16,22 +16,41 @@ defmodule VolunteerWeb.Router do
     plug :ensure_unique_session_identifier
     plug :load_current_user
     plug :configure_sentry_context
-    plug :allow_embedding_as_frame
     plug VolunteerWeb.HTMLMinifier
   end
 
-  scope "/legacy", VolunteerWeb.Legacy do
-    pipe_through :browser
+  pipeline :embedded do
+    plug :allow_embedding_as_frame
+    plug :put_embedded_layout
+  end
 
-    post "/apply", ApplyController, :apply
-    get "/thank_you", ApplyController, :thank_you
-    get "/error", ApplyController, :error
+  scope "/", VolunteerWeb, host: "embedded." do
+    pipe_through :browser
+    pipe_through :embedded
+
+    get "/", Embedded.IndexController, :index
+
+    scope "/listings/:id" do
+      get "/", ListingController, :show
+    end
+
+    scope "/legacy", Legacy do
+      post "/apply", ApplyController, :apply
+      get "/thank_you", ApplyController, :thank_you
+      get "/error", ApplyController, :error
+    end
+
+    match :*, "/*path", NoRouteErrorController, :raise_error
   end
 
   scope "/", VolunteerWeb do
     pipe_through :browser
 
     get "/", IndexController, :index
+
+    scope "/regions/:id" do
+      get "/", RegionController, :show
+    end
 
     scope "/listings/:id" do
       get "/", ListingController, :show
@@ -48,12 +67,10 @@ defmodule VolunteerWeb.Router do
       end
     end
 
-    scope "/auth" do
-      get "/login", AuthController, :login
-      get "/logout", AuthController, :logout
-      get "/:provider", AuthController, :request
-      get "/:provider/callback", AuthController, :callback
-      post "/:provider/callback", AuthController, :callback
+    scope "/legacy", Legacy do
+      post "/apply", ApplyController, :apply
+      get "/thank_you", ApplyController, :thank_you
+      get "/error", ApplyController, :error
     end
 
     scope "/admin", Admin, as: :admin do
@@ -82,6 +99,14 @@ defmodule VolunteerWeb.Router do
 
       get "/feedback/*path", FeedbackController, :index
     end
+
+    scope "/auth" do
+      get "/login", AuthController, :login
+      get "/logout", AuthController, :logout
+      get "/:provider", AuthController, :request
+      get "/:provider/callback", AuthController, :callback
+      post "/:provider/callback", AuthController, :callback
+    end
   end
 
   if Mix.env() == :dev do
@@ -101,5 +126,9 @@ defmodule VolunteerWeb.Router do
 
   def allow_embedding_as_frame(conn, _opts) do
     Plug.Conn.delete_resp_header(conn, "x-frame-options")
+  end
+
+  def put_embedded_layout(conn, _opts) do
+    Phoenix.Controller.put_layout(conn, {VolunteerWeb.LayoutView, "embedded.html"})
   end
 end

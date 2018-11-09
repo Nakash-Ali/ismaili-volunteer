@@ -1,0 +1,8 @@
+<section id="opportunities" class="container listing-section my-5">
+	<div class="mt-4">
+		<%= render VolunteerWeb.IndexView, "opportunities_list.html", assigns %>
+	</div>
+	<div class="mt-4">
+		<%= render VolunteerWeb.IndexView, "opportunities_empty.html", assigns %>
+	</div>
+</section>

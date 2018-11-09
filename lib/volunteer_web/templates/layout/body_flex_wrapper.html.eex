@@ -1,0 +1,5 @@
+<div class="wrapper d-flex flex-column flex-nowrap">
+
+	<%= assigns[:do] %>
+
+</div>

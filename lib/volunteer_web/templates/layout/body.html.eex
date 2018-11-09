@@ -1,10 +1,6 @@
 <%= render "old_browsers.html" %>
 
-<div class="wrapper d-flex flex-column flex-nowrap">
-
-	<%= assigns[:do] %>
-
-</div>
+<%= assigns[:do] %>
 
 <link rel="stylesheet" href="https://use.typekit.net/imw4stg.css">
 

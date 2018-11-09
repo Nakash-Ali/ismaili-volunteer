@@ -7,6 +7,11 @@
 // in vendor, which are never wrapped in imports and
 // therefore are always executed.
 
+// Polyfills
+//
+// Important things that some browsers may not have
+import "url-search-params-polyfill"
+
 // Import dependencies
 //
 // If you no longer want to use a dependency, remember
@@ -24,15 +29,8 @@ import "iframe-resizer/js/iframeResizer.contentWindow.js"
 
 // import socket from "./socket"
 
-import queryString from "query-string"
-
-window.putQueryInLocation = function(key, value) {
-	const parsed = queryString.parse(window.location.search)
-	parsed[key] = value
-	const stringified = queryString.stringify(parsed);
-	window.location.search = stringified;
-}
-
-window.putHashInLocation = function(value) {
-	window.location.hash = value
+window.setQueryParam = function(key, value) {
+	const params = new URLSearchParams(window.location.search)
+	params.set(key, value)
+	window.location.search = params.toString();
 }

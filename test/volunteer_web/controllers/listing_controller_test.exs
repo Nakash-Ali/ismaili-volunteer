@@ -21,7 +21,7 @@ defmodule VolunteerWeb.ListingControllerTest do
 
       listing_html = fn(li) -> VolunteerWeb.Presenters.Title.html(li) |> Phoenix.HTML.safe_to_string() end
 
-      assert html =~ "Volunteer opportunities"
+      assert html =~ "Volunteer Opportunities"
 
       Enum.map(should_appear, fn li -> assert html =~ listing_html.(li) end)
       Enum.map(should_not_appear, fn li -> refute html =~ listing_html.(li) end)

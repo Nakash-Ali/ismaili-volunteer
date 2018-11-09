@@ -14,7 +14,7 @@
 					{:unapproved, "Requires approval"},
 					{:expired, "Expired and archived"},
 				] %>
-				<small class="btn text-muted mr-2q" style="cursor: auto;">Filters</small>
+				<p class="btn text-muted mr-2q mb-0" style="cursor: auto;">Filters</p>
 				<%= for {key, _str} <- fields do %>
 					<%= hidden_input f, key, [value: "false", checked: true] %>
 				<% end %>

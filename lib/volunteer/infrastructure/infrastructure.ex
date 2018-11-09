@@ -26,6 +26,24 @@ defmodule Volunteer.Infrastructure do
     Group |> Repo.get!(id)
   end
 
+  def get_regions(opts \\ []) do
+    from(r in Region)
+    |> query_regions_with_filters(Keyword.get(opts, :filters, %{}))
+    |> Repo.all()
+  end
+
+  defp query_regions_with_filters(query, %{parent_id: parent_id, parent_in_path: true}) when is_integer(parent_id) do
+    from(r in query, where: r.parent_id == ^parent_id or fragment("?::integer[] && ?", [^parent_id], r.parent_path))
+  end
+
+  defp query_regions_with_filters(query, %{parent_id: parent_id}) when is_integer(parent_id) do
+    from(r in query, where: r.parent_id == ^parent_id)
+  end
+
+  defp query_regions_with_filters(query, _filters) do
+    query
+  end
+
   def get_region_id_choices do
     from(r in Region, select: {r.title, r.id})
     |> Repo.all()

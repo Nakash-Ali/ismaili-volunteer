@@ -70,7 +70,7 @@ defmodule Volunteer.Commands do
             obj
 
           {:error, _} ->
-            str
+            result
         end
 
       :error ->

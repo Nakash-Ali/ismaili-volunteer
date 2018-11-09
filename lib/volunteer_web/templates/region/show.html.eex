@@ -1,0 +1,32 @@
+<section class="jumbotron py-0 m-0">
+	<div class="jumbotron-background" style="background-image: url(<%= @jumbotron_image_url %>);"></div>
+	<div class="container text-center py-6">
+		<h1 class="mb-0"><strong><%= Title.text(@region, %{with_parent: true}) %></strong></h1>
+		<h3 class="mb-2q">Volunteer Opportunities</h3>
+	</div>
+</section>
+<section id="opportunities" class="container listing-section mt-2 mb-6">
+	<div class="font-family-sans-serif d-flex flex-row flex-wrap justify-content-between align-items-center">
+		<h6 class="mb-0 text-muted"><%= VolunteerWeb.IndexView.listing_count_text(@listings) %></h6>
+		<div class="d-flex flex-row flex-nowrap align-items-center">
+			<%= if @region.parent do %>
+				<h6 class="mb-0 mr-1 text-muted">
+					Go to <a href="<%= region_path(@conn, :show, @region.parent) %>">parent region</a>
+				</h6>
+			<% end %>
+			<div class="ml-1">
+				<%= render VolunteerWeb.IndexView, "opportunities_region_choices.html", assigns %>
+			</div>
+			<div class="ml-1">
+				<%= render VolunteerWeb.IndexView, "opportunities_region_in_path.html", assigns %>
+			</div>
+		</div>
+	</div>
+	<div class="mt-5">
+		<%= render VolunteerWeb.IndexView, "opportunities_list.html", assigns %>
+	</div>
+	<div class="mt-4">
+		<%= render VolunteerWeb.IndexView, "opportunities_empty.html", assigns %>
+	</div>
+	<div class="pb-1"></div>
+</section>

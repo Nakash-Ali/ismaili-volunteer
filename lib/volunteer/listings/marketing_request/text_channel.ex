@@ -23,9 +23,7 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
     }
   end
 
-  defp apply_template(_title, %{listing: listing}) do
-    {:ok, website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :website)
-
+  defp apply_template(_title, %{listing: listing, website_url: website_url}) do
     for_text =
       if listing.program_title != "" do
         "volunteers for #{listing.program_title}"
@@ -33,6 +31,6 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
         "a #{listing.position_title}"
       end
 
-    "#{listing.group.title} is looking for #{for_text}. For more information on this and other volunteer opportunities, go to #{website}"
+    "#{listing.group.title} is looking for #{for_text}. For more information on this and other volunteer opportunities, go to #{website_url}"
   end
 end

@@ -1,6 +1,6 @@
 <header class="py-1">
-	<div class="container my-2q">
-		<nav class="navbar navbar-expand-lg navbar-light p-0">
+	<div class="container py-2q">
+		<nav class="navbar navbar-light navbar-expand-lg p-0 d-block d-lg-flex">
 			<%= render "navbar.html", assigns %>
 		</nav>
 	</div>

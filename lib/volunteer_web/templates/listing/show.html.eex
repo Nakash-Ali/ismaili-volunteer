@@ -1,9 +1,7 @@
 <section class="container title mt-4 mb-4">
 	<h1 class="mb-1q"><%= Title.html(@listing) %></h1>
-	<ul class="mb-2q posted-expiry item-meta item-meta-underline list-inline font-family-sans-serif">
-		<li class="list-inline-item mb-0"><%= VolunteerWeb.Presenters.Title.text(@listing.region) %></li>
-		<li class="list-inline-item mb-0"><%= VolunteerWeb.Presenters.Title.text(@listing.group) %></li>
-		<li class="list-inline-item mb-0">Listing expires on <em><%= expiry_datetime_text(@listing.expiry_date) %></em></li>
+	<ul class="mb-2q item-meta item-meta-underline list-inline font-family-sans-serif">
+		<%= render "meta_li.html", listing: @listing, show: [:region, :group, :expiry] %>
 	</ul>
 	<%= if @listing.approved do %>
 		<%= render "social_buttons.html", assigns %>

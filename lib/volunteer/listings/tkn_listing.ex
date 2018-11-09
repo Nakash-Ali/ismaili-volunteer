@@ -88,7 +88,7 @@ defmodule Volunteer.Listings.TKNListing do
       "Business Owner (small/medium/large)",
       "Construction",
       "Counseling",
-      "Dentisry",
+      "Dentistry",
       "Education / Training",
       "Engineering",
       "Finance",

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" class="embedded-layout">
+<head>
+	<%= render "head.html", assigns %>
+</head>
+<body>
+	<%= render_with_block "body.html", assigns do %>
+
+		<%= render_or_fallback("body_main", assigns) %>
+
+		<script src="<%= static_path(@conn, "/js/iframe_resizer.js") %>"></script>
+
+	<% end %>
+</body>
+</html>

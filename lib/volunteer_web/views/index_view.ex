@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.IndexView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.LayoutView
   alias VolunteerWeb.ListingView
   alias VolunteerWeb.Presenters.Title
 
@@ -8,10 +7,6 @@ defmodule VolunteerWeb.IndexView do
     [
       stylesheet_tag(conn, "/css/index.css")
     ]
-  end
-
-  def render("body_header.index.html", _assigns) do
-    []
   end
 
   def listing_count_text(listings) do

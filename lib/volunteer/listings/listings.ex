@@ -2,6 +2,7 @@ defmodule Volunteer.Listings do
   import Ecto.Query
 
   alias Volunteer.Repo
+  alias Volunteer.Infrastructure.Region
   alias Volunteer.Listings.Listing
   alias Volunteer.Listings.TKNListing
   alias Volunteer.Listings.MarketingRequest
@@ -214,16 +215,19 @@ defmodule Volunteer.Listings do
     from(l in query, where: l.expiry_reminder_sent == false)
   end
 
-  defp query_listings_with_region_filters(query, filters) when filters == %{} do
-    query
+  defp query_listings_with_region_filters(query, %{region_id: region_id, region_in_path: true}) when is_integer(region_id) do
+    from(l in query,
+      join: r in Region,
+      on: l.region_id == r.id,
+      where: r.id == ^region_id or fragment("?::integer[] && ?", [^region_id], r.parent_path))
   end
 
-  defp query_listings_with_region_filters(query, %{region_id: nil}) do
-    query
-  end
-
-  defp query_listings_with_region_filters(query, %{region_id: region_id}) do
+  defp query_listings_with_region_filters(query, %{region_id: region_id}) when is_integer(region_id) do
     from(l in query, where: l.region_id == ^region_id)
+  end
+
+  defp query_listings_with_region_filters(query, _filters) do
+    query
   end
 
   def new_tkn_listing() do
@@ -271,18 +275,17 @@ defmodule Volunteer.Listings do
   end
 
   def new_marketing_request(listing) do
-    MarketingRequest.new(
-      MarketingRequest.default_channels(),
-      %{listing: listing}
-    )
+    {:ok, website_url} = Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
+
+    MarketingRequest.default_channels()
+    |> MarketingRequest.new(%{listing: listing, website_url: website_url})
   end
 
   def create_marketing_request(listing, attrs) do
-    MarketingRequest.create(
-      MarketingRequest.default_channels(),
-      %{listing: listing},
-      attrs
-    )
+    {:ok, website_url} = Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
+
+    MarketingRequest.default_channels()
+    |> MarketingRequest.create(%{listing: listing, website_url: website_url}, attrs)
     |> Ecto.Changeset.apply_action(:insert)
   end
 

@@ -5,7 +5,7 @@
 <section class="container my-3">
 	<div class="row">
 		<%= for conf <- VolunteerWeb.FeatureModules.configs_for_conn(@conn) do %>
-			<div class="col-sm-4 d-flex flex-column flex-nowrap">
+			<div class="col-sm-6 col-lg-4 d-flex flex-column flex-nowrap">
 				<div class="card flex-grow-1">
 					<div class="card-body p-2 text-center d-flex flex-nowrap flex-column align-items-center">
 						<h5 class="card-title"><%= conf.title %></h5>

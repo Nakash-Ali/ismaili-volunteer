@@ -5,10 +5,7 @@ defmodule VolunteerWeb.Admin.ListingParams do
 
     @checks_content [
       ~E"""
-      I have reviewed this listing to the best of my abilities <a href=\"something\"></a>
-      """,
-      ~E"""
-      For any questions or concerns, I have reached out to the CC team for their review.
+      By approving this listing, I hereby certify that I have reviewed the entire listing to the best of my abilities and have reached out for a second opinion on anything that I am unsure about.
       """,
     ]
 
@@ -22,7 +19,6 @@ defmodule VolunteerWeb.Admin.ListingParams do
           |> String.to_atom()
         {key, value}
       end)
-      |> Enum.into(%{})
     )
 
     @types Enum.map(@checks, fn {key, _value} -> {key, :boolean} end) |> Enum.into(%{})

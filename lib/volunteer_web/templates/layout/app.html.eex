@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="app-layout">
 <head>
 	<%= render "head.html", assigns %>
 </head>
 <body>
 	<%= render_with_block "body.html", assigns do %>
 
-		<%= render_or_fallback("body_header", assigns) %>
+		<%= render_with_block "body_flex_wrapper.html", %{} do %>
 
-		<%= render_or_fallback("body_main", assigns) %>
+			<%= render_or_fallback("body_header", assigns) %>
 
-		<%= render_or_fallback("body_footer", assigns) %>
+			<%= render_or_fallback("body_main", assigns) %>
+
+			<%= render_or_fallback("body_footer", assigns) %>
+
+		<% end %>
 
 	<% end %>
 </body>

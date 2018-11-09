@@ -1,0 +1,11 @@
+<%= if @listings != [] do %>
+	<ul class="listing list-unstyled my-0">
+		<%= for listing <- @listings do %>
+			<li class="listing-item mt-2">
+				<h5 class="item-title mb-1q"><a href="<%= listing_path(@conn, :show, listing) %>"><%= Title.html(listing) %></a></h5>
+				<%= render ListingView, "meta.html", listing: listing, show: [:region, :group, :time_commitment, :start_date_and_end_date] %>
+				<p class="mt-0 mb-0"><%= listing.summary_line %></p>
+			</li>
+		<% end %>
+	</ul>
+<% end %>

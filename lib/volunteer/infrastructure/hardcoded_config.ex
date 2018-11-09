@@ -4,13 +4,15 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     1 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       marketing_request_email: [],
-      website: "https://iicanada.org/serveontario",
+      website_url: "https://iicanada.org/serveontario",
+      jumbotron_image_url: "/static/images/aga-khan-garden-edmonton.jpg",
     },
     # Ontario
     2 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       marketing_request_email: ["cfo-announcements@iicanada.net"],
-      website: "https://iicanada.org/serveontario",
+      website_url: "https://iicanada.org/serveontario",
+      jumbotron_image_url: "/static/images/ismaili-center-toronto.jpg",
     }
   }
 
