@@ -1,0 +1,3 @@
+<section class="container my-3">
+	<%= render VolunteerWeb.VendorView, "canny.html", @canny_assigns %>
+</section>

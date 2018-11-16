@@ -1,9 +1,20 @@
-<%= if @item_href == nil do %>
-  <li class="nav-item">
-	<span class="nav-link p-2q"><%= @item_text %></span>
-  </li>
+<%= if @item.href == nil do %>
+	<%= if @item.children == nil do %>
+		<li class="nav-item">
+			<span class="nav-link"><%= @item.text %></span>
+		</li>
+	<% else %>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle <%= if @item.is_active?, do: "active" %>" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= @item.text %></a>
+			<div class="dropdown-menu">
+				<%= for child_item <- @item.children do %>
+					<a class="nav-link px-1 <%= if child_item.is_active?, do: "active" %>" href="<%= child_item.href %>"><%= child_item.text %></a>
+				<% end %>
+			</div>
+		</li>
+	<% end %>
 <% else %>
 	<li class="nav-item">
-	  <a class="nav-link p-2q <%= if @item_active?, do: "active" %>" href="<%= @item_href %>"><%= @item_text %></a>
+		<a class="nav-link <%= if @item.is_active?, do: "active" %>" href="<%= @item.href %>"><%= @item.text %></a>
 	</li>
 <% end %>

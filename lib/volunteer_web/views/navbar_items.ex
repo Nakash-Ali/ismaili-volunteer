@@ -5,11 +5,15 @@ defmodule VolunteerWeb.NavbarItems do
   @item_module VolunteerWeb.LayoutView
   @item_template "navbar_item.html"
 
+  defmodule Item do
+    defstruct text: nil, href: nil, children: nil, is_active?: false
+  end
+
   defmodule ItemsConfig do
     defmodule IICanada do
       def items do
         [
-          {"IICanada", "https://iicanada.org"}
+          %Item{text: "IICanada", href: "https://iicanada.org"}
         ]
       end
     end
@@ -19,13 +23,13 @@ defmodule VolunteerWeb.NavbarItems do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              {VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)), nil},
-              {"Logout", auth_path(conn, :logout)}
+              %Item{text: VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)), href: nil},
+              %Item{text: "Logout", href: auth_path(conn, :logout)}
             ]
 
           false ->
             [
-              {"Login", auth_path(conn, :login)}
+              %Item{text: "Login", href: auth_path(conn, :login)}
             ]
         end
       end
@@ -36,7 +40,7 @@ defmodule VolunteerWeb.NavbarItems do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              {"Admin", admin_index_path(conn, :index)},
+              %Item{text: "Admin", href: admin_index_path(conn, :index)}
               # TODO: Enable documentation
               # {"Documentation", "https://drive.google.com/open?id=1Hvf9o_d5BPXYh0UJvvGO8GfAyCbia088"},
             ]
@@ -47,27 +51,42 @@ defmodule VolunteerWeb.NavbarItems do
       end
 
       def primary(%{conn: conn}) do
-        features_nav_items =
-          conn
-          |> VolunteerWeb.FeatureModules.configs_for_conn()
-          |> Enum.map(fn conf ->
-            {conf.title, conf.path.(conn)}
-          end)
+        conn
+        |> VolunteerWeb.FeatureModules.configs_for_conn()
+        |> Enum.map(fn conf ->
+          %Item{text: conf.title, href: conf.path.(conn)}
+        end)
+      end
+    end
 
-        extra_nav_items = [
-          {"Feedback", admin_feedback_path(conn, :index, [])},
-        ]
+    defmodule Feedback do
+      def items(%{conn: conn}) do
+        case UserSession.logged_in?(conn) do
+          true ->
+            [
+              %Item{
+                text: "Feedback",
+                children: [
+                  %Item{text: "Admin", href: admin_feedback_path(conn, :index, [])},
+                  %Item{text: "Public", href: feedback_path(conn, :index, [])}
+                ]
+              }
+            ]
 
-        features_nav_items ++ extra_nav_items
+          false ->
+            [
+              %Item{text: "Feedback", href: feedback_path(conn, :index, [])}
+            ]
+        end
       end
     end
 
     def for(["VolunteerWeb", "Admin" | _], assigns) do
-      Admin.primary(assigns) ++ Admin.base(assigns) ++ User.items(assigns)
+      Admin.primary(assigns) ++ Admin.base(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
     end
 
     def for(["VolunteerWeb" | _], assigns) do
-      Admin.base(assigns) ++ User.items(assigns)
+      Admin.base(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
     end
   end
 
@@ -82,40 +101,59 @@ defmodule VolunteerWeb.NavbarItems do
     Module.split(view_module)
   end
 
-  def identify_active(nav_items, %{conn: %{path_info: path_info}}) do
+  def identify_active(nav_items, %{conn: %{path_info: path_info}} = assigns) do
     nav_items
     |> Enum.with_index()
-    |> Enum.map(fn {{_item_text, item_href} = nav_item, index} ->
-      segments =
-        make_path_segments(item_href)
-      %{
-        index: index,
-        length: length(segments),
-        segments: segments,
-        nav_item: nav_item,
-      }
+    |> Enum.map(fn
+      {%Item{href: item_href, children: nil} = nav_item, index} ->
+        segments = make_path_segments(item_href)
+
+        %{
+          index: index,
+          length: length(segments),
+          segments: segments,
+          nav_item: nav_item
+        }
+
+      {%Item{children: child_nav_items} = nav_item, index} when is_list(child_nav_items) ->
+        %{
+          index: index,
+          length: nil,
+          segments: nil,
+          nav_item: Map.update!(nav_item, :children, &identify_active(&1, assigns))
+        }
     end)
-    |> Enum.sort_by(&(&1.length), &>=/2)
+    |> Enum.sort_by(& &1.length, &>=/2)
     |> Enum.map_reduce(false, fn
-      data = %{nav_item: {item_text, item_href}}, true ->
-        {%{data | nav_item: {item_text, item_href, false}}, true}
-      data = %{segments: [], nav_item: {item_text, item_href}}, _found_active? ->
-        {%{data | nav_item: {item_text, item_href, false}}, false}
-      data = %{segments: segments, nav_item: {item_text, item_href}}, _found_active? ->
+      data, true ->
+        {data, true}
+
+      data = %{nav_item: %{children: child_nav_items}}, _found_active? when is_list(child_nav_items) ->
         item_active? =
-          List.starts_with?(path_info, segments)
-        {%{data | nav_item: {item_text, item_href, item_active?}}, item_active?}
+          child_nav_items
+          |> Enum.map(& &1.is_active?)
+          |> Enum.any?()
+
+        {put_in(data, [:nav_item, Access.key!(:is_active?)], item_active?), item_active?}
+
+      data = %{segments: []}, _found_active? ->
+        {data, false}
+
+      data = %{segments: segments}, _found_active? ->
+        item_active? = List.starts_with?(path_info, segments)
+
+        {put_in(data, [:nav_item, Access.key!(:is_active?)], item_active?), item_active?}
     end)
     |> elem(0)
-    |> Enum.sort_by(&(&1.index), &<=/2)
-    |> Enum.map(&(&1.nav_item))
+    |> Enum.sort_by(& &1.index, &<=/2)
+    |> Enum.map(& &1.nav_item)
   end
 
-  def make_path_segments(nil)  do
+  def make_path_segments(nil) do
     []
   end
 
-  def make_path_segments(uri)  do
+  def make_path_segments(uri) do
     uri
     |> URI.parse()
     |> Map.get(:path)
@@ -123,10 +161,9 @@ defmodule VolunteerWeb.NavbarItems do
     |> String.split("/")
   end
 
-  def render_nav_item({item_text, item_href, item_active?}, assigns) do
+  def render_nav_item(%Item{} = item, assigns) do
     all_assigns =
-      assigns
-      |> Map.merge(%{item_text: item_text, item_href: item_href, item_active?: item_active?})
+      Map.merge(assigns, %{item: item})
 
     Phoenix.View.render(@item_module, @item_template, all_assigns)
   end

@@ -47,6 +47,7 @@ defmodule VolunteerWeb.Router do
     pipe_through :browser
 
     get "/", IndexController, :index
+    get "/feedback/*path", FeedbackController, :index
 
     scope "/regions/:id" do
       get "/", RegionController, :show

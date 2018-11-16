@@ -46,6 +46,27 @@ header {
 	h1 {
 		font-weight: 100;
 	}
+
+	nav.navbar .nav-item {
+		& > .nav-link {
+			padding: 0.5rem;
+		}
+		&:first-child > .nav-link {
+			padding-left: 0;
+		}
+		&:last-child > .nav-link {
+			padding-right: 0;
+		}
+
+		.dropdown-toggle::after {
+			margin-left: .35em;
+			vertical-align: .15em;
+		}
+
+		.dropdown-menu .nav-link:not(.active) {
+			color: $navbar-light-color;
+		}
+	}
 }
 
 footer {
