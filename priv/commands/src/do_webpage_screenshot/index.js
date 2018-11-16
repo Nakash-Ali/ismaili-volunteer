@@ -35,7 +35,7 @@ async function saveImages(imgConfigs) {
 }
 
 const config = setupConfig(schema)
-const done = setupTimeout()
+const done = setupTimeout(30000)
 
 saveImages(config)
 	.then(done)

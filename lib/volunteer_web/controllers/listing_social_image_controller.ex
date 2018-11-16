@@ -14,7 +14,7 @@ defmodule VolunteerWeb.ListingSocialImageController do
 
   def image(conn, %{"id" => id}) do
     listing = Listings.get_one_public_listing!(id)
-    disk_path = ListingSocialImageGenerator.get(conn, listing)
+    disk_path = ListingSocialImageGenerator.generate!(conn, listing)
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "social_image_image", Slugify.slugify(listing), conn)
 

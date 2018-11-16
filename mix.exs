@@ -47,7 +47,7 @@ defmodule Volunteer.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.13"},
       {:cowboy, "~> 1.0"},
-      {:distillery, ">= 1.5.3"},
+      {:plug_cowboy, "~> 1.0"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
@@ -60,7 +60,6 @@ defmodule Volunteer.Mixfile do
       {:html_sanitize_ex, "~> 1.3.0-rc3"},
       {:floki, "~> 0.20.0"},
       {:slugger, "~> 0.2"},
-      {:porcelain, "~> 2.0"},
       {:jose, "~> 1.8"},
       {:faker, "~> 0.11", only: [:dev, :test]}
     ]

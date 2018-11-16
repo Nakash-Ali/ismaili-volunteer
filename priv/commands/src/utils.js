@@ -19,7 +19,7 @@ function setupConfig(schema) {
 	return parsedConfig
 }
 
-function setupTimeout(timeout = 30000) {
+function setupTimeout(timeout) {
 	timeout = parseInt(timeout, 10)
 	if (isNaN(timeout) || timeout <= 0 || timeout > 120 * 1000) {
 		console.error('timeout must be a non-negative integer less than 2 minutes (in milliseconds)')
