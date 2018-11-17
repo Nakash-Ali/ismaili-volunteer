@@ -41,7 +41,8 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     7 => %{
       "azrah.manji@iicanada.net" => "admin",
       "fazila.jiwa@iicanada.net" => "admin",
-      "hussain.peermohammad@iicanada.net" => "admin"
+      "hussain.peermohammad@iicanada.net" => "admin",
+      "akysbo.communications@iicanada.net" => "admin"
     }
   }
 
