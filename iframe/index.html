@@ -26,11 +26,10 @@
 			}
 		</style>
 
-		<iframe src="https://embedded.localhost:4000" class="ots-iframe" id="ots-iframe-1" sandbox="allow-same-origin allow-scripts allow-forms" scrolling="no"></iframe>
+		<iframe src="https://embedded.ismailivolunteer.eightzerothree.co" class="ots-iframe" id="ots-iframe-1"></iframe>
 		<script>
-			(function() {
-				iFrameResize({heightCalculationMethod: "max"}, "#ots-iframe-1")
-			})()
+			jQuery("#ots-iframe-1").iFrameResize({log: true, heightCalculationMethod: "max"})
+			iFrameResize({heightCalculationMethod: "bodyOffset", log: true}, "#ots-iframe-1")
 		</script>
 
 	</body>
