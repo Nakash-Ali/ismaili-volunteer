@@ -9,7 +9,7 @@
 		"rollup": "./node_modules/.bin/rollup -c ./rollup.config.js",
 		"scripts": "npm run modernizr && npm run rollup",
 		"scss": "./node_modules/.bin/node-sass-chokidar ./css --output ../priv/static/css --include-path ./node_modules --output-style compressed",
-		"styles": "npm run scss && ./node_modules/.bin/postcss ../priv/static/css/*.css --replace",
+		"styles": "npm run scss && ./node_modules/.bin/postcss ../priv/static/css/*.css --replace --use autoprefixer",
 		"fontawesome": "cp -r node_modules/@fortawesome/fontawesome-pro/webfonts/. ./static/fonts",
 		"fonts": "npm run fontawesome",
 		"static": "cp -r ./static/. ../priv/static",
