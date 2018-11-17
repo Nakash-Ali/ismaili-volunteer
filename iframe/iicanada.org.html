@@ -266,7 +266,17 @@
 	<script type="text/javascript" src="/sites/all/libraries/dojo/dojo.js"></script>
 
 
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.2/iframeResizer.js" integrity="sha256-iaYEL4Ixi0rOON6zlZCRTfRciVPrSvN3bPawzXUM+sA=" crossorigin="anonymous"></script>
+	<style>
+		.ots-iframe {
+			width: 1px;
+			min-width: 100%;
+			border: 0;
+			padding: 0;
+			margin: 0;
+		}
+	</style>
 </head>
 
 <body role="document" class="html not-front not-logged-in no-sidebars page-opportunities i18n-en">
@@ -411,9 +421,11 @@
 
 
 
+							<iframe src="https://embedded.ismailivolunteer.eightzerothree.co" class="ots-iframe" id="ots-iframe-1"></iframe>
 
-
-
+							<script>
+								iFrameResize({heightCalculationMethod: "bodyScroll", log: true, inPageLinks: true}, "#ots-iframe-1")
+							</script>
 
 
 
