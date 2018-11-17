@@ -256,26 +256,24 @@ defmodule Volunteer.Listings.Listing do
     |> unapprove
   end
 
-  defp manage_date_with_toggle(changeset, date_field, toggle_field) do
-    case get_field(changeset, toggle_field) do
+  defp manage_date_with_toggle(changeset, date_field, disable_date_toggle) do
+    default_toggle_value = false
+
+    case get_field(changeset, disable_date_toggle) do
       nil ->
-        manage_toggle(changeset, date_field, toggle_field)
+        case get_field(changeset, date_field) do
+          nil ->
+            put_change(changeset, disable_date_toggle, default_toggle_value)
+
+          _ ->
+            put_change(changeset, disable_date_toggle, false)
+        end
 
       true ->
         put_change(changeset, date_field, nil)
 
       false ->
         validate_required(changeset, date_field)
-    end
-  end
-
-  defp manage_toggle(changeset, date_field, toggle_field) do
-    case get_field(changeset, date_field) do
-      nil ->
-        put_change(changeset, toggle_field, true)
-
-      _ ->
-        put_change(changeset, toggle_field, false)
     end
   end
 
