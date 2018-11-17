@@ -178,7 +178,7 @@ defmodule Volunteer.Commands do
         {:error, result, _status} ->
           {:error, result}
 
-        {:timeout, result, _status} ->
+        {:timeout, _result, _status} ->
           {:error, :timeout}
       end
     end
