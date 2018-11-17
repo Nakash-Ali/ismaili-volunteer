@@ -54,8 +54,8 @@
 		<div class="col-md-4">
 			<label class="" for="other-input">Additional Information</label>
 			<small>
-				<ul class="mb-0">
-					<li>Tell us why you'd be a good fit!</li>
+				<ul class="mb-sm-1 mb-md-1q">
+					<li>Tell us why you're a good fit!</li>
 					<li>Share any other questions, comments or concerns</li>
 				</ul>
 			</small>
