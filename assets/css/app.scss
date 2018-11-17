@@ -29,6 +29,12 @@ html.app-layout, {
 	}
 }
 
+html.embedded-layout {
+	body, main {
+		overflow: auto;
+	}
+}
+
 header {
 	transition: 0.33s opacity ease-in-out;
 	&:hover {
