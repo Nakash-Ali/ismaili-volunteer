@@ -80,6 +80,7 @@ defmodule VolunteerWeb.Router do
 
       resources "/listings", ListingController do
         resources "/tkn_listing", TKNListingController, singleton: true
+        get "/tkn_listing/generate_spec", TKNListingController, :generate_spec
 
         resources "/marketing_request", MarketingRequestController,
           singleton: true,

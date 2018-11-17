@@ -3,7 +3,7 @@
 <section class="container">
 	<div class="d-flex align-items-center justify-content-between font-family-sans-serif">
 		<div class="btn-group mr-2" role="group">
-			<a id="generate_assignment"></a>
+			<%= link {:safe, "<i class=\"far fa-file-alt mr-1q\" aria-hidden=\"true\"></i> Generate TKN Assignment Specification"}, to: admin_listing_tkn_listing_path(@conn, :generate_spec, @listing), class: "btn btn-primary" %>
 		</div>
 		<div class="btn-toolbar justify-content-end" role="toolbar">
 			<div class="btn-group mr-2q" role="group">

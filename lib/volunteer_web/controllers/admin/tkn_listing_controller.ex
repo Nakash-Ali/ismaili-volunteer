@@ -180,6 +180,20 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   #   |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
   # end
 
+  def generate_spec(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
+    disk_path = VolunteerWeb.Services.TKNListingSpecGenerator.generate!(listing, tkn_listing)
+
+    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_tkn_generate", Slugify.slugify(listing), conn)
+
+    Phoenix.Controller.send_download(
+      conn,
+      {:file, disk_path},
+      filename: VolunteerWeb.Presenters.Filename.text(listing, "TKN Assignment Specification.odt"),
+      charset: "utf-8"
+    )
+  end
+
   # Utilities
 
   defp render_form(conn, %Ecto.Changeset{} = changeset, template, opts) do
