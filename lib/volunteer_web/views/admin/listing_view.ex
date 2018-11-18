@@ -8,8 +8,8 @@ defmodule VolunteerWeb.Admin.ListingView do
 
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
-      render(VolunteerWeb.VendorView, "choices.html"),
       render(VolunteerWeb.VendorView, "trix.html"),
+      script_tag(conn, "/js/drafterize_form.js"),
       stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
@@ -47,16 +47,6 @@ defmodule VolunteerWeb.Admin.ListingView do
         {"Requires approval", "text-warning"}
       end
     end
-  end
-
-  def request_approval_link(conn, listing, approver) do
-    subject = "Approval request for #{Title.text(listing)}"
-    body = """
-           Ya Ali Madad #{approver.given_name},
-           I would like your approval of
-           #{admin_listing_url(conn, :show, listing)}.
-           """ |> String.replace("\n", " ")
-    "mailto:#{approver.primary_email}?subject=#{subject}&body=#{body}"
   end
 
   def expiry_reminder_sent_text(true), do: "Sent"

@@ -8,7 +8,7 @@
 
 		<%= render_or_fallback("body_main", assigns) %>
 
-		<script src="<%= static_path(@conn, "/js/iframe_resizer.js") %>"></script>
+		<%= script_tag(@conn, "/js/iframe_resizer.js") %>
 
 	<% end %>
 </body>

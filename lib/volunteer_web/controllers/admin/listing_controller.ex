@@ -252,21 +252,18 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   defp render_new_form(conn, changeset) do
+    current_user_id =
+      UserSession.get_user(conn)
+      |> Map.get(:id)
+
     render_form(
       conn,
       changeset,
       "new.html",
       action_path: admin_listing_path(conn, :create),
       back_path: admin_listing_path(conn, :index),
-      draft_content: %{
-        position_title: "Draft position...",
-        summary_line: "Draft summary...",
-        time_commitment_amount: "1",
-        time_commitment_type: "hour(s)/week",
-        program_description: "Draft description...",
-        responsibilities: "Draft responsibilities...",
-        qualifications: "Draft qualifications..."
-      }
+      draft_content: Listings.Listing.draft_content(current_user_id),
+      draft_content_key: VolunteerWeb.IdUtils.generate_unique_id(12)
     )
   end
 

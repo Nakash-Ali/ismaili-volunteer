@@ -22,7 +22,7 @@
 	    <%= error_tag @form, @field %>
 	</div>
 </div>
-<script>
+<!-- <script>
 	(function() {
 		"use strict";
 		var defaultConfig = {}
@@ -35,6 +35,6 @@
 		<% end %>
 		var passedConfig = JSON.parse(atob(("<%= JSON.encode_for_client(assigns[:choices_opts]) %>")))
 		var config = Object.assign(defaultConfig, passedConfig)
-		// new Choices("#<%= input_id(@form, @field) %>", config)
+		new Choices("#<%= input_id(@form, @field) %>", config)
 	})();
-</script>
+</script> -->

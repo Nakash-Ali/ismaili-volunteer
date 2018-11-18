@@ -132,4 +132,8 @@
 	</div>
 
 	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
+
+	<%= if assigns[:draft_content] do %>
+		<%= VolunteerWeb.DrafterizeHelpers.draft_content_script_tag(form, assigns[:draft_content], assigns[:draft_content_key]) %>
+	<% end %>
 <% end %>

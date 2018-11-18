@@ -2,6 +2,14 @@
 	<h4 class="mb-2 py-2q">Create a New Listing</h4>
 <% end %>
 
+<section class="container">
+	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
+		<div class="btn-group" role="group">
+			<btn onclick="drafterizeForm('<%= @draft_content_key %>')" class="btn btn-outline-primary"><i class="far fa-pencil-ruler mr-1q" aria-hidden="true"></i> Add draft content</btn>
+		</div>
+	</div>
+</section>
+
 <section class="container my-3">
 	<%= render "form.html", assigns %>
 </section>
