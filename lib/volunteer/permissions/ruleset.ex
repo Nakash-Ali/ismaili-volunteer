@@ -2,7 +2,7 @@ defmodule Volunteer.Permissions.Ruleset do
   alias Volunteer.Listings.Listing
 
   @superusers [
-    # "alizain.feerasta@iicanada.net",
+    "alizain.feerasta@iicanada.net",
     "hussein.kermally@iicanada.net",
   ]
 
