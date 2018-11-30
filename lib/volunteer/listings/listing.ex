@@ -166,14 +166,14 @@ defmodule Volunteer.Listings.Listing do
     listing
     |> change()
     |> put_change(:approved, true)
-    |> put_change(:approved_on, Timex.now())
+    |> put_change(:approved_on, Volunteer.TemporalUtils.utc_now_truncated_to_seconds())
     |> put_assoc(:approved_by, approved_by)
     |> foreign_key_constraint(:approved_by_id)
   end
 
   defp unapprove(listing) do
     listing
-    |> change
+    |> change()
     |> put_change(:approved, false)
     |> put_change(:approved_on, nil)
     |> put_change(:approved_by, nil)
@@ -220,7 +220,7 @@ defmodule Volunteer.Listings.Listing do
   end
 
   def is_expired?(%__MODULE__{expiry_date: expiry_date}) do
-    Timex.compare(Timex.now("UTC"), expiry_date) == 1
+    Timex.compare(Volunteer.TemporalUtils.utc_now_truncated_to_seconds(), expiry_date) == 1
   end
 
   def is_public?(listing) do
@@ -291,11 +291,15 @@ defmodule Volunteer.Listings.Listing do
     end
   end
 
-  defp now_expiry_date() do
-    Timex.now("UTC") |> Timex.shift(minutes: -5) |> Timex.to_datetime("UTC")
+  def now_expiry_date() do
+    Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
+    |> Timex.shift(minutes: -5)
+    |> Timex.to_datetime("UTC")
   end
 
-  defp refreshed_expiry_date() do
-    Timex.now("UTC") |> Timex.shift(days: refresh_expiry_days_by()) |> Timex.to_datetime("UTC")
+  def refreshed_expiry_date() do
+    Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
+    |> Timex.shift(days: refresh_expiry_days_by())
+    |> Timex.to_datetime("UTC")
   end
 end

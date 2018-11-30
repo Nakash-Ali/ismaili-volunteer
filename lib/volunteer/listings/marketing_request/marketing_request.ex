@@ -6,7 +6,7 @@ defmodule Volunteer.Listings.MarketingRequest do
   alias Volunteer.Listings.MarketingRequest.TextImageChannel
 
   schema "marketing_requests" do
-    field :start_date, :date, default: Timex.now() |> Timex.to_date()
+    field :start_date, :date, default: Date.utc_today()
     field :target_jamatkhanas, {:array, :string}
     embeds_many :text_channels, TextChannel
     embeds_many :image_channels, ImageChannel

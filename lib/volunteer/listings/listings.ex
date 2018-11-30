@@ -151,7 +151,7 @@ defmodule Volunteer.Listings do
   end
 
   defp query_listings_with_admin_state_filters(query, %{approved: true, unapproved: false, expired: true}) do
-    current_time = DateTime.utc_now()
+    current_time = Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
     from(l in query,
       where: l.approved == true
           or l.expiry_date < ^current_time)
@@ -163,7 +163,7 @@ defmodule Volunteer.Listings do
   end
 
   defp query_listings_with_admin_state_filters(query, %{approved: false, unapproved: true, expired: true}) do
-    current_time = DateTime.utc_now()
+    current_time = Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
     from(l in query,
       where: l.approved == false
           or l.expiry_date < ^current_time)
@@ -198,12 +198,12 @@ defmodule Volunteer.Listings do
   end
 
   defp query_expired_listing(query) do
-    current_time = DateTime.utc_now()
+    current_time = Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
     from(l in query, where: l.expiry_date < ^current_time)
   end
 
   defp query_unexpired_listing(query) do
-    current_time = DateTime.utc_now()
+    current_time = Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
     from(l in query, where: l.expiry_date >= ^current_time)
   end
 

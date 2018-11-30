@@ -4,7 +4,7 @@ defmodule Volunteer.Listings.ExpiryReminder do
   @future_expiry_date_shift 2
 
   def future_expiry_date() do
-    Timex.now("UTC")
+    Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
     |> Timex.shift(days: @future_expiry_date_shift)
     |> Timex.to_datetime("UTC")
   end
