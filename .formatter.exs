@@ -4,6 +4,6 @@
     ".formatter.exs",
     "{lib,test,rel,priv,config}/**/*.{ex,exs}"
   ],
-  import_deps: Volunteer.Mixfile.deps() |> Enum.map(fn dep_tup -> elem(dep_tup, 0) end),
+  import_deps: Mix.Dep.Lock.read() |> Map.keys(),
   locals_without_parens: []
 ]
