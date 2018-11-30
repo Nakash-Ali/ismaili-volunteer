@@ -6,7 +6,7 @@ defmodule VolunteerWeb.ListingView do
 
   def render("head_extra.show.html", %{conn: conn}) do
     [
-      stylesheet_tag(conn, "/css/listing.css")
+      StaticHelpers.stylesheet_tag(conn, "/css/listing.css")
     ]
   end
 

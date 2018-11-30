@@ -93,7 +93,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
         conn
         |> put_flash(:success, "Listing created successfully.")
-        |> redirect(to: admin_listing_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -131,7 +131,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
         conn
         |> put_flash(:success, "Listing updated successfully.")
-        |> redirect(to: admin_listing_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -150,7 +150,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     conn
     |> put_flash(:success, "Your request for approval has been submitted for this listing.")
-    |> redirect(to: admin_listing_path(conn, :show, listing))
+    |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
   def approve_confirmation(conn, _params) do
@@ -194,7 +194,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     conn
     |> put_flash(:success, "Listing #{action}d successfully.")
-    |> redirect(to: admin_listing_path(conn, :show, toggled_listing))
+    |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, toggled_listing))
   end
 
   def refresh_expiry(conn, _params) do
@@ -207,7 +207,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     conn
     |> put_flash(:success, "Successfully refreshed listing expiry.")
-    |> redirect(to: admin_listing_path(conn, :show, listing))
+    |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
   def expire(conn, _params) do
@@ -220,7 +220,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     conn
     |> put_flash(:success, "Successfully expired listing.")
-    |> redirect(to: admin_listing_path(conn, :show, listing))
+    |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
   def delete(conn, _params) do
@@ -233,7 +233,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     conn
     |> put_flash(:success, "Listing deleted successfully.")
-    |> redirect(to: admin_listing_path(conn, :index))
+    |> redirect(to: RouterHelpers.admin_listing_path(conn, :index))
   end
 
   # Utilities
@@ -246,8 +246,8 @@ defmodule VolunteerWeb.Admin.ListingController do
       listing: listing,
       checks: ListingParams.ApproveChecks.checks(),
       checks_changes: changeset,
-      action_path: admin_listing_path(conn, :approve, listing),
-      back_path: admin_listing_path(conn, :show, listing)
+      action_path: RouterHelpers.admin_listing_path(conn, :approve, listing),
+      back_path: RouterHelpers.admin_listing_path(conn, :show, listing)
     )
   end
 
@@ -260,8 +260,8 @@ defmodule VolunteerWeb.Admin.ListingController do
       conn,
       changeset,
       "new.html",
-      action_path: admin_listing_path(conn, :create),
-      back_path: admin_listing_path(conn, :index),
+      action_path: RouterHelpers.admin_listing_path(conn, :create),
+      back_path: RouterHelpers.admin_listing_path(conn, :index),
       draft_content: Listings.Listing.draft_content(current_user_id),
       draft_content_key: VolunteerWeb.IdUtils.generate_unique_id(12)
     )
@@ -273,8 +273,8 @@ defmodule VolunteerWeb.Admin.ListingController do
       changeset,
       "edit.html",
       listing: listing,
-      action_path: admin_listing_path(conn, :update, listing),
-      back_path: admin_listing_path(conn, :show, listing)
+      action_path: RouterHelpers.admin_listing_path(conn, :update, listing),
+      back_path: RouterHelpers.admin_listing_path(conn, :show, listing)
     )
   end
 

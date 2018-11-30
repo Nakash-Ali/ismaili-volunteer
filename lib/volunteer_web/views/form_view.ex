@@ -14,7 +14,7 @@ defmodule VolunteerWeb.FormView do
   end
 
   defp input_classes_for_state(_submitted = true, form, field) do
-    case has_errors?(form, field) do
+    case ErrorHelpers.has_errors?(form, field) do
       true -> ["is-invalid"]
       false -> ["is-valid"]
     end

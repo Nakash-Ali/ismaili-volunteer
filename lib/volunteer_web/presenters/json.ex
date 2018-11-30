@@ -6,7 +6,7 @@ defmodule VolunteerWeb.Presenters.JSON do
   def encode_for_client(data) do
     data
     |> Enum.into(%{})
-    |> Poison.encode!()
+    |> Jason.encode!()
     |> Base.encode64()
     |> Phoenix.HTML.raw()
   end

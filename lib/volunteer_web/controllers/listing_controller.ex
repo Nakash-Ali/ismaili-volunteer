@@ -22,7 +22,7 @@ defmodule VolunteerWeb.ListingController do
       {:ok, _structs} ->
         conn
         |> put_flash(:info, "Applied to listing successfully.")
-        |> redirect(to: index_path(conn, :index))
+        |> redirect(to: RouterHelpers.index_path(conn, :index))
 
       {:error, changesets} ->
         render_form(conn, changesets, listing: listing)

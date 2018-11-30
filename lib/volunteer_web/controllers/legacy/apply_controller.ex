@@ -102,7 +102,7 @@ defmodule VolunteerWeb.Legacy.ApplyController do
   end
 
   defp encode_errors(errors) when is_map(errors) do
-    errors |> Poison.encode!() |> Base.url_encode64()
+    errors |> Jason.encode!() |> Base.url_encode64()
   end
 
   defp encode_errors(_) do

@@ -6,7 +6,7 @@ defmodule VolunteerWeb.ListingSocialImageView do
 
   def render("head_extra.show.html", %{conn: conn}) do
     [
-      stylesheet_tag(conn, "/css/social.css")
+      StaticHelpers.stylesheet_tag(conn, "/css/social.css")
     ]
   end
 

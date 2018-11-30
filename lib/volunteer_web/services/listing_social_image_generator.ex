@@ -1,7 +1,7 @@
 defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
   use GenServer
   alias Volunteer.Commands
-  alias VolunteerWeb.Router.Helpers
+  alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
   def static_at do
     Application.get_env(:volunteer, VolunteerWeb.Endpoint) |> Keyword.fetch!(:static_at)
@@ -20,7 +20,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
   end
 
   def generate!(conn, listing) do
-    webpage_url = Helpers.listing_social_image_url(conn, :show, listing)
+    webpage_url = RouterHelpers.listing_social_image_url(conn, :show, listing)
     GenServer.call(__MODULE__, {:generate, webpage_url, listing.id, listing.updated_at}, 30_000)
   end
 
@@ -62,7 +62,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
   end
 
   def image_url(conn, listing) do
-    Helpers.listing_social_image_path(conn, :image, listing)
+    RouterHelpers.listing_social_image_path(conn, :image, listing)
   end
 
   def generate_config(webpage_url, disk_path) do

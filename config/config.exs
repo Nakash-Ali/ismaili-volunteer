@@ -49,6 +49,9 @@ config :volunteer, Volunteer.Repo,
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.LocalAdapter
 
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
+
 # Configure hammer rate-limiter
 config :hammer,
   backend: {
@@ -64,7 +67,7 @@ config :sentry,
   environment_name: Mix.env(),
   enable_source_code_context: true,
   root_source_code_path: File.cwd!(),
-  json_library: Poison,
+  json_library: Jason,
   tags: %{
     env: "production"
   },

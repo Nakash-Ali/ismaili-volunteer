@@ -6,6 +6,6 @@
 		<%= textarea_hidden_input @form, @field %>
 	    <trix-editor class="<%= input_classes(@form, @field, ["form-control"]) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
 		<%= render "help_text.html", assigns %>
-	    <%= error_tag @form, @field %>
+	    <%= ErrorHelpers.error_tag @form, @field %>
 	</div>
 </div>

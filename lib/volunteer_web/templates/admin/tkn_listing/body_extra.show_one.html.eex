@@ -1,5 +1,5 @@
  <%= render VolunteerWeb.VendorView, "docxtemplater.html" %>
- <%= script_tag @conn, "/js/doc_generator.js" %>
+ <%= StaticHelpers.script_tag @conn, "/js/doc_generator.js" %>
  <script>
  	docGenerator(
  		"#generate_assignment",

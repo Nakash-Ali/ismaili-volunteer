@@ -44,7 +44,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           :error,
           "TKN data already exists, cannot create again! To change, edit instead."
         )
-        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing_id))
+        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing_id))
     end
   end
 
@@ -58,7 +58,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
       nil ->
         conn
         |> put_flash(:error, "TKN data does not exist, you must create it first!")
-        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing_id))
+        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing_id))
 
       _ ->
         conn
@@ -81,7 +81,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
       conn,
       Listings.new_tkn_listing(),
       "new.html",
-      action_path: admin_listing_tkn_listing_path(conn, :create, listing)
+      action_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :create, listing)
     )
   end
 
@@ -96,7 +96,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
         conn
         |> put_flash(:success, "TKN Listing created successfully.")
-        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -104,7 +104,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         |> render_form(
           changeset,
           "new.html",
-          action_path: admin_listing_tkn_listing_path(conn, :create, listing)
+          action_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :create, listing)
         )
     end
   end
@@ -143,7 +143,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
       changeset,
       "edit.html",
       tkn_listing: tkn_listing,
-      action_path: admin_listing_tkn_listing_path(conn, :update, listing)
+      action_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :update, listing)
     )
   end
 
@@ -156,7 +156,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
         conn
         |> put_flash(:success, "Listing updated successfully.")
-        |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
@@ -165,7 +165,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           changeset,
           "edit.html",
           tkn_listing: tkn_listing,
-          action_path: admin_listing_tkn_listing_path(conn, :update, listing)
+          action_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :update, listing)
         )
     end
   end
@@ -177,7 +177,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   #
   #   conn
   #   |> put_flash(:info, "Listing deleted successfully.")
-  #   |> redirect(to: admin_listing_tkn_listing_path(conn, :show, listing))
+  #   |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
   # end
 
   # Utilities
@@ -190,7 +190,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         [
           changeset: changeset,
           listing: conn.assigns[:listing],
-          back_path: admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
+          back_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
           commitment_type_choices:
             ControllerUtils.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
           location_type_choices:

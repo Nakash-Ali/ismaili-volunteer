@@ -1,4 +1,12 @@
 defmodule Volunteer.TestSupport.Factory do
+  def cast_all(params, module) do
+    Ecto.Changeset.cast(
+      struct(module, %{}),
+      params,
+      module.__schema__(:fields)
+    )
+  end
+
   defmodule Params do
     def user(overrides) do
       %{
@@ -58,8 +66,8 @@ defmodule Volunteer.TestSupport.Factory do
       |> Map.get(:overrides, %{})
       |> Map.put_new_lazy(:inserted_at, fn -> Faker.DateTime.backward(24) end)
 
-    Volunteer.Accounts.User
-    |> struct(Params.user(overrides))
+    Params.user(overrides)
+    |> cast_all(Volunteer.Accounts.User)
     |> repo.insert!()
   end
 
@@ -69,8 +77,8 @@ defmodule Volunteer.TestSupport.Factory do
       |> Map.get(:overrides, %{})
       |> Map.put_new_lazy(:inserted_at, fn -> Faker.DateTime.backward(24) end)
 
-    Volunteer.Infrastructure.Region
-    |> struct(Params.region(overrides))
+    Params.region(overrides)
+    |> cast_all(Volunteer.Infrastructure.Region)
     |> repo.insert!()
   end
 
@@ -81,8 +89,8 @@ defmodule Volunteer.TestSupport.Factory do
       |> Map.put_new_lazy(:inserted_at, fn -> Faker.DateTime.backward(24) end)
       |> Map.put_new_lazy(:region_id, fn -> region!().id end)
 
-    Volunteer.Infrastructure.Group
-    |> struct(Params.group(overrides))
+    Params.group(overrides)
+    |> cast_all(Volunteer.Infrastructure.Group)
     |> repo.insert!()
   end
 
@@ -123,23 +131,20 @@ defmodule Volunteer.TestSupport.Factory do
         {false, nil, nil}
       end
 
-    params =
-      %{
-        inserted_at: inserted_at,
-        region_id: region_id,
-        group_id: group_id,
-        created_by_id: created_by_id,
-        organized_by_id: organized_by_id,
-        expiry_date: expiry_date,
-        approved: approved,
-        approved_on: approved_on,
-        approved_by_id: approved_by_id,
-      }
-      |> Map.merge(overrides)
-      |> Params.listing()
-
-    Volunteer.Listings.Listing
-    |> struct(params)
+    %{
+      inserted_at: inserted_at,
+      region_id: region_id,
+      group_id: group_id,
+      created_by_id: created_by_id,
+      organized_by_id: organized_by_id,
+      expiry_date: expiry_date,
+      approved: approved,
+      approved_on: approved_on,
+      approved_by_id: approved_by_id,
+    }
+    |> Map.merge(overrides)
+    |> Params.listing()
+    |> cast_all(Volunteer.Listings.Listing)
     |> repo.insert!()
   end
 end

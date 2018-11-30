@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.UserSession do
   import Plug.Conn
-  alias VolunteerWeb.Router.Helpers
+  alias VolunteerWeb.Router.Helpers, as: RouterHelpers
   alias Volunteer.Accounts
 
   def login(conn, %Accounts.User{} = user) do
@@ -20,7 +20,7 @@ defmodule VolunteerWeb.UserSession do
   end
 
   def get_redirect(conn) do
-    get_session(conn, :redirect_url) || Helpers.admin_index_path(conn, :index)
+    get_session(conn, :redirect_url) || RouterHelpers.admin_index_path(conn, :index)
   end
 
   def put_user(conn, user) do
@@ -76,7 +76,7 @@ defmodule VolunteerWeb.UserSession do
           conn
           |> VolunteerWeb.UserSession.put_redirect()
           |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
-          |> Phoenix.Controller.redirect(to: Helpers.auth_path(conn, :login))
+          |> Phoenix.Controller.redirect(to: RouterHelpers.auth_path(conn, :login))
           |> Plug.Conn.halt()
       end
     end

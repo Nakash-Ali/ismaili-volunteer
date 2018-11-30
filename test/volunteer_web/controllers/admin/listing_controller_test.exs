@@ -6,7 +6,7 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
     test "renders form", %{conn: conn} do
       {:ok, conn, _user} = create_and_login_user(conn)
 
-      resp = get(conn, admin_listing_path(conn, :new))
+      resp = get(conn, RouterHelpers.admin_listing_path(conn, :new))
 
       assert html_response(resp, 200) =~ "Create a New Listing"
     end
@@ -42,12 +42,12 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
           end_date_toggle: true,
         })
 
-      conn = post(conn, admin_listing_path(conn, :create), listing: listing_params)
+      conn = post(conn, RouterHelpers.admin_listing_path(conn, :create), listing: listing_params)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == admin_listing_path(conn, :show, id)
+      assert redirected_to(conn) == RouterHelpers.admin_listing_path(conn, :show, id)
 
-      conn = get(conn, admin_listing_path(conn, :show, id))
+      conn = get(conn, RouterHelpers.admin_listing_path(conn, :show, id))
       html = html_response(conn, 200)
 
       [

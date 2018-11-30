@@ -1,5 +1,5 @@
 defmodule VolunteerWeb.NavbarItems do
-  import VolunteerWeb.Router.Helpers
+  alias VolunteerWeb.Router.Helpers, as: RouterHelpers
   alias VolunteerWeb.UserSession
 
   @item_module VolunteerWeb.LayoutView
@@ -24,12 +24,12 @@ defmodule VolunteerWeb.NavbarItems do
           true ->
             [
               %Item{text: VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)), href: nil},
-              %Item{text: "Logout", href: auth_path(conn, :logout)}
+              %Item{text: "Logout", href: RouterHelpers.auth_path(conn, :logout)}
             ]
 
           false ->
             [
-              %Item{text: "Login", href: auth_path(conn, :login)}
+              %Item{text: "Login", href: RouterHelpers.auth_path(conn, :login)}
             ]
         end
       end
@@ -40,7 +40,7 @@ defmodule VolunteerWeb.NavbarItems do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              %Item{text: "Admin", href: admin_index_path(conn, :index)}
+              %Item{text: "Admin", href: RouterHelpers.admin_index_path(conn, :index)}
               # TODO: Enable documentation
               # {"Documentation", "https://drive.google.com/open?id=1Hvf9o_d5BPXYh0UJvvGO8GfAyCbia088"},
             ]
@@ -67,15 +67,15 @@ defmodule VolunteerWeb.NavbarItems do
               %Item{
                 text: "Feedback",
                 children: [
-                  %Item{text: "Admin", href: admin_feedback_path(conn, :index, [])},
-                  %Item{text: "Public", href: feedback_path(conn, :index, [])}
+                  %Item{text: "Admin", href: RouterHelpers.admin_feedback_path(conn, :index, [])},
+                  %Item{text: "Public", href: RouterHelpers.feedback_path(conn, :index, [])}
                 ]
               }
             ]
 
           false ->
             [
-              %Item{text: "Feedback", href: feedback_path(conn, :index, [])}
+              %Item{text: "Feedback", href: RouterHelpers.feedback_path(conn, :index, [])}
             ]
         end
       end

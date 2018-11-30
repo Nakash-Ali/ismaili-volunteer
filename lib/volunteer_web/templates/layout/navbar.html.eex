@@ -1,5 +1,5 @@
 <a class="navbar-brand p-0" href="/">
-	<img src="<%= static_path(@conn, assigns[:img_path] || "/images/logo.png") %>" width="auto" height="46" alt="<%= Application.fetch_env!(:volunteer, :project_title) %>">
+	<img src="<%= RouterHelpers.static_path(@conn, assigns[:img_path] || "/images/logo.png") %>" width="auto" height="46" alt="<%= Application.fetch_env!(:volunteer, :project_title) %>">
 </a>
 
 <ul class="navbar-nav ml-auto font-family-sans-serif d-print-none flex-row justify-content-center flex-wrap">

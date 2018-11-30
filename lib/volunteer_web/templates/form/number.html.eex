@@ -7,6 +7,6 @@
 			class: input_classes(@form, @field, ["form-control"]),
 			placeholder: assigns[:placeholder],
 			required: (if assigns[:required] == true, do: true, else: false) %>
-		<%= error_tag @form, @field %>
+		<%= ErrorHelpers.error_tag @form, @field %>
 	</div>
 </div>

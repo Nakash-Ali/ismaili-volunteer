@@ -126,7 +126,7 @@ defmodule Volunteer.Commands do
 
     def generate_encoded_config(config) do
       config
-      |> Poison.encode!()
+      |> Jason.encode!()
       |> Base.encode64()
     end
 
@@ -135,7 +135,7 @@ defmodule Volunteer.Commands do
 
       case Base.decode64(str) do
         {:ok, result} ->
-          case Poison.decode(result) do
+          case Jason.decode(result) do
             {:ok, obj} ->
               obj
 

@@ -15,7 +15,7 @@
 						required: (if assigns[:required] == true, do: true, else: false),
 					]
 					++ Map.get(assigns, :input_opts, [])) %>
-				<%= error_tag @form, @field %>
+				<%= ErrorHelpers.error_tag @form, @field %>
 			</div>
 			<div class="col-sm-5">
 				<div class="custom-control custom-checkbox">

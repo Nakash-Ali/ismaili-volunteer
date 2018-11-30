@@ -9,9 +9,9 @@
 	Raven.config('https://8130b93bc1e74deab16568c276e3134e@sentry.io/253594').install()
 </script>
 
-<script src="<%= static_path(@conn, "/js/modernizr.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/old_browsers.js") %>"></script>
-<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+<script src="<%= RouterHelpers.static_path(@conn, "/js/modernizr.js") %>"></script>
+<script src="<%= RouterHelpers.static_path(@conn, "/js/old_browsers.js") %>"></script>
+<script src="<%= RouterHelpers.static_path(@conn, "/js/app.js") %>"></script>
 
 <%= render_or_fallback("body_extra", assigns) %>
 

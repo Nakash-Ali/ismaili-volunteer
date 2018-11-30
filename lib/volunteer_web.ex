@@ -21,8 +21,8 @@ defmodule VolunteerWeb do
     quote do
       use Phoenix.Controller, namespace: VolunteerWeb
       import Plug.Conn
-      import VolunteerWeb.Router.Helpers
       import VolunteerWeb.Gettext
+      alias VolunteerWeb.Router.Helpers, as: RouterHelpers
       alias VolunteerWeb.UserSession
 
       action_fallback VolunteerWeb.FallbackController
@@ -41,11 +41,11 @@ defmodule VolunteerWeb do
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
-
-      import VolunteerWeb.Router.Helpers
-      import VolunteerWeb.StaticHelpers
-      import VolunteerWeb.ErrorHelpers
       import VolunteerWeb.Gettext
+
+      alias VolunteerWeb.Router.Helpers, as: RouterHelpers
+      alias VolunteerWeb.StaticHelpers
+      alias VolunteerWeb.ErrorHelpers
       alias VolunteerWeb.UserSession
       alias VolunteerWeb.ConnPermissions
 

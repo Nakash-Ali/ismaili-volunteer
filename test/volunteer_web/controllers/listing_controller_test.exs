@@ -16,7 +16,7 @@ defmodule VolunteerWeb.ListingControllerTest do
           Factory.listing!(%{approved?: true, expired?: true}),
         ]
 
-      conn = get(conn, index_path(conn, :index))
+      conn = get(conn, RouterHelpers.index_path(conn, :index))
       html = html_response(conn, 200)
 
       listing_html = fn(li) -> VolunteerWeb.Presenters.Title.html(li) |> Phoenix.HTML.safe_to_string() end

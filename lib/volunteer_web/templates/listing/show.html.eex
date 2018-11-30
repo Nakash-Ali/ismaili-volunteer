@@ -33,7 +33,7 @@
 
 				<input type="hidden" readonly name="position" value="<%= @listing.position_title %>"/>
 				<input type="hidden" readonly name="program" value="<%= @listing.program_title %>"/>
-				<input type="hidden" readonly name="this" value="<%= listing_path(@conn, :show, @listing) %>"/>
+				<input type="hidden" readonly name="this" value="<%= RouterHelpers.listing_path(@conn, :show, @listing) %>"/>
 
 				<!-- honeypot for bots - kinda unnecessary with captcha -->
 				<input type="text" name="botnectar" style="display:none;"/>

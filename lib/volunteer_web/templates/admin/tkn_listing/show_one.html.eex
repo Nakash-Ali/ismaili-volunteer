@@ -7,10 +7,10 @@
 		</div>
 		<div class="btn-toolbar justify-content-end" role="toolbar">
 			<div class="btn-group mr-2q" role="group">
-				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_tkn_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_tkn_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
 			<!-- <div class="btn-group" role="group">
-				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Delete"}, to: admin_listing_tkn_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
+				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Delete"}, to: RouterHelpers.admin_listing_tkn_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
 			</div> -->
 		</div>
 	</div>

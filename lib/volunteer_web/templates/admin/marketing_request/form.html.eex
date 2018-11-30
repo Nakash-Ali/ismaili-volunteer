@@ -1,6 +1,6 @@
 <%= form_for @changeset, @action_path, fn form -> %>
 	<div class="mb-2">
-		<%= error_tag form, :_minimum_channels, fn error -> %>
+		<%= ErrorHelpers.error_tag form, :_minimum_channels, fn error -> %>
 			<div class="alert alert-danger"><%= error %></div>
 		<% end %>
 	</div>

@@ -4,7 +4,7 @@ defmodule VolunteerWeb.Admin.FeedbackView do
 
   def render("head_extra" <> _, %{conn: conn}) do
     [
-      stylesheet_tag(conn, "/css/admin/common.css")
+      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
 

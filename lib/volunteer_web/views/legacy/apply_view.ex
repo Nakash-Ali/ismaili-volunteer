@@ -3,7 +3,7 @@ defmodule VolunteerWeb.Legacy.ApplyView do
 
   def render("body_extra.error.html", %{conn: conn}) do
     [
-      script_tag(conn, "/js/error.js")
+      StaticHelpers.script_tag(conn, "/js/error.js")
     ]
   end
 end

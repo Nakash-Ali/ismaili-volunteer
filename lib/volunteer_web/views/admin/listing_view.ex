@@ -9,22 +9,22 @@ defmodule VolunteerWeb.Admin.ListingView do
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
       render(VolunteerWeb.VendorView, "trix.html"),
-      script_tag(conn, "/js/drafterize_form.js"),
-      stylesheet_tag(conn, "/css/admin/common.css")
+      StaticHelpers.script_tag(conn, "/js/drafterize_form.js"),
+      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
 
   def render("head_extra" <> _, %{conn: conn}) do
     [
-      stylesheet_tag(conn, "/css/admin/common.css")
+      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
 
   def sub_title_nav(%{conn: conn, listing: listing, active_nav: active_nav}) do
     [
-      {"Info", admin_listing_path(conn, :show, listing)},
-      {"TKN", admin_listing_tkn_listing_path(conn, :show, listing)},
-      {"Marketing", admin_listing_marketing_request_path(conn, :show, listing)}
+      {"Info", RouterHelpers.admin_listing_path(conn, :show, listing)},
+      {"TKN", RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing)},
+      {"Marketing", RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing)}
     ]
     |> Enum.map(fn {title, path} ->
       case String.downcase(title) do
@@ -118,7 +118,7 @@ defmodule VolunteerWeb.Admin.ListingView do
   end
 
   def definition_list(:links, listing) do
-    url = admin_listing_url(VolunteerWeb.Endpoint, :show, listing)
+    url = RouterHelpers.admin_listing_url(VolunteerWeb.Endpoint, :show, listing)
     [
       {"URL", link(url, to: url)},
     ]

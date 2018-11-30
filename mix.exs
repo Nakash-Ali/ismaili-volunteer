@@ -39,15 +39,16 @@ defmodule Volunteer.Mixfile do
   # Type `mix help deps` for examples and options.
   def deps do
     [
-      {:phoenix, "1.3.4"},
+      {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
+      {:ecto_sql, "~> 3.0"},
+      {:phoenix_ecto, "~> 4.0"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.13"},
-      {:cowboy, "~> 1.0"},
-      {:plug_cowboy, "~> 1.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:plug, "~> 1.7"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
@@ -62,7 +63,8 @@ defmodule Volunteer.Mixfile do
       {:slugger, "~> 0.2"},
       {:jose, "~> 1.8"},
       {:faker, "~> 0.11", only: [:dev, :test]},
-      {:distillery, "~> 2.0"}
+      {:distillery, "~> 2.0"},
+      {:jason, "~> 1.0"}
     ]
   end
 

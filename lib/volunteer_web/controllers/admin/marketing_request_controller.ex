@@ -24,7 +24,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
 
       false ->
         conn
-        |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing))
     end
   end
 
@@ -54,7 +54,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
 
         conn
         |> put_flash(:success, "Marketing request created successfully.")
-        |> redirect(to: admin_listing_marketing_request_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

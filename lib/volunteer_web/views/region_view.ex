@@ -4,7 +4,7 @@ defmodule VolunteerWeb.RegionView do
 
   def render("head_extra.show.html", %{conn: conn}) do
     [
-      stylesheet_tag(conn, "/css/region.css")
+      StaticHelpers.stylesheet_tag(conn, "/css/region.css")
     ]
   end
 end

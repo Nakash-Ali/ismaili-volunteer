@@ -3,7 +3,7 @@
 		<div class="col-sm-7 col-md-6 col-lg-4">
 			<p><strong>To apply for opportunities, you do not need to log in!</strong></p>
 			<div class="font-family-sans-serif mb-1 mt-3">
-				<%= link "Login with @iicanada.net", to: auth_path(@conn, :request, "microsoft"), class: "btn btn-primary font-family-sans-serif" %>
+				<%= link "Login with @iicanada.net", to: RouterHelpers.auth_path(@conn, :request, "microsoft"), class: "btn btn-primary font-family-sans-serif" %>
 			</div>
 			<p>To create and manage listings, you will need an <code>@iicanada.net</code> email address.</p>
 		</div>

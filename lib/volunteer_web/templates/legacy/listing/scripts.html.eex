@@ -2,13 +2,13 @@
 	(function(window) {
 
 		'use strict';
-		
+
 		window.__FORM_DATA__ = "<%= form_data(@listing) %>"
 		window.__FORM_SUBMIT_URL__ = "<%= submit_url() %>"
 
 	})(window)
 </script>
-<script src="<%= static_path(@conn, "/js/form_submit.js") %>"></script>
+<script src="<%= RouterHelpers.static_path(@conn, "/js/form_submit.js") %>"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script type="text/javascript">
 	(function(window) {

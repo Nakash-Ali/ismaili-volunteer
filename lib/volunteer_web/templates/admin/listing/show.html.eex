@@ -7,9 +7,9 @@
 				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
 					<div class="btn-group mr-2q" role="group">
 						<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: RouterHelpers.admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
 						<% else %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: admin_listing_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
+							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: RouterHelpers.admin_listing_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
 						<% end %>
 					</div>
 				<% end %>
@@ -17,7 +17,7 @@
 					<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
 						<button disabled class="btn btn-outline-secondary">Listing approved</button>
 					<% else %>
-						<%= link "Request Approval", to: admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
+						<%= link "Request Approval", to: RouterHelpers.admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
 					<% end %>
 				</div>
 			<% else %>
@@ -26,21 +26,21 @@
 		</div>
 		<div class="btn-toolbar justify-content-start font-family-sans-serif ml-auto" role="toolbar">
 			<div class="btn-group ml-2q" role="group">
-				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 				<%= if Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
 				<% else %>
-					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
 				<% end %>
 			</div>
 			<div class="btn-group ml-2q" role="group">
 				<%= if not Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
+					<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
 				<% else %>
 					<button disabled class="btn btn-outline-secondary"><i class="far fa-times-circle mr-1q" aria-hidden="true"></i>Listing archived</button>
 				<% end %>
 				<!-- <%= if Volunteer.Listings.Listing.is_delete_allowed?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Permanently delete"}, to: admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure? Permanently deleting a listing is non-reversible!"], class: "btn btn-outline-danger" %>
+					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Permanently delete"}, to: RouterHelpers.admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure? Permanently deleting a listing is non-reversible!"], class: "btn btn-outline-danger" %>
 				<% else %>
 					<button disabled class="btn btn-outline-secondary"><i class="far fa-trash-alt mr-1q" aria-hidden="true"></i>Cannot delete active listing</button>
 				<% end %> -->

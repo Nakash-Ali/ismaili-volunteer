@@ -1,7 +1,6 @@
 defmodule VolunteerWeb.AuthController do
   use VolunteerWeb, :controller
   alias VolunteerWeb.UserSession
-  alias VolunteerWeb.Router
 
   plug Ueberauth
 
@@ -19,13 +18,13 @@ defmodule VolunteerWeb.AuthController do
     conn
     |> UserSession.logout()
     |> put_flash(:info, "You have been logged out!")
-    |> redirect(to: Router.Helpers.index_path(conn, :index))
+    |> redirect(to: RouterHelpers.index_path(conn, :index))
   end
 
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
     |> put_flash(:error, "Failed to authenticate.")
-    |> redirect(to: Router.Helpers.auth_path(conn, :login))
+    |> redirect(to: RouterHelpers.auth_path(conn, :login))
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
@@ -39,7 +38,7 @@ defmodule VolunteerWeb.AuthController do
       {:error, reason} ->
         conn
         |> put_flash(:error, reason)
-        |> redirect(to: Router.Helpers.auth_path(conn, :login))
+        |> redirect(to: RouterHelpers.auth_path(conn, :login))
     end
   end
 end

@@ -10,10 +10,10 @@ defprotocol VolunteerWeb.Presenters.Social do
 end
 
 defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Listings.Listing do
-  import VolunteerWeb.Router.Helpers
+  alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
   def url(listing, conn) do
-    listing_url(conn, :show, listing)
+    RouterHelpers.listing_url(conn, :show, listing)
   end
 
   def type(_listing) do

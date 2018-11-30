@@ -11,21 +11,21 @@
 	<h2 class="mb-3">Why <%= Application.fetch_env!(:volunteer, :project_title) %>?</h2>
 	<div class="row font-family-sans-serif">
 		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row mb-2 mb-lg-0">
-			<img class="mb-1q" src="<%= static_path(@conn, "/images/icon-transparent-green.png") %>" width="auto" height="68">
+			<img class="mb-1q" src="<%= RouterHelpers.static_path(@conn, "/images/icon-transparent-green.png") %>" width="auto" height="68">
 			<div class="ml-2">
 				<h5 class="mb-1q">Transparent & Accessible</h5>
 				<p class="mb-0 font-weight-light">Find opportunities regardless of where you live or who you know.</p>
 			</div>
 		</div>
 		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row mb-2 mb-lg-0">
-			<img class="mb-1q" src="<%= static_path(@conn, "/images/icon-fit-green.png") %>" width="auto" height="68">
+			<img class="mb-1q" src="<%= RouterHelpers.static_path(@conn, "/images/icon-fit-green.png") %>" width="auto" height="68">
 			<div class="ml-2">
 				<h5 class="mb-1q">The Right Fit</h5>
 				<p class="mb-0 font-weight-light">Contribute with your skillset and expertise wherever you're interested.</p>
 			</div>
 		</div>
 		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row">
-			<img class="mb-1q" src="<%= static_path(@conn, "/images/icon-apply-green.png") %>" width="auto" height="68">
+			<img class="mb-1q" src="<%= RouterHelpers.static_path(@conn, "/images/icon-apply-green.png") %>" width="auto" height="68">
 			<div class="ml-2">
 				<h5 class="mb-1q">Apply Now</h5>
 				<p class="mb-0 font-weight-light">Once you find something, apply right here to start the process.</p>
@@ -40,7 +40,7 @@
 				<p class="quote mb-1">... Canadian [volunteering] spirit resonates with a cherished principle in Shia Ismaili culture – the importance of contributing one's individual energies on a voluntary basis to improving the lives of others. This is not a matter of philanthropy, but rather of self-fulfillment – “enlightened self-fulfillment.”</p>
 				<cite class="row d-flex flex-row mt-1 justify-content-center align-items-center">
 					<div class="col-auto">
-						<img style="max-height: 140px;" class="avatar img-responsive" src="<%= static_path(@conn, "/images/agakhanquote.small.png") %>"></img>
+						<img style="max-height: 140px;" class="avatar img-responsive" src="<%= RouterHelpers.static_path(@conn, "/images/agakhanquote.small.png") %>"></img>
 					</div>
 					<div class="col-auto">
 						<h5 class="mb-1q">His Highness the Aga Khan</h5>
