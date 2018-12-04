@@ -29,7 +29,7 @@ config :volunteer,
 
 # Configure database
 config :volunteer, Volunteer.Repo,
-  loggers: [Ecto.LogEntry],
+  log: :warn,
   username: "${DB_USER}",
   password: "${DB_PASS}",
   database: "${DB_NAME}",
