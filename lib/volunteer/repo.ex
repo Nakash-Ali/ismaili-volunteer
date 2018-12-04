@@ -1,5 +1,7 @@
 defmodule Volunteer.Repo do
-  use Ecto.Repo, otp_app: :volunteer
+  use Ecto.Repo,
+    adapter: Ecto.Adapters.Postgres,
+    otp_app: :volunteer
 
   @doc """
   Dynamically loads the repository url from the
