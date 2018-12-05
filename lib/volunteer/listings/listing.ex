@@ -30,8 +30,6 @@ defmodule Volunteer.Listings.Listing do
     field :end_date, :date
     field :end_date_toggle, :boolean, virtual: true
 
-    field :hours_per_week, :integer
-
     field :time_commitment_amount, :integer
     field :time_commitment_type, :string
 
