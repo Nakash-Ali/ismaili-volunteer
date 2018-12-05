@@ -1,5 +1,6 @@
 defmodule VolunteerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :volunteer
+  use Sentry.Phoenix.Endpoint
 
   socket "/socket", VolunteerWeb.UserSocket
 

@@ -40,7 +40,6 @@ config :volunteer, VolunteerWeb.Endpoint,
 # Configure your database
 config :volunteer, Volunteer.Repo,
   migration_timestamps: [type: :timestamptz],
-  log: :debug,
   username: "postgres",
   password: "postgres",
   database: "postgres",

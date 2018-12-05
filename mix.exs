@@ -23,7 +23,8 @@ defmodule Volunteer.Mixfile do
       extra_applications: [
         :crypto,
         :logger,
-        :runtime_tools
+        :runtime_tools,
+        :ecto_sql
       ]
     ]
   end

@@ -1,5 +1,7 @@
 defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
+  use Plug.ErrorHandler
+  use Sentry.Plug
   import VolunteerWeb.UserSession.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
 
