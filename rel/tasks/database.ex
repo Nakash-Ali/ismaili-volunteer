@@ -3,7 +3,8 @@ defmodule Volunteer.ReleaseTasks.Database do
     :crypto,
     :ssl,
     :postgrex,
-    :ecto
+    :ecto,
+    :ecto_sql
   ]
 
   @otp_app :volunteer
