@@ -51,6 +51,9 @@ config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Use Jason for JSON parsing in Bamboo
+config :bamboo, :json_library, Jason
+
 # Configure hammer rate-limiter
 config :hammer,
   backend: {
