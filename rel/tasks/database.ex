@@ -30,7 +30,7 @@ defmodule Volunteer.ReleaseTasks.Database do
 
     # Start the Repo(s) for app
     IO.puts("Starting repos..")
-    Enum.each(repos(), & &1.start_link(pool_size: 1))
+    Enum.each(repos(), & &1.start_link(pool_size: 2))
 
     # Run migrations
     IO.puts("Running migrations..")
