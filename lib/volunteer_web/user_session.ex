@@ -38,33 +38,90 @@ defmodule VolunteerWeb.UserSession do
     end
   end
 
-  if Enum.member?([:dev, :test], Mix.env()) and Application.get_env(:volunteer, :mock_sessions, false) == true do
-    def get_current_user_id(conn) do
-      conn.assigns[:current_user_id] || 1
+  def get_current_user_id(conn) do
+    {:ok, Plug.Conn.get_session(conn, :current_user_id)}
+  end
+
+  defmodule Mocks do
+    def get_from_assigns(conn) do
+      {:ok, conn.assigns[:current_user_id]}
     end
-  else
-    def get_current_user_id(conn) do
-      Plug.Conn.get_session(conn, :current_user_id)
+
+    def get_default(_conn) do
+      {:ok, 1}
+    end
+  end
+
+  defmodule AuthToken do
+    @salt_len 32
+    @salt :crypto.strong_rand_bytes(@salt_len) |> Base.encode64() |> binary_part(0, @salt_len)
+
+    @params_key "auth_token"
+    
+    @max_age 60 # in seconds
+
+    def generate(conn, %Accounts.User{} = user) do
+      Phoenix.Token.sign(conn, @salt, user.id)
+    end
+
+    def put_in_params(url, conn) do
+      case VolunteerWeb.UserSession.get_user(conn) do
+        nil ->
+          raise "A user must be logged-in to generate an auth token for them"
+
+        user ->
+          token = generate(conn, user)
+          VolunteerWeb.URLUtils.put_in_query(url, @params_key, token)
+      end
+    end
+
+    def get_from_params(conn = %{params: %{@params_key => token}}) when is_binary(token) do
+      case Phoenix.Token.verify(conn, @salt, token, max_age: @max_age) do
+        {:ok, user_id} ->
+          {:ok, user_id}
+
+        _ ->
+          nil
+      end
+    end
+
+    def get_from_params(_conn) do
+      nil
+    end
+  end
+
+  defmodule Mechanisms do
+    @should_mock Enum.member?([:dev, :test], Mix.env()) and
+                   Application.get_env(:volunteer, :mock_sessions, nil) == true
+
+    @mechanisms %{
+      {VolunteerWeb.UserSession, :get_current_user_id} => true,
+      {VolunteerWeb.UserSession.AuthToken, :get_from_params} => true,
+      {VolunteerWeb.UserSession.Mocks, :get_from_assigns} => @should_mock,
+      {VolunteerWeb.UserSession.Mocks, :get_default} => @should_mock
+    }
+
+    @mechanisms_active @mechanisms
+                       |> Enum.filter(fn {_mechanism, enabled?} -> enabled? end)
+                       |> Enum.map(fn {mechanism, _enabled?} -> mechanism end)
+
+    def active() do
+      @mechanisms_active
     end
   end
 
   defmodule Plugs do
-    def load_current_user(conn, _) do
-      case VolunteerWeb.UserSession.get_current_user_id(conn) do
-        nil ->
-          conn
+    def authenticate_user(conn, _) do
+      Enum.reduce_while(VolunteerWeb.UserSession.Mechanisms.active(), conn, fn {module, func}, conn ->
+        case apply(module, func, [conn]) do
+          {:ok, user_id} when is_integer(user_id) ->
+            conn = load_current_user(conn, user_id)
+            {:halt, conn}
 
-        user_id ->
-          case Accounts.get_user(user_id) do
-            nil ->
-              conn
-              |> VolunteerWeb.UserSession.logout()
-
-            user ->
-              conn
-              |> VolunteerWeb.UserSession.put_user(user)
-          end
-      end
+          _ ->
+            {:cont, conn}
+        end
+      end)
     end
 
     def ensure_authenticated(conn, _) do
@@ -78,6 +135,18 @@ defmodule VolunteerWeb.UserSession do
           |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
           |> Phoenix.Controller.redirect(to: RouterHelpers.auth_path(conn, :login))
           |> Plug.Conn.halt()
+      end
+    end
+
+    defp load_current_user(conn, user_id) do
+      case Accounts.get_user(user_id) do
+        nil ->
+          conn
+          |> VolunteerWeb.UserSession.logout()
+
+        user ->
+          conn
+          |> VolunteerWeb.UserSession.put_user(user)
       end
     end
   end

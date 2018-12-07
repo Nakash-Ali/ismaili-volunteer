@@ -2,7 +2,7 @@ defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
   use Plug.ErrorHandler
   use Sentry.Plug
-  import VolunteerWeb.UserSession.Plugs, only: [load_current_user: 2, ensure_authenticated: 2]
+  import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2]
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
 
   pipeline :browser do
@@ -16,7 +16,7 @@ defmodule VolunteerWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :ensure_unique_session_identifier
-    plug :load_current_user
+    plug :authenticate_user
     plug :configure_sentry_context
     plug VolunteerWeb.HTMLMinifier
   end

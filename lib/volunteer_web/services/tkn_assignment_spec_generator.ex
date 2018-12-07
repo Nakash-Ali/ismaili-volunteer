@@ -10,7 +10,10 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
   end
 
   def generate!(conn, listing, tkn_listing) do
-    webpage_url = RouterHelpers.admin_listing_tkn_assignment_spec_url(conn, :show, listing)
+    webpage_url =
+      RouterHelpers.admin_listing_tkn_assignment_spec_url(conn, :show, listing)
+      |> VolunteerWeb.UserSession.AuthToken.put_in_params(conn)
+    
     GenServer.call(__MODULE__.Server, {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at, tkn_listing.updated_at}, 30_000)
   end
 

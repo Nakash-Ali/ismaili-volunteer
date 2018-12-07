@@ -8,9 +8,10 @@ use Mix.Config
 # General application configuration
 config :volunteer,
   ecto_repos: [Volunteer.Repo],
+  send_analytics: false,
+  mock_sessions: false,
   project_title: "OpportunitiesToServe",
-  contact_email: "hrontario@iicanada.net",
-  send_analytics: false
+  contact_email: "hrontario@iicanada.net"
 
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,
