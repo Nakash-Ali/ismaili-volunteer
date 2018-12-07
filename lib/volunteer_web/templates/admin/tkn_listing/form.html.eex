@@ -63,9 +63,9 @@
 
   <%= render FormView, "select.html",
     form: form,
-    field: :work_experience_level,
+    field: :work_experience_years,
     title: "Years of work experience",
-    choices: @work_experience_level_choices
+    choices: @work_experience_years_choices
   %>
 
   <%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>

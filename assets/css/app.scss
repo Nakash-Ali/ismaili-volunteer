@@ -14,6 +14,12 @@ html {
 	font-variant-ligatures: common-ligatures contextual;
     font-feature-settings: "liga", "clig", "calt", "kern";
     font-kerning: normal;
+
+	body,
+	body > div.wrapper,
+	main {
+		overflow-y: auto;
+	}
 }
 
 html.app-layout, {
@@ -29,9 +35,12 @@ html.app-layout, {
 	}
 }
 
-html.embedded-layout {
-	body, main {
-		overflow: auto;
+html.pdf-export-layout {
+	-webkit-print-color-adjust: exact;
+
+	body {
+		margin: 2px;
+		padding: 2px;
 	}
 }
 
@@ -110,6 +119,12 @@ h1, h2, h3, h4, h5, h6, p {
 
 .blockquote-border {
 	border-left: 6px solid $gray-200;
+}
+
+.page-break-unit {
+	page-break-after: auto;
+	page-break-before: auto;
+	page-break-inside: avoid;
 }
 
 #old-browsers {

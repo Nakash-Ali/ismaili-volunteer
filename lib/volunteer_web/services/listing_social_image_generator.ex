@@ -1,81 +1,67 @@
 defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
-  use GenServer
   alias Volunteer.Commands
+  alias VolunteerWeb.Services.FileGeneratorUtils
   alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
-  def static_at do
-    Application.get_env(:volunteer, VolunteerWeb.Endpoint) |> Keyword.fetch!(:static_at)
-  end
-
-  def static_dir do
-    Path.join(["images", "listing"])
-  end
-
-  def disk_dir() do
-    Path.join([:code.priv_dir(:volunteer), static_at(), static_dir()])
-  end
+  @disk_dir VolunteerWeb.Endpoint.static_dir(["images", "listing"])
 
   def start_link do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+    GenServer.start_link(__MODULE__.Server, nil, name: __MODULE__.Server)
   end
 
   def generate!(conn, listing) do
     webpage_url = RouterHelpers.listing_social_image_url(conn, :show, listing)
-    GenServer.call(__MODULE__, {:generate, webpage_url, listing.id, listing.updated_at}, 30_000)
+    GenServer.call(__MODULE__.Server, {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at}, 30_000)
   end
 
-  def init(:ok) do
-    {:ok, %{}}
+  defmodule Implementation do
+    def generate_image!(webpage_url, disk_dir, disk_path) do
+      :ok = File.mkdir_p!(disk_dir)
+
+      Commands.NodeJS.run(
+        "do_webpage_screenshot",
+        [%{
+          webpageUrl: webpage_url,
+          outputPath: disk_path
+        }]
+      )
+    end
+
+    def image_disk_path(disk_dir, listing_id, listing_updated_at) do
+      Path.join([
+        disk_dir,
+        image_filename(listing_id, listing_updated_at)
+      ])
+    end
+
+    def image_filename(listing_id, listing_updated_at) do
+      filename =
+        FileGeneratorUtils.consistent_hash_b64([
+          listing_id,
+          listing_updated_at
+        ])
+
+      "#{filename}.png"
+    end
   end
 
-  def handle_call({:generate, webpage_url, listing_id, listing_updated_at}, _from, state) do
-    disk_path = image_disk_path(listing_id, listing_updated_at)
+  defmodule Server do
+    use GenServer
 
-    {:ok, _} =
-      case File.stat(disk_path) do
-        {:ok, %File.Stat{type: :regular}} ->
-          {:ok, :exists}
+    def init(_) do
+      {:ok, nil}
+    end
 
-        _ ->
-          generate_image!(webpage_url, disk_path)
-      end
+    def handle_call({:generate, webpage_url, disk_dir, listing_id, listing_updated_at}, _from, state) do
+      disk_path = Implementation.image_disk_path(disk_dir, listing_id, listing_updated_at)
 
-    {:reply, disk_path, state}
-  end
+      {:ok, _} =
+        FileGeneratorUtils.run_func_if_not_exists(
+          disk_path,
+          fn -> Implementation.generate_image!(webpage_url, disk_dir, disk_path) end
+        )
 
-  def image_disk_path(listing_id, listing_updated_at) do
-    image_filename(listing_id, listing_updated_at)
-    |> image_disk_path()
-  end
-
-  def image_disk_path(filename) do
-    Path.join([disk_dir(), filename])
-  end
-
-  def image_filename(listing_id, listing_updated_at) do
-    hashed_listing_str =
-      :sha
-      |> :crypto.hash("#{listing_id}#{listing_updated_at}")
-      |> Base.hex_encode32(case: :lower, padding: false)
-
-    "#{hashed_listing_str}.png"
-  end
-
-  def image_url(conn, listing) do
-    RouterHelpers.listing_social_image_path(conn, :image, listing)
-  end
-
-  def generate_config(webpage_url, disk_path) do
-    [
-      %{
-        webpageUrl: webpage_url,
-        outputPath: disk_path
-      }
-    ]
-  end
-
-  def generate_image!(webpage_url, disk_path) do
-    :ok = File.mkdir_p!(disk_dir())
-    Commands.NodeJS.run("do_webpage_screenshot", generate_config(webpage_url, disk_path))
+      {:reply, disk_path, state}
+    end
   end
 end

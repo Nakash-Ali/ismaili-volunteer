@@ -9,7 +9,7 @@
 					<%= link {:safe, "<i class=\"far fa-bullhorn mr-1q\" aria-hidden=\"true\"></i> Send marketing request"}, to: RouterHelpers.admin_listing_marketing_request_path(@conn, :new, @listing), class: "btn btn-primary" %>
 				</div>
 				<div class="font-family-sans-serif mt-1">
-					<%= link {:safe, "<i class=\"far fa-image mr-1q\" aria-hidden=\"true\"></i> View shareable image"}, to: VolunteerWeb.Services.ListingSocialImageGenerator.image_url(@conn, @listing), target: "_blank", class: "btn btn-outline-primary" %>
+					<%= link {:safe, "<i class=\"far fa-image mr-1q\" aria-hidden=\"true\"></i> View shareable image"}, to: RouterHelpers.listing_social_image_path(@conn, :image, @listing), target: "_blank", class: "btn btn-outline-primary" %>
 				</div>
 			<% else %>
 				<p>Listings musts be approved and ready for public distribution before marketing can be requested for it.</p>

@@ -3,7 +3,7 @@
 <section class="container">
 	<div class="d-flex align-items-center justify-content-between font-family-sans-serif">
 		<div class="btn-group mr-2" role="group">
-			<a id="generate_assignment"></a>
+			<%= link "Generate TKN Assignment PDF", to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing), class: "btn btn-primary text-white" %>
 		</div>
 		<div class="btn-toolbar justify-content-end" role="toolbar">
 			<div class="btn-group mr-2q" role="group">
@@ -59,6 +59,6 @@
 
 	<%= render AdminView, "definition_container.html",
 		title_text: "Years of work experience",
-		body_text: @tkn_listing.work_experience_level
+		body_text: @tkn_listing.work_experience_years
 	%>
 </section>

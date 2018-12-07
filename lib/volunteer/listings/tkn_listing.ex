@@ -14,7 +14,7 @@ defmodule Volunteer.Listings.TKNListing do
     field :function, :string, default: ""
     field :industry, :string, default: ""
     field :education_level, :string, default: ""
-    field :work_experience_level, :string, default: ""
+    field :work_experience_years, :string, default: ""
 
     belongs_to :listing, Listing
 
@@ -31,7 +31,7 @@ defmodule Volunteer.Listings.TKNListing do
     :function,
     :industry,
     :education_level,
-    :work_experience_level
+    :work_experience_years
   ]
 
   @attributes_required_always [
@@ -130,7 +130,7 @@ defmodule Volunteer.Listings.TKNListing do
     ]
   end
 
-  def work_experience_level_choices do
+  def work_experience_years_choices do
     [
       "Less than 1 year",
       "1 - 2 years",
@@ -165,6 +165,6 @@ defmodule Volunteer.Listings.TKNListing do
     |> validate_inclusion(:function, function_choices())
     |> validate_inclusion(:industry, industry_choices())
     |> validate_inclusion(:education_level, education_level_choices())
-    |> validate_inclusion(:work_experience_level, work_experience_level_choices())
+    |> validate_inclusion(:work_experience_years, work_experience_years_choices())
   end
 end

@@ -1,0 +1,164 @@
+<main class="tkn-assignment-spec">
+
+	<h4 class="text-center mb-2"><strong>TKN Assignment Specification Form</strong></h4>
+
+	<p class="text-danger mb-0"><em>Fields marked with * are mandatory</em></p>
+
+	<div class="container-fluid p-0">
+		<section class="spec-section mb-2 page-break-unit">
+			<div class="row no-gutters">
+				<div class="cell col-12 header">Institution Information</div>
+			</div>
+			<div class="row no-gutters">
+				<div class="cell col-4 label label-required">Country</div>
+				<div class="cell col-8 value"><%= @tkn_country %></div>
+			</div>
+			<div class="row no-gutters">
+				<div class="cell col-4 label label-required">Institution Name</div>
+				<div class="cell col-8 value"><%= Title.text(@listing.group) |> not_available? %></div>
+			</div>
+		</section>
+
+		<section class="spec-section mb-2 page-break-unit">
+			<div class="row no-gutters">
+				<div class="cell col-12 header">Assignment Information</div>
+			</div>
+			<div class="row no-gutters">
+				<div class="cell col-4 label label-required">Assignment Name (Project Name)</div>
+				<div class="cell col-8 value"><%= @listing.program_title |> not_available? %></div>
+			</div>
+			<div class="row no-gutters">
+				<div class="cell col-12 label label-required">Assignment Description</div>
+			</div>
+			<div class="row no-gutters">
+				<div class="cell col-12 value value-longform"><%= @listing.summary_line |> not_available? %></div>
+			</div>
+		</section>
+
+		<section class="spec-section mb-2">
+			<div class="page-break-unit">
+				<div class="row no-gutters">
+					<div class="cell col-6 header">Assignment Manager</div>
+					<div class="cell col-6 header">TKN Coordinator</div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label label-required">Name</div>
+					<div class="cell col-3 value"><%= Title.text(@listing.organized_by) |> not_available? %></div>
+					<div class="cell col-3 label">Name</div>
+					<div class="cell col-3 value"><%= @tkn_coordinator.name |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label label-required">Title</div>
+					<div class="cell col-3 value"><%= not_available() %></div>
+					<div class="cell col-3 label">Title</div>
+					<div class="cell col-3 value"><%= @tkn_coordinator.title |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label label-required">Email</div>
+					<div class="cell col-3 value"><%= @listing.organized_by.primary_email |> not_available? %></div>
+					<div class="cell col-3 label">Email</div>
+					<div class="cell col-3 value"><%= @tkn_coordinator.email |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label label-required">Telephone</div>
+					<div class="cell col-3 value"><%= @listing.organized_by.primary_phone |> not_available? %></div>
+					<div class="cell col-3 label">Telephone</div>
+					<div class="cell col-3 value"><%= @tkn_coordinator.phone |> not_available? %></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="spec-section mb-2">
+			<div class="page-break-unit">
+				<div class="row no-gutters">
+					<div class="cell col-12 header">Position Details</div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label label-required">Position Title</div>
+					<div class="cell col-9 value"><%= Title.text(@listing) |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">Function/Sector</div>
+					<div class="cell col-3 value"><%= @tkn_listing.industry |> not_available? %></div>
+					<div class="cell col-3 label label-required">Openings</div>
+					<div class="cell col-3 value"><%= @tkn_listing.openings |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">Position Category</div>
+					<div class="cell col-3 value"><%= @tkn_listing.function |> not_available? %></div>
+					<div class="cell col-3 label label-required">Start Date</div>
+					<div class="cell col-3 value"><%= ListingView.start_date_text(@listing.start_date) %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">Career Level</div>
+					<div class="cell col-3 value"><%= not_available() %></div>
+					<div class="cell col-3 label label-required">End Date</div>
+					<div class="cell col-3 value"><%= ListingView.end_date_text(@listing.end_date) %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">Total Years of Experience</div>
+					<div class="cell col-3 value"><%= @tkn_listing.work_experience_years |> not_available? %></div>
+					<div class="cell col-3 label label-required">Position Type</div>
+					<div class="cell col-3 value"><%= @tkn_listing.commitment_type |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">Education Level</div>
+					<div class="cell col-3 value"><%= @tkn_listing.education_level |> not_available? %></div>
+					<div class="cell col-3 label label-required">Hours Per Week</div>
+					<div class="cell col-3 value"><%= ListingView.time_commitment_text(@listing) %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">Position Country</div>
+					<div class="cell col-3 value"><%= not_available() %></div>
+					<div class="cell col-3 label label-required">Assignment Location</div>
+					<div class="cell col-3 value"><%= @tkn_listing.location_type |> not_available? %></div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label">City(s)</div>
+					<div class="cell col-3 value"><%= not_available() %></div>
+					<div class="cell col-3 label label-required">Scope of Search</div>
+					<div class="cell col-3 value"><%= @tkn_listing.search_scope |> not_available? %></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="spec-section mb-2">
+			<div class="page-break-unit">
+				<div class="row no-gutters">
+					<div class="cell col-12 label label-required">Key Responsibilities; Tasks; Major Deliverables:</div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-12 value value-longform"><%= @listing.responsibilities |> not_available? %></div>
+				</div>
+			</div>
+
+			<div class="page-break-unit">
+				<div class="row no-gutters">
+					<div class="cell col-12 label label-required">Must Have Skills and Experience; Position Requirements; Qualifications:</div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-12 value value-longform"><%= @listing.qualifications |> not_available? %></div>
+				</div>
+			</div>
+
+			<div class="page-break-unit">
+				<div class="row no-gutters">
+					<div class="cell col-12 label">Nice to have Skills; Language; Volunteer Experience etc.:</div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-12 value value-longform"><%= not_available() %></div>
+				</div>
+			</div>
+
+			<div class="page-break-unit">
+				<div class="row no-gutters">
+					<div class="cell col-12 label label-required">Suggested Keywords for Search:</div>
+				</div>
+				<div class="row no-gutters">
+					<div class="cell col-12 value value-longform"><%= @tkn_listing.suggested_keywords |> not_available? %></div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+</main>

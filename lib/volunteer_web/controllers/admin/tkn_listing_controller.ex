@@ -203,9 +203,9 @@ defmodule VolunteerWeb.Admin.TKNListingController do
             ControllerUtils.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
           education_level_choices:
             ControllerUtils.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
-          work_experience_level_choices:
+          work_experience_years_choices:
             ControllerUtils.blank_select_choice() ++
-              Listings.TKNListing.work_experience_level_choices()
+              Listings.TKNListing.work_experience_years_choices()
         ]
     )
   end

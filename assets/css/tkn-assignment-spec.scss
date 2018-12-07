@@ -1,0 +1,62 @@
+@import "base";
+
+main.tkn-assignment-spec {
+	font-family: "Times New Roman";
+	font-size: 17.2px;
+
+	p, h1, h2, h3, h4, h5, h6 {
+		font-family: "Times New Roman";
+	}
+
+	.spec-section {
+		border-top: 2px solid $gray-600;
+	}
+
+	.cell {
+		padding: 6px 12px 6px;
+		border-bottom: 1px solid $gray-500;
+		border-left: 1px solid $gray-500;
+
+		&:last-child {
+			border-right: 1px solid $gray-500
+		}
+	}
+
+	.header {
+		background-color: $gray-100;
+		font-weight: bold;
+	}
+
+	.label,
+	.value {
+
+	}
+
+	.label {
+
+	}
+
+	.label.label-required {
+		position: relative;
+		padding-left: 24px;
+
+		&::before {
+			content: "*";
+			color: $danger;
+			font-size: 24px;
+			line-height: 1;
+			position: absolute;
+			left: 9px;
+			top: 9px;
+		}
+	}
+
+	.value {
+		background-color: rgba(220, 230, 241, 0.666);
+	}
+
+	.value-longform {
+		min-height: 102px;
+	}
+
+}

@@ -8,7 +8,6 @@ const FILE_NAMES = [
 	'form_submit',
 	'old_browsers',
 	'smooth',
-	'doc_generator',
 	'iframe_resizer',
 	'drafterize_form'
 ]

@@ -83,6 +83,8 @@ defmodule VolunteerWeb.Router do
 
       resources "/listings", ListingController do
         resources "/tkn_listing", TKNListingController, singleton: true
+        get "/tkn_listing/assignment_spec/show", TKNAssignmentSpecController, :show
+        get "/tkn_listing/assignment_spec/pdf", TKNAssignmentSpecController, :pdf
 
         resources "/marketing_request", MarketingRequestController,
           singleton: true,

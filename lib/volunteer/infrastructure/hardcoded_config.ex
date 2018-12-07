@@ -6,6 +6,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       marketing_request_email: [],
       website_url: "https://iicanada.org/serveontario",
       jumbotron_image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+      tkn_country: "Canada",
+      tkn_coordinator: %{
+        name: "",
+        title: "",
+        email: "",
+        phone: "",
+      }
     },
     # Ontario
     2 => %{
@@ -13,6 +20,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       marketing_request_email: ["cfo-announcements@iicanada.net"],
       website_url: "https://iicanada.org/serveontario",
       jumbotron_image_url: "/static/images/ismaili-center-toronto.jpg",
+      tkn_country: "Canada",
+      tkn_coordinator: %{
+        name: "",
+        title: "",
+        email: "",
+        phone: "",
+      }
     }
   }
 

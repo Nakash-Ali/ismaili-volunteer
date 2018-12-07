@@ -66,4 +66,16 @@ defmodule VolunteerWeb.Endpoint do
     |> Keyword.fetch!(:port)
     |> String.to_integer()
   end
+
+  def static_at do
+    Application.get_env(:volunteer, VolunteerWeb.Endpoint) |> Keyword.fetch!(:static_at)
+  end
+
+  def static_dir(path) when is_binary(path) do
+    static_dir([path])
+  end
+
+  def static_dir(path) when is_list(path) do
+    Path.join([:code.priv_dir(:volunteer), static_at()] ++ path)
+  end
 end

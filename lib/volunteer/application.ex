@@ -12,8 +12,9 @@ defmodule Volunteer.Application do
       supervisor(Volunteer.Repo, []),
       # Start the scheduler
       worker(Volunteer.Scheduler, []),
-      # Start the social_image generator
+      # Start the generators
       worker(VolunteerWeb.Services.ListingSocialImageGenerator, []),
+      worker(VolunteerWeb.Services.TKNAssignmentSpecGenerator, []),
       # Start the endpoint when the application starts
       supervisor(VolunteerWeb.Endpoint, [])
     ]
