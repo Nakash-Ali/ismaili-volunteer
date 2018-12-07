@@ -64,7 +64,8 @@ defmodule Volunteer.Mixfile do
       {:jose, "~> 1.8"},
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:distillery, "~> 2.0"},
-      {:jason, "~> 1.0"}
+      {:jason, "~> 1.0"},
+      {:poison, "~> 3.1"}
     ]
   end
 

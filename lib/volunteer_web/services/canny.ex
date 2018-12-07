@@ -54,10 +54,9 @@ defmodule VolunteerWeb.Services.Canny do
   end
 
   def encode_token(token_claims) do
-    jwk = %{
-      "kty" => "oct",
-      "k" => Application.fetch_env!(:volunteer, :canny_private_key) |> Base.url_encode64()
-    }
+    jwk =
+      Application.fetch_env!(:volunteer, :canny_private_key)
+      |> JOSE.JWK.from_oct()
 
     jws = %{
       "alg" => "HS256"
