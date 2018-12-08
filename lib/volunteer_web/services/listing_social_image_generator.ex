@@ -11,7 +11,12 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
 
   def generate!(conn, listing) do
     webpage_url = RouterHelpers.listing_social_image_url(conn, :show, listing)
-    GenServer.call(__MODULE__.Server, {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at}, 30_000)
+
+    GenServer.call(
+      __MODULE__.Server,
+      {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at},
+      30_000
+    )
   end
 
   defmodule Implementation do
@@ -20,10 +25,12 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
 
       Commands.NodeJS.run(
         "do_webpage_screenshot",
-        [%{
-          webpageUrl: webpage_url,
-          outputPath: disk_path
-        }]
+        [
+          %{
+            webpageUrl: webpage_url,
+            outputPath: disk_path
+          }
+        ]
       )
     end
 
@@ -52,7 +59,11 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
       {:ok, nil}
     end
 
-    def handle_call({:generate, webpage_url, disk_dir, listing_id, listing_updated_at}, _from, state) do
+    def handle_call(
+      {:generate, webpage_url, disk_dir, listing_id, listing_updated_at},
+      _from,
+      state
+    ) do
       disk_path = Implementation.image_disk_path(disk_dir, listing_id, listing_updated_at)
 
       {:ok, _} =

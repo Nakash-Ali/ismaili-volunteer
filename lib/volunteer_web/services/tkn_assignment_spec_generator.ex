@@ -13,8 +13,12 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
     webpage_url =
       RouterHelpers.admin_listing_tkn_assignment_spec_url(conn, :show, listing)
       |> VolunteerWeb.UserSession.AuthToken.put_in_params(conn)
-    
-    GenServer.call(__MODULE__.Server, {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at, tkn_listing.updated_at}, 30_000)
+
+    GenServer.call(
+      __MODULE__.Server,
+      {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at, tkn_listing.updated_at},
+      30_000
+    )
   end
 
   defmodule Implementation do
@@ -23,10 +27,12 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
 
       Commands.NodeJS.run(
         "do_webpage_pdf",
-        [%{
-          webpageUrl: webpage_url,
-          outputPath: disk_path
-        }]
+        [
+          %{
+            webpageUrl: webpage_url,
+            outputPath: disk_path
+          }
+        ]
       )
     end
 
@@ -56,8 +62,19 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
       {:ok, nil}
     end
 
-    def handle_call({:generate, webpage_url, disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at}, _from, state) do
-      disk_path = Implementation.pdf_disk_path(disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at)
+    def handle_call(
+      {:generate, webpage_url, disk_dir, listing_id, listing_updated_at,
+       tkn_listing_updated_at},
+      _from,
+      state
+    ) do
+      disk_path =
+        Implementation.pdf_disk_path(
+          disk_dir,
+          listing_id,
+          listing_updated_at,
+          tkn_listing_updated_at
+        )
 
       {:ok, _} =
         FileGeneratorUtils.run_func_if_not_exists(

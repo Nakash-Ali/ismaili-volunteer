@@ -8,8 +8,7 @@ defmodule VolunteerWeb.Services.Canny do
   end
 
   def get_user_config(nil, session_id, _should_anonymize) do
-    session_id_encoded =
-      Base.url_encode64(session_id)
+    session_id_encoded = Base.url_encode64(session_id)
 
     %{
       id: session_id_encoded,
@@ -19,8 +18,7 @@ defmodule VolunteerWeb.Services.Canny do
   end
 
   def get_user_config(user, _session_id, true) do
-    user_id_hash =
-      :crypto.hash(:sha256, "#{user.id}") |> Base.url_encode64()
+    user_id_hash = :crypto.hash(:sha256, "#{user.id}") |> Base.url_encode64()
 
     %{
       id: user_id_hash,
@@ -33,7 +31,7 @@ defmodule VolunteerWeb.Services.Canny do
     %{
       id: user.id,
       name: user.title,
-      email: user.primary_email,
+      email: user.primary_email
     }
   end
 

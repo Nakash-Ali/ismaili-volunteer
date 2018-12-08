@@ -33,7 +33,7 @@ defmodule VolunteerWeb.Services.Analytics do
       if Application.get_env(:volunteer, :send_analytics) do
         Task.start(__MODULE__, :post, [params])
       else
-        Logger.debug "Ignoring analytics request for #{inspect(params)}"
+        Logger.debug("Ignoring analytics request for #{inspect(params)}")
       end
     end
 
@@ -42,11 +42,13 @@ defmodule VolunteerWeb.Services.Analytics do
       |> HTTPoison.post(URI.encode_query(params), headers())
       |> case do
         {:ok, %HTTPoison.Response{status_code: 200}} ->
-          Logger.info "Analytics recorded successfully for #{inspect(params)}"
+          Logger.info("Analytics recorded successfully for #{inspect(params)}")
+
         {:ok, error} ->
-          Logger.error "Analytics request failed with #{inspect(error)}"
+          Logger.error("Analytics request failed with #{inspect(error)}")
+
         {:error, %HTTPoison.Error{reason: reason}} ->
-          Logger.error "Analytics request failed with #{inspect(reason)}"
+          Logger.error("Analytics request failed with #{inspect(reason)}")
       end
     end
 
@@ -63,7 +65,7 @@ defmodule VolunteerWeb.Services.Analytics do
       "t" => "event",
       "ec" => to_string(resource),
       "el" => to_string(label),
-      "ea" => to_string(action),
+      "ea" => to_string(action)
     }
     |> Params.finalize(conn)
     |> API.post_async?()
