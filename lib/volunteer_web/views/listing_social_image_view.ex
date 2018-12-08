@@ -10,14 +10,6 @@ defmodule VolunteerWeb.ListingSocialImageView do
     ]
   end
 
-  def render("body_header.show.html", _assigns) do
-    []
-  end
-
-  def render("body_footer.show.html", _assigns) do
-    []
-  end
-
   def render("analytics.show.html", _assigns) do
     []
   end

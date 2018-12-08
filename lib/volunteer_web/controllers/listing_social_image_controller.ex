@@ -12,8 +12,9 @@ defmodule VolunteerWeb.ListingSocialImageController do
     {:ok, website_url} =
       Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
 
-    render(
-      conn,
+    conn
+    |> put_layout({VolunteerWeb.LayoutView, "app_bare.html"})
+    |> render(
       "show.html",
       listing: listing,
       website_url: website_url
