@@ -9,7 +9,15 @@ defmodule VolunteerWeb.ListingSocialImageController do
       Listings.get_one_public_listing!(id)
       |> Repo.preload(Listings.Listing.preloadables())
 
-    render(conn, "show.html", listing: listing)
+    {:ok, website_url} =
+      Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
+
+    render(
+      conn,
+      "show.html",
+      listing: listing,
+      website_url: website_url
+    )
   end
 
   def image(conn, %{"id" => id}) do

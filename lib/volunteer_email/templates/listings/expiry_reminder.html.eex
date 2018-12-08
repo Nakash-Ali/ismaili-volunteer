@@ -9,4 +9,4 @@
 <p>If it hasn't been filled yet, please refresh expiration as soon as possible.</p>
 
 <p>Best Regards,<br>
-<%= Application.fetch_env!(:volunteer, :project_title) %></p>
+<%= Application.fetch_env!(:volunteer, :global_title) %></p>

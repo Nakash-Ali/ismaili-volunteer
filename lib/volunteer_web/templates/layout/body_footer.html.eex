@@ -1,7 +1,8 @@
 <footer>
 	<div class="container p-1 font-family-sans-serif text-center">
-		<div class="d-print-none content d-flex flex-column justify-content-center align-items-center">
-			<p class="small my-0"><a href="mailto:<%= Application.fetch_env!(:volunteer, :contact_email) %>">His Highness Prince Aga Khan Shia Imami Ismaili Council for Ontario</a></p>
+		<div class="d-print-none content d-flex flex-row justify-content-center align-items-center">
+			<p class="small my-0 mx-3q"><%= Application.fetch_env!(:volunteer, :global_attribution) %></p>
+			<p class="small my-0 mx-3q"><a href="mailto:<%= Application.fetch_env!(:volunteer, :global_email) %>">Contact Us</a></p>
 		</div>
 	</div>
 </footer>

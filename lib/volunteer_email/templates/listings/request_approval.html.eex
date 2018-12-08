@@ -7,4 +7,4 @@
 <p>Please review and approve at your earliest convenience.</p>
 
 <p>Best Regards,<br>
-<%= Application.fetch_env!(:volunteer, :project_title) %></p>
+<%= Application.fetch_env!(:volunteer, :global_title) %></p>

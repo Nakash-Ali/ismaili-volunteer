@@ -1,5 +1,5 @@
 defmodule VolunteerWeb.PageTitle do
-  @suffix Application.fetch_env!(:volunteer, :project_title)
+  @suffix Application.fetch_env!(:volunteer, :global_title)
   @joiner " - "
 
   def render(assigns) do

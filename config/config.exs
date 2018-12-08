@@ -5,13 +5,19 @@
 # is restricted to this project.
 use Mix.Config
 
+# Configure global constants
+config :volunteer,
+  global_title: "OpportunitiesToServe",
+  global_email: "hrontario@iicanada.net",
+  global_attribution: "His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada",
+  global_parent_navbar_name: "IICanada",
+  global_parent_navbar_url: "https://iicanada.org"
+
 # General application configuration
 config :volunteer,
   ecto_repos: [Volunteer.Repo],
   send_analytics: false,
-  mock_sessions: false,
-  project_title: "OpportunitiesToServe",
-  contact_email: "hrontario@iicanada.net"
+  mock_sessions: false
 
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,

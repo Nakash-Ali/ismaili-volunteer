@@ -7,3 +7,6 @@
 
 	</div>
 </section>
+<script>
+	window.errorEmail = "<%= @error_email %>"
+</script>

@@ -2,10 +2,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
   @config_by_region %{
     # Canada
     1 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      marketing_request_email: [],
       website_url: "https://iicanada.org/serveontario",
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       jumbotron_image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+      marketing_request_email: [],
+      marketing_channels: %{
+        "Al-Akhbar" => "text"
+      },
       tkn_country: "Canada",
       tkn_coordinator: %{
         name: "",
@@ -16,10 +19,15 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Ontario
     2 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      marketing_request_email: ["cfo-announcements@iicanada.net"],
       website_url: "https://iicanada.org/serveontario",
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       jumbotron_image_url: "/static/images/ismaili-center-toronto.jpg",
+      marketing_request_email: ["cfo-announcements@iicanada.net"],
+      marketing_channels: %{
+        "Al-Akhbar" => "text",
+        "IICanada App & Website" => "text",
+        "JK announcement" => "text"
+      },
       tkn_country: "Canada",
       tkn_coordinator: %{
         name: "",

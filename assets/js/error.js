@@ -1,6 +1,6 @@
 const $ = window.$
 const $err = $('#error-container')
-const errorEmail = 'hrontario@iicanada.net'
+const errorEmail = window.errorEmail
 
 class FormError extends Error {}
 

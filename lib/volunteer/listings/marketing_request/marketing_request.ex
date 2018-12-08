@@ -21,21 +21,10 @@ defmodule Volunteer.Listings.MarketingRequest do
   @attributes_required_always @attributes_cast_always
 
   @mapping %{
-    "Al-Akhbar" => TextChannel,
-    "IICanada App & Website" => TextChannel,
-    "JK announcement" => TextChannel,
-    "JK LCD screen" => ImageChannel,
-    "Facebook" => TextImageChannel,
-    "Instagram" => TextImageChannel
+    "text" => TextChannel,
+    "image" => ImageChannel,
+    "text_image" => TextImageChannel,
   }
-
-  def default_channels() do
-    [
-      "Al-Akhbar",
-      "IICanada App & Website",
-      "JK announcement"
-    ]
-  end
 
   def new(channels, assigns) do
     changeset(%__MODULE__{}, channels, assigns, %{})
@@ -79,11 +68,11 @@ defmodule Volunteer.Listings.MarketingRequest do
     }
   end
 
-  defp initial_channels_for_type(required_channel_type, channels, assigns) do
+  defp initial_channels_for_type(required_channel_module, channels, assigns) do
     channels
-    |> Enum.map(fn title -> {Map.fetch!(@mapping, title), title} end)
-    |> Enum.filter(fn {channel_type, _title} -> channel_type == required_channel_type end)
-    |> Enum.map(fn {channel_type, title} -> channel_type.initial(title, assigns) end)
+    |> Enum.map(fn {title, str_type} -> {Map.fetch!(@mapping, str_type), title} end)
+    |> Enum.filter(fn {channel_module, _title} -> channel_module == required_channel_module end)
+    |> Enum.map(fn {channel_module, title} -> channel_module.initial(title, assigns) end)
     |> Volunteer.Utils.list_to_map()
   end
 

@@ -1,10 +1,12 @@
 <main class="d-flex flex-row font-family-sans-serif">
 	<div style="flex-basis: 0;" class="bg-white d-flex flex-column align-items-center justify-content-center p-3 text-center">
+		<div>
 		<img class="mb-1 mx-3" height="80" src="<%= RouterHelpers.static_path(@conn, assigns[:img_path] || "/images/logo.png") %>"/>
 		<!-- <hr class="my-2">
 		<h5 class="mb-0 about">Find volunteer opportunities<br>within Jamati programs</h5> -->
 		<hr class="my-2">
-		<h4 class="mb-0 cta">Apply today at iicanada.org/serveontario</h4>
+		<h4 class="mb-0 cta">Apply today at <%= @website_url %></h4>
+		</div>
 	</div>
 	<div style="flex-grow: 1;" class="listing text-white p-3 d-flex flex-column flex-nowrap justify-content-center">
 		<h1 class="mb-1"><%= Title.html(@listing) %></h1>

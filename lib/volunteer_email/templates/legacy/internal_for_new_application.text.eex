@@ -3,7 +3,7 @@ Ya Ali Madad <%= @data.organizer %>,
 
 You've just received an application from <%= @data.name %>. The full details are below.
 
-Please use this email thread for any internal conversations with the <%= Application.fetch_env!(:volunteer, :project_title) %> team. Do not share this email with the applicant.
+Please use this email thread for any internal conversations with the <%= Application.fetch_env!(:volunteer, :global_title) %> team. Do not share this email with the applicant.
 
 
 <%= for {key, public_key, value} <- Volunteer.Legacy.translate_keys(:public, @data) do %>
@@ -18,4 +18,4 @@ Please use this email thread for any internal conversations with the <%= Applica
 
 
 Best Regards,
-<%= Application.fetch_env!(:volunteer, :project_title) %>
+<%= Application.fetch_env!(:volunteer, :global_title) %>

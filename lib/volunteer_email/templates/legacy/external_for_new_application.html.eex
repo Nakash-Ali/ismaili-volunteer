@@ -11,4 +11,4 @@
 <p>Thank you for being generous with your time to our community. If you have any questions or comments, feel free to reply-all to this email.</p>
 
 <p>Best Regards,<br>
-<%= Application.fetch_env!(:volunteer, :project_title) %></p>
+<%= Application.fetch_env!(:volunteer, :global_title) %></p>

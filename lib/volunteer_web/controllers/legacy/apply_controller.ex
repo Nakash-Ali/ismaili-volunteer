@@ -15,7 +15,7 @@ defmodule VolunteerWeb.Legacy.ApplyController do
   end
 
   def error(conn, _params) do
-    render(conn, "error.html")
+    render(conn, "error.html", error_email: Application.fetch_env!(:volunteer, :global_email))
   end
 
   plug :botnectar_protection when action in [:apply]

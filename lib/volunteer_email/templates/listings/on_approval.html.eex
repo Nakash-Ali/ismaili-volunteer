@@ -7,4 +7,4 @@
 <p><%= render "details.html", listing: @listing, sections: [:links, :expiry, :approval, :details, :textblob, :meta] %></p>
 
 <p>Best Regards,<br>
-<%= Application.fetch_env!(:volunteer, :project_title) %></p>
+<%= Application.fetch_env!(:volunteer, :global_title) %></p>

@@ -8,7 +8,7 @@
 	</div>
 </section>
 <section class="container my-7">
-	<h2 class="mb-3">Why <%= Application.fetch_env!(:volunteer, :project_title) %>?</h2>
+	<h2 class="mb-3">Why <%= Application.fetch_env!(:volunteer, :global_title) %>?</h2>
 	<div class="row font-family-sans-serif">
 		<div class="col-md-12 col-lg-4 px-md-2 d-flex flex-row mb-2 mb-lg-0">
 			<img class="mb-1q" src="<%= RouterHelpers.static_path(@conn, "/images/icon-transparent-green.png") %>" width="auto" height="68">
