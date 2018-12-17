@@ -6,8 +6,6 @@ defmodule Volunteer.Accounts do
   alias Volunteer.Accounts.Identity
 
   def upsert_together_and_return(%{provider: provider, provider_id: provider_id} = attrs) do
-    IO.inspect(attrs)
-
     Repo.transaction(fn ->
       case get_identity_and_user(provider, provider_id) do
         nil ->

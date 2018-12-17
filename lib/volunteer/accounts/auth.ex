@@ -1,5 +1,7 @@
 defmodule Volunteer.Accounts.Auth do
   def upsert_together_and_return(%Ueberauth.Auth{} = auth) do
+    IO.inspect(auth)
+
     Volunteer.Accounts.upsert_together_and_return(%{
       provider_id: auth.uid,
       provider: Atom.to_string(auth.provider),
