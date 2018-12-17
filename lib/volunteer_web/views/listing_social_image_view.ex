@@ -4,13 +4,13 @@ defmodule VolunteerWeb.ListingSocialImageView do
 
   use VolunteerWeb, :view
 
-  def render("head_extra.show.html", %{conn: conn}) do
+  def render("head_extra" <> _, %{conn: conn}) do
     [
       StaticHelpers.stylesheet_tag(conn, "/css/social.css")
     ]
   end
 
-  def render("analytics.show.html", _assigns) do
+  def render("analytics" <> _, _assigns) do
     []
   end
 end

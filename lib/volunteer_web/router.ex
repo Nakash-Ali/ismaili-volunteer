@@ -59,9 +59,9 @@ defmodule VolunteerWeb.Router do
       get "/", ListingController, :show
       post "/apply", ListingController, :create_applicant
 
-      scope "/social" do
-        get "/html", ListingSocialImageController, :show
-        get "/image", ListingSocialImageController, :image
+      scope "/social_image" do
+        get "/show", ListingSocialImageController, :show
+        get "/png", ListingSocialImageController, :png
       end
 
       scope "/preview" do
@@ -82,9 +82,14 @@ defmodule VolunteerWeb.Router do
       get "/", IndexController, :index
 
       resources "/listings", ListingController do
-        resources "/tkn_listing", TKNListingController, singleton: true
-        get "/tkn_listing/assignment_spec/show", TKNAssignmentSpecController, :show
-        get "/tkn_listing/assignment_spec/pdf", TKNAssignmentSpecController, :pdf
+        scope "/tkn_listing" do
+          resources "/", TKNListingController, singleton: true
+
+          scope "/assignment_spec" do
+            get "/show", TKNAssignmentSpecController, :show
+            get "/pdf", TKNAssignmentSpecController, :pdf
+          end
+        end
 
         resources "/marketing_request", MarketingRequestController,
           singleton: true,

@@ -21,7 +21,7 @@ defmodule VolunteerWeb.ListingSocialImageController do
     )
   end
 
-  def image(conn, %{"id" => id}) do
+  def png(conn, %{"id" => id}) do
     listing = Listings.get_one_public_listing!(id)
     disk_path = ListingSocialImageGenerator.generate!(conn, listing)
 
