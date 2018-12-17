@@ -11,7 +11,8 @@ config :volunteer,
   global_email: "hrontario@iicanada.net",
   global_attribution: "His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada",
   global_parent_navbar_name: "IICanada",
-  global_parent_navbar_url: "https://iicanada.org"
+  global_parent_navbar_url: "https://iicanada.org",
+  allowed_auth_email_domains: ["iicanada.net"]
 
 # General application configuration
 config :volunteer,

@@ -1,3 +1,4 @@
 <main role="main">
+	<%= render VolunteerWeb.FlashView, "all.html", conn: @conn %>
 	<%= render @view_module, @view_template, assigns %>
 </main>

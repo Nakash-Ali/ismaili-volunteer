@@ -35,9 +35,14 @@ defmodule VolunteerWeb.AuthController do
         |> put_flash(:info, "Successfully authenticated.")
         |> redirect(to: UserSession.get_redirect(conn))
 
-      {:error, reason} ->
+      {:error, :auth_email_domain_not_allowed} ->
         conn
-        |> put_flash(:error, reason)
+        |> put_flash(:error, "Email domain not permitted to login.")
+        |> redirect(to: RouterHelpers.auth_path(conn, :login))
+
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "Failed to login.")
         |> redirect(to: RouterHelpers.auth_path(conn, :login))
     end
   end

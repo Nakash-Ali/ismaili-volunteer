@@ -2,7 +2,7 @@ use Mix.Config
 
 # General application configuration
 config :volunteer,
-  mock_sessions: true
+  mock_sessions: false
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

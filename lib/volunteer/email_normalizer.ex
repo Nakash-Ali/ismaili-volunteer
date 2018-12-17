@@ -1,6 +1,17 @@
 defmodule Volunteer.EmailNormalizer do
   @regex ~r/([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63})/i
 
+  def extract_domain(raw_email) do
+    case Regex.run(@regex, raw_email, capture: :all_but_first) do
+      [match] ->
+        [_local_part, domain] = String.split(match, "@")
+        {:ok, domain}
+
+      _ ->
+        {:error, :no_email_found}
+    end
+  end
+
   def validate_and_normalize_change(changeset, field, opts \\ %{})
 
   def validate_and_normalize_change(changeset, field, %{type: :list} = opts) do
