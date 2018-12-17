@@ -18,7 +18,7 @@ config :volunteer, VolunteerWeb.Endpoint,
   http: [port: "${PORT}"],
   check_origin: false,
   root: ".",
-  url: [host: "ismailivolunteer.eightzerothree.co", port: 80],
+  url: [host: "ots.the.ismaili", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   code_reloader: false
