@@ -51,10 +51,6 @@ defmodule VolunteerWeb.Router do
     get "/", IndexController, :index
     get "/feedback/*path", FeedbackController, :index
 
-    scope "/regions/:id" do
-      get "/", RegionController, :show
-    end
-
     scope "/listings/:id" do
       get "/", ListingController, :show
       post "/apply", ListingController, :create_applicant
@@ -117,6 +113,9 @@ defmodule VolunteerWeb.Router do
       get "/:provider/callback", AuthController, :callback
       post "/:provider/callback", AuthController, :callback
     end
+
+    get "/regions/:id", RegionController, :show
+    get "/:slug", RegionController, :show
   end
 
   if Mix.env() == :dev do

@@ -11,7 +11,8 @@ do_create_region = fn id, title, parent ->
   %Volunteer.Infrastructure.Region{}
   |> Volunteer.Infrastructure.Region.changeset(
     %{
-      title: title
+      title: title,
+      slug: Volunteer.Infrastructure.Region.slugify(title)
     },
     parent
   )

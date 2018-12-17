@@ -5,14 +5,23 @@ defmodule VolunteerWeb.RegionController do
   alias Volunteer.Listings
   alias VolunteerWeb.ControllerUtils
 
-  def show(conn, %{"title" => region_title} = params) do
+  def show(conn, %{"slug" => region_slug} = params) do
+    case Infrastructure.get_region_by_slug(region_slug) do
+      %Infrastructure.Region{} = region ->
+        show(region, conn, params)
 
+      _ ->
+        raise VolunteerWeb.NoRouteErrorController.raise_error(conn, params)
+    end
   end
 
   def show(conn, %{"id" => region_id} = params) do
+    Infrastructure.get_region!(region_id) |> show(conn, params)
+  end
+
+  def show(%Infrastructure.Region{} = region, conn, params) do
     region =
-      Infrastructure.get_region!(region_id)
-      |> Repo.preload([:parent])
+      Repo.preload(region, [:parent])
 
     region_choices =
       Infrastructure.get_regions(filters: %{parent_id: region.id})

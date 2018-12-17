@@ -16,6 +16,12 @@ defmodule Volunteer.Infrastructure do
     Region |> Repo.get!(id)
   end
 
+  def get_region_by_slug(slug_like_str) do
+    slug = Region.slugify(slug_like_str)
+    from(r in Region, where: r.slug == ^slug)
+    |> Repo.one()
+  end
+
   def create_group!(attrs, region \\ nil) do
     %Group{}
     |> Group.changeset(attrs, region)
