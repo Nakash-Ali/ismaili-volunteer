@@ -21,29 +21,29 @@ defmodule VolunteerWeb.Router do
     plug VolunteerWeb.HTMLMinifier
   end
 
-  pipeline :embedded do
-    plug :allow_embedding_as_frame
-    plug :put_embedded_layout
-  end
-
-  scope "/", VolunteerWeb, host: "embedded." do
-    pipe_through :browser
-    pipe_through :embedded
-
-    get "/", Embedded.IndexController, :index
-
-    scope "/listings/:id" do
-      get "/", ListingController, :show
-    end
-
-    scope "/legacy", Legacy do
-      post "/apply", ApplyController, :apply
-      get "/thank_you", ApplyController, :thank_you
-      get "/error", ApplyController, :error
-    end
-
-    match :*, "/*path", NoRouteErrorController, :raise_error
-  end
+  # pipeline :embedded do
+  #   plug :allow_embedding_as_frame
+  #   plug :put_embedded_layout
+  # end
+  #
+  # scope "/", VolunteerWeb, host: "embedded." do
+  #   pipe_through :browser
+  #   pipe_through :embedded
+  #
+  #   get "/", Embedded.IndexController, :index
+  #
+  #   scope "/listings/:id" do
+  #     get "/", ListingController, :show
+  #   end
+  #
+  #   scope "/legacy", Legacy do
+  #     post "/apply", ApplyController, :apply
+  #     get "/thank_you", ApplyController, :thank_you
+  #     get "/error", ApplyController, :error
+  #   end
+  #
+  #   match :*, "/*path", NoRouteErrorController, :raise_error
+  # end
 
   scope "/", VolunteerWeb do
     pipe_through :browser
@@ -134,11 +134,11 @@ defmodule VolunteerWeb.Router do
     end
   end
 
-  def allow_embedding_as_frame(conn, _opts) do
-    Plug.Conn.delete_resp_header(conn, "x-frame-options")
-  end
-
-  def put_embedded_layout(conn, _opts) do
-    Phoenix.Controller.put_layout(conn, {VolunteerWeb.LayoutView, "embedded.html"})
-  end
+  # def allow_embedding_as_frame(conn, _opts) do
+  #   Plug.Conn.delete_resp_header(conn, "x-frame-options")
+  # end
+  #
+  # def put_embedded_layout(conn, _opts) do
+  #   Phoenix.Controller.put_layout(conn, {VolunteerWeb.LayoutView, "embedded.html"})
+  # end
 end
