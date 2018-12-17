@@ -3,7 +3,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Canada
     1 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://iicanada.org/serveontario",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -31,7 +31,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Ontario
     2 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://iicanada.org/serveontario",
+      ots_website: "https://ots.the.ismaili/ontario",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -61,7 +61,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # British Columbia
     3 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://iicanada.org/serveontario",
+      ots_website: "https://ots.the.ismaili/bc",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
