@@ -23,7 +23,7 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
     }
   end
 
-  defp apply_template(_title, %{listing: listing, website_url: website_url}) do
+  defp apply_template(_title, %{listing: listing, ots_website: ots_website}) do
     for_text =
       if listing.program_title != "" do
         "volunteers for #{listing.program_title}"
@@ -31,6 +31,6 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
         "a #{listing.position_title}"
       end
 
-    "#{listing.group.title} is looking for #{for_text}. For more information on this and other volunteer opportunities, go to #{website_url}"
+    "#{listing.group.title} is looking for #{for_text}. For more information on this and other volunteer opportunities, go to #{ots_website}"
   end
 end

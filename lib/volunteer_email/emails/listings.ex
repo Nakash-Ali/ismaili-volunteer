@@ -10,7 +10,7 @@ defmodule VolunteerEmail.ListingsEmails do
       generate_subject("Marketing Request", listing)
 
     {:ok, to_address_list} =
-      Volunteer.Infrastructure.get_region_config(listing.region_id, :marketing_request_email)
+      Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :email])
 
     cc_address_list =
       generate_all_address_list(listing)

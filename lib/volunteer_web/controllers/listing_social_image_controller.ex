@@ -9,15 +9,15 @@ defmodule VolunteerWeb.ListingSocialImageController do
       Listings.get_one_public_listing!(id)
       |> Repo.preload(Listings.Listing.preloadables())
 
-    {:ok, website_url} =
-      Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
+    {:ok, ots_website} =
+      Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
 
     conn
     |> put_layout({VolunteerWeb.LayoutView, "app_bare.html"})
     |> render(
       "show.html",
       listing: listing,
-      website_url: website_url
+      ots_website: ots_website
     )
   end
 

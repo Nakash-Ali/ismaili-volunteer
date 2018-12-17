@@ -19,6 +19,7 @@ $grays: ();
 $primary:				hsl(177, 100%, 34%);
 $primary-dark:			desaturate(darken($primary, 6%), 64%);
 $complement-one:		hsl(296, 32%, 48%);
+$complement-one-dark:	desaturate(darken($complement-one, 22%), 16%);
 $complement-two:		hsl(28, 100%, 60%);
 $info:					$primary;
 $danger:				hsl(6, 100%, 60%);

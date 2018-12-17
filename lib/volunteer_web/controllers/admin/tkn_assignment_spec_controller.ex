@@ -49,8 +49,8 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
 
-    {:ok, tkn_country} = Volunteer.Infrastructure.get_region_config(listing.region_id, :tkn_country)
-    {:ok, tkn_coordinator} = Volunteer.Infrastructure.get_region_config(listing.region_id, :tkn_coordinator)
+    {:ok, tkn_country} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :country])
+    {:ok, tkn_coordinator} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :coordinator])
 
     conn
     |> put_layout({VolunteerWeb.LayoutView, "pdf_export.html"})

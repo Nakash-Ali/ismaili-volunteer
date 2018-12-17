@@ -275,17 +275,17 @@ defmodule Volunteer.Listings do
   end
 
   def new_marketing_request(listing) do
-    {:ok, website_url} = Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
-    {:ok, marketing_channels} = Volunteer.Infrastructure.get_region_config(listing.region_id, :marketing_channels)
+    {:ok, ots_website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
+    {:ok, marketing_channels} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :channels])
 
-    MarketingRequest.new(marketing_channels, %{listing: listing, website_url: website_url})
+    MarketingRequest.new(marketing_channels, %{listing: listing, ots_website: ots_website})
   end
 
   def create_marketing_request(listing, attrs) do
-    {:ok, website_url} = Volunteer.Infrastructure.get_region_config(listing.region_id, :website_url)
-    {:ok, marketing_channels} = Volunteer.Infrastructure.get_region_config(listing.region_id, :marketing_channels)
+    {:ok, ots_website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
+    {:ok, marketing_channels} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :channels])
 
-    MarketingRequest.create(marketing_channels, %{listing: listing, website_url: website_url}, attrs)
+    MarketingRequest.create(marketing_channels, %{listing: listing, ots_website: ots_website}, attrs)
     |> Ecto.Changeset.apply_action(:insert)
   end
 
