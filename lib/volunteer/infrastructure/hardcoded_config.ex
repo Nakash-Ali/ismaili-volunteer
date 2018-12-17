@@ -57,6 +57,32 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           phone: "",
         }
       }
+    },
+    # British Columbia
+    3 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://iicanada.org/serveontario",
+      council_website: %{
+        text: "the.ismaili/canada",
+        url: "https://the.ismaili/canada"
+      },
+      jumbotron: %{
+        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
     }
   }
 
