@@ -8,7 +8,7 @@
 	</div>
 <% end %>
 <p class="font-family-sans-serif"><strong>Once you approve this listing</strong>, it will be <em>publicly accessible</em> to anyone with an internet connection (including all jamati members). As the approver, it is <em>your responsibility</em> to ensure that the content and quality of this listing reflects the very best of our institutions to our jamat and the world.</p>
-<p class="font-family-sans-serif"><strong>Please take this confirmation as a moment to pause</strong> and think through the content in this listing; from simple things like spelling and grammer, to trickier things like not mentioning specific Jamati ceremonies. If you are unsure about something, please don't hesistate to reach out to your regional Communications team for their advice, review, and clarification.</p>
+<p class="font-family-sans-serif"><strong>Please take this confirmation as a moment to pause</strong> and think through the content in this listing; from simple things like spelling and grammar, to trickier things like not mentioning specific Jamati ceremonies. If you are unsure about something, please don't hesistate to reach out to your regional Communications team for their advice, review, and clarification.</p>
 <%= form_for @checks_changes, @action_path, [as: :checks, novalidate: "true"], fn f -> %>
 	<div class="my-2 px-2 blockquote-border" style="font-style: italic;">
 		<!-- <p class="mb-3q">By approving this listing, I hereby certify that:</p> -->
