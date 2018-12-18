@@ -43,6 +43,9 @@ config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter
 # Do not print debug messages in production
 config :logger, level: :info
 
+# Configure AppSignal
+config :appsignal, :config, active: true
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

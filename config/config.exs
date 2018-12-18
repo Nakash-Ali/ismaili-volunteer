@@ -43,7 +43,8 @@ config :volunteer, VolunteerWeb.Endpoint,
   static_url: [path: "/static"],
   secret_key_base: "RJhNnMngIMEJY605r0es6uPFY/TF/9u9CEgIp+ioEpML3Q1gE+vjxmZEJEOa7MtW",
   render_errors: [view: VolunteerWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Volunteer.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Volunteer.PubSub, adapter: Phoenix.PubSub.PG2],
+  instrumenters: [Appsignal.Phoenix.Instrumenter]
 
 # Configure your database
 config :volunteer, Volunteer.Repo,
@@ -58,6 +59,11 @@ config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Configure templating engines for Phoenix to use Appsignal
+config :phoenix, :template_engines,
+  eex: Appsignal.Phoenix.Template.EExEngine,
+  exs: Appsignal.Phoenix.Template.ExsEngine
 
 # Use Jason for JSON parsing in Bamboo
 config :bamboo, :json_library, Jason
@@ -103,6 +109,9 @@ config :recaptcha,
 
 # Import scheduled jobs
 import_config "scheduled_jobs.exs"
+
+# Import AppSignal config
+import_config "appsignal.exs"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

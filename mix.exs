@@ -65,7 +65,8 @@ defmodule Volunteer.Mixfile do
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:distillery, "~> 2.0"},
       {:jason, "~> 1.0"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:appsignal, "~> 1.9.0-beta.1"}
     ]
   end
 

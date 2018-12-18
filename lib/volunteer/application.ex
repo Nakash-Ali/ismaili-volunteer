@@ -22,6 +22,15 @@ defmodule Volunteer.Application do
     # Capture all errors, that aren't caught by Plug
     {:ok, _} = Logger.add_backend(Sentry.LoggerBackend)
 
+    # Track Ecto queries for Appsignal
+    Telemetry.attach(
+      "appsignal-ecto",
+      [:volunteer, :repo, :query],
+      Appsignal.Ecto,
+      :handle_event,
+      nil
+    )
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Volunteer.Supervisor]
