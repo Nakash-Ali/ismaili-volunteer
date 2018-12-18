@@ -128,7 +128,11 @@
 					<div class="cell col-12 label label-required">Key Responsibilities; Tasks; Major Deliverables:</div>
 				</div>
 				<div class="row no-gutters">
-					<div class="cell col-12 value value-longform"><%= @listing.responsibilities |> not_available? %></div>
+					<div class="cell col-12 value value-longform">
+						<div class="listing-textblob">
+							<%= @listing.responsibilities |> Phoenix.HTML.raw() |> not_available? %>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -137,7 +141,11 @@
 					<div class="cell col-12 label label-required">Must Have Skills and Experience; Position Requirements; Qualifications:</div>
 				</div>
 				<div class="row no-gutters">
-					<div class="cell col-12 value value-longform"><%= @listing.qualifications |> not_available? %></div>
+					<div class="cell col-12 value value-longform">
+						<div class="listing-textblob">
+							<%= @listing.qualifications |> Phoenix.HTML.raw() |> not_available? %>
+						</div>
+					</div>
 				</div>
 			</div>
 

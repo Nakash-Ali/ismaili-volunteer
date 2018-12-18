@@ -14,7 +14,7 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecView do
     "-"
   end
 
-  def not_available?(value) when value in ["", nil] do
+  def not_available?(value) when value in ["", nil, {:safe, ""}] do
     not_available()
   end
 
