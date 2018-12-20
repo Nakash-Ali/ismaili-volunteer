@@ -89,7 +89,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
   @default_region_id 1
   @default_config @config_by_region[@default_region_id]
 
-  def get_region_config(region_id, key) when is_atom(key) do
+  def get_region_config(region_id, key) when not is_list(key) do
     get_region_config(region_id, [key])
   end
 

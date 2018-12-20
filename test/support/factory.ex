@@ -21,9 +21,12 @@ defmodule Volunteer.TestSupport.Factory do
     end
 
     def region(overrides) do
+      title = Faker.Address.city()
+
       %{
         id: Volunteer.TestSupport.IntegerAgent.get(),
-        title: Faker.Address.city(),
+        title: title,
+        slug: Volunteer.Infrastructure.Region.slugify(title)
       }
       |> Map.merge(overrides)
     end

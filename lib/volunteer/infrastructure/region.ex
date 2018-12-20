@@ -25,7 +25,9 @@ defmodule Volunteer.Infrastructure.Region do
     changes =
       region
       |> cast(attrs, [:title, :slug])
-      |> validate_required([:title, :slug])
+      |> validate_required([:title])
+      |> slugify_if_not_present(:slug, :title)
+      |> validate_required([:slug])
       |> unique_constraint(:slug)
 
     case parent do
@@ -42,6 +44,21 @@ defmodule Volunteer.Infrastructure.Region do
 
   def slugify(title) do
     Slugger.slugify_downcase(title, "-")
+  end
+
+  def slugify_if_not_present(changeset, slug_field, source_field) do
+    case get_field(changeset, slug_field) do
+      slug when is_binary(slug) ->
+        changeset
+
+      _ ->
+        slug =
+          changeset
+          |> get_field(source_field)
+          |> slugify
+
+        put_change(changeset, slug_field, slug)
+    end
   end
 
   defp parent_path(%Region{} = parent) do

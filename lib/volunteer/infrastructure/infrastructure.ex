@@ -74,6 +74,10 @@ defmodule Volunteer.Infrastructure do
     Volunteer.Infrastructure.HardcodedConfig.get_region_config(region_id, key)
   end
 
+  def seed_region!(id, title, parent) do
+    seed_region!(id, title, nil, parent)
+  end
+
   def seed_region!(id, title, slug, parent) do
     %Region{}
     |> Region.changeset(
@@ -84,11 +88,6 @@ defmodule Volunteer.Infrastructure do
       parent
     )
     |> Volunteer.Repo.seed!(id)
-  end
-
-  def seed_region!(id, title, parent) do
-    slug = Region.slugify(title)
-    seed_region!(id, title, slug, parent)
   end
 
   def seed_group!(id, title, region) do
