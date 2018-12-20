@@ -9,6 +9,13 @@ section.title {
 		li.list-inline-item {
 			margin-right: 10px;
 		}
+		a {
+			color: $complement-one;
+
+			&:hover {
+				color: $complement-one-dark;
+			}
+		}
 	}
 }
 

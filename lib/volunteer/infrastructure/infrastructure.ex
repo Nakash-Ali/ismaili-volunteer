@@ -16,6 +16,12 @@ defmodule Volunteer.Infrastructure do
     Region |> Repo.get!(id)
   end
 
+  def get_region_by_slug(slug_like_str) do
+    slug = Region.slugify(slug_like_str)
+    from(r in Region, where: r.slug == ^slug)
+    |> Repo.one()
+  end
+
   def create_group!(attrs, region \\ nil) do
     %Group{}
     |> Group.changeset(attrs, region)
@@ -66,5 +72,33 @@ defmodule Volunteer.Infrastructure do
 
   def get_region_config(region_id, key) do
     Volunteer.Infrastructure.HardcodedConfig.get_region_config(region_id, key)
+  end
+
+  def seed_region!(id, title, slug, parent) do
+    %Region{}
+    |> Region.changeset(
+      %{
+        title: title,
+        slug: slug
+      },
+      parent
+    )
+    |> Volunteer.Repo.seed!(id)
+  end
+
+  def seed_region!(id, title, parent) do
+    slug = Region.slugify(title)
+    seed_region!(id, title, slug, parent)
+  end
+
+  def seed_group!(id, title, region) do
+    %Group{}
+    |> Group.changeset(
+      %{
+        title: title
+      },
+      region
+    )
+    |> Volunteer.Repo.seed!(id)
   end
 end

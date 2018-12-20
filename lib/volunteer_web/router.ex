@@ -21,29 +21,29 @@ defmodule VolunteerWeb.Router do
     plug VolunteerWeb.HTMLMinifier
   end
 
-  pipeline :embedded do
-    plug :allow_embedding_as_frame
-    plug :put_embedded_layout
-  end
-
-  scope "/", VolunteerWeb, host: "embedded." do
-    pipe_through :browser
-    pipe_through :embedded
-
-    get "/", Embedded.IndexController, :index
-
-    scope "/listings/:id" do
-      get "/", ListingController, :show
-    end
-
-    scope "/legacy", Legacy do
-      post "/apply", ApplyController, :apply
-      get "/thank_you", ApplyController, :thank_you
-      get "/error", ApplyController, :error
-    end
-
-    match :*, "/*path", NoRouteErrorController, :raise_error
-  end
+  # pipeline :embedded do
+  #   plug :allow_embedding_as_frame
+  #   plug :put_embedded_layout
+  # end
+  #
+  # scope "/", VolunteerWeb, host: "embedded." do
+  #   pipe_through :browser
+  #   pipe_through :embedded
+  #
+  #   get "/", Embedded.IndexController, :index
+  #
+  #   scope "/listings/:id" do
+  #     get "/", ListingController, :show
+  #   end
+  #
+  #   scope "/legacy", Legacy do
+  #     post "/apply", ApplyController, :apply
+  #     get "/thank_you", ApplyController, :thank_you
+  #     get "/error", ApplyController, :error
+  #   end
+  #
+  #   match :*, "/*path", NoRouteErrorController, :raise_error
+  # end
 
   scope "/", VolunteerWeb do
     pipe_through :browser
@@ -51,17 +51,13 @@ defmodule VolunteerWeb.Router do
     get "/", IndexController, :index
     get "/feedback/*path", FeedbackController, :index
 
-    scope "/regions/:id" do
-      get "/", RegionController, :show
-    end
-
     scope "/listings/:id" do
       get "/", ListingController, :show
       post "/apply", ListingController, :create_applicant
 
-      scope "/social" do
-        get "/html", ListingSocialImageController, :show
-        get "/image", ListingSocialImageController, :image
+      scope "/social_image" do
+        get "/show", ListingSocialImageController, :show
+        get "/png", ListingSocialImageController, :png
       end
 
       scope "/preview" do
@@ -82,9 +78,14 @@ defmodule VolunteerWeb.Router do
       get "/", IndexController, :index
 
       resources "/listings", ListingController do
-        resources "/tkn_listing", TKNListingController, singleton: true
-        get "/tkn_listing/assignment_spec/show", TKNAssignmentSpecController, :show
-        get "/tkn_listing/assignment_spec/pdf", TKNAssignmentSpecController, :pdf
+        scope "/tkn_listing" do
+          resources "/", TKNListingController, singleton: true
+
+          scope "/assignment_spec" do
+            get "/show", TKNAssignmentSpecController, :show
+            get "/pdf", TKNAssignmentSpecController, :pdf
+          end
+        end
 
         resources "/marketing_request", MarketingRequestController,
           singleton: true,
@@ -112,6 +113,9 @@ defmodule VolunteerWeb.Router do
       get "/:provider/callback", AuthController, :callback
       post "/:provider/callback", AuthController, :callback
     end
+
+    get "/regions/:id", RegionController, :show
+    get "/:slug", RegionController, :show
   end
 
   if Mix.env() == :dev do
@@ -129,11 +133,11 @@ defmodule VolunteerWeb.Router do
     end
   end
 
-  def allow_embedding_as_frame(conn, _opts) do
-    Plug.Conn.delete_resp_header(conn, "x-frame-options")
-  end
-
-  def put_embedded_layout(conn, _opts) do
-    Phoenix.Controller.put_layout(conn, {VolunteerWeb.LayoutView, "embedded.html"})
-  end
+  # def allow_embedding_as_frame(conn, _opts) do
+  #   Plug.Conn.delete_resp_header(conn, "x-frame-options")
+  # end
+  #
+  # def put_embedded_layout(conn, _opts) do
+  #   Phoenix.Controller.put_layout(conn, {VolunteerWeb.LayoutView, "embedded.html"})
+  # end
 end

@@ -7,6 +7,7 @@ defmodule Volunteer.Infrastructure.Region do
 
   schema "regions" do
     field :title, :string
+    field :slug, :string
     field :parent_path, {:array, :id}, default: []
 
     belongs_to :parent, Region, foreign_key: :parent_id
@@ -23,8 +24,9 @@ defmodule Volunteer.Infrastructure.Region do
   def changeset(%Region{} = region, attrs, parent) when region == %Region{} do
     changes =
       region
-      |> cast(attrs, [:title])
-      |> validate_required([:title])
+      |> cast(attrs, [:title, :slug])
+      |> validate_required([:title, :slug])
+      |> unique_constraint(:slug)
 
     case parent do
       nil ->
@@ -36,6 +38,10 @@ defmodule Volunteer.Infrastructure.Region do
         |> put_change(:parent_path, parent_path(parent))
     end
     |> foreign_key_constraint(:parent_id)
+  end
+
+  def slugify(title) do
+    Slugger.slugify_downcase(title, "-")
   end
 
   defp parent_path(%Region{} = parent) do

@@ -2,24 +2,8 @@
 @import "listing-meta";
 
 main {
-	min-height: 630px;
+	min-height: 640px;
 	width: 1200px;
-	background: $primary;
-}
-
-hr {
-	// border-color: rgba(0,0,0,0.08);
-	width: 32px;
-}
-
-.about {
-	font-weight: 100;
-	font-style: italic;
-	color: $gray-600;
-}
-
-.cta {
-	font-weight: 300;
 }
 
 .listing {

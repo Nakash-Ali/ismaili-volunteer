@@ -2,51 +2,106 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
   @config_by_region %{
     # Canada
     1 => %{
-      website_url: "https://iicanada.org/serveontario",
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      jumbotron_image_url: "/static/images/aga-khan-garden-edmonton.jpg",
-      marketing_request_email: [],
-      marketing_channels: %{
-        "Al-Akhbar" => "text"
+      ots_website: "https://iicanada.org/serveontario",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
       },
-      tkn_country: "Canada",
-      tkn_coordinator: %{
-        name: "",
-        title: "",
-        email: "",
-        phone: "",
+      jumbotron: %{
+        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{
+          "Al-Akhbar" => "text"
+        }
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
       }
     },
     # Ontario
     2 => %{
-      website_url: "https://iicanada.org/serveontario",
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      jumbotron_image_url: "/static/images/ismaili-center-toronto.jpg",
-      marketing_request_email: ["cfo-announcements@iicanada.net"],
-      marketing_channels: %{
-        "Al-Akhbar" => "text",
-        "IICanada App & Website" => "text",
-        "JK announcement" => "text"
+      ots_website: "https://iicanada.org/serveontario",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
       },
-      tkn_country: "Canada",
-      tkn_coordinator: %{
-        name: "",
-        title: "",
-        email: "",
-        phone: "",
+      jumbotron: %{
+        image_url: "/static/images/ismaili-center-toronto.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: ["cfo-announcements@iicanada.net"],
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # British Columbia
+    3 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://iicanada.org/serveontario",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
       }
     }
   }
 
-  @default_config @config_by_region[1]
+  @default_region_id 1
+  @default_config @config_by_region[@default_region_id]
 
-  def get_region_config(region_id, key) do
+  def get_region_config(region_id, key) when is_atom(key) do
+    get_region_config(region_id, [key])
+  end
+
+  def get_region_config(region_id, keys) when is_list(keys) do
     conf = Map.get(@config_by_region, region_id, @default_config)
 
-    if Map.has_key?(conf, key) do
-      {:ok, Map.fetch!(conf, key)}
-    else
-      {:error, "invalid key"}
+    case Kernel.get_in(conf, keys) do
+      nil ->
+        {:error, "invalid key"}
+
+      value ->
+        {:ok, value}
     end
   end
 end

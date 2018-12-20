@@ -1,6 +1,17 @@
-<a class="navbar-brand p-0" href="/">
-	<img src="<%= RouterHelpers.static_path(@conn, assigns[:img_path] || "/images/logo.png") %>" width="auto" height="46" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
-</a>
+<div class="">
+	<div class="my-5q d-flex flex-row flex-nowrap align-items-center justify-content-start">
+		<div class="mr-5q">
+			<a class="navbar-brand p-0 m-0" href="/">
+				<img src="<%= RouterHelpers.static_path(@conn, "/images/the-ismaili-logo.png") %>" width="auto" height="60" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
+			</a>
+		</div>
+		<div class="pl-5q border-left">
+			<a class="navbar-brand p-0 m-0" href="/">
+				<img style="" src="<%= RouterHelpers.static_path(@conn, "/images/ots-the-ismaili-wordmark-canada.png") %>" width="auto" height="60" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
+			</a>
+		</div>
+	</div>
+</div>
 
 <ul class="navbar-nav ml-auto font-family-sans-serif d-print-none flex-row justify-content-center flex-wrap">
 	<%= NavbarItems.render(assigns) %>

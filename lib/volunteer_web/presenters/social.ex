@@ -37,7 +37,7 @@ defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Listings.Listing do
   end
 
   def image_abs_url(listing, conn) do
-    RouterHelpers.listing_social_image_url(conn, :image, listing)
+    RouterHelpers.listing_social_image_url(conn, :png, listing)
   end
 
   def popup_onclick(_listing) do

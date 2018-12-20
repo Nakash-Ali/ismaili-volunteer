@@ -13,12 +13,11 @@
 
 	.textblob-section-title {
 		font-family: $font-family-sans-serif;
+		font-size: $h5-font-size;
+		font-weight: bold;
 		margin-top: map-get($spacers, 3);
 		margin-bottom: map-get($spacers, 1);
-		padding-bottom: map-get($spacers, 2q);
-		font-size: $h6-font-size;
-		text-transform: uppercase;
-	    color: $primary;
+		padding: 0;
 		&:first-of-type {
 			margin-top: 0;
 		}

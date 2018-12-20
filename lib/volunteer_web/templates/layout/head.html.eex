@@ -9,12 +9,10 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
 
 <title><%= PageTitle.render(assigns) %></title>
+<%= SocialTags.render(assigns) %>
 
-<link href="https://fonts.googleapis.com/css?family=Spectral:300i" rel="stylesheet">
 <link rel="stylesheet" href="<%= RouterHelpers.static_path(@conn, "/css/app.css") %>">
 
 <%= render_or_fallback("head_extra", assigns) %>
-
-<%= SocialTags.render(assigns) %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>

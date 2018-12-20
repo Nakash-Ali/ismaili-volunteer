@@ -1,8 +1,13 @@
+<section style="background-color: <%= @jumbotron_spanner_bg_color %>;" class="jumbotron-spanner">
+	<div class="container font-family-sans-serif py-2q text-white text-right">
+		<p class="m-0"><a href="<%= @council_website_url %>">Go to <strong><%= @council_website_text %></strong><i style="font-size: 0.94rem;" class="fas fa-arrow-right ml-3q"></i></a></p>
+	</div>
+</section>
 <section class="jumbotron py-0 m-0">
 	<div class="jumbotron-background" style="background-image: url(<%= @jumbotron_image_url %>);"></div>
 	<div class="container text-center py-6">
 		<h1 class="mb-0"><strong><%= Title.text(@region, %{with_parent: true}) %></strong></h1>
-		<h3 class="mb-2q">Volunteer Opportunities</h3>
+		<h3 class="mb-1">Volunteer Opportunities</h3>
 	</div>
 </section>
 <section id="opportunities" class="container listing-section mt-2 mb-6">

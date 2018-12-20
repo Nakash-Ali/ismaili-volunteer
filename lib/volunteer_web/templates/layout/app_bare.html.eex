@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en", class="app-bare-layout">
+<head>
+	<%= render "head.html", assigns %>
+</head>
+<body>
+	<%= render_with_block "body.html", assigns do %>
+
+		<%= render @view_module, @view_template, assigns %>
+
+	<% end %>
+</body>
+</html>
