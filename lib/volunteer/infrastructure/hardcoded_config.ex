@@ -5,8 +5,8 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       ots_website: "https://iicanada.org/serveontario",
       council_website: %{
-        text: "the.ismaili/canada",
-        url: "https://the.ismaili/canada"
+        text: "iicanada.org",
+        url: "https://iicanada.org"
       },
       jumbotron: %{
         image_url: "/static/images/aga-khan-garden-edmonton.jpg",
@@ -33,8 +33,8 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       ots_website: "https://iicanada.org/serveontario",
       council_website: %{
-        text: "the.ismaili/canada",
-        url: "https://the.ismaili/canada"
+        text: "iicanada.org",
+        url: "https://iicanada.org"
       },
       jumbotron: %{
         image_url: "/static/images/ismaili-center-toronto.jpg",
@@ -63,8 +63,8 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       ots_website: "https://iicanada.org/serveontario",
       council_website: %{
-        text: "the.ismaili/canada",
-        url: "https://the.ismaili/canada"
+        text: "iicanada.org",
+        url: "https://iicanada.org"
       },
       jumbotron: %{
         image_url: "/static/images/ismaili-center-burnaby.jpg",
