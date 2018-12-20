@@ -5,7 +5,7 @@
 				<img src="<%= RouterHelpers.static_path(@conn, "/images/the-ismaili-logo.png") %>" width="auto" height="82" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
 			</a>
 		</div>
-		<div class="py-1q pl-2 border-left">
+		<div class="py-1q">
 			<a class="navbar-brand p-0 m-0" href="/">
 				<img src="<%= RouterHelpers.static_path(@conn, "/images/ots-the-ismaili-wordmark-canada.png") %>" width="auto" height="80" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
 			</a>
