@@ -23,4 +23,5 @@ before_script:
 
 script:
   - MIX_ENV=test mix ecto.migrate
+  - MIX_ENV=test mix run priv/repo/test_seeds/accounts.exs
   - mix test

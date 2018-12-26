@@ -16,7 +16,7 @@ config :volunteer, Volunteer.Repo,
   password: (System.get_env("DB_PASS") || "postgres")
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :info
 
 # Configure your database
 config :volunteer, Volunteer.Repo, pool: Ecto.Adapters.SQL.Sandbox
