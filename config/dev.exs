@@ -60,4 +60,8 @@ config :volunteer, Volunteer.Repo, pool_size: 10
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.LocalAdapter
 
-import_config "dev.secret.exs"
+try do
+  import_config "dev.secret.exs"
+rescue
+  Code.LoadError -> nil
+end
