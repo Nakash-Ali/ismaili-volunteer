@@ -5,6 +5,11 @@ otp_release: '21.1'
 env:
   - DB_PASS=""
 
+cache:
+  directories:
+    - _build
+    - deps
+
 services:
   - postgresql
 
@@ -17,5 +22,4 @@ before_script:
   - psql -c 'create database postgres_test;' -U postgres
 
 script:
-  - MIV_ENV=test mix ecto.migrate
-  - mix test
+  - MIV_ENV=test mix ecto.migrate && mix test
