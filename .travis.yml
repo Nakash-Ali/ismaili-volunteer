@@ -2,10 +2,20 @@ language: elixir
 elixir: '1.7.4'
 otp_release: '21.1'
 
+env:
+  - DB_PASS=""
+
+services:
+  - postgresql
+
 install:
   - mix local.rebar --force # for Elixir 1.3.0 and up
   - mix local.hex --force
   - mix deps.get
 
+before_script:
+  - psql -c 'create database postgres_test;' -U postgres
+
 script:
+  - MIV_ENV=test mix ecto.migrate
   - mix test

@@ -12,7 +12,8 @@ config :volunteer, VolunteerWeb.Endpoint,
 
 # Configure your database
 config :volunteer, Volunteer.Repo,
-  database: "postgres_test"
+  database: "postgres_test",
+  password: (System.get_env("DB_PASS") || "postgres")
 
 # Print only warnings and errors during test
 config :logger, level: :warn
