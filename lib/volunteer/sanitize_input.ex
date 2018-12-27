@@ -15,9 +15,7 @@ defmodule Volunteer.SanitizeInput do
 
   def html(input) do
     input
-    |> HtmlSanitizeEx.basic_html()
-    |> collapse_terminating_linebreaks
-    |> Floki.parse()
+    |> Semtex.sanitize!()
     |> Floki.filter_out("h1")
     |> Floki.filter_out("h2")
     |> Floki.filter_out("h3")
@@ -25,6 +23,7 @@ defmodule Volunteer.SanitizeInput do
     |> Floki.filter_out("h5")
     |> Floki.filter_out("h6")
     |> Floki.raw_html()
+    |> collapse_terminating_linebreaks
   end
 
   defp attrs([], input_attrs, _sanitizer) do
