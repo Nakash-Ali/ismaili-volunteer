@@ -21,6 +21,7 @@ defmodule VolunteerWeb.HTMLMinifier do
       {_, "text/html" <> _} ->
         body =
           conn.resp_body
+          |> IO.chardata_to_string()
           |> Semtex.Parser.parse!()
           |> Semtex.minify!(@semtex_config)
           |> Semtex.serialize!(@semtex_config)
