@@ -59,7 +59,6 @@ defmodule Volunteer.Mixfile do
       {:ueberauth_microsoft, "~> 0.3"},
       {:timex, "~> 3.1"},
       {:quantum, "~> 2.3"},
-      {:floki, "~> 0.20.0"},
       {:slugger, "~> 0.2"},
       {:jose, "~> 1.8"},
       {:faker, "~> 0.11", only: [:dev, :test]},

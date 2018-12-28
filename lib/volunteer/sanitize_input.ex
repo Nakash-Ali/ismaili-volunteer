@@ -1,4 +1,9 @@
 defmodule Volunteer.SanitizeInput do
+  @semtex_config Semtex.config()
+                 |> Map.update!("allowed_tags", &Enum.reject(&1, fn tag ->
+                   if tag in ["h1", "h2", "h3", "h4", "h5", "h6"], do: true
+                 end)
+
   def text_attrs(input_attrs, keys_to_sanitize) do
     attrs(input_attrs, keys_to_sanitize, &text/1)
   end
@@ -15,14 +20,8 @@ defmodule Volunteer.SanitizeInput do
 
   def html(input) do
     input
-    |> Semtex.sanitize!()
-    |> Floki.filter_out("h1")
-    |> Floki.filter_out("h2")
-    |> Floki.filter_out("h3")
-    |> Floki.filter_out("h4")
-    |> Floki.filter_out("h5")
-    |> Floki.filter_out("h6")
-    |> Floki.raw_html()
+    |> Semtex.sanitize!(@semtex_config)
+    |> Semtex.serialize!(@semtex_config)
     |> collapse_terminating_linebreaks
   end
 

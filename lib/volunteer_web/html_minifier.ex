@@ -1,4 +1,7 @@
 defmodule VolunteerWeb.HTMLMinifier do
+  @semtex_config Semtex.config()
+                 |> Map.put("escape_serialization", false)
+
   def init(opts \\ []), do: opts
 
   def call(conn, opts \\ [])
@@ -18,9 +21,9 @@ defmodule VolunteerWeb.HTMLMinifier do
       {_, "text/html" <> _} ->
         body =
           conn.resp_body
-          |> Floki.parse()
-          |> Floki.filter_out(:comment)
-          |> Floki.raw_html()
+          |> Semtex.Parser.parse!()
+          |> Semtex.minify!(@semtex_config)
+          |> Semtex.serialize!(@semtex_config)
 
         %Plug.Conn{conn | resp_body: body}
 
