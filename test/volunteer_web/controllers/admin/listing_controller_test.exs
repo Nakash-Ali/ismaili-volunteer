@@ -54,14 +54,24 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
         :position_title,
         :program_title,
         :summary_line,
-        :responsibilities,
-        :qualifications,
       ]
       |> Enum.map(fn key ->
         expected =
           Map.get(listing_params, key)
           |> Phoenix.HTML.html_escape()
           |> Phoenix.HTML.safe_to_string()
+
+        assert html =~ expected
+      end)
+
+      [
+        :responsibilities,
+        :qualifications,
+      ]
+      |> Enum.map(fn key ->
+        expected =
+          Map.get(listing_params, key)
+          |> Semtex.Escaper.escape_str()
 
         assert html =~ expected
       end)
