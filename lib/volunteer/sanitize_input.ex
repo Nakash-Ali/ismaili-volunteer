@@ -20,9 +20,9 @@ defmodule Volunteer.SanitizeInput do
 
   def html(input) do
     input
+    |> collapse_terminating_linebreaks
     |> Semtex.sanitize!(@semtex_config)
     |> Semtex.serialize!(@semtex_config)
-    |> collapse_terminating_linebreaks
   end
 
   defp attrs([], input_attrs, _sanitizer) do
