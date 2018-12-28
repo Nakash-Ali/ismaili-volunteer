@@ -22,8 +22,8 @@ install:
 
 before_script:
   - psql -c 'create database postgres_test;' -U postgres
-
-script:
   - MIX_ENV=test mix ecto.migrate
   - MIX_ENV=test mix run priv/repo/test_seeds/accounts.exs
+
+script:
   - mix test
