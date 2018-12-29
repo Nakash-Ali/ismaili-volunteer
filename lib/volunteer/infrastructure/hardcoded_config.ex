@@ -83,6 +83,136 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           phone: "",
         }
       }
+    },
+    # Edmonton
+    4 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/edmonton",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Ottawa
+    5 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/ottawa",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/delegation-of-the-ismaili-imamat.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Praries
+    6 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/praries",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Quebec and Maritimes
+    7 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/qm",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Yukon
+    8 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/yukon",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
     }
   }
 
