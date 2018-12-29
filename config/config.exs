@@ -69,6 +69,9 @@ config :phoenix, :template_engines,
   eex: Appsignal.Phoenix.Template.EExEngine,
   exs: Appsignal.Phoenix.Template.ExsEngine
 
+# Setup gettext for translations
+config :gettext, :default_locale, "en_CA"
+
 # Use Jason for JSON parsing in Bamboo
 config :bamboo, :json_library, Jason
 
