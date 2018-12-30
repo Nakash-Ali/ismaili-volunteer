@@ -1,5 +1,3 @@
-require IEx
-
 defmodule VolunteerWeb.InsecureCookieConfigStore do
   @config %{
     root_assigns_key: :cookie_config,
