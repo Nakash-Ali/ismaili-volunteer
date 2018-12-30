@@ -4,19 +4,19 @@
 
 <section class="container">
 	<div class="btn-toolbar justify-content-end align-items-center font-family-sans-serif" role="toolbar">
-		<%= if @should_anonymize do %>
+		<%= if @admin_feedback_anonymize do %>
 			<div class="text-right mr-1">
 				<p class="m-0 font-size-base">You're currently anonymous. <span class="text-danger">You won't get email notifications when posting or voting anonymously!</span></p>
 			</div>
 			<div class="btn-group" role="group">
-				<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('anonymize', 'false'); return false;">Become yourself</a>
+				<a class="btn btn-outline-secondary" href="<%= RouterHelpers.admin_feedback_path(@conn, :index, [], admin_feedback_anonymize: false) %>">Become yourself</a>
 			</div>
 		<% else %>
 			<div class="text-right mr-1">
 				<p class="m-0 font-size-base">You're currently posting as <%= @canny_user.name %></p>
 			</div>
 			<div class="btn-group" role="group">
-				<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('anonymize', 'true'); return false;">Become anonymous</a>
+				<a class="btn btn-outline-secondary" href="<%= RouterHelpers.admin_feedback_path(@conn, :index, [], admin_feedback_anonymize: true) %>">Become anonymous</a>
 			</div>
 		<% end %>
 	</div>
