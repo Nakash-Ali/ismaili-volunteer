@@ -167,7 +167,14 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     case ListingParams.ApproveChecks.changeset(params["checks"]) do
       %{valid?: true} ->
-        toggle_approval(conn, params, :approve)
+        if Listings.Listing.is_approved?(listing) do
+          conn
+          |> put_flash(:warning, "Listing has already been approved.")
+          |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
+        else
+          toggle_approval(conn, params, :approve)
+        end
+
       changeset ->
         render_approve_confirmation(conn, changeset, listing)
     end

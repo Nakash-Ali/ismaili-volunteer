@@ -9,6 +9,11 @@ defmodule VolunteerWeb.FlashView do
         icon_class: "fas fa-exclamation-triangle"
       },
       %{
+        flash_type: :warning,
+        container_class: "alert-warning",
+        icon_class: "fas fa-exclamation-triangle"
+      },
+      %{
         flash_type: :success,
         container_class: "alert-success",
         icon_class: "far fa-check-circle"
