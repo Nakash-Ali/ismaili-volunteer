@@ -14,14 +14,16 @@ services:
   - postgresql
 
 install:
+  - curl https://sh.rustup.rs -sSf | sh -s -- -y
+  - export PATH=$PATH:$HOME/.cargo/bin
   - mix local.rebar --force # for Elixir 1.3.0 and up
   - mix local.hex --force
   - mix deps.get
 
 before_script:
   - psql -c 'create database postgres_test;' -U postgres
-
-script:
   - MIX_ENV=test mix ecto.migrate
   - MIX_ENV=test mix run priv/repo/test_seeds/accounts.exs
+
+script:
   - mix test

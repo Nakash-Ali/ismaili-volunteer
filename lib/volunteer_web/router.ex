@@ -18,7 +18,7 @@ defmodule VolunteerWeb.Router do
     plug :ensure_unique_session_identifier
     plug :authenticate_user
     plug :configure_sentry_context
-    plug VolunteerWeb.HTMLMinifier
+    # plug VolunteerWeb.HTMLMinifier
   end
 
   # pipeline :embedded do
