@@ -1,7 +1,4 @@
 defmodule VolunteerWeb.HTMLMinifier do
-  @semtex_config Semtex.config()
-                 |> Map.put("escape_serialization", false)
-
   def init(opts \\ []), do: opts
 
   def call(conn, opts \\ [])
@@ -23,8 +20,8 @@ defmodule VolunteerWeb.HTMLMinifier do
           conn.resp_body
           |> IO.chardata_to_string()
           |> Semtex.Parser.parse!()
-          |> Semtex.minify!(@semtex_config)
-          |> Semtex.serialize!(@semtex_config)
+          |> Semtex.minify!()
+          |> Semtex.serialize!()
 
         %Plug.Conn{conn | resp_body: body}
 
