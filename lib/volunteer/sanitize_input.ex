@@ -1,9 +1,4 @@
 defmodule Volunteer.SanitizeInput do
-  @semtex_config Semtex.config()
-                 |> Map.update!("allowed_tags", &Enum.reject(&1, fn tag ->
-                   if tag in ["h1", "h2", "h3", "h4", "h5", "h6"], do: true
-                 end))
-
   def text_attrs(input_attrs, keys_to_sanitize) do
     attrs(input_attrs, keys_to_sanitize, &text/1)
   end
@@ -19,10 +14,7 @@ defmodule Volunteer.SanitizeInput do
   end
 
   def html(input) do
-    input
-    |> collapse_terminating_linebreaks
-    |> Semtex.sanitize!(@semtex_config)
-    |> Semtex.serialize!(@semtex_config)
+    VolunteerWeb.HTMLInput.sanitize(input)
   end
 
   defp attrs([], input_attrs, _sanitizer) do
@@ -53,9 +45,5 @@ defmodule Volunteer.SanitizeInput do
 
   def collapse_whitespace(text) do
     Regex.replace(~r/\s+/, text, " ")
-  end
-
-  def collapse_terminating_linebreaks(html) do
-    Regex.replace(~r/^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/, html, "")
   end
 end

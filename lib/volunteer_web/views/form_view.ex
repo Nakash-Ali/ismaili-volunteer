@@ -27,8 +27,7 @@ defmodule VolunteerWeb.FormView do
   defp textarea_hidden_input(form, field) do
     escaped_value =
       input_value(form, field)
-      |> html_escape()
-      |> safe_to_string
+      |> VolunteerWeb.HTMLInput.deserialize_for_edit()
 
     hidden_input(form, field, value: escaped_value)
   end

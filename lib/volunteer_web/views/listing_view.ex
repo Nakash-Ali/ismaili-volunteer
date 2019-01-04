@@ -14,9 +14,8 @@ defmodule VolunteerWeb.ListingView do
     render(VolunteerWeb.Legacy.ListingView, "scripts.html", assigns)
   end
 
-  def transform_textblob_content(html) do
-    "<div>#{html}</div>"
-    |> raw
+  def transform_textblob_content(raw_html) do
+    VolunteerWeb.HTMLInput.deserialize_for_show(raw_html)
   end
 
   def time_commitment_text(%{time_commitment_amount: amount, time_commitment_type: type}) do

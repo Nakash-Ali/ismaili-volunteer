@@ -23,11 +23,10 @@ defmodule Volunteer.Application do
     {:ok, _} = Logger.add_backend(Sentry.LoggerBackend)
 
     # Track Ecto queries for Appsignal
-    Telemetry.attach(
+    :telemetry.attach(
       "appsignal-ecto",
       [:volunteer, :repo, :query],
-      Appsignal.Ecto,
-      :handle_event,
+      &Appsignal.Ecto.handle_event/4,
       nil
     )
 
