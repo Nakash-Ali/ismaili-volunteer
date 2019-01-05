@@ -5,8 +5,11 @@
 # is restricted to this project.
 use Mix.Config
 
+{raw_version, 0} = System.cmd("git", ["rev-parse", "HEAD"])
+
 # Configure global constants
 config :volunteer,
+  version: raw_version |> String.trim(),
   global_title: "OpportunitiesToServe",
   global_email: "hrontario@iicanada.net",
   global_attribution: "His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada",
