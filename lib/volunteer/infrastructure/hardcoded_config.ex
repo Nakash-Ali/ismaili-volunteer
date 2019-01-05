@@ -9,7 +9,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         url: "https://iicanada.org"
       },
       jumbotron: %{
-        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        image_url: "/static/images/muqarnas.png",
         spanner_bg_color: "#971421",
       },
       marketing_request: %{
@@ -31,7 +31,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Ontario
     2 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/ontario",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -61,13 +61,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # British Columbia
     3 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/bc",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
       },
       jumbotron: %{
-        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        image_url: "/static/images/ismaili-center-burnaby-2.jpg",
         spanner_bg_color: "#971421",
       },
       marketing_request: %{
@@ -87,7 +87,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Edmonton
     4 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/edmonton",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -113,7 +113,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Ottawa
     5 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/ottawa",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -139,7 +139,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Praries
     6 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/praries",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -165,13 +165,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Quebec and Maritimes
     7 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/qm",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
       },
       jumbotron: %{
-        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        image_url: "/static/images/global-center-for-pluralism.jpg",
         spanner_bg_color: "#971421",
       },
       marketing_request: %{
