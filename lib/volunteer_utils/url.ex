@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.URLUtils do
+defmodule VolunteerUtils.URL do
   def put_in_query(url, key, value) do
     url
     |> URI.parse()

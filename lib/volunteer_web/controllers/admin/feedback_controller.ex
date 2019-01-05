@@ -1,12 +1,11 @@
 defmodule VolunteerWeb.Admin.FeedbackController do
   use VolunteerWeb, :controller
-  alias VolunteerWeb.ControllerUtils
 
   def index(conn, params) do
     should_anonymize =
       params
       |> Map.get("anonymize", "false")
-      |> ControllerUtils.booleanize
+      |> VolunteerUtils.Controller.booleanize
 
     canny_user =
       VolunteerWeb.Services.Canny.get_user_config(conn, should_anonymize)

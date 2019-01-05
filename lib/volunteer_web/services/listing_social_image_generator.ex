@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
   alias Volunteer.Commands
-  alias VolunteerWeb.Services.FileGeneratorUtils
   alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
   @disk_dir VolunteerWeb.Endpoint.static_dir(["images", "listing"])
@@ -43,7 +42,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
 
     def image_filename(listing_id, listing_updated_at) do
       filename =
-        FileGeneratorUtils.consistent_hash_b64([
+        VolunteerUtils.File.consistent_hash_b64([
           listing_id,
           listing_updated_at
         ])
@@ -67,7 +66,7 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
       disk_path = Implementation.image_disk_path(disk_dir, listing_id, listing_updated_at)
 
       {:ok, _} =
-        FileGeneratorUtils.run_func_if_not_exists(
+        VolunteerUtils.File.run_func_if_not_exists(
           disk_path,
           fn -> Implementation.generate_image!(webpage_url, disk_dir, disk_path) end
         )

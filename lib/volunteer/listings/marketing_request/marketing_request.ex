@@ -73,7 +73,7 @@ defmodule Volunteer.Listings.MarketingRequest do
     |> Enum.map(fn {title, str_type} -> {Map.fetch!(@mapping, str_type), title} end)
     |> Enum.filter(fn {channel_module, _title} -> channel_module == required_channel_module end)
     |> Enum.map(fn {channel_module, title} -> channel_module.initial(title, assigns) end)
-    |> Volunteer.Utils.list_to_map()
+    |> VolunteerUtils.Map.list_to_map()
   end
 
   defp merge_initial_with_attrs(initial, attrs) do
@@ -115,7 +115,7 @@ defmodule Volunteer.Listings.MarketingRequest do
   end
 
   defp sanitize_for_channel(attrs) do
-    Volunteer.Utils.update_all_values(
+    VolunteerUtils.Map.update_all_values(
       attrs,
       &Volunteer.SanitizeInput.text_attrs(&1, ["title", "text"])
     )

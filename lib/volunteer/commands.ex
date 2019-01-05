@@ -1,5 +1,5 @@
 defmodule Volunteer.Commands do
-  defmodule Utils do
+  defmodule Core do
     @default_port_opts [
       :exit_status,
       :stderr_to_stdout,
@@ -87,10 +87,10 @@ defmodule Volunteer.Commands do
 
   defmodule NodeJS do
     def run(command, config) do
-      Utils.exec_cmd(
+      Core.exec_cmd(
         get_node_executable_name(),
         generate_args(command, config),
-        [cd: Utils.priv_dir()],
+        [cd: Core.priv_dir()],
         30_000
       )
       |> case do
@@ -158,11 +158,11 @@ defmodule Volunteer.Commands do
     def run(bash_str, dir \\ nil)
 
     def run(bash_str, nil) do
-      run(bash_str, Utils.priv_dir())
+      run(bash_str, Core.priv_dir())
     end
 
     def run(bash_str, dir) do
-      Utils.exec_cmd("bash", ["-r", "-c", bash_str], cd: dir)
+      Core.exec_cmd("bash", ["-r", "-c", bash_str], cd: dir)
     end
   end
 

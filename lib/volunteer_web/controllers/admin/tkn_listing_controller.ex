@@ -3,7 +3,6 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   alias Volunteer.Repo
   alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
-  alias VolunteerWeb.ControllerUtils
 
   # Plugs
 
@@ -192,19 +191,19 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           listing: conn.assigns[:listing],
           back_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
           commitment_type_choices:
-            ControllerUtils.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
+            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
           location_type_choices:
-            ControllerUtils.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
+            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
           search_scope_choices:
-            ControllerUtils.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),
+            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),
           function_choices:
-            ControllerUtils.blank_select_choice() ++ Listings.TKNListing.function_choices(),
+            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.function_choices(),
           industry_choices:
-            ControllerUtils.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
+            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
           education_level_choices:
-            ControllerUtils.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
+            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
           work_experience_years_choices:
-            ControllerUtils.blank_select_choice() ++
+            VolunteerUtils.Controller.blank_select_choice() ++
               Listings.TKNListing.work_experience_years_choices()
         ]
     )

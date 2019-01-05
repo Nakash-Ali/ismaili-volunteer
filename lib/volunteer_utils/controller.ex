@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.ControllerUtils do
+defmodule VolunteerUtils.Controller do
   def blank_select_choice do
     [{"---", ""}]
   end

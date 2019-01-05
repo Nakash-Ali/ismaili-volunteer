@@ -4,7 +4,6 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Listings
   alias Volunteer.Infrastructure
   alias VolunteerWeb.ConnPermissions
-  alias VolunteerWeb.ControllerUtils
   alias VolunteerWeb.Admin.ListingParams
 
   # Plugs
@@ -270,7 +269,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       action_path: RouterHelpers.admin_listing_path(conn, :create),
       back_path: RouterHelpers.admin_listing_path(conn, :index),
       draft_content: Listings.Listing.draft_content(current_user_id),
-      draft_content_key: VolunteerWeb.IdUtils.generate_unique_id(12)
+      draft_content_key: VolunteerUtils.Id.generate_unique_id(12)
     )
   end
 
@@ -301,14 +300,14 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   defp get_region_id_choices() do
-    ControllerUtils.blank_select_choice() ++ Infrastructure.get_region_id_choices()
+    VolunteerUtils.Controller.blank_select_choice() ++ Infrastructure.get_region_id_choices()
   end
 
   defp get_group_id_choices() do
-    ControllerUtils.blank_select_choice() ++ Infrastructure.get_group_id_choices()
+    VolunteerUtils.Controller.blank_select_choice() ++ Infrastructure.get_group_id_choices()
   end
 
   defp get_user_id_choices() do
-    ControllerUtils.blank_select_choice() ++ Volunteer.Accounts.get_user_id_choices()
+    VolunteerUtils.Controller.blank_select_choice() ++ Volunteer.Accounts.get_user_id_choices()
   end
 end
