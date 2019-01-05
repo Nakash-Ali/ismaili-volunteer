@@ -11,7 +11,7 @@ defmodule VolunteerWeb.Presenters.Temporal do
   end
 
   def format_duration_from_now(%DateTime{} = future_datetime, exclude \\ ["seconds"], if_now \\ "now") do
-    Volunteer.TemporalUtils.utc_now_truncated_to_seconds()
+    VolunteerUtils.Temporal.utc_now_truncated_to_seconds()
     |> Timex.diff(future_datetime, :duration)
     |> Timex.format_duration(:humanized)
     |> String.split(", ")

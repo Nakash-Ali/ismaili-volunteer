@@ -1,4 +1,8 @@
-defmodule VolunteerWeb.Services.FileGeneratorUtils do
+defmodule VolunteerUtils.File do
+  def append_extension(filename, ext) do
+    "#{filename}.#{ext}"
+  end
+
   def run_func_if_not_exists(disk_path, func) do
     case File.stat(disk_path) do
       {:ok, %File.Stat{type: :regular}} ->

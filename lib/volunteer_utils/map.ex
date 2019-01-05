@@ -1,4 +1,4 @@
-defmodule Volunteer.Utils do
+defmodule VolunteerUtils.Map do
   def list_to_map(list) do
     list
     |> Enum.with_index(0)

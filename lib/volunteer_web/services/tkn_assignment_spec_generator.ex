@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
   alias Volunteer.Commands
-  alias VolunteerWeb.Services.FileGeneratorUtils
   alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
   @disk_dir VolunteerWeb.Endpoint.static_dir(["pdfs", "tkn_assignment_specs"])
@@ -45,7 +44,7 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
 
     def pdf_filename(listing_id, listing_updated_at, tkn_listing_updated_at) do
       filename =
-        FileGeneratorUtils.consistent_hash_b64([
+        VolunteerUtils.File.consistent_hash_b64([
           listing_id,
           listing_updated_at,
           tkn_listing_updated_at
@@ -77,7 +76,7 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
         )
 
       {:ok, _} =
-        FileGeneratorUtils.run_func_if_not_exists(
+        VolunteerUtils.File.run_func_if_not_exists(
           disk_path,
           fn -> Implementation.generate_pdf!(webpage_url, disk_dir, disk_path) end
         )

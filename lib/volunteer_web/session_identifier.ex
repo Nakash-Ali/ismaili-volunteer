@@ -6,7 +6,7 @@ defmodule VolunteerWeb.SessionIdentifier do
   end
 
   def put_id(conn) do
-    Plug.Conn.put_session(conn, @key, VolunteerWeb.IdUtils.generate_unique_id(64))
+    Plug.Conn.put_session(conn, @key, VolunteerUtils.Id.generate_unique_id(64))
   end
 
   defmodule Plugs do

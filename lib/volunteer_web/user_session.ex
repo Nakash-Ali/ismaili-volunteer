@@ -71,7 +71,7 @@ defmodule VolunteerWeb.UserSession do
 
         user ->
           token = generate(conn, user)
-          VolunteerWeb.URLUtils.put_in_query(url, @params_key, token)
+          VolunteerUtils.URL.put_in_query(url, @params_key, token)
       end
     end
 

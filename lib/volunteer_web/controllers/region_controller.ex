@@ -3,7 +3,6 @@ defmodule VolunteerWeb.RegionController do
   alias Volunteer.Repo
   alias Volunteer.Infrastructure
   alias Volunteer.Listings
-  alias VolunteerWeb.ControllerUtils
 
   def show(conn, %{"slug" => region_slug} = params) do
     case Infrastructure.get_region_by_slug(region_slug) do
@@ -28,7 +27,7 @@ defmodule VolunteerWeb.RegionController do
 
     region_in_path =
       Map.get(params, "region_in_path", true)
-      |> ControllerUtils.booleanize
+      |> VolunteerUtils.Controller.booleanize
 
     listings =
       Listings.get_all_public_listings(filters: %{region_id: region.id, region_in_path: region_in_path})
