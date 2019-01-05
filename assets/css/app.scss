@@ -14,12 +14,6 @@ html {
 	font-variant-ligatures: common-ligatures contextual;
     font-feature-settings: "liga", "clig", "calt", "kern";
     font-kerning: normal;
-
-	body,
-	body > div.wrapper,
-	main {
-		overflow-y: auto;
-	}
 }
 
 html.app-layout, {
@@ -32,6 +26,14 @@ html.app-layout, {
 
 	main {
 		flex: 1 0 auto;
+	}
+}
+
+html.embedded-layout {
+	body,
+	body > div.wrapper,
+	main {
+		// overflow-y: auto;
 	}
 }
 
