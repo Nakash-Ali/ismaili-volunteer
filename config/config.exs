@@ -5,9 +5,18 @@
 # is restricted to this project.
 use Mix.Config
 
+version =
+  case File.read(".version") do
+    {:ok, version} ->
+      version |> String.trim()
+
+    {:error, _} ->
+      nil
+  end
+
 # Configure global constants
 config :volunteer,
-  version: ".version" |> File.read!() |> String.trim(),
+  version: version,
   global_title: "OpportunitiesToServe",
   global_email: "hrontario@iicanada.net",
   global_attribution: "His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada",
