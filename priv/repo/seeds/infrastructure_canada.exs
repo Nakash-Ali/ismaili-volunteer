@@ -8,7 +8,6 @@ _edmonton = Volunteer.Infrastructure.seed_region!(4, "Edmonton", canada)
 _ottawa = Volunteer.Infrastructure.seed_region!(5, "Ottawa", canada)
 _praries = Volunteer.Infrastructure.seed_region!(6, "Praries", canada)
 _qm = Volunteer.Infrastructure.seed_region!(7, "Quebec and Maritimes", "qm", canada)
-_yukon = Volunteer.Infrastructure.seed_region!(8, "Yukon", canada)
 
 # Groups
 

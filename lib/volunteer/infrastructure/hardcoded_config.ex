@@ -188,32 +188,6 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Yukon
-    8 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/yukon",
-      council_website: %{
-        text: "iicanada.org",
-        url: "https://iicanada.org"
-      },
-      jumbotron: %{
-        image_url: "/static/images/ismaili-center-burnaby.jpg",
-        spanner_bg_color: "#971421",
-      },
-      marketing_request: %{
-        email: [],
-        channels: %{}
-      },
-      tkn: %{
-        country: "Canada",
-        coordinator: %{
-          name: "",
-          title: "",
-          email: "",
-          phone: "",
-        }
-      }
-    }
   }
 
   @default_region_id 1
