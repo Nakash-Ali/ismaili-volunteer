@@ -30,9 +30,8 @@ defmodule Volunteer.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: elixirc_paths() ++ ["test/support"]
-  defp elixirc_paths(:prod), do: elixirc_paths() ++ ["rel/tasks"]
   defp elixirc_paths(_), do: elixirc_paths()
-  defp elixirc_paths(), do: ["lib"]
+  defp elixirc_paths(), do: ["lib", "rel/tasks"]
 
   # Specifies your project dependencies.
   #
