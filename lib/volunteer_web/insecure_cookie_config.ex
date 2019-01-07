@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.InsecureCookieConfigStore do
+defmodule VolunteerWeb.InsecureCookieConfig do
   @config %{
     root_assigns_key: :cookie_config,
     cookie: %{

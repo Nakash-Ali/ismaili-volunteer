@@ -7,7 +7,7 @@ defmodule VolunteerWeb.Admin.FeedbackController do
     default: false,
   }
 
-  plug VolunteerWeb.InsecureCookieConfigStore, @admin_feedback_anonymize_icc
+  plug VolunteerWeb.InsecureCookieConfig, @admin_feedback_anonymize_icc
 
   def index(conn, _params) do
     %{admin_feedback_anonymize: admin_feedback_anonymize} = conn.assigns.cookie_config
