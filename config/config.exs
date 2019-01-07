@@ -41,7 +41,7 @@ config :volunteer, Volunteer.Legacy,
 config :volunteer, :social,
   title: "OpportunitiesToServe",
   description: "",
-  url: "https://ismailivolunteer.eightzerothree.co",
+  url: "https://ots.the.ismaili",
   type: "website",
   image: "",
   facebook_app_id: ""

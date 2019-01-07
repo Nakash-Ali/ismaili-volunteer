@@ -3,13 +3,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Canada
     1 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://iicanada.org/serveontario",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
       },
       jumbotron: %{
-        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        image_url: "/static/images/muqarnas.png",
         spanner_bg_color: "#971421",
       },
       marketing_request: %{
@@ -31,7 +31,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Ontario
     2 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://iicanada.org/serveontario",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
@@ -61,13 +61,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # British Columbia
     3 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
-      ots_website: "https://iicanada.org/serveontario",
+      ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
         url: "https://iicanada.org"
       },
       jumbotron: %{
-        image_url: "/static/images/ismaili-center-burnaby.jpg",
+        image_url: "/static/images/ismaili-center-burnaby-2.jpg",
         spanner_bg_color: "#971421",
       },
       marketing_request: %{
@@ -83,7 +83,111 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           phone: "",
         }
       }
-    }
+    },
+    # Edmonton
+    4 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/canada",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Ottawa
+    5 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/canada",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/delegation-of-the-ismaili-imamat.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Praries
+    6 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/canada",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
+    # Quebec and Maritimes
+    7 => %{
+      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      ots_website: "https://ots.the.ismaili/canada",
+      council_website: %{
+        text: "iicanada.org",
+        url: "https://iicanada.org"
+      },
+      jumbotron: %{
+        image_url: "/static/images/global-center-for-pluralism.jpg",
+        spanner_bg_color: "#971421",
+      },
+      marketing_request: %{
+        email: [],
+        channels: %{}
+      },
+      tkn: %{
+        country: "Canada",
+        coordinator: %{
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+        }
+      }
+    },
   }
 
   @default_region_id 1
