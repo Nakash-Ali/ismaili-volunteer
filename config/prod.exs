@@ -25,7 +25,8 @@ config :volunteer, VolunteerWeb.Endpoint,
 
 # General application configuration
 config :volunteer,
-  send_analytics: true
+  send_analytics: true,
+  use_ssl: true
 
 # Configure database
 config :volunteer, Volunteer.Repo,

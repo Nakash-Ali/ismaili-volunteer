@@ -5,9 +5,10 @@ defmodule VolunteerWeb.InsecureCookieConfig do
       # domain: "ots.the.ismaili",
       prefix: "_volunteer_config",
       http_only: true,
-      secure: Mix.env() == :prod
+      secure: Application.fetch_env!(:volunteer, :use_ssl)
     }
   }
+
   @cookie_opts Keyword.new(@config[:cookie])
 
   def init(opts) do

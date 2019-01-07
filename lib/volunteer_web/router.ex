@@ -6,7 +6,7 @@ defmodule VolunteerWeb.Router do
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
 
   pipeline :browser do
-    if Mix.env() == :prod do
+    if Application.fetch_env!(:volunteer, :use_ssl) do
       plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
     end
 
