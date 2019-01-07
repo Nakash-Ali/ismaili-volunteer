@@ -16,10 +16,10 @@ defmodule VolunteerWeb.InsecureCookieConfig do
   end
 
   def call(conn, opts) do
-    sync_stores(conn, opts)
+    synchronize(conn, opts)
   end
 
-  def sync_stores(conn, opts) do
+  def synchronize(conn, opts) do
     with {:ok, value} <- get_from_params(conn, opts),
          {:ok, updated_value} <- normalize_value(opts, value) do
       conn
