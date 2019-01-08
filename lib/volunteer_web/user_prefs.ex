@@ -19,16 +19,16 @@ defmodule VolunteerWeb.UserPrefs do
     end
   end
 
-  def fetch_user_prefs(conn, fields) when is_map(fields) do
-    fetch_user_prefs(conn, {fields, @default_backends})
+  def fetch_user_prefs(conn, prefs_config) when is_map(prefs_config) do
+    fetch_user_prefs(conn, {prefs_config, @default_backends})
   end
 
-  def fetch_user_prefs(conn, {fields, backends}) when is_map(fields) and is_list(backends) do
+  def fetch_user_prefs(conn, {prefs_config, backends}) when is_map(prefs_config) and is_list(backends) do
     {conn, prefs} =
       Enum.reduce(backends, {conn, %{}}, fn {backend_module, backend_config}, {curr_conn, curr_prefs} ->
         new_prefs =
-          backend_module.get_prefs!(curr_conn, keys(fields), backend_config)
-          |> filter_and_normalize_prefs(fields)
+          backend_module.get_prefs!(curr_conn, keys(prefs_config), backend_config)
+          |> filter_and_normalize_prefs(prefs_config)
           |> Map.merge(curr_prefs)
 
         new_conn =
@@ -39,7 +39,7 @@ defmodule VolunteerWeb.UserPrefs do
 
     final_prefs =
       Map.merge(
-        default_prefs(fields),
+        default_prefs(prefs_config),
         prefs
       )
 
@@ -50,66 +50,66 @@ defmodule VolunteerWeb.UserPrefs do
     )
   end
 
-  defp keys(fields) do
-    Map.keys(fields)
+  defp keys(prefs_config) do
+    Map.keys(prefs_config)
   end
 
-  defp filter_and_normalize_prefs(raw_prefs, fields) do
+  defp filter_and_normalize_prefs(raw_prefs, prefs_config) do
     Enum.reduce(raw_prefs, %{}, fn
-      {_key, nil}, curr_prefs ->
-        curr_prefs
+      {_key, nil}, prefs ->
+        prefs
 
-      {key, value}, curr_prefs ->
-        case Map.fetch(fields, key) do
+      {key, raw_value}, prefs ->
+        case Map.fetch(prefs_config, key) do
           {:ok, {type, _default}} ->
-            case Ecto.Type.cast(type, value) do
+            case Ecto.Type.cast(type, raw_value) do
               {:ok, normalized_value} ->
-                curr_prefs |> Map.put(key, normalized_value)
+                prefs |> Map.put(key, normalized_value)
 
               :error ->
-                curr_prefs
+                prefs
             end
 
           {:ok, _} ->
-            raise "Invalid field with key:#{key}"
+            raise "Invalid pref config for key:#{key}"
 
           :error ->
-            curr_prefs
+            prefs
         end
 
     end)
   end
 
-  defp default_prefs(fields) do
-    fields
+  defp default_prefs(prefs_config) do
+    prefs_config
     |> Enum.map(fn {key, {_type, default}} -> {key, default} end)
     |> Enum.into(%{})
   end
 
   defmodule Backend do
     @type conn :: Plug.Conn
-    @type config :: map
+    @type backend_config :: map
     @type prefs :: map
-    @type fields :: {atom, atom, any}
+    @type prefs_config :: {atom, atom, any}
     @type keys :: [atom]
 
-    @callback get_prefs!(conn, keys, config) :: prefs
-    @callback store_prefs!(conn, prefs, config) :: conn
+    @callback get_prefs!(conn, keys, backend_config) :: prefs
+    @callback store_prefs!(conn, prefs, backend_config) :: conn
 
     defmodule Params do
       @behaviour VolunteerWeb.UserPrefs.Backend
 
-      def get_prefs!(%{params: params}, keys, _config) do
-        Enum.reduce(keys, %{}, fn atom_key, curr_prefs ->
+      def get_prefs!(%{params: params}, keys, _backend_config) do
+        Enum.reduce(keys, %{}, fn key, prefs ->
           Map.put(
-            curr_prefs,
-            atom_key,
-            Map.get(params, to_string(atom_key), nil)
+            prefs,
+            key,
+            Map.get(params, to_string(key), nil)
           )
         end)
       end
 
-      def store_prefs!(conn, _prefs, _config) do
+      def store_prefs!(conn, _prefs, _backend_config) do
         conn
       end
     end
@@ -117,21 +117,21 @@ defmodule VolunteerWeb.UserPrefs do
     defmodule Session do
       @behaviour VolunteerWeb.UserPrefs.Backend
 
-      def get_prefs!(conn, keys, config) do
-        Enum.reduce(keys, %{}, fn atom_key, curr_prefs ->
+      def get_prefs!(conn, keys, backend_config) do
+        Enum.reduce(keys, %{}, fn key, prefs ->
           Map.put(
-            curr_prefs,
-            atom_key,
-            Plug.Conn.get_session(conn, serialized_key(atom_key, config))
+            prefs,
+            key,
+            Plug.Conn.get_session(conn, serialized_key(key, backend_config))
           )
         end)
       end
 
-      def store_prefs!(conn, prefs, config) do
-        Enum.reduce(prefs, conn, fn {atom_key, value}, conn ->
+      def store_prefs!(conn, prefs, backend_config) do
+        Enum.reduce(prefs, conn, fn {key, value}, conn ->
           Plug.Conn.put_session(
             conn,
-            serialized_key(atom_key, config),
+            serialized_key(key, backend_config),
             value
           )
         end)
