@@ -95,51 +95,55 @@ defmodule VolunteerWeb.UserPrefs do
 
     @callback get_prefs!(conn, keys, backend_config) :: prefs
     @callback store_prefs!(conn, prefs, backend_config) :: conn
+  end
 
-    defmodule Params do
-      @behaviour VolunteerWeb.UserPrefs.Backend
+  defmodule Backend.Params do
+    @behaviour VolunteerWeb.UserPrefs.Backend
 
-      def get_prefs!(%{params: params}, keys, _backend_config) do
-        Enum.reduce(keys, %{}, fn key, prefs ->
-          Map.put(
-            prefs,
-            key,
-            Map.get(params, to_string(key), nil)
-          )
-        end)
-      end
-
-      def store_prefs!(conn, _prefs, _backend_config) do
-        conn
-      end
+    @impl true
+    def get_prefs!(%{params: params}, keys, _backend_config) do
+      Enum.reduce(keys, %{}, fn key, prefs ->
+        Map.put(
+          prefs,
+          key,
+          Map.get(params, to_string(key), nil)
+        )
+      end)
     end
 
-    defmodule Session do
-      @behaviour VolunteerWeb.UserPrefs.Backend
+    @impl true
+    def store_prefs!(conn, _prefs, _backend_config) do
+      conn
+    end
+  end
 
-      def get_prefs!(conn, keys, backend_config) do
-        Enum.reduce(keys, %{}, fn key, prefs ->
-          Map.put(
-            prefs,
-            key,
-            Plug.Conn.get_session(conn, serialized_key(key, backend_config))
-          )
-        end)
-      end
+  defmodule Backend.Session do
+    @behaviour VolunteerWeb.UserPrefs.Backend
 
-      def store_prefs!(conn, prefs, backend_config) do
-        Enum.reduce(prefs, conn, fn {key, value}, conn ->
-          Plug.Conn.put_session(
-            conn,
-            serialized_key(key, backend_config),
-            value
-          )
-        end)
-      end
+    @impl true
+    def get_prefs!(conn, keys, backend_config) do
+      Enum.reduce(keys, %{}, fn key, prefs ->
+        Map.put(
+          prefs,
+          key,
+          Plug.Conn.get_session(conn, serialized_key(key, backend_config))
+        )
+      end)
+    end
 
-      defp serialized_key(key, %{key_prefix: key_prefix}) do
-        "#{key_prefix}#{key}"
-      end
+    @impl true
+    def store_prefs!(conn, prefs, backend_config) do
+      Enum.reduce(prefs, conn, fn {key, value}, conn ->
+        Plug.Conn.put_session(
+          conn,
+          serialized_key(key, backend_config),
+          value
+        )
+      end)
+    end
+
+    defp serialized_key(key, %{key_prefix: key_prefix}) do
+      "#{key_prefix}#{key}"
     end
   end
 end
