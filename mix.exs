@@ -55,7 +55,6 @@ defmodule Volunteer.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:plug, "~> 1.7"},
       {:plug_cowboy, "~> 2.0"},
-      {:poison, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
       {:quantum, "~> 2.3"},
       {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
