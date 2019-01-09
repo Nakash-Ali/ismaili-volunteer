@@ -23,7 +23,7 @@ defmodule Volunteer.Listings.MarketingRequest do
   @mapping %{
     "text" => TextChannel,
     "image" => ImageChannel,
-    "text_image" => TextImageChannel,
+    "text_image" => TextImageChannel
   }
 
   def new(channels, assigns) do

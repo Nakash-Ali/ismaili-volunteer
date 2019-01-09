@@ -58,17 +58,17 @@ defmodule VolunteerWeb.Admin.ListingView do
 
   def definition_list(:reference, listing) do
     definition_list(:links, listing) ++
-    [
-      {"Title", Title.text(listing)},
-      {"Region", listing.region.title},
-      {"Organizing group", listing.group.title}
-    ]
+      [
+        {"Title", Title.text(listing)},
+        {"Region", listing.region.title},
+        {"Organizing group", listing.group.title}
+      ]
   end
 
   def definition_list(:expiry, listing) do
     [
       {"Expiry date", PublicListingView.expiry_datetime_text(listing.expiry_date)},
-      {"Expiry reminder", expiry_reminder_sent_text(listing.expiry_reminder_sent)},
+      {"Expiry reminder", expiry_reminder_sent_text(listing.expiry_reminder_sent)}
     ]
   end
 
@@ -77,11 +77,11 @@ defmodule VolunteerWeb.Admin.ListingView do
       [
         {"Approved?", approved_text(listing)},
         {"Approved by", listing.approved_by.title},
-        {"Approval date", Temporal.format_datetime(listing.approved_on)},
+        {"Approval date", Temporal.format_datetime(listing.approved_on)}
       ]
     else
       [
-        {"Approved?", approved_text(listing)},
+        {"Approved?", approved_text(listing)}
       ]
     end
   end
@@ -97,7 +97,7 @@ defmodule VolunteerWeb.Admin.ListingView do
       {"CC'ed emails", listing.cc_emails},
       {"Start date", PublicListingView.start_date_text(listing.start_date)},
       {"End date", PublicListingView.end_date_text(listing.end_date)},
-      {"Time commitment", PublicListingView.time_commitment_text(listing)},
+      {"Time commitment", PublicListingView.time_commitment_text(listing)}
     ]
   end
 
@@ -105,7 +105,7 @@ defmodule VolunteerWeb.Admin.ListingView do
     [
       {"About the program", PublicListingView.transform_textblob_content(listing.program_description)},
       {"About the role", PublicListingView.transform_textblob_content(listing.responsibilities)},
-      {"About the applicant", PublicListingView.transform_textblob_content(listing.qualifications)},
+      {"About the applicant", PublicListingView.transform_textblob_content(listing.qualifications)}
     ]
   end
 
@@ -113,14 +113,15 @@ defmodule VolunteerWeb.Admin.ListingView do
     [
       {"Created by", listing.created_by.title},
       {"Creation date", Temporal.format_datetime(listing.inserted_at)},
-      {"Last updated date", Temporal.format_datetime(listing.updated_at)},
+      {"Last updated date", Temporal.format_datetime(listing.updated_at)}
     ]
   end
 
   def definition_list(:links, listing) do
     url = RouterHelpers.admin_listing_url(VolunteerWeb.Endpoint, :show, listing)
+
     [
-      {"URL", link(url, to: url)},
+      {"URL", link(url, to: url)}
     ]
   end
 end

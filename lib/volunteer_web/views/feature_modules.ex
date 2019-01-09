@@ -8,14 +8,14 @@ defmodule VolunteerWeb.FeatureModules do
         permission: [:admin, :listing],
         title: "Listings",
         description: "Create, edit, and manage volunteer opportunities.",
-        path: fn conn -> RouterHelpers.admin_listing_path(conn, :index) end,
+        path: fn conn -> RouterHelpers.admin_listing_path(conn, :index) end
       },
       %{
         permission: [:admin, :user],
         title: "Users",
         description: "View users in the system",
-        path: fn conn -> RouterHelpers.admin_users_path(conn, :index) end,
-      },
+        path: fn conn -> RouterHelpers.admin_users_path(conn, :index) end
+      }
     ]
   end
 

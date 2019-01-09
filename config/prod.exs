@@ -39,7 +39,9 @@ config :volunteer, Volunteer.Repo,
   pool_size: 20
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.SendGridAdapter
+config :volunteer, VolunteerEmail.Mailer,
+  adapter: VolunteerEmail.WrapperAdapter,
+  wrapped_adapter: Bamboo.SendGridAdapter
 
 # Do not print debug messages in production
 config :logger, level: :info

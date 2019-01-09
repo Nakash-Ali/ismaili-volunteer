@@ -23,6 +23,7 @@ defmodule Volunteer.EmailNormalizer do
         case validate_and_normalize_list(raw_emails_list, opts) do
           {:ok, normalized_emails_list} ->
             Ecto.Changeset.put_change(changeset, field, normalized_emails_list)
+
           {:error, errored_emails_list} ->
             add_errors_to_changeset(changeset, field, errored_emails_list)
         end
@@ -40,6 +41,7 @@ defmodule Volunteer.EmailNormalizer do
         case validate_and_normalize_list(raw_emails_list, opts) do
           {:ok, normalized_emails_list} ->
             Ecto.Changeset.put_change(changeset, field, Enum.join(normalized_emails_list, ","))
+
           {:error, errored_emails_list} ->
             add_errors_to_changeset(changeset, field, errored_emails_list)
         end
@@ -53,6 +55,7 @@ defmodule Volunteer.EmailNormalizer do
     |> case do
       {:ok, normalized_email} ->
         Ecto.Changeset.put_change(changeset, field, normalized_email)
+
       {:error, errored_email} ->
         add_errors_to_changeset(changeset, field, [errored_email])
     end
@@ -77,6 +80,7 @@ defmodule Volunteer.EmailNormalizer do
       case validate_and_normalize(email) do
         {:ok, email} ->
           {[email | normalized], errored}
+
         {:error, email} ->
           {normalized, [email | errored]}
       end
@@ -84,6 +88,7 @@ defmodule Volunteer.EmailNormalizer do
     |> case do
       {normalized, []} ->
         {:ok, normalized}
+
       {_normalized, errored} ->
         {:error, errored}
     end
@@ -93,6 +98,7 @@ defmodule Volunteer.EmailNormalizer do
     case Regex.run(@regex, email, capture: :all_but_first) do
       [match] ->
         {:ok, normalize(match)}
+
       _ ->
         {:error, email}
     end

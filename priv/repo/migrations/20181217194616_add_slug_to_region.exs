@@ -16,8 +16,8 @@ defmodule Volunteer.Repo.Migrations.AddSlugToRegion do
     |> Enum.map(fn region ->
       region
       |> Ecto.Changeset.change(%{
-          slug: Volunteer.Infrastructure.Region.slugify(region.title)
-        })
+        slug: Volunteer.Infrastructure.Region.slugify(region.title)
+      })
       |> Volunteer.Repo.update!()
     end)
 

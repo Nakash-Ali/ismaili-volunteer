@@ -92,7 +92,7 @@ defmodule Volunteer.Listings.Listing do
       "day(s)/month",
       "hour(s)",
       "hour(s)/week",
-      "hour(s)/month",
+      "hour(s)/month"
     ]
   end
 

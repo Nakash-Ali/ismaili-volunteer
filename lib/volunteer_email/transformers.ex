@@ -3,8 +3,7 @@ defmodule VolunteerEmail.Transformers do
     with seen_emails <- MapSet.new(),
          {filtered_to, seen_emails} <- filter_emails(Map.get(email, :to, nil), seen_emails),
          {filtered_cc, seen_emails} <- filter_emails(Map.get(email, :cc, nil), seen_emails),
-         {filtered_bcc, _seen_emails} <- filter_emails(Map.get(email, :bcc, nil), seen_emails)
-    do
+         {filtered_bcc, _seen_emails} <- filter_emails(Map.get(email, :bcc, nil), seen_emails) do
       email
       |> Map.put(:to, filtered_to)
       |> Map.put(:cc, filtered_cc)

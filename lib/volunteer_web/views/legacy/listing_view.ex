@@ -16,6 +16,6 @@ defmodule VolunteerWeb.Legacy.ListingView do
       organizer_email: listing.organized_by.primary_email,
       basename: Slugify.slugify(listing)
     }
-    |> JSON.encode_for_client
+    |> JSON.encode_for_client()
   end
 end

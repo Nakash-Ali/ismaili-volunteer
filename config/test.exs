@@ -13,7 +13,7 @@ config :volunteer, VolunteerWeb.Endpoint,
 # Configure your database
 config :volunteer, Volunteer.Repo,
   database: "postgres_test",
-  password: (System.get_env("DB_PASS") || "postgres")
+  password: System.get_env("DB_PASS") || "postgres"
 
 # Print only warnings and errors during test
 config :logger, level: :info
@@ -22,4 +22,6 @@ config :logger, level: :info
 config :volunteer, Volunteer.Repo, pool: Ecto.Adapters.SQL.Sandbox
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.TestAdapter
+config :volunteer, VolunteerEmail.Mailer,
+  adapter: VolunteerEmail.WrapperAdapter,
+  wrapped_adapter: Bamboo.TestAdapter

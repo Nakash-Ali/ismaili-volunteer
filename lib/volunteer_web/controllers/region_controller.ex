@@ -19,15 +19,13 @@ defmodule VolunteerWeb.RegionController do
   end
 
   def show(%Infrastructure.Region{} = region, conn, params) do
-    region =
-      Repo.preload(region, [:parent])
+    region = Repo.preload(region, [:parent])
 
-    region_choices =
-      Infrastructure.get_regions(filters: %{parent_id: region.id})
+    region_choices = Infrastructure.get_regions(filters: %{parent_id: region.id})
 
     region_in_path =
       Map.get(params, "region_in_path", true)
-      |> VolunteerUtils.Controller.booleanize
+      |> VolunteerUtils.Controller.booleanize()
 
     listings =
       Listings.get_all_public_listings(filters: %{region_id: region.id, region_in_path: region_in_path})

@@ -5,8 +5,7 @@ defmodule VolunteerWeb.IndexController do
   alias Volunteer.Infrastructure
 
   def index(conn, _params) do
-    region_choices =
-      Infrastructure.get_regions()
+    region_choices = Infrastructure.get_regions()
 
     listings =
       Listings.get_all_public_listings()

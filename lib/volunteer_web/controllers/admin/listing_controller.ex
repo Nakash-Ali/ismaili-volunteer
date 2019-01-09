@@ -29,7 +29,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     :approve,
     :unapprove,
     :refresh_expiry,
-    :expire,
+    :expire
     # :delete
   ] do
     listing |> Repo.preload(Listings.Listing.preloadables())
@@ -57,8 +57,7 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_index", nil, conn)
 
-    {filter_changes, filter_data} =
-      ListingParams.IndexFilters.changes_and_data(params["filters"])
+    {filter_changes, filter_data} = ListingParams.IndexFilters.changes_and_data(params["filters"])
 
     listings =
       if ConnPermissions.is_allowed?(conn, [:admin, :listing, :index_all]) do
@@ -88,7 +87,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> Listings.create_listing(UserSession.get_user(conn))
     |> case do
       {:ok, listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing", "admin_create", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event(
+          "Listing",
+          "admin_create",
+          Slugify.slugify(listing),
+          conn
+        )
 
         conn
         |> put_flash(:success, "Listing created successfully.")
@@ -105,7 +109,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :show], listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_show", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_show",
+      Slugify.slugify(listing),
+      conn
+    )
 
     render(conn, "show.html", listing: listing)
   end
@@ -114,7 +123,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_edit", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_edit",
+      Slugify.slugify(listing),
+      conn
+    )
 
     render_edit_form(conn, Listings.edit_listing(listing), listing)
   end
@@ -126,7 +140,12 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     case Listings.update_listing(listing, listing_params) do
       {:ok, listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing", "admin_update", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event(
+          "Listing",
+          "admin_update",
+          Slugify.slugify(listing),
+          conn
+        )
 
         conn
         |> put_flash(:success, "Listing updated successfully.")
@@ -143,7 +162,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :request_approval], listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_request_approval", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_request_approval",
+      Slugify.slugify(listing),
+      conn
+    )
 
     Volunteer.Listings.request_approval!(listing, UserSession.get_user(conn))
 
@@ -156,7 +180,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     %Plug.Conn{assigns: %{listing: listing}} = conn
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :approve], listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_approve_confirmation", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_approve_confirmation",
+      Slugify.slugify(listing),
+      conn
+    )
 
     render_approve_confirmation(conn, ListingParams.ApproveChecks.new(), listing)
   end
@@ -196,7 +225,12 @@ defmodule VolunteerWeb.Admin.ListingController do
           Listings.unapprove_listing_if_not_expired!(listing)
       end
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_#{action}", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_#{action}",
+      Slugify.slugify(listing),
+      conn
+    )
 
     conn
     |> put_flash(:success, "Listing #{action}d successfully.")
@@ -209,7 +243,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
     Listings.refresh_and_maybe_unapprove_listing!(listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_refresh_expiry", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_refresh_expiry",
+      Slugify.slugify(listing),
+      conn
+    )
 
     conn
     |> put_flash(:success, "Successfully refreshed listing expiry.")
@@ -222,7 +261,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
     Listings.expire_listing!(listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_expire", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_expire",
+      Slugify.slugify(listing),
+      conn
+    )
 
     conn
     |> put_flash(:success, "Successfully expired listing.")
@@ -235,7 +279,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
     {:ok, _listing} = Listings.delete_listing(listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_delete", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_delete",
+      Slugify.slugify(listing),
+      conn
+    )
 
     conn
     |> put_flash(:success, "Listing deleted successfully.")
@@ -294,7 +343,7 @@ defmodule VolunteerWeb.Admin.ListingController do
           region_id_choices: get_region_id_choices(),
           group_id_choices: get_group_id_choices(),
           organized_by_id_choices: get_user_id_choices(),
-          time_commitment_type_choices: Listings.Listing.time_commitment_type_choices(),
+          time_commitment_type_choices: Listings.Listing.time_commitment_type_choices()
         ]
     )
   end

@@ -75,8 +75,7 @@ defmodule VolunteerWeb.NavbarItems do
     end
 
     def render_nav_item(%Item{} = item, assigns) do
-      all_assigns =
-        Map.merge(assigns, %{item: item})
+      all_assigns = Map.merge(assigns, %{item: item})
 
       Phoenix.View.render(@item_module, @item_template, all_assigns)
     end
@@ -99,7 +98,10 @@ defmodule VolunteerWeb.NavbarItems do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              %Item{text: VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)), href: nil},
+              %Item{
+                text: VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)),
+                href: nil
+              },
               %Item{text: "Logout", href: RouterHelpers.auth_path(conn, :logout)}
             ]
 
@@ -158,7 +160,8 @@ defmodule VolunteerWeb.NavbarItems do
     end
 
     def for(["VolunteerWeb", "Admin" | _], assigns) do
-      Admin.primary(assigns) ++ Admin.base(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
+      Admin.primary(assigns) ++
+        Admin.base(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
     end
 
     def for(["VolunteerWeb" | _], assigns) do

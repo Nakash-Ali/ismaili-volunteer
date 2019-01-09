@@ -66,7 +66,9 @@ config :volunteer, Volunteer.Repo,
   hostname: "127.0.0.1"
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.LocalAdapter
+config :volunteer, VolunteerEmail.Mailer,
+  adapter: VolunteerEmail.WrapperAdapter,
+  wrapped_adapter: Bamboo.LocalAdapter
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason

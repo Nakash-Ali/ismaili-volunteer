@@ -58,7 +58,9 @@ config :phoenix, :plug_init_mode, :runtime
 config :volunteer, Volunteer.Repo, pool_size: 10
 
 # Configure mailer
-config :volunteer, VolunteerEmail.Mailer, adapter: VolunteerEmail.WrapperAdapter, wrapped_adapter: Bamboo.LocalAdapter
+config :volunteer, VolunteerEmail.Mailer,
+  adapter: VolunteerEmail.WrapperAdapter,
+  wrapped_adapter: Bamboo.LocalAdapter
 
 try do
   import_config "dev.secret.exs"

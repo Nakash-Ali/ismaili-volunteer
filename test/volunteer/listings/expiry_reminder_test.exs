@@ -21,7 +21,7 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
           expired?: false,
           overrides: %{
             expiry_reminder_sent: false,
-            expiry_date: expiry_date  |> Timex.shift(days: 3) |> Timex.to_datetime("UTC")
+            expiry_date: expiry_date |> Timex.shift(days: 3) |> Timex.to_datetime("UTC")
           }
         })
 
@@ -43,18 +43,17 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
       assert [{:ok, email}] = Volunteer.Listings.ExpiryReminder.get_and_notify_all()
 
       assert id ==
-        email
-        |> Map.get(:assigns)
-        |> Map.get(:listing)
-        |> Map.get(:id)
+               email
+               |> Map.get(:assigns)
+               |> Map.get(:listing)
+               |> Map.get(:id)
 
-      Emails.assert_delivered email
+      Emails.assert_delivered(email)
 
       assert true ==
-        Volunteer.Listings.Listing
-        |> Volunteer.Repo.get!(id)
-        |> Map.get(:expiry_reminder_sent)
+               Volunteer.Listings.Listing
+               |> Volunteer.Repo.get!(id)
+               |> Map.get(:expiry_reminder_sent)
     end
   end
-
 end

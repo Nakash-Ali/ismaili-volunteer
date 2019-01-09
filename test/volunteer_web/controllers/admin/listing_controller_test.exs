@@ -22,7 +22,7 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
         Factory.Params.listing(%{
           group_id: group_id,
           region_id: region_id,
-          organized_by_id: user.id,
+          organized_by_id: user.id
         })
         |> Map.take([
           :position_title,
@@ -35,11 +35,11 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
           :time_commitment_type,
           :program_description,
           :responsibilities,
-          :qualifications,
+          :qualifications
         ])
         |> Map.merge(%{
           start_date_toggle: true,
-          end_date_toggle: true,
+          end_date_toggle: true
         })
 
       conn = post(conn, RouterHelpers.admin_listing_path(conn, :create), listing: listing_params)
@@ -53,7 +53,7 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
       [
         :position_title,
         :program_title,
-        :summary_line,
+        :summary_line
       ]
       |> Enum.map(fn key ->
         expected =
@@ -66,7 +66,7 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
 
       [
         :responsibilities,
-        :qualifications,
+        :qualifications
       ]
       |> Enum.map(fn key ->
         expected =

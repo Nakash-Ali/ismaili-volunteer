@@ -6,7 +6,7 @@ defmodule VolunteerWeb.IndexView do
   def render("head_extra.index.html", %{conn: conn}) do
     [
       {:safe, "<link href=\"https://fonts.googleapis.com/css?family=Spectral:300i\" rel=\"stylesheet\">"},
-      StaticHelpers.stylesheet_tag(conn, "/css/index.css"),
+      StaticHelpers.stylesheet_tag(conn, "/css/index.css")
     ]
   end
 

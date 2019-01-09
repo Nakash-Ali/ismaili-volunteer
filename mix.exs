@@ -63,7 +63,7 @@ defmodule Volunteer.Mixfile do
       {:slugger, "~> 0.2"},
       {:timex, "~> 3.1"},
       {:ueberauth, "~> 0.4"},
-      {:ueberauth_microsoft, "~> 0.3"},
+      {:ueberauth_microsoft, "~> 0.3"}
     ]
   end
 

@@ -74,7 +74,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_tkn_new", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_tkn_new",
+      Slugify.slugify(listing),
+      conn
+    )
 
     render_form(
       conn,
@@ -91,7 +96,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     |> Listings.create_tkn_listing(tkn_listing_params)
     |> case do
       {:ok, _tkn_listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing", "admin_tkn_create", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event(
+          "Listing",
+          "admin_tkn_create",
+          Slugify.slugify(listing),
+          conn
+        )
 
         conn
         |> put_flash(:success, "TKN Listing created successfully.")
@@ -111,7 +121,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_tkn_show", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_tkn_show",
+      Slugify.slugify(listing),
+      conn
+    )
 
     case Listings.get_one_tkn_listing_for_listing(listing.id) do
       nil ->
@@ -135,7 +150,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     %Plug.Conn{assigns: %{tkn_listing: tkn_listing, listing: listing}} = conn
     changeset = Listings.edit_tkn_listing(tkn_listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "admin_tkn_edit", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_tkn_edit",
+      Slugify.slugify(listing),
+      conn
+    )
 
     render_form(
       conn,
@@ -151,7 +171,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
     case Listings.update_tkn_listing(tkn_listing, tkn_listing_params) do
       {:ok, _tkn_listing} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing", "admin_tkn_update", Slugify.slugify(listing), conn)
+        VolunteerWeb.Services.Analytics.track_event(
+          "Listing",
+          "admin_tkn_update",
+          Slugify.slugify(listing),
+          conn
+        )
 
         conn
         |> put_flash(:success, "Listing updated successfully.")
@@ -190,21 +215,13 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           changeset: changeset,
           listing: conn.assigns[:listing],
           back_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
-          commitment_type_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
-          location_type_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
-          search_scope_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),
-          function_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.function_choices(),
-          industry_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
-          education_level_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
-          work_experience_years_choices:
-            VolunteerUtils.Controller.blank_select_choice() ++
-              Listings.TKNListing.work_experience_years_choices()
+          commitment_type_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
+          location_type_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
+          search_scope_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),
+          function_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.function_choices(),
+          industry_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
+          education_level_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
+          work_experience_years_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.work_experience_years_choices()
         ]
     )
   end

@@ -15,7 +15,7 @@ defmodule Volunteer.TestSupport.Factory do
         given_name: Faker.Name.first_name(),
         sur_name: Faker.Name.last_name(),
         primary_email: Faker.Internet.free_email(),
-        primary_phone: Faker.Phone.EnUs.phone(),
+        primary_phone: Faker.Phone.EnUs.phone()
       }
       |> Map.merge(overrides)
     end
@@ -54,10 +54,11 @@ defmodule Volunteer.TestSupport.Factory do
         start_date: Faker.Date.backward(100),
         end_date: Faker.Date.forward(200),
         time_commitment_amount: Faker.random_between(1, 10),
-        time_commitment_type: Volunteer.Listings.Listing.time_commitment_type_choices() |> Enum.random(),
+        time_commitment_type:
+          Volunteer.Listings.Listing.time_commitment_type_choices() |> Enum.random(),
         program_description: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         responsibilities: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
-        qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
+        qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" ")
       }
       |> Map.merge(overrides)
     end
@@ -98,25 +99,22 @@ defmodule Volunteer.TestSupport.Factory do
   end
 
   def listing!(opts \\ %{}, repo \\ Volunteer.Repo) do
-    overrides =
-      Map.get(opts, :overrides, %{})
+    overrides = Map.get(opts, :overrides, %{})
 
-    inserted_at =
-      Map.get_lazy(overrides, :inserted_at, fn -> Faker.DateTime.backward(24) end)
+    inserted_at = Map.get_lazy(overrides, :inserted_at, fn -> Faker.DateTime.backward(24) end)
 
-    region_id =
-      Map.get_lazy(overrides, :region_id, fn -> region!().id end)
+    region_id = Map.get_lazy(overrides, :region_id, fn -> region!().id end)
 
     group_id =
-      Map.get_lazy(overrides, :group_id, fn -> group!(%{
-        overrides: %{ region_id: region_id }
-      }).id end)
+      Map.get_lazy(overrides, :group_id, fn ->
+        group!(%{
+          overrides: %{region_id: region_id}
+        }).id
+      end)
 
-    created_by_id =
-      Map.get_lazy(overrides, :created_by_id, fn -> user!().id end)
+    created_by_id = Map.get_lazy(overrides, :created_by_id, fn -> user!().id end)
 
-    organized_by_id =
-      Map.get_lazy(overrides, :organized_by_id, fn -> user!().id end)
+    organized_by_id = Map.get_lazy(overrides, :organized_by_id, fn -> user!().id end)
 
     expiry_date =
       if Map.get(opts, :expired?, false) do
@@ -143,7 +141,7 @@ defmodule Volunteer.TestSupport.Factory do
       expiry_date: expiry_date,
       approved: approved,
       approved_on: approved_on,
-      approved_by_id: approved_by_id,
+      approved_by_id: approved_by_id
     }
     |> Map.merge(overrides)
     |> Params.listing()

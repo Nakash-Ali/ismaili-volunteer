@@ -10,7 +10,9 @@ defmodule VolunteerEmail.TransformersTest do
 
     test "filters `to` when it's a tuple" do
       email = %{to: {"Bilal", "bilal@ali.com"}}
-      assert [{"Bilal", "bilal@ali.com"}] == Transformers.ensure_unique_addresses(email) |> Map.get(:to)
+
+      assert [{"Bilal", "bilal@ali.com"}] ==
+               Transformers.ensure_unique_addresses(email) |> Map.get(:to)
     end
 
     test "complex emails" do

@@ -16,6 +16,7 @@ defmodule VolunteerWeb.SessionIdentifier do
       case SessionIdentifier.get_id(conn) do
         nil ->
           SessionIdentifier.put_id(conn)
+
         _ ->
           conn
       end

@@ -58,7 +58,8 @@ defmodule VolunteerWeb.UserSession do
 
     @params_key "auth_token"
 
-    @max_age 60 # in seconds
+    # in seconds
+    @max_age 60
 
     def generate(conn, %Accounts.User{} = user) do
       Phoenix.Token.sign(conn, @salt, user.id)
@@ -112,7 +113,7 @@ defmodule VolunteerWeb.UserSession do
 
   defmodule Plugs do
     def authenticate_user(conn, _) do
-      Enum.reduce_while(VolunteerWeb.UserSession.Mechanisms.active(), conn, fn {module, func}, conn ->
+      Enum.reduce_while(Mechanisms.active(), conn, fn {module, func}, conn ->
         case apply(module, func, [conn]) do
           {:ok, user_id} when is_integer(user_id) ->
             conn = load_current_user(conn, user_id)

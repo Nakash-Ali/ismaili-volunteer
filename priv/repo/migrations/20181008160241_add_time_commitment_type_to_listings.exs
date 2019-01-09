@@ -15,9 +15,9 @@ defmodule Volunteer.Repo.Migrations.AddTimeCommitmentTypeToListings do
     |> Enum.map(fn listing ->
       listing
       |> Ecto.Changeset.change(%{
-          time_commitment_amount: listing.hours_per_week,
-          time_commitment_type: "hour(s)/week",
-        })
+        time_commitment_amount: listing.hours_per_week,
+        time_commitment_type: "hour(s)/week"
+      })
       |> Volunteer.Repo.update!()
     end)
 

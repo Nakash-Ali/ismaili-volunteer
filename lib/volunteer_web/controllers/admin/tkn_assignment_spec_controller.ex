@@ -49,25 +49,33 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
   def show(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
 
-    {:ok, tkn_country} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :country])
-    {:ok, tkn_coordinator} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :coordinator])
+    {:ok, tkn_country} =
+      Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :country])
+
+    {:ok, tkn_coordinator} =
+      Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :coordinator])
 
     conn
     |> put_layout({VolunteerWeb.LayoutView, "pdf_export.html"})
     |> render(
-        "show.html",
-        listing: listing,
-        tkn_listing: tkn_listing,
-        tkn_country: tkn_country,
-        tkn_coordinator: tkn_coordinator
-      )
+      "show.html",
+      listing: listing,
+      tkn_listing: tkn_listing,
+      tkn_country: tkn_country,
+      tkn_coordinator: tkn_coordinator
+    )
   end
 
   def pdf(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
     disk_path = TKNAssignmentSpecGenerator.generate!(conn, listing, tkn_listing)
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "tkn_assignment_spec_pdf", Slugify.slugify(listing), conn)
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "tkn_assignment_spec_pdf",
+      Slugify.slugify(listing),
+      conn
+    )
 
     send_download(
       conn,

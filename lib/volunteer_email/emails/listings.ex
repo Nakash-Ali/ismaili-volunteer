@@ -6,17 +6,14 @@ defmodule VolunteerEmail.ListingsEmails do
   alias VolunteerWeb.Presenters.Title
 
   def marketing_request(%MarketingRequest{} = marketing_request, %Listing{} = listing) do
-    subject_str =
-      generate_subject("Marketing Request", listing)
+    subject_str = generate_subject("Marketing Request", listing)
 
     {:ok, to_address_list} =
       Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :email])
 
-    cc_address_list =
-      generate_all_address_list(listing)
+    cc_address_list = generate_all_address_list(listing)
 
-    reply_to_address =
-      listing.organized_by.primary_email
+    reply_to_address = listing.organized_by.primary_email
 
     email =
       Mailer.new_default_email(listing.region_id)
@@ -35,8 +32,7 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   def expiry_reminder(%Listing{} = listing) do
-    subject_str =
-      generate_subject("Expiration Reminder", listing)
+    subject_str = generate_subject("Expiration Reminder", listing)
 
     email =
       Mailer.new_default_email(listing.region_id)
@@ -53,8 +49,7 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   def on_change(%Listing{} = listing, %User{} = changed_by) do
-    subject_str =
-      generate_subject("Request for Approval", listing)
+    subject_str = generate_subject("Request for Approval", listing)
 
     email =
       Mailer.new_default_email(listing.region_id)
@@ -72,14 +67,12 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   def request_approval(%Listing{} = listing, %User{} = requested_by) do
-    subject_str =
-      generate_subject("Request for Approval", listing)
+    subject_str = generate_subject("Request for Approval", listing)
 
     users_with_approval_permissions =
       Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
 
-    cc_address_list =
-      [requested_by] ++ generate_all_address_list(listing)
+    cc_address_list = [requested_by] ++ generate_all_address_list(listing)
 
     email =
       Mailer.new_default_email(listing.region_id)
@@ -127,14 +120,11 @@ defmodule VolunteerEmail.ListingsEmails do
     users_with_approval_permissions =
       Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
 
-    subject_str =
-      generate_subject(config.subject_prefix, listing)
+    subject_str = generate_subject(config.subject_prefix, listing)
 
-    to_address_list =
-      generate_all_address_list(listing)
+    to_address_list = generate_all_address_list(listing)
 
-    cc_address_list =
-      [action_by] ++ cc_team ++ users_with_approval_permissions
+    cc_address_list = [action_by] ++ cc_team ++ users_with_approval_permissions
 
     email =
       Mailer.new_default_email(listing.region_id)
@@ -162,7 +152,7 @@ defmodule VolunteerEmail.ListingsEmails do
   defp generate_primary_address_list(%Listing{} = listing) do
     [
       listing.created_by,
-      listing.organized_by,
+      listing.organized_by
     ]
   end
 

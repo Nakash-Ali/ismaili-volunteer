@@ -10,7 +10,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/muqarnas.png",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: [],
@@ -24,7 +24,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
     },
@@ -38,7 +38,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/ismaili-center-toronto.jpg",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: ["cfo-announcements@iicanada.net"],
@@ -54,7 +54,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
     },
@@ -68,7 +68,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/ismaili-center-burnaby-2.jpg",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: [],
@@ -80,7 +80,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
     },
@@ -94,7 +94,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/aga-khan-garden-edmonton.jpg",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: [],
@@ -106,7 +106,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
     },
@@ -120,7 +120,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/delegation-of-the-ismaili-imamat.jpg",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: [],
@@ -132,7 +132,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
     },
@@ -146,7 +146,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/aga-khan-garden-edmonton.jpg",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: [],
@@ -158,7 +158,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
     },
@@ -172,7 +172,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       jumbotron: %{
         image_url: "/static/images/global-center-for-pluralism.jpg",
-        spanner_bg_color: "#971421",
+        spanner_bg_color: "#971421"
       },
       marketing_request: %{
         email: [],
@@ -184,10 +184,10 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           name: "",
           title: "",
           email: "",
-          phone: "",
+          phone: ""
         }
       }
-    },
+    }
   }
 
   @default_region_id 1

@@ -3,7 +3,7 @@ defmodule Volunteer.Permissions.Ruleset do
 
   @superusers [
     "alizain.feerasta@iicanada.net",
-    "hussein.kermally@iicanada.net",
+    "hussein.kermally@iicanada.net"
   ]
 
   @admin_listing_member_actions [
@@ -50,10 +50,9 @@ defmodule Volunteer.Permissions.Ruleset do
 
   def superuser_ruleset() do
     [
-      fn %{primary_email: primary_email}, _action, _subject
-        when primary_email in @superusers ->
+      fn %{primary_email: primary_email}, _action, _subject when primary_email in @superusers ->
         :allow
-      end,
+      end
     ]
   end
 

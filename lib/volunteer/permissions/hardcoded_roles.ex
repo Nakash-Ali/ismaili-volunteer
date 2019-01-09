@@ -8,9 +8,10 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Canada
     1 => %{},
     # Ontario
-    2 => %{
-      # "zahra.nurmohamed@iicanada.net" => "cc_team"
-    }
+    2 =>
+      %{
+        # "zahra.nurmohamed@iicanada.net" => "cc_team"
+      }
   }
 
   @roles_by_group %{
@@ -35,7 +36,7 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     6 => %{
       "farhad.shariff@iicanada.net" => "admin",
       "amreen.poonawala@iicanada.net" => "admin",
-      "alykhan.nensi@iicanada.net" => "admin",
+      "alykhan.nensi@iicanada.net" => "admin"
     },
     # Aga Khan Youth and Sports Board (AKYSB) Ontario
     7 => %{

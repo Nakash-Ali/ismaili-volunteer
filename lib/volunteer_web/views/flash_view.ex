@@ -22,7 +22,7 @@ defmodule VolunteerWeb.FlashView do
         flash_type: :info,
         container_class: "alert-info",
         icon_class: "far fa-info-circle"
-      },
+      }
     ]
   end
 end

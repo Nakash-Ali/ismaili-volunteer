@@ -6,24 +6,23 @@ defmodule VolunteerWeb.Admin.ListingParams do
     @checks_content [
       ~E"""
       By approving this listing, I hereby certify that I have reviewed the entire listing to the best of my abilities and have reached out for a second opinion on anything that I am unsure about.
-      """,
+      """
     ]
 
-    @checks (
-      @checks_content
-      |> Enum.map(fn {:safe, content} = value ->
-        key =
-          :md5
-          |> :crypto.hash(content)
-          |> Base.encode16(case: :lower)
-          |> String.to_atom()
-        {key, value}
-      end)
-    )
+    @checks @checks_content
+            |> Enum.map(fn {:safe, content} = value ->
+              key =
+                :md5
+                |> :crypto.hash(content)
+                |> Base.encode16(case: :lower)
+                |> String.to_atom()
+
+              {key, value}
+            end)
 
     @types Enum.map(@checks, fn {key, _value} -> {key, :boolean} end) |> Enum.into(%{})
 
-    @defaults Enum.map(@checks, fn {key, _value} -> {key, :false} end) |> Enum.into(%{})
+    @defaults Enum.map(@checks, fn {key, _value} -> {key, false} end) |> Enum.into(%{})
 
     def checks() do
       @checks
@@ -49,6 +48,7 @@ defmodule VolunteerWeb.Admin.ListingParams do
       case changeset(params) do
         %{valid?: true} = changes ->
           {changes, Ecto.Changeset.apply_changes(changes)}
+
         %{valid?: false, data: data} = changes ->
           {changes, data}
       end
@@ -59,7 +59,7 @@ defmodule VolunteerWeb.Admin.ListingParams do
     @types %{
       approved: :boolean,
       unapproved: :boolean,
-      expired: :boolean,
+      expired: :boolean
     }
 
     @defaults %{
@@ -69,6 +69,7 @@ defmodule VolunteerWeb.Admin.ListingParams do
     }
 
     def changeset(nil), do: changeset(%{})
+
     def changeset(params) do
       {@defaults, @types}
       |> Ecto.Changeset.cast(params, Map.keys(@types))
@@ -78,6 +79,7 @@ defmodule VolunteerWeb.Admin.ListingParams do
       case changeset(params) do
         %{valid?: true} = changes ->
           {changes, Ecto.Changeset.apply_changes(changes)}
+
         %{valid?: false, data: data} = changes ->
           {changes, data}
       end

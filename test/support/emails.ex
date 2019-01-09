@@ -7,7 +7,11 @@ defmodule Volunteer.TestSupport.Emails do
       |> Bamboo.Test.normalize_for_testing()
       |> sort_email()
 
-    assert_receive({:delivered_email, ^normalized_email}, 100, Bamboo.Test.flunk_with_email_list(normalized_email))
+    assert_receive(
+      {:delivered_email, ^normalized_email},
+      100,
+      Bamboo.Test.flunk_with_email_list(normalized_email)
+    )
   end
 
   def sort_email(email) do

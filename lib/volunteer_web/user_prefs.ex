@@ -31,8 +31,7 @@ defmodule VolunteerWeb.UserPrefs do
           |> filter_and_normalize_prefs(prefs_config)
           |> Map.merge(curr_prefs)
 
-        new_conn =
-          backend_module.store_prefs!(curr_conn, new_prefs, backend_config)
+        new_conn = backend_module.store_prefs!(curr_conn, new_prefs, backend_config)
 
         {new_conn, new_prefs}
       end)
@@ -76,7 +75,6 @@ defmodule VolunteerWeb.UserPrefs do
           :error ->
             prefs
         end
-
     end)
   end
 
