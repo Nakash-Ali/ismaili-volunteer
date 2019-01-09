@@ -6,11 +6,11 @@ defmodule VolunteerWeb.Admin.ListingView do
   alias VolunteerWeb.AdminView
   alias VolunteerWeb.Presenters.{Title, Temporal}
 
-  def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
+  def render("body_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
-      render(VolunteerWeb.VendorView, "trix.html"),
       StaticHelpers.script_tag(conn, "/js/drafterize_form.js"),
-      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
+      StaticHelpers.script_tag(conn, "/js/char_count.js"),
+      render(VolunteerWeb.VendorView, "trix.html"),
     ]
   end
 

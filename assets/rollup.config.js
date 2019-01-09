@@ -9,7 +9,8 @@ const FILE_NAMES = [
 	'old_browsers',
 	'smooth',
 	'iframe_resizer',
-	'drafterize_form'
+	'drafterize_form',
+	'char_count',
 ]
 
 function buildConfig(name) {

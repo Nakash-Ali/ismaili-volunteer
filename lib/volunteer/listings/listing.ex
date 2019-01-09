@@ -81,6 +81,16 @@ defmodule Volunteer.Listings.Listing do
     :qualifications
   ]
 
+  @max_char_counts %{
+    position_title: 120,
+    program_title: 120,
+    summary_line: 240,
+  }
+
+  def max_char_counts() do
+    @max_char_counts
+  end
+
   def refresh_expiry_days_by() do
     14
   end
@@ -253,9 +263,9 @@ defmodule Volunteer.Listings.Listing do
 
   defp changeset_common(changeset) do
     changeset
-    |> validate_length(:position_title, max: 140)
-    |> validate_length(:program_title, max: 140)
-    |> validate_length(:summary_line, max: 140)
+    |> validate_length(:position_title, max: @max_char_counts.position_title)
+    |> validate_length(:program_title, max: @max_char_counts.program_title)
+    |> validate_length(:summary_line, max: @max_char_counts.summary_line)
     |> validate_number(:time_commitment_amount, greater_than: 0)
     |> validate_inclusion(:time_commitment_type, time_commitment_type_choices())
     |> foreign_key_constraint(:region_id)

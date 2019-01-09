@@ -4,14 +4,16 @@
 	field: :position_title,
 	title: "Position title",
 	placeholder: "Music Teacher",
-	required: true
+	required: true,
+	max_char_count: @max_char_counts.position_title
 	%>
 
 	<%= render FormView, "text.html",
 	form: form,
 	field: :program_title,
 	title: "Program title",
-	placeholder: "SEED"
+	placeholder: "SEED",
+	max_char_count: @max_char_counts.program_title
 	%>
 
 	<%= render FormView, "text.html",
@@ -19,7 +21,8 @@
 	field: :summary_line,
 	title: "Summary",
 	placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents",
-	required: true
+	required: true,
+	max_char_count: @max_char_counts.summary_line
 	%>
 
 	<%= render FormView, "select.html",
