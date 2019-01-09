@@ -4,9 +4,14 @@ defmodule VolunteerWeb.Router do
   use Sentry.Plug
   import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2]
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
+  import VolunteerWeb.UserPrefs, only: [fetch_user_prefs: 2]
+
+  @user_prefs %{
+    admin_feedback_anonymize: {:boolean, false}
+  }
 
   pipeline :browser do
-    if Mix.env() == :prod do
+    if Application.fetch_env!(:volunteer, :use_ssl) do
       plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
     end
 
@@ -18,6 +23,7 @@ defmodule VolunteerWeb.Router do
     plug :ensure_unique_session_identifier
     plug :authenticate_user
     plug :configure_sentry_context
+    plug :fetch_user_prefs, @user_prefs
     # plug VolunteerWeb.HTMLMinifier
   end
 

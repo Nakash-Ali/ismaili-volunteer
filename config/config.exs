@@ -28,7 +28,8 @@ config :volunteer,
 config :volunteer,
   ecto_repos: [Volunteer.Repo],
   send_analytics: false,
-  mock_sessions: false
+  mock_sessions: false,
+  use_ssl: false
 
 # Configure legacy integration
 config :volunteer, Volunteer.Legacy,

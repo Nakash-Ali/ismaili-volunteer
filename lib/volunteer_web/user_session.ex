@@ -57,7 +57,7 @@ defmodule VolunteerWeb.UserSession do
     @salt :crypto.strong_rand_bytes(@salt_len) |> Base.encode64() |> binary_part(0, @salt_len)
 
     @params_key "auth_token"
-    
+
     @max_age 60 # in seconds
 
     def generate(conn, %Accounts.User{} = user) do
