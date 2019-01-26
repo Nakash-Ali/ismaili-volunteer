@@ -136,7 +136,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Praries
+    # Prairies
     6 => %{
       system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
