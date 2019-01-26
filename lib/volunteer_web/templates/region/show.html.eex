@@ -15,7 +15,7 @@
 		<h6 class="mb-0 text-muted"><%= VolunteerWeb.IndexView.listing_count_text(@listings) %></h6>
 		<div class="d-flex flex-row flex-nowrap align-items-center">
 			<%= if @region.parent do %>
-				<h6 class="mb-0 mr-1 text-muted">
+				<h6 class="mb-0 ml-1 text-muted">
 					Go to <a href="<%= RouterHelpers.region_path(@conn, :show, @region.parent) %>">parent region</a>
 				</h6>
 			<% end %>

@@ -1,9 +1,9 @@
 <%= if assigns[:region_in_path] == true do %>
 	<div class="btn-group" role="group">
-		<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'false'); return false;">Hide listings from sub-regions</a>
+		<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'false'); return false;">Hide listings from regions</a>
 	</div>
 <% else %>
 	<div class="btn-group" role="group">
-		<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'true'); return false;">Show listings from sub-regions</a>
+		<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'true'); return false;">Show listings from regions</a>
 	</div>
 <% end %>
