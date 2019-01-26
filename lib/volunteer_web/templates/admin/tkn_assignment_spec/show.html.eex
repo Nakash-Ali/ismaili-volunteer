@@ -2,7 +2,10 @@
 
 	<h4 class="text-center mb-2"><strong>TKN Assignment Specification Form</strong></h4>
 
-	<p class="text-danger mb-0"><em>Fields marked with * are mandatory</em></p>
+	<div class="mb-2">
+		<p class="mb-2q text-center">To convert this PDF into a Word document, use <a target="_blank" href="https://smallpdf.com/pdf-to-word">this online converter</a></p>
+		<p class="mb-2q text-center">Fields marked with <span class="text-danger text-bold">*</span> are mandatory</p>
+	</div>
 
 	<div class="container-fluid p-0">
 		<section class="spec-section mb-2 page-break-unit">
