@@ -31,7 +31,7 @@
 				<div class="cell col-12 label label-required">Assignment Description</div>
 			</div>
 			<div class="row no-gutters">
-				<div class="cell col-12 value value-longform"><%= @listing.summary_line |> not_available? %></div>
+				<div class="cell col-12 value value-longform"><%= @listing.program_description |> Phoenix.HTML.raw() |> not_available? %></div>
 			</div>
 		</section>
 
@@ -138,7 +138,7 @@
 
 			<div class="page-break-unit">
 				<div class="row no-gutters">
-					<div class="cell col-12 label label-required">Must Have Skills and Experience; Position Requirements; Qualifications:</div>
+					<div class="cell col-12 label label-required">Position Requirements; Qualifications; Skills and Experience:</div>
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-12 value value-longform">
@@ -146,15 +146,6 @@
 							<%= @listing.qualifications |> Phoenix.HTML.raw() |> not_available? %>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<div class="page-break-unit">
-				<div class="row no-gutters">
-					<div class="cell col-12 label">Nice to have Skills; Language; Volunteer Experience etc.:</div>
-				</div>
-				<div class="row no-gutters">
-					<div class="cell col-12 value value-longform"><%= not_available() %></div>
 				</div>
 			</div>
 
