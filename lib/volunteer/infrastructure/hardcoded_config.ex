@@ -1,8 +1,9 @@
 defmodule Volunteer.Infrastructure.HardcodedConfig do
+  @system_email_prefix "OpportunitiesToServe"
   @config_by_region %{
     # Canada
     1 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - Canada", "canada.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -30,7 +31,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Ontario
     2 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -60,7 +61,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # British Columbia
     3 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -86,7 +87,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Edmonton
     4 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -112,7 +113,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Ottawa
     5 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -138,7 +139,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Prairies
     6 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -164,7 +165,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Quebec and Maritimes
     7 => %{
-      system_email: {"OpportunitiesToServe", "hrontario@iicanada.net"},
+      system_email: {"#{system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -190,8 +191,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     }
   }
 
-  @default_region_id 1
-  @default_config @config_by_region[@default_region_id]
+  @default_config @config_by_region[1]
 
   def get_region_config(region_id, key) when not is_list(key) do
     get_region_config(region_id, [key])
