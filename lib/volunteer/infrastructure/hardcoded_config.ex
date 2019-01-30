@@ -3,7 +3,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
   @config_by_region %{
     # Canada
     1 => %{
-      system_email: {"#{system_email_prefix} - Canada", "canada.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Canada", "canada.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -31,7 +31,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Ontario
     2 => %{
-      system_email: {"#{system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -61,7 +61,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # British Columbia
     3 => %{
-      system_email: {"#{system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -87,7 +87,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Edmonton
     4 => %{
-      system_email: {"#{system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -113,7 +113,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Ottawa
     5 => %{
-      system_email: {"#{system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -139,7 +139,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Prairies
     6 => %{
-      system_email: {"#{system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
@@ -165,7 +165,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     },
     # Quebec and Maritimes
     7 => %{
-      system_email: {"#{system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
       ots_website: "https://ots.the.ismaili/canada",
       council_website: %{
         text: "iicanada.org",
