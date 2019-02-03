@@ -18,6 +18,22 @@ defmodule Volunteer.Permissions do
     end
   end
 
+  def annotate_roles_for_group(group) do
+    Map.put(
+      group,
+      :roles,
+      get_for_group(group.id)
+    )
+  end
+
+  def annotate_roles_for_region(region) do
+    Map.put(
+      region,
+      :roles,
+      get_for_region(region.id)
+    )
+  end
+
   def annotate_group_roles_for_user(user) do
     Map.put(
       user,
@@ -61,18 +77,26 @@ defmodule Volunteer.Permissions do
     end)
   end
 
+  def get_for_region(region_id) do
+    HardcodedRoles.region_roles(region_id)
+  end
+
   def get_for_region(region_id, role_types_to_include) do
     region_id
-    |> HardcodedRoles.region_roles()
+    |> get_for_region()
     |> Enum.filter(fn {_email, role_type} ->
       Enum.member?(role_types_to_include, role_type)
     end)
     |> Enum.into(%{})
   end
 
+  def get_for_group(group_id) do
+    HardcodedRoles.group_roles(group_id)
+  end
+
   def get_for_group(group_id, role_types_to_include) do
     group_id
-    |> HardcodedRoles.group_roles()
+    |> get_for_group()
     |> Enum.filter(fn {_email, role_type} ->
       Enum.member?(role_types_to_include, role_type)
     end)

@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.Admin.UsersController do
+defmodule VolunteerWeb.Admin.UserController do
   use VolunteerWeb, :controller
   alias Volunteer.Accounts
   alias VolunteerWeb.ConnPermissions
@@ -8,7 +8,7 @@ defmodule VolunteerWeb.Admin.UsersController do
   plug :authorize
 
   def authorize(conn, _opts) do
-    ConnPermissions.ensure_allowed!(conn, [:admin, :users])
+    ConnPermissions.ensure_allowed!(conn, [:admin, :user])
   end
 
   # Controller Actions

@@ -1,0 +1,13 @@
+<%= render AdminView, "sub_title.html", assigns do %>
+	<h4 class="mb-2 py-2q">All Groups</h4>
+<% end %>
+
+<section class="container my-3">
+	<%= for group <- @groups do %>
+		<div class="">
+			<a href="<%= RouterHelpers.admin_group_path(@conn, :show, group) %>">
+				<h6 class=""><%= Title.html(group) %></h6>
+			</a>
+		</div>
+	<% end %>
+</section>

@@ -3,7 +3,8 @@ defmodule Volunteer.Permissions.Ruleset do
 
   @superusers [
     "alizain.feerasta@iicanada.net",
-    "hussein.kermally@iicanada.net"
+    "hussein.kermally@iicanada.net",
+    "naila.alibhai@iicanada.net"
   ]
 
   @admin_listing_member_actions [
@@ -45,7 +46,7 @@ defmodule Volunteer.Permissions.Ruleset do
   end
 
   def admin_ruleset() do
-    superuser_ruleset() ++ listing_ruleset()
+    superuser_ruleset() ++ listing_ruleset() ++ region_ruleset() ++ group_ruleset()
   end
 
   def superuser_ruleset() do
@@ -82,6 +83,22 @@ defmodule Volunteer.Permissions.Ruleset do
         if region_roles[region_id] == "cc_team" do
           :allow
         end
+      end
+    ]
+  end
+
+  def region_ruleset() do
+    [
+      fn _user, [:admin, :region], _subject ->
+        :allow
+      end
+    ]
+  end
+
+  def group_ruleset() do
+    [
+      fn _user, [:admin, :group], _subject ->
+        :allow
       end
     ]
   end

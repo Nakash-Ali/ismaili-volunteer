@@ -107,7 +107,9 @@ defmodule VolunteerWeb.Router do
       post "/listings/:id/refresh_expiry", ListingController, :refresh_expiry
       post "/listings/:id/expire", ListingController, :expire
 
-      resources "/users", UsersController, only: [:index]
+      resources "/users", UserController, only: [:index]
+      resources "/regions", RegionController, only: [:index, :show]
+      resources "/groups", GroupController, only: [:index, :show]
 
       get "/feedback/*path", FeedbackController, :index
     end
@@ -121,7 +123,7 @@ defmodule VolunteerWeb.Router do
     end
 
     get "/regions/:id", RegionController, :show
-    get "/:slug", RegionController, :show
+    get "/:slug", RegionController, :show_by_slug
   end
 
   if Mix.env() == :dev do

@@ -1,0 +1,13 @@
+<%= render AdminView, "sub_title.html", assigns do %>
+	<h4 class="mb-2 py-2q">All Regions</h4>
+<% end %>
+
+<section class="container my-3">
+	<%= for region <- @regions do %>
+		<div class="">
+			<a href="<%= RouterHelpers.admin_region_path(@conn, :show, region) %>">
+				<h6 class=""><%= Title.html(region, %{with_parent: true}) %></h6>
+			</a>
+		</div>
+	<% end %>
+</section>

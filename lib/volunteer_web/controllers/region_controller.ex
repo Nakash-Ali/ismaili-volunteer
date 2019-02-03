@@ -4,7 +4,7 @@ defmodule VolunteerWeb.RegionController do
   alias Volunteer.Infrastructure
   alias Volunteer.Listings
 
-  def show(conn, %{"slug" => region_slug} = params) do
+  def show_by_slug(conn, %{"slug" => region_slug} = params) do
     case Infrastructure.get_region_by_slug(region_slug) do
       %Infrastructure.Region{} = region ->
         show(region, conn, params)

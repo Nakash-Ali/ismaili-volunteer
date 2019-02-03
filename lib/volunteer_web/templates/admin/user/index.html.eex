@@ -1,0 +1,32 @@
+<%= render AdminView, "sub_title.html", assigns do %>
+	<h4 class="mb-2 py-2q">All Users</h4>
+<% end %>
+
+<section class="container my-3">
+	<div class="table-responsive">
+		<table class="table table-borderless table-hover">
+			<thead class="font-family-sans-serif">
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Email</th>
+					<th scope="col">Date joined</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%= for user <- @users do %>
+					<tr>
+						<td><%= Title.text(user) %></td>
+						<td><code><%= user.primary_email %></code></td>
+						<td><%= Temporal.format_datetime(user.inserted_at) %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+<section class="container my-3 mb-4">
+	<code>
+		<%= email_list(@users) %>
+	</code>
+</section>

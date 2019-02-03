@@ -11,11 +11,23 @@ defmodule VolunteerWeb.FeatureModules do
         path: fn conn -> RouterHelpers.admin_listing_path(conn, :index) end
       },
       %{
+        permission: [:admin, :region],
+        title: "Regions",
+        description: "View config for regions",
+        path: fn conn -> RouterHelpers.admin_region_path(conn, :index) end
+      },
+      %{
+        permission: [:admin, :group],
+        title: "Groups",
+        description: "View config for groups",
+        path: fn conn -> RouterHelpers.admin_group_path(conn, :index) end
+      },
+      %{
         permission: [:admin, :user],
         title: "Users",
         description: "View users in the system",
-        path: fn conn -> RouterHelpers.admin_users_path(conn, :index) end
-      }
+        path: fn conn -> RouterHelpers.admin_user_path(conn, :index) end
+      },
     ]
   end
 

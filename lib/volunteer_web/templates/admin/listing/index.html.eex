@@ -37,9 +37,7 @@
 	<%= for listing <- @listings do %>
 		<div class="my-2">
 			<a href="<%= RouterHelpers.admin_listing_path(@conn, :show, listing) %>">
-				<div class="d-flex flex-row flex-wrap align-items-center">
-					<h6 class="mb-1q"><%= Title.html(listing) %></h6>
-				</div>
+				<h6 class="mb-1q"><%= Title.html(listing) %></h6>
 			</a>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">
 				<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>

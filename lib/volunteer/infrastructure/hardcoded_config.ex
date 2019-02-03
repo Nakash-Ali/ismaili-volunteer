@@ -213,21 +213,41 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     }
   }
 
-  @default_config @config_by_region[1]
+  def get_region_config!(region_id) do
+    Map.fetch!(@config_by_region, region_id)
+  end
 
   def get_region_config(region_id, key) when not is_list(key) do
     get_region_config(region_id, [key])
   end
 
   def get_region_config(region_id, keys) when is_list(keys) do
-    conf = Map.get(@config_by_region, region_id, @default_config)
+    case Map.fetch(@config_by_region, region_id) do
+      {:ok, conf} ->
+        case fetch_in(conf, keys) do
+          :error ->
+            {:error, "invalid key"}
 
-    case Kernel.get_in(conf, keys) do
-      nil ->
-        {:error, "invalid key"}
+          {:ok, value} ->
+            {:ok, value}
+        end
 
-      value ->
-        {:ok, value}
+      :error ->
+        {:error, "invalid region"}
+    end
+  end
+
+  defp fetch_in(value, []) do
+    {:ok, value}
+  end
+
+  defp fetch_in(map, [key | tail]) when is_map(map) do
+    case Map.fetch(map, key) do
+      {:ok, value} ->
+        fetch_in(value, tail)
+
+      :error ->
+        :error
     end
   end
 end

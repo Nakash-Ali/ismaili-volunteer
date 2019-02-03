@@ -22,19 +22,15 @@ defmodule Volunteer.Infrastructure do
     |> Repo.one()
   end
 
-  def create_group!(attrs, region \\ nil) do
-    %Group{}
-    |> Group.changeset(attrs, region)
-    |> Repo.insert!()
-  end
-
-  def get_group!(id) do
-    Group |> Repo.get!(id)
+  def get_region_id_choices do
+    from(r in Region, select: {r.title, r.id})
+    |> Repo.all()
   end
 
   def get_regions(opts \\ []) do
     from(r in Region)
     |> query_regions_with_filters(Keyword.get(opts, :filters, %{}))
+    |> order_by([asc: :id])
     |> Repo.all()
   end
 
@@ -50,8 +46,19 @@ defmodule Volunteer.Infrastructure do
     query
   end
 
-  def get_region_id_choices do
-    from(r in Region, select: {r.title, r.id})
+  def create_group!(attrs, region \\ nil) do
+    %Group{}
+    |> Group.changeset(attrs, region)
+    |> Repo.insert!()
+  end
+
+  def get_group!(id) do
+    Group |> Repo.get!(id)
+  end
+
+  def get_groups() do
+    from(r in Group)
+    |> order_by([asc: :id])
     |> Repo.all()
   end
 
@@ -68,6 +75,10 @@ defmodule Volunteer.Infrastructure do
 
   def get_jamatkhana!(id) do
     Jamatkhana |> Repo.get!(id)
+  end
+
+  def get_region_config!(region_id) do
+    Volunteer.Infrastructure.HardcodedConfig.get_region_config!(region_id)
   end
 
   def get_region_config(region_id, key) do

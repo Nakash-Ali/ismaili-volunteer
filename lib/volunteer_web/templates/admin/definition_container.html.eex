@@ -3,10 +3,14 @@
 		<strong><p class="m-0"><%= assigns[:title_text] %></p></strong>
 	</div>
 	<div class="col-9">
-		<%= if assigns[:body_text] do %>
-			<p class="mb-0"><%= assigns[:body_text] %></p>
-		<% else %>
+		<%= if assigns[:do] do %>
 			<%= assigns[:do] %>
+		<% else %>
+			<%= if @body_text == "" or @body_text == nil do %>
+				<p class="mb-0">-</p>
+			<% else %>
+				<p class="mb-0"><%= assigns[:body_text] %></p>
+			<% end %>
 		<% end %>
 	</div>
 </div>

@@ -26,4 +26,4 @@ before_script:
   - MIX_ENV=test mix run priv/repo/test_seeds/accounts.exs
 
 script:
-  - mix test
+  - ./compile_and_test.sh

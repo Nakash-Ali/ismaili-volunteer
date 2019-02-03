@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.Admin.UsersView do
+defmodule VolunteerWeb.Admin.UserView do
   use VolunteerWeb, :view
   alias VolunteerWeb.AdminView
   alias VolunteerWeb.Presenters.{Title, Temporal}

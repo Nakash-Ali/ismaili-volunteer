@@ -31,12 +31,15 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
     test "sends email and updates listing" do
       expiry_date = Timex.now("UTC")
 
+      region = Factory.region!(%{overrides: %{id: 1}})
+
       %{id: id} =
         Factory.listing!(%{
           expired?: false,
           overrides: %{
             expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC")
+            expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC"),
+            region_id: region.id
           }
         })
 
