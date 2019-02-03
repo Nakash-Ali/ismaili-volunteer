@@ -16,7 +16,9 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       marketing_request: %{
         email: [],
         channels: %{
-          "Al-Akhbar" => "text"
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
         }
       },
       tkn: %{
@@ -72,16 +74,20 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: [],
-        channels: %{}
+        email: ["farah.surani@iicanada.net"],
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
       },
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
-          title: "",
-          email: "",
-          phone: ""
+          name: "Sultana Mithani",
+          title: "Associate Director (TKN)",
+          email: "sultana.mithani@iicanada.net",
+          phone: "+1 (604) 376-8818"
         }
       }
     },
@@ -99,7 +105,11 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       marketing_request: %{
         email: [],
-        channels: %{}
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
       },
       tkn: %{
         country: "Canada",
@@ -124,15 +134,19 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: [],
-        channels: %{}
+        email: ["jahangir.valliani@iicanada.net"],
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
       },
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
-          title: "",
-          email: "",
+          name: "Farhan Bhayani",
+          title: "Associate Director (TKN)",
+          email: "farhan.bhayani@iicanada.net",
           phone: ""
         }
       }
@@ -151,7 +165,11 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       marketing_request: %{
         email: [],
-        channels: %{}
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
       },
       tkn: %{
         country: "Canada",
@@ -177,7 +195,11 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       marketing_request: %{
         email: [],
-        channels: %{}
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
       },
       tkn: %{
         country: "Canada",

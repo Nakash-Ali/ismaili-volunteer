@@ -13,7 +13,14 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     3 => %{
       "saniya.jamal@iicanada.net" => "admin",
       "Faheem.Ali@iicanada.net" => "admin"
-    }
+    },
+    # Edmonton
+    4 => %{},
+    # Ottawa
+    5 => %{
+      "femina.kanji@iicanada.net" => "admin",
+      "almas.jaffer@iicanada.net" => "admin"
+    },
   }
 
   @roles_by_group %{
@@ -21,12 +28,12 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     1 => %{},
     # Council for Canada
     2 => %{},
-    # Aga Khan Education Board for Ontario
+    # Education Board for Ontario
     3 => %{
       "rahima.alani2@iicanada.net" => "admin",
       "armeen.dhanjee@iicanada.net" => "admin"
     },
-    # Aga Khan Health Board for Ontario
+    # Health Board for Ontario
     4 => %{
       "aly-khan.lalani@iicanada.net" => "admin",
       "anar.pardhan@iicanada.net" => "admin",
@@ -40,12 +47,20 @@ defmodule Volunteer.Permissions.HardcodedRoles do
       "amreen.poonawala@iicanada.net" => "admin",
       "alykhan.nensi@iicanada.net" => "admin"
     },
-    # Aga Khan Youth and Sports Board (AKYSB) Ontario
+    # Youth and Sports Board (AKYSB) Ontario
     7 => %{
       "azrah.manji@iicanada.net" => "admin",
       "fazila.jiwa@iicanada.net" => "admin",
       "hussain.peermohammad@iicanada.net" => "admin",
       "akysbo.communications@iicanada.net" => "admin"
+    },
+    # Economic Planning Board (EPB) Ottawa
+    10 => %{
+      "karim.kherani@iicanada.net" => "admin"
+    }
+    # Social Welfare Board Ottawa
+    11 => %{
+      "rahim.charania@Iicanada.net" => "admin"
     }
   }
 
