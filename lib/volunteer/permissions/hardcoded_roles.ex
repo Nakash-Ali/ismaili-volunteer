@@ -57,7 +57,7 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Economic Planning Board (EPB) Ottawa
     10 => %{
       "karim.kherani@iicanada.net" => "admin"
-    }
+    },
     # Social Welfare Board Ottawa
     11 => %{
       "rahim.charania@Iicanada.net" => "admin"
