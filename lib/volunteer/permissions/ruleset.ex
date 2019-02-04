@@ -80,7 +80,7 @@ defmodule Volunteer.Permissions.Ruleset do
         end
       end,
       fn %{region_roles: region_roles}, [:admin, :listing | _], %Listing{region_id: region_id} ->
-        if region_roles[region_id] == "cc_team" do
+        if region_roles[region_id] == "admin" do
           :allow
         end
       end

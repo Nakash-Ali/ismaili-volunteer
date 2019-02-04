@@ -1,7 +1,6 @@
 defmodule Volunteer.Permissions.HardcodedRoles do
   # @role_types [
   #   "admin",
-  #   "cc_team"
   # ]
 
   @roles_by_region %{
