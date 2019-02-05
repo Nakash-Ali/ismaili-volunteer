@@ -24,7 +24,7 @@ defmodule VolunteerEmail.Transformers do
   end
 
   defp normalized_addr_only(addr) when is_binary(addr) do
-    Volunteer.EmailNormalizer.normalize(addr)
+    Volunteer.EmailNormalizer.normalize_lowercase(addr)
   end
 
   defp filter_emails(nil, seen_emails) do

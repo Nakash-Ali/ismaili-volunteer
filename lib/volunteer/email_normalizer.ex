@@ -118,6 +118,12 @@ defmodule Volunteer.EmailNormalizer do
     |> Enum.join("@")
   end
 
+  def normalize_lowercase(email) do
+    email
+    |> normalize()
+    |> String.downcase()
+  end
+
   defp maybe_filter_empty(emails_list, %{filter_empty: true}) do
     Enum.filter(emails_list, fn
       "" -> false
