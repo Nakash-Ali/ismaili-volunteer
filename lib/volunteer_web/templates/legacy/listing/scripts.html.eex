@@ -9,7 +9,7 @@
 	})(window)
 </script>
 <script src="<%= RouterHelpers.static_path(@conn, "/js/form_submit.js") %>"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script async defer src="https://www.google.com/recaptcha/api.js"></script>
 <script type="text/javascript">
 	(function(window) {
 		"use strict";
@@ -22,5 +22,19 @@
 				.addClass('btn-primary')
 				.removeClass('btn-secondary');
 		}
+	})(window)
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/choices.js/3.0.4/styles/css/choices.min.css" integrity="sha256-jbg41KhmvslUmx7YVxcvD8v05I1huEWmSSaE9vHczUk=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/choices.js/3.0.4/choices.min.js" integrity="sha256-fn42zDIZe73UQx/PAcZ9Wmq4/cUaiIzaW+wGLNuXMWI=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	(function(window) {
+		"use strict";
+		var jkSelect = window.document.getElementById("jamatkhana-input")
+		var jkChoices = new Choices(jkSelect, {
+			maxItemCount: 1,
+			duplicateItemsAllowed: false,
+			resetScrollPosition: false,
+			searchResultLimit: 12
+		})
 	})(window)
 </script>
