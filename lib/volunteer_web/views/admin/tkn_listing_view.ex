@@ -6,7 +6,8 @@ defmodule VolunteerWeb.Admin.TKNListingView do
 
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
-      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
+      # render(VolunteerWeb.VendorView, "choices.html"),
+      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css"),
     ]
   end
 

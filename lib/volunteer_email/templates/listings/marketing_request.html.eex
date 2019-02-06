@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;">Target jamatkhanas</td>
-			<td style="padding: 4px 0px;"><%= Enum.join(@marketing_request.target_jamatkhanas, ", ") %></td>
+			<td style="padding: 4px 0px;"><%= @marketing_request.target_jamatkhanas |> VolunteerWeb.HTMLHelpers.with_line_breaks() %></td>
 		</tr>
     </tbody>
 	<tbody>

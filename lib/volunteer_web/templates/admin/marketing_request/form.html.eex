@@ -21,7 +21,6 @@
 		field: :target_jamatkhanas,
 		multiple: true,
 		choices: Volunteer.Legacy.all_jamatkhanas(),
-		choices_opts_template: :multiple_select,
 		required: true,
 		help_text: "You can select multiple Jamatkhanas from this list"
 	%>

@@ -22,19 +22,15 @@
 	    <%= ErrorHelpers.error_tag @form, @field %>
 	</div>
 </div>
-<!-- <script>
+<!-- <script defer type="text/javascript">
 	(function() {
 		"use strict";
-		var defaultConfig = {}
-		<%= if assigns[:choices_opts_template] == :multiple_select do %>
-			defaultConfig = {
-				"removeItemButton": true,
-				"duplicateItems": false,
-				"paste": false,
-			}
-		<% end %>
-		var passedConfig = JSON.parse(atob(("<%= JSON.encode_for_client(assigns[:choices_opts]) %>")))
-		var config = Object.assign(defaultConfig, passedConfig)
-		new Choices("#<%= input_id(@form, @field) %>", config)
-	})();
+		var isMultiSelect = "<%= assigns[:multiple] %>" === "true"
+		new Choices("#<%= input_id(@form, @field) %>", {
+			maxItemCount: isMultiSelect ? -1 : 1,
+			duplicateItemsAllowed: false,
+			resetScrollPosition: false,
+			searchResultLimit: 12
+		})
+	})()
 </script> -->

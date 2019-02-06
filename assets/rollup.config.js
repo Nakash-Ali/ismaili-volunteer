@@ -4,13 +4,13 @@ const babel = require('rollup-plugin-babel')
 
 const FILE_NAMES = [
 	'app',
+	'char_count',
+	'drafterize_form',
 	'error',
 	'form_submit',
+	'iframe_resizer',
 	'old_browsers',
 	'smooth',
-	'iframe_resizer',
-	'drafterize_form',
-	'char_count',
 ]
 
 function buildConfig(name) {

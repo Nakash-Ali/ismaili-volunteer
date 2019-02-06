@@ -5,7 +5,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestView do
 
   def render("head_extra" <> page, %{conn: conn}) when page in [".new.html"] do
     [
-      render(VolunteerWeb.VendorView, "choices.html"),
+      # render(VolunteerWeb.VendorView, "choices.html"),
       StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end

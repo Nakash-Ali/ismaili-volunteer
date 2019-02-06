@@ -51,6 +51,10 @@ defmodule VolunteerWeb.Router do
   #   match :*, "/*path", NoRouteErrorController, :raise_error
   # end
 
+  if Mix.env() == :dev do
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+
   scope "/", VolunteerWeb do
     pipe_through :browser
 
@@ -124,10 +128,6 @@ defmodule VolunteerWeb.Router do
 
     get "/regions/:id", RegionController, :show
     get "/:slug", RegionController, :show_by_slug
-  end
-
-  if Mix.env() == :dev do
-    forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 
   def configure_sentry_context(conn, _opts) do

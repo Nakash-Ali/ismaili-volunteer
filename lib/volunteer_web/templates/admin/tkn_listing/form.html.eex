@@ -12,7 +12,6 @@
     field: :commitment_type,
     title: "Commitment type",
     choices: @commitment_type_choices,
-	choices_opts_template: :single_select,
 	required: true
   %>
 

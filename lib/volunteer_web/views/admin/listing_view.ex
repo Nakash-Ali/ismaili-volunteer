@@ -14,6 +14,13 @@ defmodule VolunteerWeb.Admin.ListingView do
     ]
   end
 
+  def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
+    [
+      # render(VolunteerWeb.VendorView, "choices.html"),
+      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css"),
+    ]
+  end
+
   def render("head_extra" <> _, %{conn: conn}) do
     [
       StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
