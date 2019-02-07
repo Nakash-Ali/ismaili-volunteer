@@ -25,3 +25,6 @@ Volunteer.Infrastructure.seed_group!(9, "Community Relations BC", british_columb
 
 Volunteer.Infrastructure.seed_group!(10, "Economic Planning Board (EPB) Ottawa", ottawa)
 Volunteer.Infrastructure.seed_group!(11, "Social Welfare Board Ottawa", ottawa)
+
+Volunteer.Infrastructure.seed_group!(12, "Ismaili Volunteers BC", british_columbia)
+Volunteer.Infrastructure.seed_group!(13, "Quality of Life (QOL) BC", british_columbia)
