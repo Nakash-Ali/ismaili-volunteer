@@ -10,7 +10,7 @@ defmodule VolunteerWeb.RegionController do
         show(region, conn, params)
 
       _ ->
-        raise VolunteerWeb.NoRouteErrorController.raise_error(conn, params)
+        raise VolunteerWeb.NoRouteErrorController.raise_error(conn)
     end
   end
 

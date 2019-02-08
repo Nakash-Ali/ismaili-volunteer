@@ -48,6 +48,7 @@ function additionalInputs(config) {
 	frag.appendChild(formInput('approved', config.approved))
 	frag.appendChild(formInput('organizer', config.organizer))
 	frag.appendChild(formInput('organizer_email', config.organizer_email))
+	frag.appendChild(formInput('listing_id', config.listing_id))
 	frag.appendChild(formInput('this_id', simpleHash(config.basename)))
 	return frag
 }

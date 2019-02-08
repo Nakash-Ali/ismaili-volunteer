@@ -10,6 +10,7 @@ defmodule VolunteerWeb.Legacy.ListingView do
 
   def form_data(listing) do
     %{
+      listing_id: listing.id,
       approved: listing.approved,
       cc: listing.cc_emails |> String.split(","),
       organizer: Title.text(listing.organized_by),

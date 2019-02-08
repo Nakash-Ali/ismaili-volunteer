@@ -115,6 +115,13 @@ defmodule Volunteer.Listings do
     |> Repo.one!()
   end
 
+  def get_one_public_listing(id) do
+    from(l in Listing, where: l.id == ^id)
+    |> query_approved_listing()
+    |> query_unexpired_listing()
+    |> Repo.one()
+  end
+
   def get_one_preview_listing!(id) do
     from(l in Listing, where: l.id == ^id)
     |> query_unexpired_listing()

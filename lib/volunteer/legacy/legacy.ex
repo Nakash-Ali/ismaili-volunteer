@@ -126,10 +126,10 @@ defmodule Volunteer.Legacy do
     |> Volunteer.EmailNormalizer.validate_and_normalize_change(:cc, %{type: :list, filter_empty: true})
   end
 
-  def apply(attrs) do
+  def apply(attrs, listing) do
     with %{valid?: true} = changes <- changeset(attrs),
          data <- struct(Volunteer.Legacy, apply_changes(changes)),
-         sent_emails <- send_emails(data) do
+         sent_emails <- send_emails(data, listing) do
       {:ok, data, sent_emails}
     else
       %Ecto.Changeset{valid?: false} = changes -> {:error, changes}
@@ -158,12 +158,12 @@ defmodule Volunteer.Legacy do
     @public_keys
   end
 
-  defp send_emails(%Volunteer.Legacy{} = data) do
+  defp send_emails(%Volunteer.Legacy{} = data, listing) do
     [
-      &VolunteerEmail.LegacyEmails.external/1,
-      &VolunteerEmail.LegacyEmails.internal/1
+      &VolunteerEmail.LegacyEmails.external/2,
+      &VolunteerEmail.LegacyEmails.internal/2
     ]
-    |> Enum.map(& &1.(data))
+    |> Enum.map(& &1.(data, listing))
     |> Enum.map(&VolunteerEmail.Mailer.deliver_now!/1)
   end
 end

@@ -21,11 +21,24 @@ defmodule VolunteerWeb.Legacy.ApplyController do
   plug :botnectar_protection when action in [:apply]
   plug :rate_limit when action in [:apply]
   plug :verify_captcha when action in [:apply]
+  plug :load_listing when action in [:apply]
 
   def apply(conn, params) do
-    case Legacy.apply(params) do
+    %{listing: listing} = conn.assigns
+
+    case Legacy.apply(params, listing) do
       {:ok, _, _} -> conn |> redirect(external: @next) |> halt
       {:error, error} -> handle_error(conn, error)
+    end
+  end
+
+  defp load_listing(%{params: %{"listing_id" => listing_id}} = conn, _) do
+    case Volunteer.Listings.get_one_public_listing(listing_id) do
+      nil ->
+        raise VolunteerWeb.NoRouteErrorController.raise_error(conn)
+
+      listing ->
+        assign(conn, :listing, listing)
     end
   end
 
