@@ -193,7 +193,7 @@ defmodule Volunteer.Listings do
       where: l.created_by_id == ^id
           or l.organized_by_id == ^id
           or l.group_id in ^group_ids
-          or l.group_id in ^region_ids)
+          or l.region_id in ^region_ids)
   end
 
   defp query_approved_listing(query) do

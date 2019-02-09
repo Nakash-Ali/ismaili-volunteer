@@ -112,9 +112,9 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   defp on_approve_or_unapprove(%Listing{} = listing, %User{} = action_by, config) do
-    cc_team =
+    region_admins =
       listing.region_id
-      |> Volunteer.Permissions.get_for_region(["cc_team"])
+      |> Volunteer.Permissions.get_for_region(["admin"])
       |> Map.keys()
 
     users_with_approval_permissions =
@@ -124,7 +124,7 @@ defmodule VolunteerEmail.ListingsEmails do
 
     to_address_list = generate_all_address_list(listing)
 
-    cc_address_list = [action_by] ++ cc_team ++ users_with_approval_permissions
+    cc_address_list = [action_by] ++ region_admins ++ users_with_approval_permissions
 
     email =
       Mailer.new_default_email(listing.region_id)
