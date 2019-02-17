@@ -30,7 +30,8 @@ Volunteer.Infrastructure.seed_group!(12, "Ismaili Volunteers BC", british_columb
 Volunteer.Infrastructure.seed_group!(13, "Quality of Life (QOL) BC", british_columbia)
 Volunteer.Infrastructure.seed_group!(14, "Social Welfare Board (SWB) BC", british_columbia)
 
-# Volunteer.Infrastructure.seed_group!(15, "Aga Khan Foundations Canada - World Partnership Walk", ontario)
+Volunteer.Infrastructure.seed_group!(15, "Aga Khan Foundations Canada", canada)
+
 Volunteer.Infrastructure.seed_group!(16, "Quality of Life (QOL) Ontario", ontario)
 
 Volunteer.Infrastructure.seed_group!(17, "Ismaili Volunteers Canada", canada)
