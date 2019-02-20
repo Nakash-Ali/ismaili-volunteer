@@ -7,17 +7,18 @@ defmodule Volunteer.Accounts.User do
 
   schema "users" do
     field :title, :string
+
     field :given_name, :string
     field :sur_name, :string
 
-    field :primary_email, :string, default: ""
-    field :primary_phone, :string, default: ""
-    field :preferred_contact, {:array, :string}, default: []
+    field :primary_email, :string
+    field :primary_phone, :string
+    field :preferred_contact, {:array, :string}
 
-    field :primary_jamatkhanas, {:array, :string}, default: []
-    field :ismaili_status, :string, default: ""
+    field :primary_jamatkhanas, {:array, :string}
+    field :ismaili_status, :string
 
-    field :education_level, :string, default: ""
+    field :education_level, :string
 
     has_many :identities, Identity
     has_many :roles, Role
@@ -26,6 +27,28 @@ defmodule Volunteer.Accounts.User do
 
     timestamps()
   end
+
+  @attributes_cast_always [
+    :given_name,
+    :sur_name,
+    :primary_email,
+    :primary_phone,
+    :preferred_contact,
+    :primary_jamatkhanas,
+    :ismaili_status,
+    :education_level
+  ]
+
+  @attributes_required_always @attributes_cast_always
+
+  @defaults %{
+    primary_email: "",
+    primary_phone: "",
+    preferred_contact: [],
+    primary_jamatkhanas: [],
+    ismaili_status: "",
+    education_level: "",
+  }
 
   def upsert_opts() do
     conflict_target = [:given_name, :sur_name, :primary_email, :primary_phone]
@@ -71,25 +94,12 @@ defmodule Volunteer.Accounts.User do
   end
 
   def changeset(user, attrs) do
-    # TODO: validate_required and defaults don't work well together
-    to_cast_and_require = [
-      :title,
-      :given_name,
-      :sur_name,
-      :primary_email,
-      :primary_phone,
-      :preferred_contact,
-      :primary_jamatkhanas,
-      :ismaili_status,
-      :education_level
-    ]
-
     user
-    |> cast(attrs, to_cast_and_require)
-    |> Volunteer.StringSanitizer.sanitize_changes(to_cast_and_require, %{type: :text})
+    |> cast(attrs, @attributes_cast_always)
+    |> Volunteer.StringSanitizer.sanitize_changes(@attributes_cast_always, %{type: :text})
     |> changeset_name()
     |> changeset_contact()
-    |> validate_required(to_cast_and_require)
+    |> validate_required(@attributes_required_always)
     |> validate_length(:primary_jamatkhanas, min: 1, max: 1)
     |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.jamatkhana_choices())
     |> validate_length(:preferred_contact, min: 1)
@@ -103,8 +113,7 @@ defmodule Volunteer.Accounts.User do
   end
 
   def changeset_authenticated(user, attrs) do
-    # TODO: validate_required and defaults don't work well together
-    to_cast_and_require = [
+    attributes_cast_and_required = [
       :title,
       :given_name,
       :sur_name,
@@ -112,11 +121,12 @@ defmodule Volunteer.Accounts.User do
     ]
 
     user
-    |> cast(attrs, to_cast_and_require)
-    |> Volunteer.StringSanitizer.sanitize_changes(to_cast_and_require, %{type: :text})
+    |> cast(attrs, attributes_cast_and_required)
+    |> Volunteer.StringSanitizer.sanitize_changes(attributes_cast_and_required, %{type: :text})
     |> changeset_name()
     |> changeset_contact()
-    |> validate_required(to_cast_and_require)
+    |> validate_required(attributes_cast_and_required)
+    |> VolunteerUtils.Changeset.put_defaults(@defaults)
   end
 
   def changeset_name(changeset) do

@@ -34,7 +34,7 @@
 			<div class="d-flex flex-row flex-nowrap justify-content-start align-items-center">
 				<%= for {choice_value, choice_label} <- @preferred_contact_choices do %>
 					<div class="custom-control custom-checkbox custom-control-inline mb-0">
-						<%= checkbox @user_form, :preferred_contact, hidden_input: false, checked_value: choice_value, name: input_name(@user_form, :preferred_contact) <> "[]", id: input_id(@user_form, :preferred_contact, choice_value), value: FormView.checkbox_list_value(@user_form, :preferred_contact, choice_value), class: FormView.input_classes(@user_form, :preferred_contact, ["custom-control-input"]) %>
+						<%= checkbox @user_form, :preferred_contact, unchecked_value: "", checked_value: choice_value, name: input_name(@user_form, :preferred_contact) <> "[]", id: input_id(@user_form, :preferred_contact, choice_value), value: FormView.checkbox_list_value(@user_form, :preferred_contact, choice_value), class: FormView.input_classes(@user_form, :preferred_contact, ["custom-control-input"]) %>
 						<%= label @user_form, :preferred_contact, choice_label, for: input_id(@user_form, :preferred_contact, choice_value), class: "custom-control-label" %>
 					</div>
 				<% end %>
@@ -59,7 +59,7 @@
 		<!-- TODO: use choices for this -->
 		<%= label @user_form, :primary_jamatkhanas, "Primary Jamatkhana", class: "col-md-4 col-form-label required-label" %>
 		<div class="col-md-8">
-			<%= select @user_form, :primary_jamatkhanas, @jamatkhana_choices, data_choices: "true", name: input_name(@user_form, :primary_jamatkhanas) <> "[]", class: FormView.input_classes(@user_form, :primary_jamatkhanas, ["form-control"]) %>
+			<%= select @user_form, :primary_jamatkhanas, @jamatkhana_choices, data_choices: "true", value: List.first(input_value(@user_form, :primary_jamatkhanas) || []), name: input_name(@user_form, :primary_jamatkhanas) <> "[]", class: FormView.input_classes(@user_form, :primary_jamatkhanas, ["form-control"]) %>
 			<%= ErrorHelpers.error_tag @user_form, :primary_jamatkhanas %>
 		</div>
 	</div>

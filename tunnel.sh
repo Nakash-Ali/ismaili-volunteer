@@ -2,4 +2,4 @@
 
 set -ex
 
-ssh -R ots-ftoihbpimedesrvmpuwh:80:localhost:4000 serveo.net
+ngrok http 4000 -subdomain=ots-local

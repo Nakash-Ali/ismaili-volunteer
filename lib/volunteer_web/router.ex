@@ -57,7 +57,7 @@ defmodule VolunteerWeb.Router do
 
     scope "/listings/:id" do
       get "/", ListingController, :show
-      post "/apply", ListingController, :create_applicant
+      post "/", ListingController, :create_applicant
 
       scope "/social_image" do
         get "/show", ListingSocialImageController, :show

@@ -19,7 +19,7 @@ defmodule Volunteer.Accounts.Auth do
           provider: Atom.to_string(auth.provider),
           given_name: auth.info.first_name,
           sur_name: auth.info.last_name,
-          primary_email: auth.info.email
+          primary_email: auth.info.email,
         })
 
       {:error, _} = error ->
