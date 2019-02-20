@@ -52,7 +52,7 @@ node_modules
 
 # Secrets
 passwords
-app.yaml
+app*.yaml
 
 # Version file
 .version

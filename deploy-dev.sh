@@ -6,6 +6,6 @@ set -ex
 
 git rev-parse HEAD >> .version
 
-gcloud app deploy --verbosity=info --promote  --quiet
+gcloud app deploy app-dev.yaml --verbosity=info --no-promote --quiet
 
 rm .version
