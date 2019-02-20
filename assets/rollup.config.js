@@ -6,8 +6,6 @@ const FILE_NAMES = [
 	'app',
 	'char_count',
 	'drafterize_form',
-	'error',
-	'form_submit',
 	'iframe_resizer',
 	'old_browsers',
 	'smooth',

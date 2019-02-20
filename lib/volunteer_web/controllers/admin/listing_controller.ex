@@ -344,6 +344,7 @@ defmodule VolunteerWeb.Admin.ListingController do
           group_id_choices: get_group_id_choices(),
           organized_by_id_choices: get_user_id_choices(),
           time_commitment_type_choices: Listings.Listing.time_commitment_type_choices(),
+          qualifications_required_choices: Listings.Listing.qualifications_required_choices(),
           max_char_counts: Listings.Listing.max_char_counts()
         ]
     )

@@ -2,7 +2,7 @@
 
 <p>Marketing has been requested for the following volunteer listing:</p>
 
-<p><%= render "details.html", listing: @listing, sections: [:reference] %></p>
+<p><%= render LayoutView, "many_definition_lists.html", sections: ([:reference] |> Enum.map(&VolunteerWeb.Admin.ListingView.definition_list(&1, @listing))) %></p>
 
 <p>The request is as follows:</p>
 

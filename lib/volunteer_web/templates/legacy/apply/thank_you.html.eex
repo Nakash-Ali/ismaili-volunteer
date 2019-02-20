@@ -1,5 +1,0 @@
-<section class="container my-4 text-center">
-	<h1>Thank you for applying!</h1>
-	<p>The organizers will be in touch.</p>
-	<a href="<%= RouterHelpers.index_path(@conn, :index) %>" class=""><h5 class="mt-3 mb-7">Go Home</h5></a>
-</section>

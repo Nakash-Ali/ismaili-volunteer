@@ -11,13 +11,12 @@ defmodule Volunteer.Accounts.Auth do
     end
   end
 
-  def upsert_together_and_return(%Ueberauth.Auth{} = auth) do
+  def upsert_authenticated_user(%Ueberauth.Auth{} = auth) do
     case allowed_auth_email_domain?(auth.info.email) do
       {:ok, _} ->
-        Volunteer.Accounts.upsert_together_and_return(%{
+        Volunteer.Accounts.upsert_authenticated_user(%{
           provider_id: auth.uid,
           provider: Atom.to_string(auth.provider),
-          title: auth.info.name,
           given_name: auth.info.first_name,
           sur_name: auth.info.last_name,
           primary_email: auth.info.email

@@ -1,7 +1,6 @@
 defmodule Volunteer.Listings.MarketingRequest.TextImageChannel do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Volunteer.Listings.MarketingRequest.ChannelAttrs
 
   embedded_schema do
     field :enabled, :boolean, default: false
@@ -12,8 +11,9 @@ defmodule Volunteer.Listings.MarketingRequest.TextImageChannel do
 
   def changeset(channel, attrs) do
     channel
-    |> cast(attrs, ChannelAttrs.cast_always(__MODULE__))
-    |> validate_required(ChannelAttrs.required_always(__MODULE__))
+    |> cast(attrs, [:enabled, :title, :text, :image_url])
+    |> Volunteer.StringSanitizer.sanitize_changes([:title, :text], %{type: :text})
+    |> validate_required([:enabled, :title, :text, :image_url])
   end
 
   def initial(title, _assigns) do

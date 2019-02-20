@@ -5,6 +5,7 @@ defmodule Volunteer.Infrastructure do
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Infrastructure.Group
   alias Volunteer.Infrastructure.Jamatkhana
+  alias Volunteer.Permissions
 
   def create_region!(attrs, parent \\ nil) do
     %Region{}
@@ -81,8 +82,60 @@ defmodule Volunteer.Infrastructure do
     Volunteer.Infrastructure.HardcodedConfig.get_region_config!(region_id)
   end
 
-  def get_region_config(region_id, key) do
-    Volunteer.Infrastructure.HardcodedConfig.get_region_config(region_id, key)
+  def get_region_config(region_id, key_or_keys) do
+    Volunteer.Infrastructure.HardcodedConfig.get_region_config(region_id, key_or_keys)
+  end
+
+  def get_region_config!(region_id, key_or_keys) do
+    {:ok, config} = get_region_config(region_id, key_or_keys)
+    config
+  end
+
+  def aggregate_from_all_regions(key_or_keys, opts \\ %{}) do
+    Volunteer.Infrastructure.HardcodedConfig.aggregate_from_all_regions(key_or_keys, opts)
+  end
+
+  def annotate(%Region{} = region, options) do
+    Enum.reduce(options, region, fn
+      :hardcoded, region ->
+        Map.put(
+          region,
+          :hardcoded,
+          get_region_config!(region.id)
+        )
+
+      :roles, region ->
+        Map.put(
+          region,
+          :roles,
+          Permissions.get_for_region(region.id)
+        )
+
+      {:groups, group_options}, region ->
+        Map.update!(
+          region,
+          :groups,
+          fn groups -> Enum.map(groups, &annotate(&1, group_options)) end
+        )
+    end)
+  end
+
+  def annotate(%Group{} = group, options) do
+    Enum.reduce(options, group, fn
+      :roles, group ->
+        Map.put(
+          group,
+          :roles,
+          Permissions.get_for_group(group.id)
+        )
+    end)
+  end
+
+  def jamatkhana_choices() do
+    {:ok, jamatkhanas} =
+      Volunteer.Infrastructure.aggregate_from_all_regions(:jamatkhanas)
+
+    Enum.sort(jamatkhanas)
   end
 
   def seed_region!(id, title, parent) do

@@ -15,11 +15,14 @@ defmodule Volunteer.EmailNormalizer do
   def validate_and_normalize_change(changeset, field, opts \\ %{})
 
   def validate_and_normalize_change(changeset, field, %{type: :list} = opts) do
-    case Ecto.Changeset.get_change(changeset, field, []) do
-      [] ->
+    case Ecto.Changeset.fetch_change(changeset, field) do
+      :error ->
         changeset
 
-      raw_emails_list ->
+      {:ok, nil} ->
+        changeset
+
+      {:ok, raw_emails_list} when is_list(raw_emails_list) ->
         case validate_and_normalize_list(raw_emails_list, opts) do
           {:ok, normalized_emails_list} ->
             Ecto.Changeset.put_change(changeset, field, normalized_emails_list)
@@ -31,11 +34,14 @@ defmodule Volunteer.EmailNormalizer do
   end
 
   def validate_and_normalize_change(changeset, field, %{type: :comma_separated} = opts) do
-    case Ecto.Changeset.get_change(changeset, field, "") do
-      "" ->
+    case Ecto.Changeset.fetch_change(changeset, field) do
+      :error ->
         changeset
 
-      raw_emails ->
+      {:ok, nil} ->
+        changeset
+
+      {:ok, raw_emails} when is_binary(raw_emails) ->
         raw_emails_list = String.split(raw_emails, ",")
 
         case validate_and_normalize_list(raw_emails_list, opts) do
@@ -49,21 +55,27 @@ defmodule Volunteer.EmailNormalizer do
   end
 
   def validate_and_normalize_change(changeset, field, _opts) do
-    changeset
-    |> Ecto.Changeset.get_change(field)
-    |> validate_and_normalize()
-    |> case do
-      {:ok, normalized_email} ->
-        Ecto.Changeset.put_change(changeset, field, normalized_email)
+    case Ecto.Changeset.fetch_change(changeset, field) do
+      :error ->
+        changeset
 
-      {:error, errored_email} ->
-        add_errors_to_changeset(changeset, field, [errored_email])
+      {:ok, nil} ->
+        changeset
+
+      {:ok, raw_email} when is_binary(raw_email) ->
+        case validate_and_normalize(raw_email) do
+          {:ok, normalized_email} ->
+            Ecto.Changeset.put_change(changeset, field, normalized_email)
+
+          {:error, errored_email} ->
+            add_errors_to_changeset(changeset, field, [errored_email])
+        end
     end
   end
 
   defp add_errors_to_changeset(changeset, field, errored_emails_list) do
     Enum.reduce(errored_emails_list, changeset, fn email, changeset ->
-      Ecto.Changeset.add_error(changeset, field, "#{email} is not a valid email")
+      Ecto.Changeset.add_error(changeset, field, "\"#{email}\" is not a valid email")
     end)
   end
 
@@ -73,10 +85,8 @@ defmodule Volunteer.EmailNormalizer do
     {:ok, []}
   end
 
-  def validate_and_normalize_list([email | _] = emails_list, opts) when is_binary(email) do
-    emails_list
-    |> maybe_filter_empty(opts)
-    |> Enum.reduce({[], []}, fn email, {normalized, errored} ->
+  def validate_and_normalize_list([email | _] = emails_list, _opts) when is_binary(email) do
+    Enum.reduce(emails_list, {[], []}, fn email, {normalized, errored} ->
       case validate_and_normalize(email) do
         {:ok, email} ->
           {[email | normalized], errored}
@@ -110,28 +120,14 @@ defmodule Volunteer.EmailNormalizer do
 
   def normalize(email) do
     [mailbox, domain] =
-      email
-      |> String.trim()
-      |> String.split("@")
+      String.split(email, "@")
 
-    [mailbox, String.downcase(domain)]
-    |> Enum.join("@")
+    [mailbox, String.downcase(domain)] |> Enum.join("@")
   end
 
   def normalize_lowercase(email) do
     email
     |> normalize()
     |> String.downcase()
-  end
-
-  defp maybe_filter_empty(emails_list, %{filter_empty: true}) do
-    Enum.filter(emails_list, fn
-      "" -> false
-      _ -> true
-    end)
-  end
-
-  defp maybe_filter_empty(emails_list, _opts) do
-    emails_list
   end
 end

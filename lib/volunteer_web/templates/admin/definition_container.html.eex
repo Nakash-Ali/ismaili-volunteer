@@ -6,11 +6,7 @@
 		<%= if assigns[:do] do %>
 			<%= assigns[:do] %>
 		<% else %>
-			<%= if @body_text == "" or @body_text == nil do %>
-				<p class="mb-0">-</p>
-			<% else %>
-				<p class="mb-0"><%= assigns[:body_text] %></p>
-			<% end %>
+			<p class="mb-0"><%= assigns[:body_text] |> VolunteerWeb.HTMLHelpers.default_if_blank?() %></p>
 		<% end %>
 	</div>
 </div>

@@ -24,6 +24,8 @@ defmodule Volunteer.Listings.Listing do
     belongs_to :group, Group
     belongs_to :organized_by, User
 
+    field :cc_emails, :string, default: ""
+
     field :start_date, :date
     field :start_date_toggle, :boolean, virtual: true
 
@@ -37,7 +39,7 @@ defmodule Volunteer.Listings.Listing do
     field :responsibilities, :string
     field :qualifications, :string
 
-    field :cc_emails, :string, default: ""
+    field :qualifications_required, {:array, :string}
 
     has_one :tkn_listing, TKNListing
 
@@ -54,6 +56,7 @@ defmodule Volunteer.Listings.Listing do
     :region_id,
     :group_id,
     :organized_by_id,
+    :cc_emails,
     :start_date,
     :start_date_toggle,
     :end_date,
@@ -63,7 +66,7 @@ defmodule Volunteer.Listings.Listing do
     :program_description,
     :responsibilities,
     :qualifications,
-    :cc_emails
+    :qualifications_required,
   ]
 
   @attributes_required_always [
@@ -81,6 +84,23 @@ defmodule Volunteer.Listings.Listing do
     :qualifications
   ]
 
+  @attributes_sanitize_text [
+    :position_title,
+    :program_title,
+    :summary_line,
+    :qualifications_required,
+  ]
+
+  @attributes_sanitize_html [
+    :program_description,
+    :responsibilities,
+    :qualifications,
+  ]
+
+  @attributes_sanitize_comma_separated_text [
+    :cc_emails
+  ]
+
   @max_char_counts %{
     position_title: 120,
     program_title: 120,
@@ -93,6 +113,13 @@ defmodule Volunteer.Listings.Listing do
 
   def refresh_expiry_days_by() do
     14
+  end
+
+  def qualifications_required_choices() do
+    [
+      {"criminal_record_check", "Criminal record check"},
+      {"car_and_driver", "Valid driver’s license and access to a vehicle"},
+    ]
   end
 
   def time_commitment_type_choices() do
@@ -136,7 +163,8 @@ defmodule Volunteer.Listings.Listing do
 
   def create(attrs) do
     %__MODULE__{}
-    |> cast(sanitize(attrs), [:created_by_id] ++ @attributes_cast_always)
+    |> cast(attrs, [:created_by_id] ++ @attributes_cast_always)
+    |> sanitize()
     |> validate_required([:created_by_id] ++ @attributes_required_always)
     |> cast_assoc(:tkn_listing)
     |> changeset_common
@@ -145,7 +173,8 @@ defmodule Volunteer.Listings.Listing do
 
   def edit(listing, attrs) do
     listing
-    |> cast(sanitize(attrs), @attributes_cast_always)
+    |> cast(attrs, @attributes_cast_always)
+    |> sanitize()
     |> validate_required(@attributes_required_always)
     |> changeset_common
   end
@@ -247,18 +276,11 @@ defmodule Volunteer.Listings.Listing do
     is_expired?(listing) == false
   end
 
-  defp sanitize(attrs) do
-    attrs
-    |> Volunteer.SanitizeInput.text_attrs([
-      "position_title",
-      "program_title",
-      "summary_line"
-    ])
-    |> Volunteer.SanitizeInput.html_attrs([
-      "program_description",
-      "qualifications",
-      "responsibilities"
-    ])
+  defp sanitize(changeset) do
+    changeset
+    |> Volunteer.StringSanitizer.sanitize_changes(@attributes_sanitize_text, %{type: :text})
+    |> Volunteer.StringSanitizer.sanitize_changes(@attributes_sanitize_html, %{type: :html})
+    |> Volunteer.StringSanitizer.sanitize_changes(@attributes_sanitize_comma_separated_text, %{type: {:comma_separated, :text}})
   end
 
   defp changeset_common(changeset) do
@@ -268,13 +290,14 @@ defmodule Volunteer.Listings.Listing do
     |> validate_length(:summary_line, max: @max_char_counts.summary_line)
     |> validate_number(:time_commitment_amount, greater_than: 0)
     |> validate_inclusion(:time_commitment_type, time_commitment_type_choices())
+    |> validate_subset(:qualifications_required, qualifications_required_choices() |> VolunteerUtils.Choices.values())
     |> foreign_key_constraint(:region_id)
     |> foreign_key_constraint(:group_id)
     |> foreign_key_constraint(:created_by_id)
     |> foreign_key_constraint(:organized_by_id)
     |> manage_date_with_toggle(:start_date, :start_date_toggle)
     |> manage_date_with_toggle(:end_date, :end_date_toggle)
-    |> Volunteer.EmailNormalizer.validate_and_normalize_change(:cc_emails, %{type: :comma_separated, filter_empty: true})
+    |> Volunteer.EmailNormalizer.validate_and_normalize_change(:cc_emails, %{type: :comma_separated})
     |> unapprove
   end
 

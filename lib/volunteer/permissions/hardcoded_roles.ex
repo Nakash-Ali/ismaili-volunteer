@@ -59,7 +59,7 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     },
     # Social Welfare Board Ottawa
     11 => %{
-      "rahim.charania@Iicanada.net" => "admin"
+      "rahim.charania@iicanada.net" => "admin"
     }
   }
 

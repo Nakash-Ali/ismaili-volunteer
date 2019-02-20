@@ -1,7 +1,6 @@
 defmodule Volunteer.Listings.MarketingRequest.TextChannel do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Volunteer.Listings.MarketingRequest.ChannelAttrs
 
   embedded_schema do
     field :enabled, :boolean, default: false
@@ -11,8 +10,9 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
 
   def changeset(channel, attrs) do
     channel
-    |> cast(attrs, ChannelAttrs.cast_always(__MODULE__))
-    |> validate_required(ChannelAttrs.required_always(__MODULE__))
+    |> cast(attrs, [:enabled, :title, :text])
+    |> Volunteer.StringSanitizer.sanitize_changes([:title, :text], %{type: :text})
+    |> validate_required([:enabled, :title, :text])
     |> validate_length(:text, max: 400)
   end
 

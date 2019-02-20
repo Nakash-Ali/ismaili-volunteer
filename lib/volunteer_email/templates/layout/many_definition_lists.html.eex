@@ -1,0 +1,18 @@
+<table>
+	<thead>
+      <tr>
+        <th style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;">Field</th>
+        <th style="padding: 4px 0px; text-align: left; text-decoration: underline; font-weight: normal;">Details</th>
+      </tr>
+    </thead>
+	<%= for definitions <- @sections do %>
+		<tbody>
+			<%= for {title, body} <- definitions do %>
+				<tr>
+					<td style="padding: 4px 0px; padding-right: 16px;"><%= title %></td>
+					<td style="padding: 4px 0px;"><%= body |> HTMLHelpers.default_if_blank? %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	<% end %>
+</table>

@@ -1,6 +1,7 @@
 defmodule VolunteerWeb.ListingView do
   alias Volunteer.Listings
   alias VolunteerWeb.Presenters.{Title, Social, Temporal}
+  alias VolunteerWeb.FormView
 
   use VolunteerWeb, :view
 
@@ -8,10 +9,6 @@ defmodule VolunteerWeb.ListingView do
     [
       StaticHelpers.stylesheet_tag(conn, "/css/listing.css")
     ]
-  end
-
-  def render("body_extra.show.html", assigns) do
-    render(VolunteerWeb.Legacy.ListingView, "scripts.html", assigns)
   end
 
   def transform_textblob_content(raw_html) do
@@ -75,7 +72,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def expires_in(%{expiry_date: expiry_date}) do
-    Temporal.format_duration_from_now(expiry_date)
+    Temporal.relative(expiry_date)
   end
 
   def organizer_html(%Listings.Listing{} = listing) do

@@ -134,6 +134,14 @@
 		%>
 	</div>
 
+	<%= render FormView, "multi_checkbox.html",
+		form: form,
+		field: :qualifications_required,
+		title: "Qualifications required",
+		help_text: "If you select a qualification here, please do not include it in the \"About the applicant\" section.",
+		choices: @qualifications_required_choices
+	%>
+
 	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
 
 	<%= if assigns[:draft_content] do %>

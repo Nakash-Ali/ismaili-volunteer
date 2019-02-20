@@ -41,13 +41,16 @@ defmodule Volunteer.Mixfile do
       {:appsignal, "~> 1.9.0-beta.1"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
+      {:csv, "~> 2.0.0"},
       {:distillery, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
-      {:hammer, "~> 2.1.0"},
+      {:hammer, "~> 6.0"},
+      {:hammer_plug, "~> 2.0"},
       {:jason, "~> 1.0"},
       {:jose, "~> 1.8"},
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.10"},
@@ -57,7 +60,7 @@ defmodule Volunteer.Mixfile do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:quantum, "~> 2.3"},
-      {:recaptcha, github: "samueljseay/recaptcha", branch: "master"},
+      {:recaptcha, "~> 2.3"},
       {:semtex, github: "alizain/semtex", branch: "master"},
       {:sentry, "~> 7.0.3"},
       {:slugger, "~> 0.2"},
@@ -77,7 +80,8 @@ defmodule Volunteer.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["test --trace"]
+      test: ["test --trace"],
+      "test.watch": ["test.watch --trace --stale"]
     ]
   end
 end

@@ -23,7 +23,47 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   # Controller Actions
 
   def index(conn, _params) do
-    applicants = Apply.get_all_applicants() |> Repo.preload([:user])
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    applicants =
+      listing
+      |> Apply.get_all_applicants_by_listing()
+      |> Repo.preload([user: [applicants: :listing]])
+      |> Apply.annotate([{:user, [{:other_applicants, listing.id}]}])
+
     render(conn, "index.html", applicants: applicants)
+  end
+
+  def export(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    csv_content =
+      listing
+      |> Apply.get_all_applicants_by_listing()
+      |> Repo.preload([:user])
+      |> generate_csv_data()
+
+    send_download(
+      conn,
+      {:binary, csv_content},
+      filename: VolunteerWeb.Presenters.Filename.slugified(listing, "Applicants", "csv"),
+      content_type: "text/csv",
+      charset: "utf-8"
+    )
+  end
+
+  def generate_csv_data(applicants) do
+    Volunteer.CSV.generate(
+      applicants,
+      [
+        {"Applicant ID", &(&1.id)},
+        {"User ID", &(&1.user.id)},
+        {"Created at", &(VolunteerWeb.Presenters.Temporal.format_datetime(&1.inserted_at))},
+        {"Updated at", &(VolunteerWeb.Presenters.Temporal.format_datetime(&1.updated_at))},
+        {"First name", &(&1.user.given_name)},
+        {"Last name", &(&1.user.sur_name)},
+        {"Confirm availability", &VolunteerWeb.Admin.ApplicantView.confirm_availability_text/1},
+      ]
+    )
   end
 end

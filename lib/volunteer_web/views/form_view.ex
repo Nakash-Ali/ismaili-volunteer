@@ -5,21 +5,21 @@ defmodule VolunteerWeb.FormView do
     form.source.action != nil
   end
 
-  defp input_classes(form, field, others) do
+  def input_classes(form, field, others) do
     is_submitted?(form)
     |> input_classes_for_state(form, field)
     |> Enum.concat(others)
     |> Enum.join(" ")
   end
 
-  defp input_classes_for_state(_submitted = true, form, field) do
+  def input_classes_for_state(_submitted = true, form, field) do
     case ErrorHelpers.has_errors?(form, field) do
       true -> ["is-invalid"]
       false -> ["is-valid"]
     end
   end
 
-  defp input_classes_for_state(_submitted = false, _form, _field) do
+  def input_classes_for_state(_submitted = false, _form, _field) do
     []
   end
 
@@ -43,5 +43,13 @@ defmodule VolunteerWeb.FormView do
 
   def label_classes_for_required(_) do
     []
+  end
+
+  def checkbox_list_value(form, field, to_check) do
+    if to_check in (input_value(form, field) || []) do
+      to_check
+    else
+      ""
+    end
   end
 end

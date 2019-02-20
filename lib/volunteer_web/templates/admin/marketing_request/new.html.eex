@@ -3,6 +3,7 @@
 <section class="container my-3">
 	<%= render "form.html",
 	  changeset: @changeset,
+	  jamatkhanas_for_region: @jamatkhanas_for_region,
 	  back_path: RouterHelpers.admin_listing_marketing_request_path(@conn, :show, @listing),
 	  action_path: RouterHelpers.admin_listing_marketing_request_path(@conn, :create, @listing) %>
 </section>

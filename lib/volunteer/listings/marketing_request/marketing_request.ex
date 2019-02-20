@@ -50,10 +50,10 @@ defmodule Volunteer.Listings.MarketingRequest do
       channels
       |> initial(assigns)
       |> merge_initial_with_attrs(attrs)
-      |> sanitize
 
     marketing_request
     |> cast(fixed_attrs, @attributes_cast_always)
+    |> Volunteer.StringSanitizer.sanitize_changes([:target_jamatkhanas], %{type: :text})
     |> validate_required(@attributes_required_always)
     |> cast_embed(:text_channels)
     |> cast_embed(:image_channels)
@@ -104,20 +104,6 @@ defmodule Volunteer.Listings.MarketingRequest do
       initial_channels,
       attrs_channels,
       fn _key, v1, v2 -> Map.merge(v1, v2) end
-    )
-  end
-
-  defp sanitize(attrs) do
-    attrs
-    |> Map.put("text_channels", sanitize_for_channel(attrs["text_channels"]))
-    |> Map.put("image_channels", sanitize_for_channel(attrs["image_channels"]))
-    |> Map.put("text_image_channels", sanitize_for_channel(attrs["text_image_channels"]))
-  end
-
-  defp sanitize_for_channel(attrs) do
-    VolunteerUtils.Map.update_all_values(
-      attrs,
-      &Volunteer.SanitizeInput.text_attrs(&1, ["title", "text"])
     )
   end
 

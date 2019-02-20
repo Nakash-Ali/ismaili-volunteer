@@ -31,13 +31,6 @@ config :volunteer,
   mock_sessions: false,
   use_ssl: false
 
-# Configure legacy integration
-config :volunteer, Volunteer.Legacy,
-  submit_url: "/legacy/apply",
-  static_site: "",
-  redirect_next_path: "/legacy/thank_you",
-  redirect_error_path: "/legacy/error"
-
 # Configure social constants
 config :volunteer, :social,
   title: "OpportunitiesToServe",

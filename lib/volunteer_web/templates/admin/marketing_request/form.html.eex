@@ -20,7 +20,7 @@
 		title: "Applicable JKs",
 		field: :target_jamatkhanas,
 		multiple: true,
-		choices: Volunteer.Legacy.all_jamatkhanas(),
+		choices: @jamatkhanas_for_region,
 		required: true,
 		help_text: "You can select multiple Jamatkhanas from this list"
 	%>

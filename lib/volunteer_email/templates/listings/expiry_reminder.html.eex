@@ -2,11 +2,11 @@
 
 <p>This is an <strong>expiration reminder</strong> for the following listing:</p>
 
-<p><%= render "details.html", listing: @listing, sections: [:reference] %></p>
+<p><%= render LayoutView, "many_definition_lists.html", sections: ([:reference] |> Enum.map(&VolunteerWeb.Admin.ListingView.definition_list(&1, @listing))) %></p>
 
-<p>If you take no action, <strong>it will expire in <%= PublicListingView.expires_in(@listing) %></strong></p>
+<p>If you take no action, <strong>it will expire <%= PublicListingView.expires_in(@listing) %></strong></p>
 
-<p>If it hasn't been filled yet, please refresh expiration as soon as possible.</p>
+<p>If you'd still like this listing to be public, please refresh expiration as soon as possible.</p>
 
 <p>Best Regards,<br>
 <%= Application.fetch_env!(:volunteer, :global_title) %></p>

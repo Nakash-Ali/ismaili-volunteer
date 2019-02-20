@@ -2,7 +2,6 @@ defmodule VolunteerWeb.Admin.GroupController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Infrastructure
-  alias Volunteer.Permissions
   alias VolunteerWeb.ConnPermissions
 
   # Plugs
@@ -26,12 +25,8 @@ defmodule VolunteerWeb.Admin.GroupController do
     group =
       Infrastructure.get_group!(id)
       |> Repo.preload([region: :parent])
-      |> annotate_roles_for_group()
+      |> Infrastructure.annotate([:roles])
 
     render(conn, "show.html", group: group)
-  end
-
-  defp annotate_roles_for_group(group) do
-    Permissions.annotate_roles_for_group(group)
   end
 end

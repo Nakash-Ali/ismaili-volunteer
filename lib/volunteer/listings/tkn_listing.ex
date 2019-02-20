@@ -43,6 +43,10 @@ defmodule Volunteer.Listings.TKNListing do
     :suggested_keywords
   ]
 
+  @attributes_sanitize_text [
+    :suggested_keywords
+  ]
+
   def commitment_type_choices do
     [
       "Full-time",
@@ -141,11 +145,6 @@ defmodule Volunteer.Listings.TKNListing do
     ]
   end
 
-  def sanitize(attrs) do
-    attrs
-    |> Volunteer.SanitizeInput.text_attrs(["suggested_keywords"])
-  end
-
   def changeset(%TKNListing{} = tkn_listing, %{} = attrs, %Listing{} = listing) do
     new_attrs =
       attrs
@@ -156,7 +155,8 @@ defmodule Volunteer.Listings.TKNListing do
 
   def changeset(%TKNListing{} = tkn_listing, %{} = attrs) do
     tkn_listing
-    |> cast(sanitize(attrs), @attributes_cast_always)
+    |> cast(attrs, @attributes_cast_always)
+    |> Volunteer.StringSanitizer.sanitize_changes(@attributes_sanitize_text, %{type: :text})
     |> validate_required(@attributes_required_always)
     |> foreign_key_constraint(:listing_id)
     |> validate_inclusion(:commitment_type, commitment_type_choices())

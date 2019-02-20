@@ -45,7 +45,7 @@ async function launchBrowser(puppeteer) {
 async function launchPage(browser, webpageUrl) {
 	const page = await browser.newPage()
 	const response = await page.goto(webpageUrl, {
-		timeout: 6000,
+		timeout: 20000,
 		waitUntil: 'networkidle0'
 	})
 	if (Math.floor(response.status() / 100) !== 2) {

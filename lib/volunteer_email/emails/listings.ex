@@ -141,8 +141,65 @@ defmodule VolunteerEmail.ListingsEmails do
     )
   end
 
-  defp generate_subject(prefix, listing) do
-    "#{prefix} --- #{Title.text(listing)}"
+  def on_applicant_external(listing, user, applicant) do
+    subject_str =
+      generate_subject(
+        [
+          Title.text(user),
+          "Volunteer Application"
+        ],
+        listing
+      )
+
+    email =
+      Mailer.new_default_email(listing.region_id)
+      |> to(user)
+      |> cc([Mailer.system_email(listing.region_id) | generate_all_address_list(listing)])
+      |> subject(subject_str)
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      "on_applicant_external.html",
+      listing: listing,
+      user: user,
+      applicant: applicant
+    )
+  end
+
+  def on_applicant_internal(listing, user, applicant) do
+    subject_str =
+      generate_subject(
+        [
+          "INTERNAL",
+          Title.text(user),
+          "Volunteer Application"
+        ],
+        listing
+      )
+
+    email =
+      Mailer.new_default_email(listing.region_id)
+      |> to(generate_primary_address_list(listing))
+      |> cc([Mailer.system_email(listing.region_id) | generate_secondary_address_list(listing)])
+      |> subject(subject_str)
+
+    render_email(
+      VolunteerEmail.ListingsView,
+      email,
+      "on_applicant_internal.html",
+      listing: listing,
+      user: user,
+      applicant: applicant
+    )
+  end
+
+  defp generate_subject(prefixes, listing) when is_list(prefixes) do
+    "#{Enum.join(prefixes, " - ")} --- #{Title.text(listing)}"
+  end
+
+  defp generate_subject(prefix, listing) when not is_list(prefix) do
+    generate_subject([prefix], listing)
   end
 
   defp generate_all_address_list(%Listing{} = listing) do

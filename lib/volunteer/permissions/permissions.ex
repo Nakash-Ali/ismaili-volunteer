@@ -18,22 +18,6 @@ defmodule Volunteer.Permissions do
     end
   end
 
-  def annotate_roles_for_group(group) do
-    Map.put(
-      group,
-      :roles,
-      get_for_group(group.id)
-    )
-  end
-
-  def annotate_roles_for_region(region) do
-    Map.put(
-      region,
-      :roles,
-      get_for_region(region.id)
-    )
-  end
-
   def annotate_group_roles_for_user(user) do
     Map.put(
       user,

@@ -4,15 +4,8 @@ defmodule VolunteerWeb.Admin.ListingView do
   alias VolunteerWeb.FormView
   alias VolunteerWeb.ListingView, as: PublicListingView
   alias VolunteerWeb.AdminView
+  alias VolunteerWeb.HTMLHelpers
   alias VolunteerWeb.Presenters.{Title, Temporal}
-
-  def render("body_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
-    [
-      StaticHelpers.script_tag(conn, "/js/drafterize_form.js"),
-      StaticHelpers.script_tag(conn, "/js/char_count.js"),
-      render(VolunteerWeb.VendorView, "trix.html"),
-    ]
-  end
 
   def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
@@ -27,9 +20,18 @@ defmodule VolunteerWeb.Admin.ListingView do
     ]
   end
 
+  def render("body_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
+    [
+      StaticHelpers.script_tag(conn, "/js/drafterize_form.js"),
+      StaticHelpers.script_tag(conn, "/js/char_count.js"),
+      render(VolunteerWeb.VendorView, "trix.html"),
+    ]
+  end
+
   def sub_title_nav(%{conn: conn, listing: listing, active_nav: active_nav}) do
     [
       {"Info", RouterHelpers.admin_listing_path(conn, :show, listing)},
+      {"Applicants", RouterHelpers.admin_listing_applicant_path(conn, :index, listing)},
       {"TKN", RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing)},
       {"Marketing", RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing)}
     ]
@@ -62,6 +64,13 @@ defmodule VolunteerWeb.Admin.ListingView do
   def approved_text(%{approved: approved}), do: approved_text(approved)
   def approved_text(true), do: "Yes, approved"
   def approved_text(false), do: "No, not yet"
+
+  def qualifications_required_text(%{qualifications_required: qualifications_required}) do
+    VolunteerUtils.Choices.labels(
+      Listings.Listing.qualifications_required_choices(),
+      qualifications_required
+    )
+  end
 
   def definition_list(:reference, listing) do
     definition_list(:links, listing) ++
@@ -104,7 +113,8 @@ defmodule VolunteerWeb.Admin.ListingView do
       {"CC'ed emails", listing.cc_emails},
       {"Start date", PublicListingView.start_date_text(listing.start_date)},
       {"End date", PublicListingView.end_date_text(listing.end_date)},
-      {"Time commitment", PublicListingView.time_commitment_text(listing)}
+      {"Time commitment", PublicListingView.time_commitment_text(listing)},
+      {"Qualifications required", qualifications_required_text(listing) |> HTMLHelpers.with_line_breaks()}
     ]
   end
 

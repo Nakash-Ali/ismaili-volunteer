@@ -1,22 +1,23 @@
 {
 	"devDependencies": {
-		"@babel/cli": "^7.0.0",
-		"@babel/core": "^7.0.1",
-		"@babel/polyfill": "^7.0.0",
-		"@babel/preset-env": "^7.0.0",
+		"@babel/cli": "^7.2.3",
+		"@babel/core": "^7.2.2",
+		"@babel/polyfill": "^7.2.5",
+		"@babel/preset-env": "^7.3.1",
 		"chokidar-cli": "^1.2.1",
 		"eslint": "^5.9.0",
 		"eslint-config-airbnb-base": "^13.1.0",
 		"eslint-plugin-compat": "^2.6.3",
-		"eslint-plugin-import": "^2.2.0",
+		"eslint-plugin-import": "^2.16.0",
 		"eslint-plugin-promise": "^4.0.1",
-		"npm-run-all": "^4.1.3"
+		"npm-run-all": "^4.1.5"
 	},
 	"dependencies": {
-		"ajv": "^6.5.3",
+		"ajv": "^6.8.1",
+		"google-libphonenumber": "^3.2.2",
 		"image-size": "^0.7.1",
-		"puppeteer": "^1.8.0",
-		"yargs": "^12.0.2"
+		"puppeteer": "^1.12.1",
+		"yargs": "^12.0.5"
 	},
 	"scripts": {
 		"find-chmod": "find ./compiled -name \"index.js\" -exec chmod +x {} \\;",

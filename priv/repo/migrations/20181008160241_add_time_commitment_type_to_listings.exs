@@ -10,7 +10,7 @@ defmodule Volunteer.Repo.Migrations.AddTimeCommitmentTypeToListings do
 
     flush()
 
-    from(l in Volunteer.Listings.Listing, select: l)
+    from(l in Volunteer.Listings.Listing, select: [:id, :hours_per_week])
     |> Volunteer.Repo.all()
     |> Enum.map(fn listing ->
       listing

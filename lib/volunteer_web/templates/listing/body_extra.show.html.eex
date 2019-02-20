@@ -1,0 +1,22 @@
+<script async defer src="https://www.google.com/recaptcha/api.js"></script>
+<script type="text/javascript">
+	(function(window) {
+		"use strict";
+		var submitEl = window.jQuery('<input id="submit" type="submit" class="btn btn-lg btn-secondary" disabled value="Verify yourself to submit!">')
+		window.jQuery('#submit-container').append(submitEl);
+		window.handleCaptchaSubmit = function handleCaptchaSubmit() {
+			window.jQuery('input#submit')
+				.attr('value', 'Apply')
+				.removeAttr('disabled')
+				.addClass('btn-primary')
+				.removeClass('btn-secondary');
+		}
+	})(window)
+</script>
+<%= render(VolunteerWeb.VendorView, "choices.html") %>
+<script type="text/javascript">
+	(function(window) {
+		"use strict";
+		// TODO: initialize choices here
+	})(window)
+</script>

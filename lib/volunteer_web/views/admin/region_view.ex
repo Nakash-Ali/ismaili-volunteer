@@ -40,6 +40,15 @@ defmodule VolunteerWeb.Admin.RegionView do
     ]
   end
 
+  def definition_list(:jamatkhanas, region) do
+    [
+      {
+        "Jamatkhanas",
+        region.hardcoded.jamatkhanas |> Enum.sort() |> HTMLHelpers.with_line_breaks()
+      }
+    ]
+  end
+
   def definition_list(:roles, region) do
     [
       {
@@ -55,23 +64,23 @@ defmodule VolunteerWeb.Admin.RegionView do
     [
       {
         "OTS website",
-        region.config.ots_website |> HTMLHelpers.external_link()
+        region.hardcoded.ots_website |> HTMLHelpers.external_link()
       },
       {
         "System email name",
-        region.config.system_email |> elem(0)
+        region.hardcoded.system_email |> elem(0)
       },
       {
         "System email address",
-        region.config.system_email |> elem(1) |> HTMLHelpers.external_link(:mailto)
+        region.hardcoded.system_email |> elem(1) |> HTMLHelpers.external_link(:mailto)
       },
       {
         "Council website text",
-        region.config.council_website.text
+        region.hardcoded.council_website.text
       },
       {
         "Council website link",
-        region.config.council_website.url |> HTMLHelpers.external_link()
+        region.hardcoded.council_website.url |> HTMLHelpers.external_link()
       },
     ]
   end
@@ -81,23 +90,23 @@ defmodule VolunteerWeb.Admin.RegionView do
     [
       {
         "TKN country",
-        region.config.tkn.country
+        region.hardcoded.tkn.country
       },
       {
         "TKN coordinator name",
-        region.config.tkn.coordinator.name
+        region.hardcoded.tkn.coordinator.name
       },
       {
         "TKN coordinator title",
-        region.config.tkn.coordinator.title
+        region.hardcoded.tkn.coordinator.title
       },
       {
         "TKN coordinator email",
-        region.config.tkn.coordinator.email |> HTMLHelpers.external_link(:mailto)
+        region.hardcoded.tkn.coordinator.email |> HTMLHelpers.external_link(:mailto)
       },
       {
         "TKN coordinator phone",
-        region.config.tkn.coordinator.phone |> HTMLHelpers.external_link(:tel)
+        region.hardcoded.tkn.coordinator.phone |> HTMLHelpers.external_link(:tel)
       },
     ]
   end
@@ -106,11 +115,11 @@ defmodule VolunteerWeb.Admin.RegionView do
     [
       {
         "Marketing channels",
-        region.config.marketing_request.channels |> Map.keys() |> HTMLHelpers.with_line_breaks()
+        region.hardcoded.marketing_request.channels |> Map.keys() |> HTMLHelpers.with_line_breaks()
       },
       {
         "Marketing request email",
-        region.config.marketing_request.email |> Enum.map(&HTMLHelpers.external_link(&1, :mailto)) |> HTMLHelpers.with_line_breaks()
+        region.hardcoded.marketing_request.email |> Enum.map(&HTMLHelpers.external_link(&1, :mailto)) |> HTMLHelpers.with_line_breaks()
       }
     ]
   end

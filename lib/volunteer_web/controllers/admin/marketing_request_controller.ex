@@ -81,13 +81,19 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   # Utilities
 
   defp render_form(conn, %Ecto.Changeset{} = changeset, template \\ "new.html", opts \\ []) do
+    listing = conn.assigns[:listing]
+
+    {:ok, jamatkhanas_for_region} =
+      Volunteer.Infrastructure.get_region_config(listing.region_id, :jamatkhanas)
+
     render(
       conn,
       template,
       opts ++
         [
           changeset: changeset,
-          listing: conn.assigns[:listing]
+          listing: listing,
+          jamatkhanas_for_region: jamatkhanas_for_region
         ]
     )
   end

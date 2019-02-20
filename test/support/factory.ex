@@ -58,7 +58,20 @@ defmodule Volunteer.TestSupport.Factory do
           Volunteer.Listings.Listing.time_commitment_type_choices() |> Enum.random(),
         program_description: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         responsibilities: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
-        qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" ")
+        qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
+        qualifications_required: [],
+      }
+      |> Map.merge(overrides)
+    end
+
+    def applicant(overrides) do
+      %{
+        id: Volunteer.TestSupport.IntegerAgent.get(),
+        listing_id: Volunteer.TestSupport.IntegerAgent.get(),
+        user_id: Volunteer.TestSupport.IntegerAgent.get(),
+        confirm_availability: true,
+        additional_info: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
+        hear_about: Faker.Lorem.sentences(1..2) |> Enum.join(" ")
       }
       |> Map.merge(overrides)
     end
@@ -72,7 +85,7 @@ defmodule Volunteer.TestSupport.Factory do
 
     Params.user(overrides)
     |> cast_all(Volunteer.Accounts.User)
-    |> repo.insert!()
+    |> repo.insert!(on_conflict: :nothing, conflict_target: [:id])
   end
 
   def region!(opts \\ %{}, repo \\ Volunteer.Repo) do
@@ -83,7 +96,7 @@ defmodule Volunteer.TestSupport.Factory do
 
     Params.region(overrides)
     |> cast_all(Volunteer.Infrastructure.Region)
-    |> repo.insert!()
+    |> repo.insert!(on_conflict: :nothing, conflict_target: [:id])
   end
 
   def group!(opts \\ %{}, repo \\ Volunteer.Repo) do
@@ -95,7 +108,7 @@ defmodule Volunteer.TestSupport.Factory do
 
     Params.group(overrides)
     |> cast_all(Volunteer.Infrastructure.Group)
-    |> repo.insert!()
+    |> repo.insert!(on_conflict: :nothing, conflict_target: [:id])
   end
 
   def listing!(opts \\ %{}, repo \\ Volunteer.Repo) do
@@ -146,6 +159,6 @@ defmodule Volunteer.TestSupport.Factory do
     |> Map.merge(overrides)
     |> Params.listing()
     |> cast_all(Volunteer.Listings.Listing)
-    |> repo.insert!()
+    |> repo.insert!(on_conflict: :nothing, conflict_target: [:id])
   end
 end

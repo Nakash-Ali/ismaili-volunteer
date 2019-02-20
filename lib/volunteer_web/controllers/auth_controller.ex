@@ -28,7 +28,7 @@ defmodule VolunteerWeb.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    case Volunteer.Accounts.Auth.upsert_together_and_return(auth) do
+    case Volunteer.Accounts.Auth.upsert_authenticated_user(auth) do
       {:ok, user} ->
         conn
         |> UserSession.login(user)

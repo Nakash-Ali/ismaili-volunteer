@@ -21,9 +21,7 @@
 				data-char-count-text="characters remaining"
 				class="form-text text-muted"></small>
 		<% end %>
-		<%= if assigns[:help_text] do %>
-			<small class="form-text text-muted"><%= assigns[:help_text] %></small>
-		<% end %>
+		<%= render "help_text.html", assigns %>
 		<%= ErrorHelpers.error_tag @form, @field %>
 	</div>
 </div>

@@ -17,5 +17,39 @@ defmodule Volunteer.InfrastructureTest do
     test "raises when key doesn't exist" do
       assert {:error, "invalid key"} == Infrastructure.get_region_config(2, Faker.UUID.v4())
     end
+
+    test "applies functions correctly" do
+      assert {:ok,
+              [
+                "Barrie, Ontario",
+                "Belleville, Ontario",
+                "Brampton, Ontario",
+                "Brantford, Ontario",
+                "Don Mills, Ontario",
+                "Downtown, Ontario",
+                "Durham, Ontario",
+                "East York, Ontario",
+                "Etobicoke, Ontario",
+                "Guelph, Ontario",
+                "Halton, Ontario",
+                "Hamilton, Ontario",
+                "Headquarters, Ontario",
+                "Kitchener, Ontario",
+                "London, Ontario",
+                "Meadowvale, Ontario",
+                "Mississauga, Ontario",
+                "Niagara Falls, Ontario",
+                "Oshawa, Ontario",
+                "Peterborough, Ontario",
+                "Pickering, Ontario",
+                "Richmond Hill, Ontario",
+                "Scarborough, Ontario",
+                "St. Thomas, Ontario",
+                "Sudbury, Ontario",
+                "Unionville, Ontario",
+                "Willowdale, Ontario",
+                "Windsor, Ontario"
+              ]} == Infrastructure.get_region_config(2, :jamatkhanas)
+    end
   end
 end

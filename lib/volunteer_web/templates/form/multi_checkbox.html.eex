@@ -1,0 +1,15 @@
+<div class="form-group row mb-2 align-items-baseline">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
+	</div>
+	<div class="col-sm-9">
+		<%= for {choice_value, choice_label} <- @choices do %>
+			<div class="custom-control custom-checkbox mb-3q">
+				<%= checkbox @form, @field, checked_value: choice_value, unchecked_value: "", name: input_name(@form, @field) <> "[]", id: input_id(@form, @field, choice_value), value: checkbox_list_value(@form, @field, choice_value), class: input_classes(@form, @field, ["custom-control-input"]) %>
+				<%= label @form, @field, choice_label, for: input_id(@form, @field, choice_value), class: "custom-control-label" %>
+			</div>
+		<% end %>
+		<%= render "help_text.html", assigns %>
+		<%= ErrorHelpers.error_tag @form, @field %>
+	</div>
+</div>

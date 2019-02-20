@@ -9,6 +9,7 @@
 				<tr>
 					<th scope="col">Name</th>
 					<th scope="col">Email</th>
+					<th scope="col">Phone</th>
 					<th scope="col">Date joined</th>
 				</tr>
 			</thead>
@@ -17,6 +18,7 @@
 					<tr>
 						<td><%= Title.text(user) %></td>
 						<td><code><%= user.primary_email %></code></td>
+						<td><code><%= user.primary_phone %></code></td>
 						<td><%= Temporal.format_datetime(user.inserted_at) %></td>
 					</tr>
 				<% end %>

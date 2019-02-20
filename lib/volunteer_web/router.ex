@@ -42,12 +42,6 @@ defmodule VolunteerWeb.Router do
   #     get "/", ListingController, :show
   #   end
   #
-  #   scope "/legacy", Legacy do
-  #     post "/apply", ApplyController, :apply
-  #     get "/thank_you", ApplyController, :thank_you
-  #     get "/error", ApplyController, :error
-  #   end
-  #
   #   match :*, "/*path", NoRouteErrorController, :raise_error
   # end
 
@@ -76,40 +70,39 @@ defmodule VolunteerWeb.Router do
       end
     end
 
-    scope "/legacy", Legacy do
-      post "/apply", ApplyController, :apply
-      get "/thank_you", ApplyController, :thank_you
-      get "/error", ApplyController, :error
-    end
-
     scope "/admin", Admin, as: :admin do
       pipe_through [:ensure_authenticated]
 
       get "/", IndexController, :index
 
-      resources "/listings", ListingController do
-        scope "/tkn_listing" do
-          resources "/", TKNListingController, singleton: true
+      scope "/listings" do
+        resources "/", ListingController do
+          scope "/tkn_listing" do
+            resources "/", TKNListingController, singleton: true
 
-          scope "/assignment_spec" do
-            get "/show", TKNAssignmentSpecController, :show
-            get "/pdf", TKNAssignmentSpecController, :pdf
+            scope "/assignment_spec" do
+              get "/show", TKNAssignmentSpecController, :show
+              get "/pdf", TKNAssignmentSpecController, :pdf
+            end
+          end
+
+          resources "/marketing_request", MarketingRequestController,
+            singleton: true,
+            only: [:show, :new, :create]
+
+          scope "/applicants" do
+            resources "/", ApplicantController, only: [:index]
+            get "/export", ApplicantController, :export
           end
         end
 
-        resources "/marketing_request", MarketingRequestController,
-          singleton: true,
-          only: [:show, :new, :create]
-
-        resources "/applicant", ApplicantController, only: [:index]
+        get "/:id/approve", ListingController, :approve_confirmation
+        post "/:id/approve", ListingController, :approve
+        post "/:id/unapprove", ListingController, :unapprove
+        post "/:id/request_approval", ListingController, :request_approval
+        post "/:id/refresh_expiry", ListingController, :refresh_expiry
+        post "/:id/expire", ListingController, :expire
       end
-
-      get "/listings/:id/approve", ListingController, :approve_confirmation
-      post "/listings/:id/approve", ListingController, :approve
-      post "/listings/:id/unapprove", ListingController, :unapprove
-      post "/listings/:id/request_approval", ListingController, :request_approval
-      post "/listings/:id/refresh_expiry", ListingController, :refresh_expiry
-      post "/listings/:id/expire", ListingController, :expire
 
       resources "/users", UserController, only: [:index]
       resources "/regions", RegionController, only: [:index, :show]
