@@ -53,6 +53,7 @@ defmodule Volunteer.Listings do
 
         approved_listing
       end)
+
     approved_listing
   end
 
