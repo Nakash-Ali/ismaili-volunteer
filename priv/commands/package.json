@@ -21,10 +21,8 @@
 	},
 	"scripts": {
 		"find-chmod": "find ./compiled -name \"index.js\" -exec chmod +x {} \\;",
-		"babel": "npx babel src --out-dir compiled",
 		"start-find-chmod": "npx chokidar-cli \"./compiled/**/index.js\" -c \"npm run find-chmod\"",
-		"start-babel": "npm run babel -- --watch",
 		"start": "npm-run-all -p start-*",
-		"build": "npm run babel && npm run find-chmod"
+		"build": "npm run find-chmod"
 	}
 }

@@ -14,14 +14,14 @@ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
 
 apt-get install -y google-chrome-unstable ttf-freefont --no-install-recommends
 
-notice "Install nodejs"
-
-wget -q -O - https://deb.nodesource.com/setup_10.x | bash -
-apt-get install -y nodejs
-
-notice "Install commands"
-
-cd $CONSOLIDATED_DIR/../priv/commands/
-npm install
+# notice "Install nodejs"
+#
+# wget -q -O - https://deb.nodesource.com/setup_10.x | bash -
+# apt-get install -y nodejs
+#
+# notice "Install commands"
+#
+# cd $CONSOLIDATED_DIR/../priv/commands/
+# npm install
 
 success "Installed!"

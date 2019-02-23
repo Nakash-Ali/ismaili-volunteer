@@ -6,6 +6,7 @@ runtime_config:
     - rustc
   build:
     - "cd assets && npm config set \"@fortawesome:registry\" https://npm.fontawesome.com/9CE01F9A-101C-4F60-84F1-83F8ABC92500 && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest"
+    - "cd priv/commands && npm install && npm run build"
 
 skip_files:
   - "_build"
@@ -23,11 +24,11 @@ env_variables:
   DB_USER: postgres
   DB_PASS: i86chz5AmF1js79i
   DB_NAME: postgres
-  DB_HOST: /cloudsql/ismailivolunteer-201223:northamerica-northeast1:dev-ismailivolunteer/.s.PGSQL.5432
+  DB_HOST: /cloudsql/ismailivolunteer-201223:northamerica-northeast1:stg-ismailivolunteer/.s.PGSQL.5432
   NODE_ENV: production
 
 beta_settings:
-  cloud_sql_instances: ismailivolunteer-201223:northamerica-northeast1:dev-ismailivolunteer
+  cloud_sql_instances: ismailivolunteer-201223:northamerica-northeast1:stg-ismailivolunteer
 
 automatic_scaling:
   min_num_instances: 1
