@@ -95,13 +95,15 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     listing
     |> Listings.create_tkn_listing(tkn_listing_params)
     |> case do
-      {:ok, _tkn_listing} ->
+      {:ok, tkn_listing} ->
         VolunteerWeb.Services.Analytics.track_event(
           "Listing",
           "admin_tkn_create",
           Slugify.slugify(listing),
           conn
         )
+
+        :ok = VolunteerWeb.Services.TKNAssignmentSpecGenerator.generate_async(conn, listing, tkn_listing)
 
         conn
         |> put_flash(:success, "TKN Listing created successfully.")
@@ -170,13 +172,15 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
 
     case Listings.update_tkn_listing(tkn_listing, tkn_listing_params) do
-      {:ok, _tkn_listing} ->
+      {:ok, tkn_listing} ->
         VolunteerWeb.Services.Analytics.track_event(
           "Listing",
           "admin_tkn_update",
           Slugify.slugify(listing),
           conn
         )
+
+        :ok = VolunteerWeb.Services.TKNAssignmentSpecGenerator.generate_async(conn, listing, tkn_listing)
 
         conn
         |> put_flash(:success, "Listing updated successfully.")

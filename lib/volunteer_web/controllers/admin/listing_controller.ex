@@ -219,7 +219,13 @@ defmodule VolunteerWeb.Admin.ListingController do
     toggled_listing =
       case action do
         :approve ->
-          Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
+          listing =
+            Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
+
+          :ok =
+            VolunteerWeb.Services.ListingSocialImageGenerator.generate_async(conn, listing)
+
+          listing
 
         :unapprove ->
           Listings.unapprove_listing_if_not_expired!(listing)
