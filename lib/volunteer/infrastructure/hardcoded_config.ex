@@ -213,18 +213,24 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: [],
+        email: ["Volunteer.prairies@iicanada.net"],
         channels: %{}
       },
-      jamatkhanas: [],
+      jamatkhanas: Utils.construct_jamatkhanas("Prairies", [
+        "Headquarters",
+        "Westwinds",
+        "Northwest",
+        "South",
+        "Franklin"
+      ]),
       privacy_policy: @canada_privacy_policy,
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
-          title: "",
-          email: "",
-          phone: ""
+          name: "Karim Teja",
+          title: "Associate Director (TKN)",
+          email: "Karim.Teja@iicanada.net",
+          phone: "+1 (403) 478-7867"
         }
       }
     },
