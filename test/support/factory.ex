@@ -3,7 +3,8 @@ defmodule Volunteer.TestSupport.Factory do
     Ecto.Changeset.cast(
       struct(module, %{}),
       params,
-      module.__schema__(:fields)
+      module.__schema__(:fields),
+      empty_values: []
     )
   end
 
@@ -15,7 +16,11 @@ defmodule Volunteer.TestSupport.Factory do
         given_name: Faker.Name.first_name(),
         sur_name: Faker.Name.last_name(),
         primary_email: Faker.Internet.free_email(),
-        primary_phone: Faker.Phone.EnUs.phone()
+        primary_phone: Faker.Phone.EnUs.phone(),
+        preferred_contact: [],
+        primary_jamatkhanas: [],
+        ismaili_status: "",
+        education_level: "",
       }
       |> Map.merge(overrides)
     end
