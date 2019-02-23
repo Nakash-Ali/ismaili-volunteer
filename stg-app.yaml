@@ -6,7 +6,6 @@ runtime_config:
     - rustc
   build:
     - "cd assets && npm config set \"@fortawesome:registry\" https://npm.fontawesome.com/9CE01F9A-101C-4F60-84F1-83F8ABC92500 && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest"
-    - "cd priv/commands && npm install && npm run build"
 
 skip_files:
   - "_build"
