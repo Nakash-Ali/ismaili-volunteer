@@ -7,7 +7,12 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Canada
     1 => %{},
     # Ontario
-    2 => %{},
+    2 => %{
+      "nabeela.haji@iicanada.net" => "admin",
+      "shaneela.jivraj@iicanada.net" => "admin",
+      "gulnar.kamadia@iicanada.net" => "admin",
+      "nargis.alibhai@iicanada.net" => "admin",
+    },
     # BC
     3 => %{
       "saniya.jamal@iicanada.net" => "admin",
@@ -20,6 +25,10 @@ defmodule Volunteer.Permissions.HardcodedRoles do
       "femina.kanji@iicanada.net" => "admin",
       "almas.jaffer@iicanada.net" => "admin"
     },
+    # Prairies
+    6 => %{
+      "alykhan.bhimji@iicanada.net" => "admin",
+    }
   }
 
   @roles_by_group %{
