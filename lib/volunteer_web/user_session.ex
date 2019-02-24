@@ -143,7 +143,6 @@ defmodule VolunteerWeb.UserSession do
       case Accounts.get_user(user_id) do
         nil ->
           conn
-          |> VolunteerWeb.UserSession.logout()
 
         user ->
           conn
