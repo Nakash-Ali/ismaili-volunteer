@@ -36,7 +36,7 @@ defmodule Volunteer.Accounts.User do
     :preferred_contact,
     :primary_jamatkhanas,
     :ismaili_status,
-    :education_level
+    # :education_level
   ]
 
   @attributes_required_always @attributes_cast_always
@@ -105,7 +105,8 @@ defmodule Volunteer.Accounts.User do
     |> validate_length(:preferred_contact, min: 1)
     |> validate_subset(:preferred_contact, (preferred_contact_choices() |> VolunteerUtils.Choices.values()))
     |> validate_inclusion(:ismaili_status, (ismaili_status_choices() |> VolunteerUtils.Choices.values()))
-    |> validate_inclusion(:education_level, (education_level_choices() |> VolunteerUtils.Choices.values()))
+    # |> validate_inclusion(:education_level, (education_level_choices() |> VolunteerUtils.Choices.values()))
+    |> VolunteerUtils.Changeset.put_defaults(@defaults)
   end
 
   def changeset_authenticated(attrs) do

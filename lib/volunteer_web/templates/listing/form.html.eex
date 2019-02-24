@@ -55,8 +55,8 @@
 			<%= ErrorHelpers.error_tag @user_form, :ismaili_status, class: ["invalid-feedback d-block"] %>
 		</div>
 	</div>
+	<!-- TODO: use choices for this -->
 	<div class="form-group row">
-		<!-- TODO: use choices for this -->
 		<%= label @user_form, :primary_jamatkhanas, "Primary Jamatkhana", class: "col-md-4 col-form-label required-label" %>
 		<div class="col-md-8">
 			<%= select @user_form, :primary_jamatkhanas, @jamatkhana_choices, data_choices: "true", value: List.first(input_value(@user_form, :primary_jamatkhanas) || []), name: input_name(@user_form, :primary_jamatkhanas) <> "[]", class: FormView.input_classes(@user_form, :primary_jamatkhanas, ["form-control"]) %>
@@ -64,14 +64,14 @@
 		</div>
 	</div>
 
-	<div class="form-group row">
-		<!-- TODO: use choices for this -->
+	<!-- TODO: use choices for this -->
+	<!-- <div class="form-group row">
 		<%= label @user_form, :education_level, "Highest Level of Education", class: "col-md-4 col-form-label required-label" %>
 		<div class="col-md-8">
 			<%= select @user_form, :education_level, @education_level_choices, class: FormView.input_classes(@user_form, :education_level, ["form-control"]) %>
 			<%= ErrorHelpers.error_tag @user_form, :education_level %>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="form-group row align-items-baseline">
 		<div class="col-md-4 col-form-label required-label" for="jamatkhana-input">Confirm Availability</div>

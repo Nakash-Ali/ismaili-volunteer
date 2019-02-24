@@ -116,8 +116,13 @@ defmodule VolunteerWeb.UserSession do
       Enum.reduce_while(Mechanisms.active(), conn, fn {module, func}, conn ->
         case apply(module, func, [conn]) do
           {:ok, user_id} when is_integer(user_id) ->
-            conn = load_current_user(conn, user_id)
-            {:halt, conn}
+            case Accounts.get_user(user_id) do
+              nil ->
+                {:halt, conn}
+
+              user ->
+                {:halt, VolunteerWeb.UserSession.put_user(conn, user)}
+            end
 
           _ ->
             {:cont, conn}
@@ -136,17 +141,6 @@ defmodule VolunteerWeb.UserSession do
           |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
           |> Phoenix.Controller.redirect(to: RouterHelpers.auth_path(conn, :login))
           |> Plug.Conn.halt()
-      end
-    end
-
-    defp load_current_user(conn, user_id) do
-      case Accounts.get_user(user_id) do
-        nil ->
-          conn
-
-        user ->
-          conn
-          |> VolunteerWeb.UserSession.put_user(user)
       end
     end
   end
