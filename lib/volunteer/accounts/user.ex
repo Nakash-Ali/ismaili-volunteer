@@ -115,7 +115,6 @@ defmodule Volunteer.Accounts.User do
 
   def changeset_authenticated(user, attrs) do
     attributes_cast_and_required = [
-      :title,
       :given_name,
       :sur_name,
       :primary_email,

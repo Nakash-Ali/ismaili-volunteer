@@ -136,7 +136,7 @@ defmodule Volunteer.Infrastructure do
       Volunteer.Infrastructure.aggregate_from_all_regions(:jamatkhanas)
 
     jamatkhanas
-    |> Enum.flat_map(fn {key, value} -> value end)
+    |> Enum.flat_map(fn {_key, value} -> value end)
     |> Enum.sort()
   end
 

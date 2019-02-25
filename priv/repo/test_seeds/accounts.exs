@@ -1,7 +1,7 @@
-Volunteer.Repo.insert!(%Volunteer.Accounts.User{
-  title: "AZ",
+%{
   given_name: "A",
   sur_name: "Z",
-  primary_email: "alizain.feerasta@iicanada.net",
-  primary_phone: "+14166272773"
-})
+  primary_email: "alizain.feerasta@iicanada.net"
+}
+|> Volunteer.Accounts.User.changeset_authenticated()
+|> Volunteer.Repo.insert!
