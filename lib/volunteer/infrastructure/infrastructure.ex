@@ -135,7 +135,9 @@ defmodule Volunteer.Infrastructure do
     {:ok, jamatkhanas} =
       Volunteer.Infrastructure.aggregate_from_all_regions(:jamatkhanas)
 
-    Enum.sort(jamatkhanas)
+    jamatkhanas
+    |> Enum.flat_map(fn {key, value} -> value end)
+    |> Enum.sort()
   end
 
   def seed_region!(id, title, parent) do

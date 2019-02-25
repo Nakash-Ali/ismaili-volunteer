@@ -17,6 +17,9 @@
 <script type="text/javascript">
 	(function(window) {
 		"use strict";
-		// TODO: initialize choices here
+		var choices = new Choices(document.getElementById("user_primary_jamatkhanas"), {
+			maxItemCount: 1,
+			resetScrollPosition: false,
+		})
 	})(window)
 </script>

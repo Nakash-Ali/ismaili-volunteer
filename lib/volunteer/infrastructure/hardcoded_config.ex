@@ -278,16 +278,15 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
   def aggregate_from_all_regions(key_or_keys, _opts \\ %{}) do
     result =
       @config_by_region
-      |> Enum.map(fn {_region_id, conf} ->
+      |> Enum.map(fn {region_id, conf} ->
         case fetch_config(conf, key_or_keys) do
           {:ok, values} when is_list(values) ->
-            values
+            {region_id, values}
 
           _ ->
             []
         end
       end)
-      |> List.flatten()
 
     {:ok, result}
   end
