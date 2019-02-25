@@ -3,10 +3,8 @@
 	<ul class="mb-2q item-meta item-meta-underline list-inline font-family-sans-serif">
 		<%= render "meta_li.html", listing: @listing, show: [:region, :group, :expiry] %>
 	</ul>
-	<%= if @listing.approved do %>
+	<%= state_text_or_social_buttons @listing do %>
 		<%= render "social_buttons.html", assigns %>
-	<% else %>
-		<p class="mb-0 py-2q px-1 font-family-sans-serif rounded bg-danger text-white text-center">This position has not yet been <strong>approved</strong> by the respective board or portfolio for public distribution.</p>
 	<% end %>
 </section>
 <section class="container content mb-4">
@@ -16,151 +14,148 @@
 		</div>
 	</div>
 </section>
-<section class="container apply mb-6 d-print-none">
-	<div class="row">
-		<div class="col-lg-9">
-			<h3 class="mb-2">Apply</h3>
-			<%= if @listing.approved do %>
+<section class="container apply mb-7 d-print-none">
+	<%= if assigns[:user_form] && assigns[:applicant_form] do %>
+		<%= state_text_or_apply @listing do %>
+			<div class="row">
+				<div class="col-lg-9">
+					<h3 class="mb-2">Apply</h3>
 
-				<noscript>
-					<p class="py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">To prevent spam, JavaScript is required to validate and submit this form. We're sorry for the inconvenience!</p>
-				</noscript>
-				<%= form_for @conn, RouterHelpers.listing_path(@conn, :create_applicant, @listing), [class: "font-family-sans-serif"], fn _ -> %>
+					<noscript>
+						<p class="py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">To prevent spam, JavaScript is required to validate and submit this form. We're sorry for the inconvenience!</p>
+					</noscript>
 
-					<div class="form-section">
-						<div class="form-group row">
-							<%= label @user_form, :given_name, "First Name", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<%= text_input @user_form, :given_name, required: true, placeholder: "Nasir", autocomplete: input_name(@user_form, :given_name), class: FormView.input_classes(@user_form, :given_name, ["form-control"]) %>
-								<%= ErrorHelpers.error_tag @user_form, :given_name %>
-							</div>
-						</div>
-						<div class="form-group row">
-							<%= label @user_form, :sur_name, "Last Name(s)", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<%= text_input @user_form, :sur_name, required: true, placeholder: "Khusrow", autocomplete: input_name(@user_form, :sur_name), class: FormView.input_classes(@user_form, :sur_name, ["form-control"]) %>
-								<%= ErrorHelpers.error_tag @user_form, :sur_name %>
-							</div>
-						</div>
+					<%= form_for @conn, RouterHelpers.listing_path(@conn, :create_applicant, @listing), [class: "font-family-sans-serif"], fn _ -> %>
 
-						<div class="form-group row">
-							<%= label @user_form, :primary_email, "Email", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<%= email_input @user_form, :primary_email, required: true, placeholder: "rubyofbadakshan@the.ismaili", autocomplete: input_name(@user_form, :primary_email), class: FormView.input_classes(@user_form, :primary_email, ["form-control"]) %>
-								<%= ErrorHelpers.error_tag @user_form, :primary_email %>
+						<div class="form-section">
+							<div class="form-group row">
+								<%= label @user_form, :given_name, "First Name", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<%= text_input @user_form, :given_name, required: true, placeholder: "Nasir", autocomplete: input_name(@user_form, :given_name), class: FormView.input_classes(@user_form, :given_name, ["form-control"]) %>
+									<%= ErrorHelpers.error_tag @user_form, :given_name %>
+								</div>
 							</div>
-						</div>
-						<div class="form-group row">
-							<%= label @user_form, :primary_phone, "Phone", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<%= text_input @user_form, :primary_phone, required: true, placeholder: "+1 (416) 000-1111", autocomplete: input_name(@user_form, :primary_phone), class: FormView.input_classes(@user_form, :primary_phone, ["form-control"]) %>
-								<%= ErrorHelpers.error_tag @user_form, :primary_phone %>
+							<div class="form-group row">
+								<%= label @user_form, :sur_name, "Last Name(s)", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<%= text_input @user_form, :sur_name, required: true, placeholder: "Khusrow", autocomplete: input_name(@user_form, :sur_name), class: FormView.input_classes(@user_form, :sur_name, ["form-control"]) %>
+									<%= ErrorHelpers.error_tag @user_form, :sur_name %>
+								</div>
 							</div>
-						</div>
-						<div class="form-group row align-items-baseline">
-							<%= label @user_form, :preferred_contact, "Preferred Contact Methods", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<div class="d-flex flex-row flex-nowrap justify-content-start align-items-center">
-									<%= for {choice_value, choice_label} <- @preferred_contact_choices do %>
-										<div class="custom-control custom-checkbox custom-control-inline mb-0">
-											<%= checkbox @user_form, :preferred_contact, unchecked_value: "", checked_value: choice_value, name: input_name(@user_form, :preferred_contact) <> "[]", id: input_id(@user_form, :preferred_contact, choice_value), value: FormView.checkbox_list_value(@user_form, :preferred_contact, choice_value), class: FormView.input_classes(@user_form, :preferred_contact, ["custom-control-input"]) %>
-											<%= label @user_form, :preferred_contact, choice_label, for: input_id(@user_form, :preferred_contact, choice_value), class: "custom-control-label" %>
+
+							<div class="form-group row">
+								<%= label @user_form, :primary_email, "Email", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<%= email_input @user_form, :primary_email, required: true, placeholder: "rubyofbadakshan@the.ismaili", autocomplete: input_name(@user_form, :primary_email), class: FormView.input_classes(@user_form, :primary_email, ["form-control"]) %>
+									<%= ErrorHelpers.error_tag @user_form, :primary_email %>
+								</div>
+							</div>
+							<div class="form-group row">
+								<%= label @user_form, :primary_phone, "Phone", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<%= text_input @user_form, :primary_phone, required: true, placeholder: "+1 (416) 000-1111", autocomplete: input_name(@user_form, :primary_phone), class: FormView.input_classes(@user_form, :primary_phone, ["form-control"]) %>
+									<%= ErrorHelpers.error_tag @user_form, :primary_phone %>
+								</div>
+							</div>
+							<div class="form-group row align-items-baseline">
+								<%= label @user_form, :preferred_contact, "Preferred Contact Methods", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<div class="d-flex flex-row flex-nowrap justify-content-start align-items-center">
+										<%= for {choice_value, choice_label} <- @preferred_contact_choices do %>
+											<div class="custom-control custom-checkbox custom-control-inline mb-0">
+												<%= checkbox @user_form, :preferred_contact, unchecked_value: "", checked_value: choice_value, name: input_name(@user_form, :preferred_contact) <> "[]", id: input_id(@user_form, :preferred_contact, choice_value), value: FormView.checkbox_list_value(@user_form, :preferred_contact, choice_value), class: FormView.input_classes(@user_form, :preferred_contact, ["custom-control-input"]) %>
+												<%= label @user_form, :preferred_contact, choice_label, for: input_id(@user_form, :preferred_contact, choice_value), class: "custom-control-label" %>
+											</div>
+										<% end %>
+									</div>
+									<%= ErrorHelpers.error_tag @user_form, :preferred_contact, class: ["invalid-feedback d-block"] %>
+								</div>
+							</div>
+
+							<div class="form-group row align-items-center my-5q">
+								<label class="col-md-4 col-form-label required-label" for="phone-input">Ismaili Muslim</label>
+								<div class="col-md-8">
+									<%= for {choice_value, choice_label} <- @ismaili_status_choices do %>
+										<div class="custom-control custom-radio">
+											<%= radio_button @user_form, :ismaili_status, choice_value, required: true, class: FormView.input_classes(@user_form, :ismaili_status, ["custom-control-input"]) %>
+											<%= label @user_form, :ismaili_status, choice_label, for: input_id(@user_form, :ismaili_status, choice_value), class: "custom-control-label" %>
 										</div>
 									<% end %>
+									<%= ErrorHelpers.error_tag @user_form, :ismaili_status, class: ["invalid-feedback d-block"] %>
 								</div>
-								<%= ErrorHelpers.error_tag @user_form, :preferred_contact, class: ["invalid-feedback d-block"] %>
 							</div>
-						</div>
+							<!-- TODO: use choices for this -->
+							<div class="form-group row">
+								<%= label @user_form, :primary_jamatkhanas, "Primary Jamatkhana", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<%= select @user_form, :primary_jamatkhanas, @jamatkhana_choices, value: List.first(input_value(@user_form, :primary_jamatkhanas) || []), name: input_name(@user_form, :primary_jamatkhanas) <> "[]", class: FormView.input_classes(@user_form, :primary_jamatkhanas, ["form-control"]) %>
+									<%= ErrorHelpers.error_tag @user_form, :primary_jamatkhanas %>
+								</div>
+							</div>
 
-						<div class="form-group row align-items-center my-5q">
-							<label class="col-md-4 col-form-label required-label" for="phone-input">Ismaili Muslim</label>
-							<div class="col-md-8">
-								<%= for {choice_value, choice_label} <- @ismaili_status_choices do %>
-									<div class="custom-control custom-radio">
-										<%= radio_button @user_form, :ismaili_status, choice_value, required: true, class: FormView.input_classes(@user_form, :ismaili_status, ["custom-control-input"]) %>
-										<%= label @user_form, :ismaili_status, choice_label, for: input_id(@user_form, :ismaili_status, choice_value), class: "custom-control-label" %>
+							<!-- TODO: use choices for this -->
+							<!-- <div class="form-group row">
+								<%= label @user_form, :education_level, "Highest Level of Education", class: "col-md-4 col-form-label required-label" %>
+								<div class="col-md-8">
+									<%= select @user_form, :education_level, @education_level_choices, class: FormView.input_classes(@user_form, :education_level, ["form-control"]) %>
+									<%= ErrorHelpers.error_tag @user_form, :education_level %>
+								</div>
+							</div> -->
+
+							<div class="form-group row align-items-baseline">
+								<div class="col-md-4 col-form-label required-label" for="jamatkhana-input">Confirm Availability</div>
+								<div class="col-md-8 col-form-label">
+									<div class="custom-control custom-checkbox mb-0">
+										<%= checkbox @applicant_form, :confirm_availability, required: true, autocomplete: input_name(@applicant_form, :confirm_availability), class: FormView.input_classes(@applicant_form, :confirm_availability, ["custom-control-input"]) %>
+										<%= label @applicant_form, :confirm_availability, class: "custom-control-label" do %>By checking this box, you affirm that you will commit your time for the above-mentioned periods to the best of your ability.<% end %>
 									</div>
-								<% end %>
-								<%= ErrorHelpers.error_tag @user_form, :ismaili_status, class: ["invalid-feedback d-block"] %>
-							</div>
-						</div>
-						<!-- TODO: use choices for this -->
-						<div class="form-group row">
-							<%= label @user_form, :primary_jamatkhanas, "Primary Jamatkhana", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<%= select @user_form, :primary_jamatkhanas, @jamatkhana_choices, value: List.first(input_value(@user_form, :primary_jamatkhanas) || []), name: input_name(@user_form, :primary_jamatkhanas) <> "[]", class: FormView.input_classes(@user_form, :primary_jamatkhanas, ["form-control"]) %>
-								<%= ErrorHelpers.error_tag @user_form, :primary_jamatkhanas %>
-							</div>
-						</div>
-
-						<!-- TODO: use choices for this -->
-						<!-- <div class="form-group row">
-							<%= label @user_form, :education_level, "Highest Level of Education", class: "col-md-4 col-form-label required-label" %>
-							<div class="col-md-8">
-								<%= select @user_form, :education_level, @education_level_choices, class: FormView.input_classes(@user_form, :education_level, ["form-control"]) %>
-								<%= ErrorHelpers.error_tag @user_form, :education_level %>
-							</div>
-						</div> -->
-
-						<div class="form-group row align-items-baseline">
-							<div class="col-md-4 col-form-label required-label" for="jamatkhana-input">Confirm Availability</div>
-							<div class="col-md-8 col-form-label">
-								<div class="custom-control custom-checkbox mb-0">
-									<%= checkbox @applicant_form, :confirm_availability, required: true, autocomplete: input_name(@applicant_form, :confirm_availability), class: FormView.input_classes(@applicant_form, :confirm_availability, ["custom-control-input"]) %>
-									<%= label @applicant_form, :confirm_availability, class: "custom-control-label" do %>By checking this box, you affirm that you will commit your time for the above-mentioned periods to the best of your ability.<% end %>
+									<%= ErrorHelpers.error_tag @applicant_form, :confirm_availability, class: ["invalid-feedback d-block"] %>
 								</div>
-								<%= ErrorHelpers.error_tag @applicant_form, :confirm_availability, class: ["invalid-feedback d-block"] %>
+							</div>
+
+							<div class="form-group row mt-5q">
+								<div class="col-md-4">
+									<%= label @applicant_form, :additional_info, "Additional Information" %>
+								</div>
+								<div class="col-md-8">
+									<%= textarea @applicant_form, :additional_info, type: "text", rows: "5", placeholder: "I'm really excited about this opportunity because...", autocomplete: input_name(@applicant_form, :additional_info), class: FormView.input_classes(@applicant_form, :additional_info, ["form-control"]) %>
+									<p class="form-text text-muted font-italic mb-1q">Tell us why you'd be a good fit for this role! You can also share any questions, comments, or concerns with us right here.</p>
+								</div>
+							</div>
+							<div class="form-group row">
+								<%= label @applicant_form, :hear_about, "How did you find this listing?", class: "col-md-4 col-form-label" %>
+								<div class="col-md-8">
+									<%= text_input @applicant_form, :hear_about, placeholder: "Jamatkhana announcement, Al-Akhbar, etc...", autocomplete: input_name(@applicant_form, :hear_about), class: FormView.input_classes(@applicant_form, :hear_about, ["form-control"]) %>
+								</div>
 							</div>
 						</div>
 
-						<div class="form-group row mt-5q">
-							<div class="col-md-4">
-								<%= label @applicant_form, :additional_info, "Additional Information" %>
-							</div>
-							<div class="col-md-8">
-								<%= textarea @applicant_form, :additional_info, type: "text", rows: "5", placeholder: "I'm really excited about this opportunity because...", autocomplete: input_name(@applicant_form, :additional_info), class: FormView.input_classes(@applicant_form, :additional_info, ["form-control"]) %>
-								<p class="form-text text-muted font-italic mb-1q">Tell us why you'd be a good fit for this role! You can also share any questions, comments, or concerns with us right here.</p>
-							</div>
-						</div>
-						<div class="form-group row">
-							<%= label @applicant_form, :hear_about, "How did you find this listing?", class: "col-md-4 col-form-label" %>
-							<div class="col-md-8">
-								<%= text_input @applicant_form, :hear_about, placeholder: "Jamatkhana announcement, Al-Akhbar, etc...", autocomplete: input_name(@applicant_form, :hear_about), class: FormView.input_classes(@applicant_form, :hear_about, ["form-control"]) %>
+						<div class="row">
+							<div class="offset-md-4 col-md-8">
+								<div class="mt-2">
+									<div class="g-recaptcha" data-size="normal" data-sitekey="<%= @recaptcha_public_key %>" data-callback="handleCaptchaSubmit"></div>
+								</div>
+								<div id="submit-container" class="mt-1">
+									<!-- subumit button gets injected here -->
+								</div>
 							</div>
 						</div>
-					</div>
+						<div class="row">
+							<div class="offset-md-4 col-md-8">
+								<div class="mt-3 small text-muted font-italic">
+									<p><%= @privacy_policy.text %></p>
+									<ul class="list-unstyled">
+										<%= for line <- @privacy_policy.address do %>
+											<li><p class="mb-0"><%= line %></p></li>
+										<% end %>
+									</ul>
+								</div>
+							</div>
+						</div>
 
-					<div class="row">
-						<div class="offset-md-4 col-md-8">
-							<div class="mt-2">
-								<div class="g-recaptcha" data-size="normal" data-sitekey="<%= @recaptcha_public_key %>" data-callback="handleCaptchaSubmit"></div>
-							</div>
-							<div id="submit-container" class="mt-1">
-								<!-- subumit button gets injected here -->
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="offset-md-4 col-md-8">
-							<div class="mt-3 small text-muted font-italic">
-								<p><%= @privacy_policy.text %></p>
-								<ul class="list-unstyled">
-									<%= for line <- @privacy_policy.address do %>
-										<li><p class="mb-0"><%= line %></p></li>
-									<% end %>
-								</ul>
-							</div>
-						</div>
-					</div>
-				<% end %>
-
-			<% else %>
-
-				<div class="mt-2">
-					<p class="mb-0 py-2q px-1 font-family-sans-serif rounded bg-danger text-white text-center">Cannot submit un-approved listings.</p>
+					<% end %>
 				</div>
-
-			<% end %>
-		</div>
-	</div>
+			</div>
+		<% end %>
+	<% end %>
 </section>

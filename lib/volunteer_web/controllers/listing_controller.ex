@@ -15,7 +15,7 @@ defmodule VolunteerWeb.ListingController do
 
   def load_listing(id) do
     id
-    |> Listings.get_one_public_listing!()
+    |> Listings.get_one_public_listing!(allow_expired: true)
     |> Repo.preload(Listings.Listing.preloadables())
   end
 

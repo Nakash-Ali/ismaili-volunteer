@@ -6,7 +6,7 @@ defmodule VolunteerWeb.ListingSocialImageController do
 
   def show(conn, %{"id" => id}) do
     listing =
-      Listings.get_one_public_listing!(id)
+      Listings.get_one_public_listing!(id, allow_expired: false)
       |> Repo.preload(Listings.Listing.preloadables())
 
     {:ok, ots_website} =
@@ -22,7 +22,7 @@ defmodule VolunteerWeb.ListingSocialImageController do
   end
 
   def png(conn, %{"id" => id}) do
-    listing = Listings.get_one_public_listing!(id)
+    listing = Listings.get_one_public_listing!(id, allow_expired: false)
     disk_path = ListingSocialImageGenerator.generate!(conn, listing)
 
     VolunteerWeb.Services.Analytics.track_event(

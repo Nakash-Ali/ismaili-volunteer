@@ -11,6 +11,38 @@ defmodule VolunteerWeb.ListingView do
     ]
   end
 
+  def state_text_wrapper(more_classes \\ [], do: content_block) do
+    ~E"""
+    <p class="mb-0 py-2q px-1 font-family-sans-serif rounded text-white text-center <%= Enum.join(more_classes, " ") %>"><%= content_block %></p>
+    """
+  end
+
+  def state_text_or_do(listing, %{unapproved: unapproved, expired: expired}, do: content_block) do
+    cond do
+      Listings.Listing.is_approved?(listing) == false ->
+        unapproved
+      Listings.Listing.is_expired?(listing) == true ->
+        expired
+      true ->
+        content_block
+    end
+  end
+
+  def state_text_or_social_buttons(listing, opts) do
+    state_text_or_do(listing, %{
+      unapproved: ~E"""
+                  <%= state_text_wrapper ["bg-danger"] do %>This position is <strong>not approved</strong> by the respective board or portfolio for public distribution.<% end %>
+                  """,
+      expired: ~E"""
+                <%= state_text_wrapper ["bg-warning"] do %>We're sorry, <strong>this position has expired</strong>. We're sure there are other opportunities for you to volunteer your time!<% end %>
+                """,
+    }, opts)
+  end
+
+  def state_text_or_apply(listing, opts) do
+    state_text_or_do(listing, %{unapproved: nil, expired: nil}, opts)
+  end
+
   def transform_textblob_content(raw_html) do
     VolunteerWeb.HTMLInput.deserialize_for_show(raw_html)
   end

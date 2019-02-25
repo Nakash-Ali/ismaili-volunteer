@@ -109,18 +109,12 @@ defmodule Volunteer.Listings do
     |> Repo.all()
   end
 
-  def get_one_public_listing!(id) do
-    from(l in Listing, where: l.id == ^id)
-    |> query_approved_listing()
-    |> query_unexpired_listing()
-    |> Repo.one!()
+  def get_one_public_listing!(id, opts \\ []) do
+    query_one_public_listing(id, opts) |> Repo.one!()
   end
 
-  def get_one_public_listing(id) do
-    from(l in Listing, where: l.id == ^id)
-    |> query_approved_listing()
-    |> query_unexpired_listing()
-    |> Repo.one()
+  def get_one_public_listing(id, opts \\ []) do
+    query_one_public_listing(id, opts) |> Repo.one()
   end
 
   def get_one_preview_listing!(id) do
@@ -179,6 +173,19 @@ defmodule Volunteer.Listings do
 
   defp query_listings_with_admin_state_filters(query, %{approved: false, unapproved: false, expired: true}) do
     query_expired_listing(query)
+  end
+
+  def query_one_public_listing(id, allow_expired: allow_expired) do
+    query =
+      from(l in Listing, where: l.id == ^id)
+      |> query_approved_listing()
+
+    if allow_expired do
+      query
+    else
+      query
+      |> query_unexpired_listing()
+    end
   end
 
   defp query_for_user_listing(query, %Accounts.User{id: id} = user) do
