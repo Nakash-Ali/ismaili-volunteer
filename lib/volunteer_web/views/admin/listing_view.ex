@@ -31,7 +31,7 @@ defmodule VolunteerWeb.Admin.ListingView do
   def sub_title_nav(%{conn: conn, listing: listing, active_nav: active_nav}) do
     [
       {"Info", RouterHelpers.admin_listing_path(conn, :show, listing)},
-      {"Applicants", RouterHelpers.admin_listing_applicant_path(conn, :index, listing)},
+      # {"Applicants", RouterHelpers.admin_listing_applicant_path(conn, :index, listing)},
       {"TKN", RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing)},
       {"Marketing", RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing)}
     ]

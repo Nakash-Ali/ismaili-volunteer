@@ -90,10 +90,10 @@ defmodule VolunteerWeb.Router do
             singleton: true,
             only: [:show, :new, :create]
 
-          scope "/applicants" do
-            resources "/", ApplicantController, only: [:index]
-            get "/export", ApplicantController, :export
-          end
+          # scope "/applicants" do
+          #   resources "/", ApplicantController, only: [:index]
+          #   get "/export", ApplicantController, :export
+          # end
         end
 
         get "/:id/approve", ListingController, :approve_confirmation
