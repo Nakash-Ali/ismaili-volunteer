@@ -55,6 +55,9 @@ defmodule VolunteerWeb.Router do
     get "/", IndexController, :index
     get "/feedback/*path", FeedbackController, :index
 
+    get "/privacy", DisclaimersController, :privacy
+    get "/terms", DisclaimersController, :terms
+
     scope "/listings/:id" do
       get "/", ListingController, :show
       post "/", ListingController, :create_applicant
@@ -90,10 +93,10 @@ defmodule VolunteerWeb.Router do
             singleton: true,
             only: [:show, :new, :create]
 
-          # scope "/applicants" do
-          #   resources "/", ApplicantController, only: [:index]
-          #   get "/export", ApplicantController, :export
-          # end
+          scope "/applicants" do
+            resources "/", ApplicantController, only: [:index]
+            get "/export", ApplicantController, :export
+          end
         end
 
         get "/:id/approve", ListingController, :approve_confirmation

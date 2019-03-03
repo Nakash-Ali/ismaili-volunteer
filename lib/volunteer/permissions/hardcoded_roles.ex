@@ -9,9 +9,6 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Ontario
     2 => %{
       "nabeela.haji@iicanada.net" => "admin",
-      "shaneela.jivraj@iicanada.net" => "admin",
-      "gulnar.kamadia@iicanada.net" => "admin",
-      "nargis.alibhai@iicanada.net" => "admin",
     },
     # BC
     3 => %{
@@ -69,6 +66,15 @@ defmodule Volunteer.Permissions.HardcodedRoles do
     # Social Welfare Board Ottawa
     11 => %{
       "rahim.charania@iicanada.net" => "admin"
+    },
+    # World Partnership Walk Ontario
+    15 => %{
+      "shaneela.jivraj@iicanada.net" => "admin"
+    },
+    # Quality of Life (QOL) Ontario
+    16 => %{
+      "gulnar.kamadia@iicanada.net" => "admin",
+      "nargis.alibhai@iicanada.net" => "admin",
     }
   }
 

@@ -54,7 +54,7 @@ defmodule VolunteerWeb.ListingController do
           user_changeset: user_changeset,
           applicant_form: Phoenix.HTML.FormData.to_form(applicant_changeset, []),
           applicant_changeset: applicant_changeset,
-          privacy_policy: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:privacy_policy]),
+          disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
           recaptcha_public_key: Application.fetch_env!(:recaptcha, :public_key),
           preferred_contact_choices: Volunteer.Accounts.User.preferred_contact_choices(),
           ismaili_status_choices: Volunteer.Accounts.User.ismaili_status_choices(),

@@ -4,9 +4,11 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   alias Volunteer.Apply
   alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
+  import VolunteerWeb.NoRouteErrorController, only: [raise_error: 2]
 
   # Plugs
 
+  plug :raise_error
   plug :load_listing
   plug :authorize
 

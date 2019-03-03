@@ -7,7 +7,7 @@
 	</head>
 
 	<body>
-		<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
+		<table cellpadding="0" cellspacing="0" border="0">
 			<tr>
 				<td valign="top">
 
@@ -16,6 +16,16 @@
 				</td>
 			</tr>
 		</table>
+		<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 2rem;">
+			<tr>
+				<td valign="top">
+					<p><small><%= @disclaimers.email_privacy_text %></small></p>
+					<p><small><%= @disclaimers.email_unsubscribe_text %></small></p>
+					<p><small><%= @disclaimers.address |> VolunteerWeb.HTMLHelpers.with_line_breaks() %></small></p>
+				</td>
+			</tr>
+		</table>
+
 	</body>
 
 </html>

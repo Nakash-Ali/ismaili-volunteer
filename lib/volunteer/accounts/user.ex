@@ -34,7 +34,7 @@ defmodule Volunteer.Accounts.User do
     :primary_email,
     :primary_phone,
     :preferred_contact,
-    :primary_jamatkhanas,
+    # :primary_jamatkhanas,
     :ismaili_status,
     # :education_level
   ]
@@ -100,12 +100,13 @@ defmodule Volunteer.Accounts.User do
     |> changeset_name()
     |> changeset_contact()
     |> validate_required(@attributes_required_always)
-    |> validate_length(:primary_jamatkhanas, min: 1, max: 1)
-    |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.jamatkhana_choices())
     |> validate_length(:preferred_contact, min: 1)
     |> validate_subset(:preferred_contact, (preferred_contact_choices() |> VolunteerUtils.Choices.values()))
     |> validate_inclusion(:ismaili_status, (ismaili_status_choices() |> VolunteerUtils.Choices.values()))
     # |> validate_inclusion(:education_level, (education_level_choices() |> VolunteerUtils.Choices.values()))
+    # |> validate_length(:primary_jamatkhanas, min: 1, max: 1)
+    # |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.jamatkhana_choices())
+    |> optionally_cast_and_validate_primary_jamatkhanas(attrs)
     |> VolunteerUtils.Changeset.put_defaults(@defaults)
   end
 
@@ -140,6 +141,25 @@ defmodule Volunteer.Accounts.User do
     changeset
     |> Volunteer.EmailNormalizer.validate_and_normalize_change(:primary_email)
     |> Volunteer.PhoneNormalizer.validate_and_normalize_change(:primary_phone)
+  end
+
+  def optionally_cast_and_validate_primary_jamatkhanas(changeset, attrs) do
+    case fetch_field(changeset, :ismaili_status) do
+      {_data_or_changes, ismaili_status} when ismaili_status in ["ismaili"] ->
+        changeset
+        |> cast(attrs, [:primary_jamatkhanas], empty_values: [[], [""]])
+        |> Volunteer.StringSanitizer.sanitize_changes([:primary_jamatkhanas], %{type: :text})
+        |> validate_required([:primary_jamatkhanas])
+        |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.jamatkhana_choices())
+        |> validate_length(:primary_jamatkhanas, min: 1, max: 1)
+
+      {_data_or_changes, _ismaili_status} ->
+        changeset
+
+      :error ->
+        # TODO: maybe add error here?
+        changeset
+    end
   end
 
   def title_from_names(%Ecto.Changeset{} = changeset) do

@@ -1,26 +1,39 @@
 defmodule Volunteer.Infrastructure.HardcodedConfig do
+  import Phoenix.HTML, only: [sigil_E: 2]
+
   defmodule Utils do
     def construct_jamatkhanas(region_name, jamatkhanas) do
       Enum.map(jamatkhanas, fn jk -> "#{jk}, #{region_name}" end)
     end
   end
 
-  @system_email_prefix "OpportunitiesToServe"
+  @system_email_prefix Application.get_env(:volunteer, :global_title)
 
   @canada_council_website %{
     text: "iicanada.org",
     url: "https://iicanada.org"
   }
-  @canada_privacy_policy %{
-    text: """
-          IICanada.org respects your privacy and is committed to protecting your personal information. Any personal information voluntarily submitted to IICanada.org signifies your desire to receive community‐related information and also to be contacted by the community institutions. Other than the collection, use and disclosure of your personal information to the Ismaili Institutions and its volunteers for the purposes of contacting you and/or considering you for potential volunteer positions within the community, we will not use or disclose your personal information without your express consent.
-          """,
+  @canada_disclaimers %{
+    apply_privacy_text:
+      ~E"""
+      <%= Application.get_env(:volunteer, :global_title) %> respects your privacy and is committed to protecting your personal information. Any personal information voluntarily submitted to <%= Application.get_env(:volunteer, :global_title) %> signifies your desire to receive community‐related information and also to be contacted by the community institutions. Other than the collection, use and disclosure of your personal information to the Ismaili Institutions and its volunteers for the purposes of contacting you and/or considering you for potential volunteer positions within the community, we will not use or disclose your personal information without your express consent.
+      """,
+    email_privacy_text:
+      ~E"""
+      This email is sent by His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada (the "Aga Khan Council for Canada"). You are receiving this email because you signed up through the <%= Application.get_env(:volunteer, :global_title) %> website.
+      """,
+    email_unsubscribe_text:
+      ~E"""
+      To unsubscribe from future communication from the <%= Application.get_env(:volunteer, :global_title) %> website, please email <%= Application.get_env(:volunteer, :global_email) |> VolunteerWeb.HTMLHelpers.external_link(:mailto) %>.
+      """,
     address: [
       "His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada",
+      "The Ismaili Centre",
       "49 Wynford Drive",
       "Toronto, Ontario M3C 1K1",
       "Canada",
-      "Tel: +1 (416) 646-6965",
+      ~E"Tel: <%= VolunteerWeb.HTMLHelpers.external_link(\"+1 (416) 646-6965\", :tel) %>",
+      ~E"<%= VolunteerWeb.HTMLHelpers.external_link(\"https://iicanada.org\") %>",
     ]
   }
 
@@ -28,7 +41,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Canada
     1 => %{
       system_email: {"#{@system_email_prefix} - Canada", "canada.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/muqarnas.png",
@@ -39,7 +52,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         channels: %{}
       },
       jamatkhanas: [],
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
@@ -53,7 +66,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Ontario
     2 => %{
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/ismaili-center-toronto.jpg",
@@ -97,7 +110,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         "Willowdale",
         "Windsor"
       ]),
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
@@ -111,7 +124,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # British Columbia
     3 => %{
       system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/ismaili-center-burnaby-2.jpg",
@@ -138,7 +151,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         "Tri-City",
         "Victoria",
       ]),
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
@@ -152,7 +165,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Edmonton
     4 => %{
       system_email: {"#{@system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/aga-khan-garden-edmonton.jpg",
@@ -163,7 +176,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         channels: %{}
       },
       jamatkhanas: [],
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
@@ -177,7 +190,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Ottawa
     5 => %{
       system_email: {"#{@system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/delegation-of-the-ismaili-imamat.jpg",
@@ -192,7 +205,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       },
       jamatkhanas: [],
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
@@ -206,7 +219,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Prairies
     6 => %{
       system_email: {"#{@system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/aga-khan-garden-edmonton.jpg",
@@ -223,7 +236,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         "South",
         "Franklin"
       ]),
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
@@ -237,7 +250,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     # Quebec and Maritimes
     7 => %{
       system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
-      ots_website: "https://ots.the.ismaili/canada",
+      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/global-center-for-pluralism.jpg",
@@ -248,7 +261,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         channels: %{}
       },
       jamatkhanas: [],
-      privacy_policy: @canada_privacy_policy,
+      disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{

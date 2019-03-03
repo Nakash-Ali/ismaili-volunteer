@@ -1,8 +1,10 @@
 <footer>
 	<div class="container p-1 font-family-sans-serif text-center">
-		<div class="d-print-none content d-flex flex-row justify-content-center align-items-center">
+		<div class="d-print-none content d-flex flex-row flex-wrap justify-content-center align-items-center">
 			<p class="small my-0 mx-3q"><%= Application.fetch_env!(:volunteer, :global_attribution) %></p>
 			<p class="small my-0 mx-3q"><a href="mailto:<%= Application.fetch_env!(:volunteer, :global_email) %>">Contact Us</a></p>
+			<p class="small my-0 mx-3q"><%= link "Privacy Policy", to: RouterHelpers.disclaimers_path(@conn, :privacy) %></p>
+			<p class="small my-0 mx-3q"><%= link "Terms", to: RouterHelpers.disclaimers_path(@conn, :terms) %></p>
 		</div>
 	</div>
 </footer>

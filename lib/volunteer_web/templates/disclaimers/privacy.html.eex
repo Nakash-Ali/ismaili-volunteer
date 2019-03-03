@@ -1,0 +1,66 @@
+<div class="container mt-3 mb-5">
+	<h4 id="privacy-policy">Privacy Policy</h4>
+	<p>His Highness Prince Aga Khan Shia Imami Ismaili Council for Canada (“Council”) has developed policies and procedures (the “Privacy Policy”) to protect our website users’ personal information and to ensure that Council complies with current applicable privacy legislation.</p>
+	<p>Council reserves the right to change the Privacy Policy at any time. As a result, Council requests that you, as a website user (“you”), read this section from time to time in order to be informed of possible changes in the Council’s Privacy Policy. If the Privacy Policy changes, and personal information is collected for a purpose that is different from that stated at the time that it was originally collected, the Privacy Policy will be modified and updated as necessary. Changes to the Privacy Policy will take effect on the 31st day from the date the updated Privacy Policy is posted. In addition to modifying the date, Council will post all updates to the Privacy Policy on the “Privacy Policy” page of <%= Application.get_env(:volunteer, :global_url) |> VolunteerWeb.HTMLHelpers.external_link() %> (the “Website”).</p>
+	<h5 id="type-of-information-collected">TYPE OF INFORMATION COLLECTED</h5>
+	<p>Council may collect the following personal information from you when you create an account in, or submit information to, the Website: name, e-mail address, home address, country of residence, citizenship, nationality, birth date, home phone number, office phone number, mobile phone number, IP address, office address, gender and relationships to others.</p>
+	<p>you may consent to the use of personal information and you may withdraw consent to the use of this information (excluding such information which may be legally retained indefinitely and such information which is maintained in anonymized aggregate form by Council) at any time (subject to reasonable notice and the legal obligations Council is subject to). If no explicit consent is provided, your consent is implied. You may withdraw consent by contacting Council at the contact information provided on the Contact Us page of the Website. Please note that withdrawing consent may result in a reduction in access to the Website and to the specific features of the Website.</p>
+	<p>Additionally, please note that Council may aggregate the data (including personal information) it collects and, by disclosing your personal information on this Website, you hereby agree and consent to Council’s collection, use and disclosure of such data in aggregate anonymized form among the jamati institutions (the “Institutions”) and third parties who support the mandate or the Institutions.</p>
+	<h5 id="use-of-personal-information">USE OF PERSONAL INFORMATION</h5>
+	<p>Council and the Institutions may use the personal information collected by them from you for the following reasons:</p>
+	<ul>
+		<li>To communicate with you and/or deliver information and services to you regarding the work of the Institutions;</li>
+		<li>For Institutional planning purposes including, without limitation, to assist with the creation, review and implementation of programs, services and measures intended to benefit the Shia Imami Ismaili Muslim community in Canada and throughout the world;</li>
+		<li>To conduct statistical analysis necessary to further assist Council and the Institutions in fulfilling their mandates;</li>
+		<li>To deliver other information, services and programming to you that are provided in whole or in part by the Institutions as provided by their respective mandates;</li>
+		<li>To improve Council’s Website features and content;</li>
+		<li>To analyze Website usage;</li>
+		<li>For market research;</li>
+		<li>For the planning of or response to a natural disaster, emergency event or imminent threat to the Shia Imami Ismaili Muslim community in Canada and throughout the world;</li>
+		<li>To send you promotional materials and other information with your consent (as same may be provided herein or otherwise);</li>
+		<li>To respond to your comments or questions; and</li>
+		<li>To provide you with content that is customized to your interests based on the information you have provided to us and your activities on the site.</li>
+	</ul>
+	<h5 id="use-of-cookies">USE OF COOKIES</h5>
+	<p>When you navigate the Website, small files called ‘cookies’ may be attached to your web browser. These files identify your web browser and save information such as passwords so that websites can recognize you. You can set your browser to disable cookies, but some websites may not work properly if you do this.</p>
+	<p>Council uses the following types of cookies:</p>
+	<ul>
+		<li>Session cookies - These are used as an integral part of the identification process for some of Council’s online applications. This is for security purposes to determine that you are who you say you are and to provide you with your confidential account information during an online session. No personal information is kept in session cookies and they are stored only in your browser’s temporary (cache) memory. When you log out of your session, the cookie is no longer valid and is discarded when you close your browser. </li>
+		<li>Persistent cookies - These are more permanent and can be re-read when you return to the site that placed them on your computer. The information in them is written onto your hard drive and remains there until the expiry date of the cookie. They are used to identify and provide personalized features (for example, to help Council remember which official language you prefer) and for tracking traffic patterns to and from the Website. </li>
+	</ul>
+	<p>Council may also use Google Analytics. Google Analytics, a web analytics service provided by Google Inc., helps to measure traffic patterns to, from, and within the Website and uses cookies to collect aggregated information about you. Information collected by Google Analytics is stored on Google servers in the United States and may be subject to the governing legislation in that country (for example, the USA Patriot Act). Your IP address is anonymized prior to being stored on Google’s servers in order to help safeguard your privacy. For further information about Google Analytics, please refer to http://www.google.com/intl/en_ALL/policies/privacy/.</p>
+	<p>If you wish, you may opt out of being tracked by Google Analytics by disabling or refusing the cookies; by disabling JavaScript within your browser; or by using the https://tools.google.com/dlpage/gaoptout?hl=en. Disabling Google Analytics or JavaScript will still permit you to access comparable information or services from the Website.</p>
+	<h5 id="disclosure-of-personal-information">DISCLOSURE OF PERSONAL INFORMATION</h5>
+	<p>Under no circumstances will your personal information, which Council collects, be communicated or disseminated to third parties, except as provided herein or unless this is necessary to carry out the services you request on the Website. Council currently discloses personal information to, inter alia, the following Institutions:</p>
+	<ul>
+		<li>His Highness Prince Aga Khan Shia Imami Ismaili Councils (national, regional and local councils) established in North America, Europe, Asia, Africa, Australia and New Zealand and other parts of the world as in existence from time to time;</li>
+		<li>Ismaili Tariqah and Religious and Education Boards;</li>
+		<li>Ismaili Conciliation and Arbitration Boards;</li>
+		<li>Ismaili Grants and Review Boards; and</li>
+		<li>other Institutions and organizations within our jamati and AKDN network.</li>
+	</ul>
+	<p>You agree and acknowledge that the personal information which you submit on the website and which is collected by Council may be transferred outside of Canada and, if you are resident in the UK, the personal data may be transferred outside the European Economic Area.</p>
+	<p>In the normal course of business, Council may disclose some personal information to service providers and suppliers. Council currently discloses personal information to the following third parties:</p>
+	<ul>
+		<li>Google Analytics, a Web analytics service provided by Google Inc. – Used to generate detailed statistics about the Website’s traffic and traffic sources and measure conversions and sales</li>
+	</ul>
+	<p>Council must also disclose personal information when required by law. For example, if Council is presented with a search warrant or other legal order or if personal information is requested from an investigative body in relation to a breach of the law, personal information may be disclosed.</p>
+	<h5 id="protection-of-privacy-and-personal-information">PROTECTION OF PRIVACY AND PERSONAL INFORMATION</h5>
+	<p>Personal information will be processed by persons in charge of the processing for the purposes described above. In particular, these persons will record, organize, keep, elaborate, modify, select, and use or delete personal data to carry out the operations necessary to carry out the purposes for which you have given your consent.</p>
+	<p>In the context of this Website, the processing of personal information will be performed by Council and will be carried out using both paper and electronic tools.</p>
+	<p>Council is committed to ensuring that your personal information is secure and kept confidential.</p>
+	<p>With respect to the processing of personal data, you will be entitled to do the following:</p>
+	<ul>
+		<li>obtain a confirmation, at your written request, from Council as to whether or not personal information relating to you has been collected, and whether such information is being used and/or disclosed to third parties;</li>
+		<li>request the deletion of (i) your individualized personal information which was collected, used or disclosed unlawfully;</li>
+		<li>request updating, rectification or, where applicable, completion of your personal information; and</li>
+		<li>request a statement confirming that the operations requested above were performed.</li>
+	</ul>
+	<p>Council will disclose breaches of your personal information as required by applicable law.</p>
+	<h5 id="retention-of-information">RETENTION OF INFORMATION</h5>
+	<p>Council will retain personal information as long as it is necessary for the purposes described in this Privacy Policy and as required by law, after which time, the information will be deleted and destroyed.</p>
+	<p>For further information on Council’s Privacy Policy, please contact the Council’s Privacy Officer who is the Council’s Executive Officer at our e-mail address found on the Contact Us page of the Website or by mail at ots@iicanada.net, or by phone at 416-467-7261 extension 27.</p>
+	<h5 id="english-only">ENGLISH ONLY</h5>
+	<p>The parties acknowledge that they require that this Agreement be drawn up in the English language only. Les parties reconnaissent qu’elles ont exigé que la présente convention soit rédigée en langue anglaise seulement.</p>
+	<p class="mt-3 text-center font-italic text-muted">Last modified: March 2, 2019</p>
+</div>

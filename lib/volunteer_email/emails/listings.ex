@@ -26,6 +26,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "marketing_request.html",
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       marketing_request: marketing_request,
       listing: listing
     )
@@ -44,6 +45,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "expiry_reminder.html",
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       listing: listing
     )
   end
@@ -61,6 +63,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "on_change.html",
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       listing: listing,
       changed_by: changed_by
     )
@@ -84,6 +87,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "request_approval.html",
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       listing: listing,
       requested_by: requested_by
     )
@@ -136,6 +140,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       config.template,
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       listing: listing,
       action_by: action_by
     )
@@ -161,6 +166,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "on_applicant_external.html",
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       listing: listing,
       user: user,
       applicant: applicant
@@ -188,6 +194,7 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "on_applicant_internal.html",
+      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
       listing: listing,
       user: user,
       applicant: applicant
