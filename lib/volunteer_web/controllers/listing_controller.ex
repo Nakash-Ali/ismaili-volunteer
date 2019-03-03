@@ -13,14 +13,14 @@ defmodule VolunteerWeb.ListingController do
     |> halt()
   end
 
-  def load_listing(id) do
+  def load_listing(id, opts) do
     id
-    |> Listings.get_one_public_listing!(allow_expired: true)
+    |> Listings.get_one_public_listing!(opts)
     |> Repo.preload(Listings.Listing.preloadables())
   end
 
   def show(conn, %{"id" => id}) do
-    listing = load_listing(id)
+    listing = load_listing(id, allow_expired: true)
 
     VolunteerWeb.Services.Analytics.track_event("Listing", "show", Slugify.slugify(listing), conn)
 
@@ -28,7 +28,7 @@ defmodule VolunteerWeb.ListingController do
   end
 
   def create_applicant(conn, %{"id" => id} = params) do
-    listing = load_listing(id)
+    listing = load_listing(id, allow_expired: false)
 
     case Apply.create_or_update_applicant_with_user(listing, params["user"], params["applicant"]) do
       {:ok, _structs} ->
