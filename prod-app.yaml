@@ -1,5 +1,5 @@
 env: flex
-runtime: gs://elixir-runtime/elixir.yaml
+runtime: gs://elixir-runtime/elixir-2019-01-19-000446.yaml
 runtime_config:
   release_app: volunteer
   packages:
