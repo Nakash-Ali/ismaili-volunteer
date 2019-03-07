@@ -227,7 +227,12 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       },
       marketing_request: %{
         email: ["Volunteer.prairies@iicanada.net"],
-        channels: %{}
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text",
+          "Social media" => "text"
+        }
       },
       jamatkhanas: Utils.construct_jamatkhanas("Prairies", [
         "Headquarters",
