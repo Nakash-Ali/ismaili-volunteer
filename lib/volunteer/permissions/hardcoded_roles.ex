@@ -161,7 +161,7 @@ defmodule Volunteer.Permissions.HardcodedRoles do
       "shaheed.moledina@iicanada.net" => "admin"
     },
     # Communications Prairies
-    39 => {
+    39 => %{
       "sheizana.murji@iicanada.net" => "admin"
     }
   }
