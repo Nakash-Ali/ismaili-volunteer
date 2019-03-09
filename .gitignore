@@ -52,7 +52,8 @@ node_modules
 
 # Secrets
 passwords
-app*.yaml
+*secrets.*
 
-# Version file
+# AppEngine artifacts
+app-generated.yaml
 .version

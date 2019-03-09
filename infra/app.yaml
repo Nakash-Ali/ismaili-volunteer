@@ -1,0 +1,37 @@
+env: flex
+runtime: gs://elixir-runtime/elixir-2019-03-04-150411.yaml
+runtime_config:
+  release_app: volunteer
+  packages:
+    - rustc
+  build:
+    - "cd assets && npm config set \"@fortawesome:registry\" <%= font_awesome.registry %> && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest"
+    - "cd priv/commands && NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install"
+
+skip_files:
+  - "_build"
+  - ".git"
+  - ".vagrant"
+  - "assets/node_modules"
+  - "deps"
+  - "passwords"
+  - "priv/commands/node_modules"
+  - "priv/statuc"
+  - "assets/node_modules"
+  - "test"
+
+env_variables:
+  DB_USER: "postgres"
+  DB_PASS: "<%= db.password %>"
+  DB_NAME: "postgres"
+  DB_HOST: "/cloudsql/ismailivolunteer-201223:northamerica-northeast1:<%= db.gcloud_id %>/.s.PGSQL.5432"
+  NODE_ENV: "production"
+
+beta_settings:
+  cloud_sql_instances: "ismailivolunteer-201223:northamerica-northeast1:<%= db.gcloud_id %>"
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 1
+  cpu_utilization:
+    target_utilization: 0.6
