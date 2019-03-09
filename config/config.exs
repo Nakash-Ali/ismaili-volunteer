@@ -6,7 +6,7 @@
 use Mix.Config
 
 version =
-  case File.read(".version") do
+  case File.read(".git-sha") do
     {:ok, version} ->
       version |> String.trim()
 

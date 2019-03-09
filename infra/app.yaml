@@ -6,7 +6,7 @@ runtime_config:
     - rustc
   build:
     - "cd assets && npm config set \"@fortawesome:registry\" <%= font_awesome.registry %> && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest"
-    - "cd priv/commands && NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install"
+    - "cd priv/commands && NODE_ENV=production npm install"
 
 skip_files:
   - "_build"

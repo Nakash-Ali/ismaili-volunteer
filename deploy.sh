@@ -2,27 +2,31 @@
 
 set -ex
 
-rm -f .version app-generated.yaml
+rm -f .git-sha app-generated.yaml
 
-APPENGINE_ENV=$1
+GCLOUD_ENV=$1
 
-case $APPENGINE_ENV in
+case $GCLOUD_ENV in
   prod|stg) ;;
     *) echo "invalid environment" && exit 1;;
 esac
 
-# ./compile_and_test.sh
+./compile_and_test.sh
 
-git rev-parse HEAD >> .version
-mix run --no-start infra/generate-appengine.exs --env $APPENGINE_ENV --out "./app-generated.yaml"
+GIT_SHA=`git rev-parse HEAD`
+GIT_SHA_SHORT=`git rev-parse --short HEAD`
+GCLOUD_VERSION="${GIT_SHA_SHORT}-${GCLOUD_ENV}"
 
-if [ $APPENGINE_ENV = "prod" ]; then
-  gcloud app deploy "app-generated.yaml" --verbosity=info --promote --quiet
-elif [ $APPENGINE_ENV = "stg" ]
+echo $GIT_SHA >> .git-sha
+mix run --no-start infra/generate-appengine.exs --env $GCLOUD_ENV --out "./app-generated.yaml"
+
+if [ $GCLOUD_ENV = "prod" ]; then
+  gcloud app deploy "app-generated.yaml" --verbosity=info -v $GCLOUD_VERSION --promote --quiet
+elif [ $GCLOUD_ENV = "stg" ]
 then
-  gcloud app deploy "app-generated.yaml" --verbosity=info --no-promote --quiet
+  gcloud app deploy "app-generated.yaml" --verbosity=info -v $GCLOUD_VERSION --no-promote --quiet
 else
   echo "try again"
 fi
 
-rm .version app-generated.yaml
+rm .git-sha app-generated.yaml
