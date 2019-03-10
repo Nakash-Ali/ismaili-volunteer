@@ -1,5 +1,9 @@
 use Mix.Config
 
+secret_key_generator = fn length ->
+  :crypto.strong_rand_bytes(length) |> Base.encode64() |> binary_part(0, length)
+end
+
 # For production, we often load configuration from external
 # sources, such as your system environment. For this reason,
 # you won't find the :http configuration below, but set inside
@@ -20,19 +24,21 @@ config :volunteer, VolunteerWeb.Endpoint,
   root: ".",
   url: [host: "ots.the.ismaili", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
+  secret_key_base: secret_key_generator.(64),
   server: true,
   code_reloader: false
 
 # General application configuration
 config :volunteer,
   send_analytics: true,
-  use_ssl: true
+  use_ssl: true,
+  canny_private_key: "${CANNY_PRIVATE_KEY}"
 
 # Configure database
 config :volunteer, Volunteer.Repo,
   log: :warn,
-  username: "${DB_USER}",
-  password: "${DB_PASS}",
+  username: "${DB_USERNAME}",
+  password: "${DB_PASSWORD}",
   database: "${DB_NAME}",
   socket: "${DB_HOST}",
   timeout: 7200_000,
@@ -40,8 +46,29 @@ config :volunteer, Volunteer.Repo,
 
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer,
+  api_key: "${MAILER_API_KEY}",
   adapter: VolunteerEmail.WrapperAdapter,
-  wrapped_adapter: Bamboo.SendGridAdapter
+  wrapped_adapter: (
+    case "${MAILER_ADAPTER}" do
+      "send_grid" -> Bamboo.SendGridAdapter
+      "local" -> Bamboo.LocalAdapter
+    end
+  )
+
+# Configure sentry's error logging
+config :sentry,
+  environment_name: "${SENTRY_ENVIRONMENT_NAME}",
+  dsn: "${SENTRY_DSN}"
+
+# Configure Google's reCaptcha V2
+config :recaptcha,
+  public_key: "${RECAPTCHA_PUBLIC_KEY}",
+  secret: "${RECAPTCHA_SECRET}"
+
+# Configure Azure AD v2.0 OAuth2 Flow
+config :ueberauth, Ueberauth.Strategy.Microsoft.OAuth,
+  client_id: "${MICROSOFT_OAUTH_CLIENT_ID}",
+  client_secret: "${MICROSOFT_OAUTH_CLIENT_SECRET}"
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -86,11 +113,3 @@ config :phoenix, :serve_endpoints, true
 #
 #     config :volunteer, VolunteerWeb.Endpoint, server: true
 #
-
-# Finally import the config/prod.secret.exs
-# which should be versioned separately.
-try do
-  import_config "prod.secret.exs"
-rescue
-  Code.LoadError -> nil
-end
