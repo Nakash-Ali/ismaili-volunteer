@@ -48,12 +48,7 @@ config :volunteer, Volunteer.Repo,
 config :volunteer, VolunteerEmail.Mailer,
   api_key: "${MAILER_API_KEY}",
   adapter: VolunteerEmail.WrapperAdapter,
-  wrapped_adapter: (
-    case "${MAILER_ADAPTER}" do
-      "send_grid" -> Bamboo.SendGridAdapter
-      "local" -> Bamboo.LocalAdapter
-    end
-  )
+  wrapped_adapter: "${MAILER_WRAPPED_ADAPTER}"
 
 # Configure sentry's error logging
 config :sentry,

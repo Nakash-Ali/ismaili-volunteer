@@ -45,9 +45,7 @@ defmodule VolunteerWeb.Router do
   #   match :*, "/*path", NoRouteErrorController, :raise_error
   # end
 
-  if Mix.env() == :dev do
-    forward "/sent_emails", Bamboo.SentEmailViewerPlug
-  end
+  forward "/sent_emails", Bamboo.SentEmailViewerPlug
 
   scope "/", VolunteerWeb do
     pipe_through :browser
