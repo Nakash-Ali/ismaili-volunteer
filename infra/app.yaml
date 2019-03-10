@@ -21,8 +21,6 @@ skip_files:
   - "test"
 
 env_variables:
-  DB_HOST: "/cloudsql/ismailivolunteer-201223:northamerica-northeast1:<%= db.gcloud_id %>/.s.PGSQL.5432"
-  NODE_ENV: "production"
 <%= for {key, value} <- env do %>
   <%= key %>: "<%= value %>"
 <% end %>
