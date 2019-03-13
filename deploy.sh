@@ -3,6 +3,7 @@
 set -ex
 
 rm -f .git-sha app-generated.yaml
+test -z "$(git status --porcelain)"
 
 GCLOUD_ENV=$1; shift;
 
@@ -11,7 +12,7 @@ case $GCLOUD_ENV in
     *) echo "invalid environment" && exit 1;;
 esac
 
-# ./compile_and_test.sh
+./compile_and_test.sh
 
 GIT_SHA=`git rev-parse HEAD`
 GIT_SHA_SHORT=`git rev-parse --short HEAD`
