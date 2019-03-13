@@ -51,7 +51,7 @@ env =
 
 compiled =
   "./infra/app.yaml"
-  |> EEx.eval_file([env: env] ++ secrets)
+  |> EEx.eval_file([env: env] ++ secrets, [trim: true])
 
 IO.puts("")
 IO.puts(compiled)
