@@ -44,14 +44,17 @@ secrets =
   |> File.read!()
   |> Jason.decode!(keys: :atoms)
   |> Enum.into([])
-  |> IO.inspect(limit: :infinity)
 
 env =
   secrets
   |> EnvGenerator.compile()
-  |> IO.inspect(limit: :infinity)
 
 compiled =
-  EEx.eval_file("./infra/app.yaml", [env: env] ++ secrets)
+  "./infra/app.yaml"
+  |> EEx.eval_file([env: env] ++ secrets)
+
+IO.puts("")
+IO.puts(compiled)
+IO.puts("")
 
 File.write!(out, compiled)
