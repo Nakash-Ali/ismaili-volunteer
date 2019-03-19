@@ -24,9 +24,7 @@ install:
   - mix deps.get
 
 before_script:
-  - psql -c 'create database postgres_test;' -U postgres
-  - MIX_ENV=test mix ecto.migrate
-  - MIX_ENV=test mix run priv/repo/test_seeds/accounts.exs
+  - DB_NAME=postgres_test ./reset_db_local.sh
 
 script:
   - ./compile_and_test.sh
