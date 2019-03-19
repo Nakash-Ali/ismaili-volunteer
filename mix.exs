@@ -39,25 +39,26 @@ defmodule Volunteer.Mixfile do
   def deps do
     [
       {:appsignal, "~> 1.9.0-beta.1"},
-      {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
+      {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
+      {:basic_auth, "~> 2.2.2"},
       {:csv, "~> 2.0.0"},
       {:distillery, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
-      {:hammer, "~> 6.0"},
       {:hammer_plug, "~> 2.0"},
+      {:hammer, "~> 6.0"},
       {:jason, "~> 1.0"},
       {:jose, "~> 1.8"},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
-      {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 1.0"},
-      {:plug, "~> 1.7"},
+      {:phoenix, "~> 1.4.0"},
       {:plug_cowboy, "~> 2.0"},
+      {:plug, "~> 1.7"},
       {:postgrex, ">= 0.0.0"},
       {:quantum, "~> 2.3"},
       {:recaptcha, "~> 2.3"},
@@ -65,8 +66,8 @@ defmodule Volunteer.Mixfile do
       {:sentry, "~> 7.0.3"},
       {:slugger, "~> 0.2"},
       {:timex, "~> 3.1"},
+      {:ueberauth_microsoft, "~> 0.3"},
       {:ueberauth, "~> 0.4"},
-      {:ueberauth_microsoft, "~> 0.3"}
     ]
   end
 
