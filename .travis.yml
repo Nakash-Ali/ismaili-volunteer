@@ -10,6 +10,9 @@ cache:
     - _build
     - deps
 
+addons:
+  postgresql: "9.6"
+
 services:
   - postgresql
 
