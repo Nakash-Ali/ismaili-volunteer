@@ -230,7 +230,7 @@ defmodule VolunteerHardcoded.Groups do
       title: "Youth & Sports Board (AKYSB) Prairies",
       region_id: Regions.get_id_from_title!("Prairies"),
       roles: %{
-        "moledina@iicanada.net" => "admin"
+        "rmoledina@iicanada.net" => "admin"
       }
     },
     36 => %{
@@ -367,6 +367,11 @@ defmodule VolunteerHardcoded.Groups do
     55 => %{
       title: "Council for Ottawa",
       region_id: Regions.get_id_from_title!("Ottawa"),
+      roles: %{}
+    },
+    56 => %{
+      title: "ITREB Prairies",
+      region_id: Regions.get_id_from_title!("Prairies"),
       roles: %{}
     },
   }
