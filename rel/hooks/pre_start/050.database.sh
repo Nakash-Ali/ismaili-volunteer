@@ -2,6 +2,6 @@
 
 notice "Running database migrations and seeds"
 
-$RELEASE_ROOT_DIR/bin/volunteer command Elixir.Volunteer.ReleaseTasks.Database run
+$RELEASE_ROOT_DIR/bin/volunteer database
 
 success "All done!"

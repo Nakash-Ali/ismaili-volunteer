@@ -32,7 +32,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     :expire
     # :delete
   ] do
-    listing |> Repo.preload(Listings.Listing.preloadables())
+    listing |> Repo.preload(Listings.listing_preloadables())
   end
 
   def preload_relations(listing, action) when action in [

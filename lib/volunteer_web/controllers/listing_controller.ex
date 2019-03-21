@@ -16,7 +16,7 @@ defmodule VolunteerWeb.ListingController do
   def load_listing(id, opts) do
     id
     |> Listings.get_one_public_listing!(opts)
-    |> Repo.preload(Listings.Listing.preloadables())
+    |> Repo.preload(Listings.listing_preloadables())
   end
 
   def show(conn, %{"id" => id}) do

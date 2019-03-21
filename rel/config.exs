@@ -2,7 +2,8 @@
 # They can then be used by adding `plugin MyPlugin` to
 # either an environment, or release definition, where
 # `MyPlugin` is the name of the plugin module.
-Path.join(["rel", "plugins", "*.exs"])
+~w(rel plugins *.exs)
+|> Path.join()
 |> Path.wildcard()
 |> Enum.map(&Code.eval_file(&1))
 
@@ -13,7 +14,7 @@ use Mix.Releases.Config,
   default_environment: Mix.env()
 
 # For a full list of config options for both releases
-# and environments, visit https://hexdocs.pm/distillery/configuration.html
+# and environments, visit https://hexdocs.pm/distillery/config/distillery.html
 
 secret_key_generator = fn length ->
   :crypto.strong_rand_bytes(length) |> Base.encode64() |> binary_part(0, length)
@@ -31,17 +32,26 @@ environment :dev do
   # It is recommended that you build with MIX_ENV=prod and pass
   # the --env flag to Distillery explicitly if you want to use
   # dev mode.
-  set(dev_mode: true)
-  set(include_erts: false)
-  set(cookie: secret_key_generator.(64) |> String.to_atom())
+  set dev_mode: true
+  set include_erts: false
+  set cookie: secret_key_generator.(64) |> String.to_atom()
 end
 
 environment :prod do
-  set(include_erts: true)
-  set(include_src: false)
-  set(cookie: secret_key_generator.(64) |> String.to_atom())
+  set include_erts: true
+  set include_src: false
+  set cookie: secret_key_generator.(64) |> String.to_atom()
+  set vm_args: "rel/vm.args"
 
-  set(pre_start_hooks: "rel/hooks/pre_start")
+  set pre_start_hooks: "rel/hooks/pre_start"
+
+  set config_providers: [
+    {Mix.Releases.Config.Providers.Elixir, ["${RELEASE_ROOT_DIR}/etc/deploy.exs"]}
+  ]
+  set overlays: [
+    {:copy, "rel/config/deploy.exs", "etc/deploy.exs"},
+    {:copy, "rel/config/helpers.exs", "etc/helpers.exs"}
+  ]
 end
 
 # You may define one or more releases in this file.
@@ -50,11 +60,12 @@ end
 # will be used by default
 
 release :volunteer do
-  set(version: current_version(:volunteer))
+  set version: current_version(:volunteer)
+  set applications: [
+    :runtime_tools
+  ]
 
-  set(
-    applications: [
-      :runtime_tools
-    ]
-  )
+  set commands: [
+    database: "rel/commands/database.sh"
+  ]
 end

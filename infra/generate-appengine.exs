@@ -3,6 +3,7 @@ defmodule EnvGenerator do
     key_values
     |> from_config()
     |> flatten()
+    |> Enum.reject(fn {_key, value} -> is_nil(value) end)
     |> Enum.into(%{})
   end
 
@@ -39,10 +40,12 @@ end
   System.argv()
   |> OptionParser.parse(switches: [env: :string, out: :string])
 
+[{config_module, _}] =
+  "./infra/config.#{env}.appengine-secrets.exs"
+  |> Code.require_file()
+
 secrets =
-  "./infra/#{env}.appengine-secrets.json"
-  |> File.read!()
-  |> Jason.decode!(keys: :atoms)
+  config_module.configure(System.get_env())
   |> Enum.into([])
 
 env =

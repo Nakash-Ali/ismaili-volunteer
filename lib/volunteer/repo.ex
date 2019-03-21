@@ -20,7 +20,7 @@ defmodule Volunteer.Repo do
         |> Volunteer.Repo.insert!(on_conflict: :replace_all, conflict_target: :id)
 
       nil ->
-        raise "invalid chanegset for seed"
+        raise "invalid chanegset for Repo.seed!/2"
     end
   end
 end

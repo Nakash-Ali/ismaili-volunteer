@@ -147,10 +147,6 @@ defmodule Volunteer.Listings.Listing do
     }
   end
 
-  def preloadables() do
-    [:created_by, :approved_by, :region, :group, :organized_by]
-  end
-
   def new() do
     create(%{})
   end

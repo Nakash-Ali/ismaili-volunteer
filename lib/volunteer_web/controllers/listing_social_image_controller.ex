@@ -7,7 +7,7 @@ defmodule VolunteerWeb.ListingSocialImageController do
   def show(conn, %{"id" => id}) do
     listing =
       Listings.get_one_public_listing!(id, allow_expired: false)
-      |> Repo.preload(Listings.Listing.preloadables())
+      |> Repo.preload(Listings.listing_preloadables())
 
     {:ok, ots_website} =
       Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)

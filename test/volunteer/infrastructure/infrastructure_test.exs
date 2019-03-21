@@ -10,7 +10,7 @@ defmodule Volunteer.InfrastructureTest do
     end
 
     test "returns fallback when region doesn't exist" do
-      assert {:error, "invalid region"} ==
+      assert {:error, "invalid id"} ==
                Infrastructure.get_region_config(Faker.UUID.v4(), [:marketing_request, :email])
     end
 

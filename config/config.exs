@@ -6,7 +6,7 @@
 use Mix.Config
 
 version =
-  case File.read(".git-sha") do
+  case File.read("./git-sha") do
     {:ok, version} ->
       version |> String.trim()
 
@@ -30,7 +30,7 @@ config :volunteer,
   ecto_repos: [Volunteer.Repo],
   send_analytics: false,
   mock_sessions: false,
-  use_ssl: false
+  use_ssl: true
 
 # Configure social constants
 config :volunteer, :social,
@@ -43,21 +43,15 @@ config :volunteer, :social,
 
 # Configures the endpoint
 config :volunteer, VolunteerWeb.Endpoint,
-  url: [host: "localhost"],
   static_at: "/static",
   static_url: [path: "/static"],
-  secret_key_base: "RJhNnMngIMEJY605r0es6uPFY/TF/9u9CEgIp+ioEpML3Q1gE+vjxmZEJEOa7MtW",
   render_errors: [view: VolunteerWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Volunteer.PubSub, adapter: Phoenix.PubSub.PG2],
   instrumenters: [Appsignal.Phoenix.Instrumenter]
 
 # Configure your database
 config :volunteer, Volunteer.Repo,
-  migration_timestamps: [type: :timestamptz],
-  username: "postgres",
-  password: "postgres",
-  database: "postgres",
-  hostname: "127.0.0.1"
+  migration_timestamps: [type: :timestamptz]
 
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer,
@@ -90,29 +84,25 @@ config :sentry,
   environment_name: Mix.env(),
   enable_source_code_context: true,
   root_source_code_path: File.cwd!(),
-  json_library: Jason,
-  tags: %{
-    env: "production"
-  },
-  included_environments: [:prod]
-
-# Configure Ueberauth
-config :ueberauth, Ueberauth,
-  providers: [
-    microsoft:
-      {Ueberauth.Strategy.Microsoft, [default_scope: "https://graph.microsoft.com/user.read"]}
-  ]
+  included_environments: [],
+  json_library: Jason
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Configure Google's reCaptcha V2
-# NOTE - the keys below are Google's publicly known test keys!
-config :recaptcha,
-  public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
-  secret: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+# Configure Ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    microsoft:
+      {
+        Ueberauth.Strategy.Microsoft,
+        [
+          default_scope: "https://graph.microsoft.com/user.read",
+        ]
+      }
+  ]
 
 # Import scheduled jobs
 import_config "scheduled_jobs.exs"

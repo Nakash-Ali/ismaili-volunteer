@@ -47,6 +47,12 @@
 	<% end %>
 </section>
 
+<section class="container my-4">
+	<%= for {title, body} <- definition_list(:jumbotron, @region) do %>
+		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
+	<% end %>
+</section>
+
 <section class="container my-4 mb-5">
 	<%= for {title, body} <- definition_list(:meta, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>

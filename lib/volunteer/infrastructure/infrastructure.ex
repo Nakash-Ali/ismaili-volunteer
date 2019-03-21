@@ -1,5 +1,5 @@
 defmodule Volunteer.Infrastructure do
-  import Ecto.Query, warn: false
+  import Ecto.Query
   alias Volunteer.Repo
 
   alias Volunteer.Infrastructure.Region
@@ -35,6 +35,10 @@ defmodule Volunteer.Infrastructure do
     |> Repo.all()
   end
 
+  def region_preloadables() do
+    [:parent, {:children, from(r in Region, order_by: r.title)}, {:groups, from(g in Group, order_by: g.title)}]
+  end
+
   defp query_regions_with_filters(query, %{parent_id: parent_id, parent_in_path: true}) when is_integer(parent_id) do
     from(r in query, where: r.parent_id == ^parent_id or fragment("?::integer[] && ?", [^parent_id], r.parent_path))
   end
@@ -57,15 +61,24 @@ defmodule Volunteer.Infrastructure do
     Group |> Repo.get!(id)
   end
 
+  def get_group(id) do
+    Group |> Repo.get(id)
+  end
+
   def get_groups() do
     from(r in Group)
-    |> order_by([asc: :id])
+    |> order_by([asc: :title])
     |> Repo.all()
   end
 
   def get_group_id_choices do
     from(g in Group, select: {g.title, g.id})
     |> Repo.all()
+  end
+
+  def delete_group!(id) do
+    %Group{id: id}
+    |> Repo.delete!()
   end
 
   def create_jamatkhana!(attrs, region \\ nil) do
@@ -78,21 +91,16 @@ defmodule Volunteer.Infrastructure do
     Jamatkhana |> Repo.get!(id)
   end
 
-  def get_region_config!(region_id) do
-    Volunteer.Infrastructure.HardcodedConfig.get_region_config!(region_id)
-  end
-
   def get_region_config(region_id, key_or_keys) do
-    Volunteer.Infrastructure.HardcodedConfig.get_region_config(region_id, key_or_keys)
+    VolunteerHardcoded.Regions.fetch_config(region_id, key_or_keys)
   end
 
   def get_region_config!(region_id, key_or_keys) do
-    {:ok, config} = get_region_config(region_id, key_or_keys)
-    config
+    VolunteerHardcoded.Regions.fetch_config!(region_id, key_or_keys)
   end
 
-  def aggregate_from_all_regions(key_or_keys, opts \\ %{}) do
-    Volunteer.Infrastructure.HardcodedConfig.aggregate_from_all_regions(key_or_keys, opts)
+  def get_region_config!(region_id) do
+    VolunteerHardcoded.Regions.fetch_config!(region_id)
   end
 
   def annotate(%Region{} = region, options) do
@@ -132,38 +140,20 @@ defmodule Volunteer.Infrastructure do
   end
 
   def jamatkhana_choices() do
-    {:ok, jamatkhanas} =
-      Volunteer.Infrastructure.aggregate_from_all_regions(:jamatkhanas)
-
-    jamatkhanas
+    VolunteerHardcoded.Regions.take_from_all!(:jamatkhanas)
     |> Enum.flat_map(fn {_key, value} -> value end)
     |> Enum.sort()
   end
 
-  def seed_region!(id, title, parent) do
-    seed_region!(id, title, nil, parent)
-  end
-
-  def seed_region!(id, title, slug, parent) do
+  def seed_region!(id, attrs, parent) do
     %Region{}
-    |> Region.changeset(
-      %{
-        title: title,
-        slug: slug
-      },
-      parent
-    )
+    |> Region.changeset(attrs, parent)
     |> Volunteer.Repo.seed!(id)
   end
 
-  def seed_group!(id, title, region) do
+  def seed_group!(id, attrs, region) do
     %Group{}
-    |> Group.changeset(
-      %{
-        title: title
-      },
-      region
-    )
+    |> Group.changeset(attrs, region)
     |> Volunteer.Repo.seed!(id)
   end
 end

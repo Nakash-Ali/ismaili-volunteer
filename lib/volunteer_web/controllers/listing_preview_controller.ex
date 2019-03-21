@@ -7,7 +7,7 @@ defmodule VolunteerWeb.ListingPreviewController do
     listing =
       id
       |> Listings.get_one_preview_listing!()
-      |> Repo.preload(Listings.Listing.preloadables())
+      |> Repo.preload(Listings.listing_preloadables())
 
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
@@ -23,7 +23,7 @@ defmodule VolunteerWeb.ListingPreviewController do
     listing =
       id
       |> Listings.get_one_preview_listing!()
-      |> Repo.preload(Listings.Listing.preloadables())
+      |> Repo.preload(Listings.listing_preloadables())
 
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",

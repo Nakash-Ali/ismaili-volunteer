@@ -25,7 +25,7 @@ defmodule VolunteerWeb.Admin.RegionController do
   def show(conn, %{"id" => id}) do
     region =
       Infrastructure.get_region!(id)
-      |> Repo.preload([:parent, :children, :groups])
+      |> Repo.preload(Infrastructure.region_preloadables())
       |> Infrastructure.annotate([:hardcoded, :roles, {:groups, [:roles]}])
 
     render(conn, "show.html", region: region)

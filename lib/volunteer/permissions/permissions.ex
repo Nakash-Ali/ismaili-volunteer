@@ -1,6 +1,4 @@
 defmodule Volunteer.Permissions do
-  import Ecto.Query, warn: false
-  alias Volunteer.Permissions.HardcodedRoles
   alias Volunteer.Permissions.Ruleset
 
   def is_allowed?(user, action) do
@@ -44,11 +42,11 @@ defmodule Volunteer.Permissions do
   end
 
   def get_for_user(user, :group) do
-    HardcodedRoles.group_roles_for_user(user)
+    VolunteerHardcoded.Roles.group_roles_for_user(user)
   end
 
   def get_for_user(user, :region) do
-    HardcodedRoles.region_roles_for_user(user)
+    VolunteerHardcoded.Roles.region_roles_for_user(user)
   end
 
   def get_all_allowed_users(action, subject, get_all_users \\ &Volunteer.Accounts.get_all_users/0) do
@@ -62,7 +60,7 @@ defmodule Volunteer.Permissions do
   end
 
   def get_for_region(region_id) do
-    HardcodedRoles.region_roles(region_id)
+    VolunteerHardcoded.Roles.region_roles(region_id)
   end
 
   def get_for_region(region_id, role_types_to_include) do
@@ -75,7 +73,7 @@ defmodule Volunteer.Permissions do
   end
 
   def get_for_group(group_id) do
-    HardcodedRoles.group_roles(group_id)
+    VolunteerHardcoded.Roles.group_roles(group_id)
   end
 
   def get_for_group(group_id, role_types_to_include) do

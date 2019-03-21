@@ -24,7 +24,7 @@ install:
   - mix deps.get
 
 before_script:
-  - MIX_ENV=test DB_NAME=postgres_test ./reset_db_local.sh
+  - ./reset_db_local.sh test
 
 script:
   - ./compile_and_test.sh

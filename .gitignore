@@ -56,4 +56,4 @@ passwords
 
 # AppEngine artifacts
 app-generated.yaml
-.git-sha
+git-sha

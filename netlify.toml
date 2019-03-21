@@ -1,9 +1,0 @@
-[build]
-  publish = "_redirect"
-  command = "echo 'woohooooo!'"
-
-[[redirects]]
-  from = "/*"
-  to = "https://ots.the.ismaili/:splat"
-  status = 301
-  force = true

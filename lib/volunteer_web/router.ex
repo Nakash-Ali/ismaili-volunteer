@@ -110,6 +110,12 @@ defmodule VolunteerWeb.Router do
       resources "/groups", GroupController, only: [:index, :show]
 
       get "/feedback/*path", FeedbackController, :index
+
+      scope "/system" do
+        get "/env", SystemController, :env
+        get "/app", SystemController, :app
+        get "/endpoint", SystemController, :endpoint
+      end
     end
 
     scope "/auth" do

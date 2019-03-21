@@ -41,7 +41,6 @@ defmodule Volunteer.Mixfile do
       {:appsignal, "~> 1.9.0-beta.1"},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
-      {:basic_auth, "~> 2.2.2"},
       {:csv, "~> 2.0.0"},
       {:distillery, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
@@ -79,8 +78,6 @@ defmodule Volunteer.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["test --trace"],
       "test.watch": ["test.watch --trace --stale"]
     ]

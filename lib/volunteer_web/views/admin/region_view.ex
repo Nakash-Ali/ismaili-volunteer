@@ -124,6 +124,15 @@ defmodule VolunteerWeb.Admin.RegionView do
     ]
   end
 
+  def definition_list(:jumbotron, region) do
+    [
+      {
+        "Jumbotron image",
+        region.hardcoded.jumbotron.image_url |> HTMLHelpers.external_link()
+      },
+    ]
+  end
+
   def definition_list(:meta, region) do
     [
       {

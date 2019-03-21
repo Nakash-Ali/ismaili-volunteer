@@ -1,11 +1,6 @@
-defmodule Volunteer.Infrastructure.HardcodedConfig do
+defmodule VolunteerHardcoded.Regions do
+  use VolunteerHardcoded
   import Phoenix.HTML, only: [sigil_E: 2]
-
-  defmodule Utils do
-    def construct_jamatkhanas(region_name, jamatkhanas) do
-      Enum.map(jamatkhanas, fn jk -> "#{jk}, #{region_name}" end)
-    end
-  end
 
   @system_email_prefix Application.get_env(:volunteer, :global_title)
 
@@ -13,6 +8,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     text: "iicanada.org",
     url: "https://iicanada.org"
   }
+
   @canada_disclaimers %{
     apply_privacy_text:
       ~E"""
@@ -37,9 +33,12 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
     ]
   }
 
-  @config_by_region %{
-    # Canada
+  @config_by_id %{
     1 => %{
+      title: "Canada",
+      slug: nil,
+      parent_id: nil,
+      roles: %{},
       system_email: {"#{@system_email_prefix} - Canada", "canada.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
@@ -63,8 +62,13 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Ontario
     2 => %{
+      title: "Ontario",
+      slug: nil,
+      parent_id: 1,
+      roles: %{
+        "nabeela.haji@iicanada.net" => "admin",
+      },
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
@@ -80,7 +84,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           "JK announcement" => "text"
         }
       },
-      jamatkhanas: Utils.construct_jamatkhanas("Ontario", [
+      jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Ontario", [
         "Barrie",
         "Belleville",
         "Brampton",
@@ -108,7 +112,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         "Sudbury",
         "Unionville",
         "Willowdale",
-        "Windsor"
+        "Windsor",
       ]),
       disclaimers: @canada_disclaimers,
       tkn: %{
@@ -121,8 +125,14 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # British Columbia
     3 => %{
+      title: "British Columbia",
+      slug: "bc",
+      parent_id: 1,
+      roles: %{
+        "saniya.jamal@iicanada.net" => "admin",
+        "Faheem.Ali@iicanada.net" => "admin"
+      },
       system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
@@ -138,7 +148,7 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           "JK announcement" => "text"
         }
       },
-      jamatkhanas: Utils.construct_jamatkhanas("BC", [
+      jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("BC", [
         "Burnaby Lake",
         "Chilliwack/Abbotsford",
         "Darkhana",
@@ -162,8 +172,11 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Edmonton
     4 => %{
+      title: "Edmonton",
+      slug: nil,
+      parent_id: 1,
+      roles: %{},
       system_email: {"#{@system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
@@ -187,8 +200,15 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Ottawa
     5 => %{
+      title: "Ottawa",
+      slug: nil,
+      parent_id: 1,
+      roles: %{
+        "femina.kanji@iicanada.net" => "admin",
+        "almas.jaffer@iicanada.net" => "admin",
+        "aliya.makani@iicanada.net" => "admin"
+      },
       system_email: {"#{@system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
@@ -204,7 +224,10 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           "JK announcement" => "text"
         }
       },
-      jamatkhanas: [],
+      jamatkhanas: [
+        "Headquarters",
+        "Kingston",
+      ],
       disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
@@ -216,17 +239,26 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Prairies
     6 => %{
+      title: "Prairies",
+      slug: nil,
+      parent_id: 1,
+      roles: %{
+        "alykhan.bhimji@iicanada.net" => "admin",
+        "zabin.jadavji@iicanada.net" => "admin",
+        "fareen.chartrand@iicanada.net" => "admin",
+        "faraynaaz.mitha@iicanada.net" => "admin",
+        "ranita.charania@iicanada.net" => "admin",
+      },
       system_email: {"#{@system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
-        image_url: "/static/images/aga-khan-garden-edmonton.jpg",
+        image_url: "/static/images/prairies-float.jpeg",
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: ["Volunteer.prairies@iicanada.net"],
+        email: ["volunteer.prairies@iicanada.net"],
         channels: %{
           "Al-Akhbar" => "text",
           "IICanada App & Website" => "text",
@@ -234,12 +266,12 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
           "Social media" => "text"
         }
       },
-      jamatkhanas: Utils.construct_jamatkhanas("Prairies", [
+      jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Prairies", [
+        "Franklin",
         "Headquarters",
-        "Westwinds",
         "Northwest",
         "South",
-        "Franklin"
+        "Westwinds",
       ]),
       disclaimers: @canada_disclaimers,
       tkn: %{
@@ -252,8 +284,11 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
         }
       }
     },
-    # Quebec and Maritimes
     7 => %{
+      title: "Quebec and Maritimes",
+      slug: "qm",
+      parent_id: 1,
+      roles: %{},
       system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
       council_website: @canada_council_website,
@@ -278,51 +313,4 @@ defmodule Volunteer.Infrastructure.HardcodedConfig do
       }
     }
   }
-
-  def get_region_config!(region_id) do
-    Map.fetch!(@config_by_region, region_id)
-  end
-
-  def get_region_config(region_id, key_or_keys) do
-    case Map.fetch(@config_by_region, region_id) do
-      {:ok, conf} ->
-        fetch_config(conf, key_or_keys)
-
-      :error ->
-        {:error, "invalid region"}
-    end
-  end
-
-  def aggregate_from_all_regions(key_or_keys, _opts \\ %{}) do
-    result =
-      @config_by_region
-      |> Enum.map(fn {region_id, conf} ->
-        case fetch_config(conf, key_or_keys) do
-          {:ok, values} when is_list(values) ->
-            {region_id, values}
-
-          _ ->
-            []
-        end
-      end)
-
-    {:ok, result}
-  end
-
-  defp fetch_config(conf, key) when not is_list(key) do
-    fetch_config(conf, [key])
-  end
-
-  defp fetch_config(conf, keys) when is_list(keys) do
-    case VolunteerUtils.Map.fetch_in(conf, keys) do
-      :error ->
-        {:error, "invalid key"}
-
-      {:ok, {module, func, args}} ->
-        {:ok, apply(module, func, args)}
-
-      {:ok, value} ->
-        {:ok, value}
-    end
-  end
 end

@@ -2,7 +2,8 @@ use Mix.Config
 
 # General application configuration
 config :volunteer,
-  mock_sessions: true
+  mock_sessions: true,
+  use_ssl: false
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -12,6 +13,8 @@ config :volunteer,
 # with brunch.io to recompile .js and .css sources.
 config :volunteer, VolunteerWeb.Endpoint,
   http: [port: 4000],
+  url: [host: "localhost"],
+  secret_key_base: "this is the secret_key_base of at least 64 bytes for the development environment",
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -55,12 +58,23 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
-config :volunteer, Volunteer.Repo, pool_size: 10
+config :volunteer, Volunteer.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "postgres",
+  hostname: "127.0.0.1",
+  pool_size: 10
 
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer,
   adapter: VolunteerEmail.WrapperAdapter,
   wrapped_adapter: Bamboo.LocalAdapter
+
+# Configure Google's reCaptcha V2
+# NOTE - the keys below are Google's publicly known test keys!
+config :recaptcha,
+  public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+  secret: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 try do
   import_config "dev.secret.exs"

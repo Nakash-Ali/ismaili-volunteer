@@ -48,7 +48,7 @@
 		"uglify-js": "^3.4.9"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-pro": "^5.7.1",
+		"@fortawesome/fontawesome-pro": "^5.8.0",
 		"bootstrap": "4.3.1",
 		"iframe-resizer": "^4.0.4",
 		"jquery": "^3.1.1",

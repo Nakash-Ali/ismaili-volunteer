@@ -1,0 +1,3 @@
+<section class="container mt-3 mb-5">
+	<pre><code><%= inspect(@data, pretty: true, limit: :infinity) %></code></pre>
+</section>

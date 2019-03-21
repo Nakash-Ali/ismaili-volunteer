@@ -21,7 +21,9 @@ defmodule VolunteerWeb.AuthController do
     |> redirect(to: RouterHelpers.index_path(conn, :index))
   end
 
-  def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
+  def callback(%{assigns: %{ueberauth_failure: failure}} = conn, _params) do
+    IO.inspect(failure)
+
     conn
     |> put_flash(:error, "Failed to authenticate.")
     |> redirect(to: RouterHelpers.auth_path(conn, :login))

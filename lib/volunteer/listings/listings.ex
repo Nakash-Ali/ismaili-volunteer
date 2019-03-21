@@ -32,6 +32,10 @@ defmodule Volunteer.Listings do
     Repo.delete(listing)
   end
 
+  def listing_preloadables() do
+    [:created_by, :approved_by, :region, :group, :organized_by]
+  end
+
   def request_approval!(listing, requested_by) do
     listing
     |> VolunteerEmail.ListingsEmails.request_approval(requested_by)
@@ -308,7 +312,7 @@ defmodule Volunteer.Listings do
     case create_marketing_request(listing, attrs) do
       {:ok, marketing_request} ->
         preloaded_listing =
-          Repo.preload(listing, Volunteer.Listings.Listing.preloadables())
+          Repo.preload(listing, Volunteer.Listings.listing_preloadables())
 
         email =
           VolunteerEmail.ListingsEmails.marketing_request(marketing_request, preloaded_listing)

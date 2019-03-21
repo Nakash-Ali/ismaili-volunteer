@@ -16,7 +16,7 @@ defmodule Volunteer.Listings.ExpiryReminder do
   def get_listings_to_notify() do
     future_expiry_date()
     |> Volunteer.Listings.get_all_listings_for_expiry_reminder()
-    |> Repo.preload(Volunteer.Listings.Listing.preloadables())
+    |> Repo.preload(Volunteer.Listings.listing_preloadables())
   end
 
   def notify_and_update_listing(listing) do
