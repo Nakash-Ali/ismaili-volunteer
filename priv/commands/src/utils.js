@@ -1,4 +1,4 @@
-const Ajv = require("ajv")
+const Ajv = require('ajv')
 const ajv = new Ajv()
 
 function setupConfig(schema, raw) {
@@ -20,7 +20,9 @@ function setupConfig(schema, raw) {
 function setupSuicideTimeout(timeout) {
 	timeout = parseInt(timeout, 10)
 	if (isNaN(timeout) || timeout <= 0 || timeout > 120 * 1000) {
-		console.error('timeout must be a non-negative integer less than 2 minutes (in milliseconds)')
+		console.error(
+			'timeout must be a non-negative integer less than 2 minutes (in milliseconds)',
+		)
 		process.exit(1)
 	}
 
@@ -39,14 +41,16 @@ function logEncodedObj(obj) {
 }
 
 async function launchBrowser(puppeteer) {
-	return puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
+	return puppeteer.launch({
+		args: ['--no-sandbox', '--disable-setuid-sandbox'],
+	})
 }
 
 async function launchPage(browser, webpageUrl) {
 	const page = await browser.newPage()
 	const response = await page.goto(webpageUrl, {
 		timeout: 20000,
-		waitUntil: 'networkidle0'
+		waitUntil: 'networkidle0',
 	})
 	if (Math.floor(response.status() / 100) !== 2) {
 		throw new Error('failed to load page!')
@@ -59,5 +63,5 @@ module.exports = {
 	setupSuicideTimeout,
 	logEncodedObj,
 	launchBrowser,
-	launchPage
+	launchPage,
 }

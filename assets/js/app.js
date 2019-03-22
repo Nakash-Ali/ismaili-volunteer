@@ -10,16 +10,16 @@
 // Polyfills
 //
 // Important things that some browsers may not have
-import "url-search-params-polyfill"
+import 'url-search-params-polyfill'
 
 // Import dependencies
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
-import "popper.js"
-import "bootstrap/js/dist/button"
-import "bootstrap/js/dist/dropdown"
+import 'phoenix_html'
+import 'popper.js'
+import 'bootstrap/js/dist/button'
+import 'bootstrap/js/dist/dropdown'
 
 // Import local files
 //
@@ -31,5 +31,5 @@ import "bootstrap/js/dist/dropdown"
 window.setQueryParam = function(key, value) {
 	const params = new URLSearchParams(window.location.search)
 	params.set(key, value)
-	window.location.search = params.toString();
+	window.location.search = params.toString()
 }

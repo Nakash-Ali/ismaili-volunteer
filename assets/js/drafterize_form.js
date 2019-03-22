@@ -4,7 +4,7 @@ window.drafterizeForm = function(draftContentKey) {
 }
 
 function addAllDraftContent(draftContent) {
-	Object.keys(draftContent).forEach((fieldId) => {
+	Object.keys(draftContent).forEach(fieldId => {
 		const draftValue = draftContent[fieldId]
 		addDraftValue(fieldId, draftValue, document)
 	})
@@ -49,14 +49,19 @@ function addDraftValue(fieldId, draftValue, documentEl) {
 // }
 
 function addDraftValueToTrixEditor(element, draftValue) {
-	if (element.editor.getDocument().toString().replace(/\s/g, "") === "") {
+	if (
+		element.editor
+			.getDocument()
+			.toString()
+			.replace(/\s/g, '') === ''
+	) {
 		element.editor.setSelectedRange([0, 0])
 		element.editor.insertString(draftValue)
 	}
 }
 
 function addDraftValueToInputValue(input, draftValue) {
-	if (input.value === "") {
+	if (input.value === '') {
 		input.value = draftValue
 	}
 }

@@ -9,7 +9,9 @@ window.inputCharCount = function inputCharCount(inputEl, countEl, opts) {
 		const currCharCount = $inputEl.val().length
 
 		window.requestAnimationFrame(function() {
-			$countEl.text(`${opts.maxCharCount - currCharCount} ${opts.charCountText}`)
+			$countEl.text(
+				`${opts.maxCharCount - currCharCount} ${opts.charCountText}`,
+			)
 		})
 
 		window.requestAnimationFrame(function() {
@@ -27,7 +29,7 @@ window.inputCharCount = function inputCharCount(inputEl, countEl, opts) {
 		})
 	}
 
-	$inputEl.on("input", throttle(check, 300))
+	$inputEl.on('input', throttle(check, 300))
 
 	check()
 }

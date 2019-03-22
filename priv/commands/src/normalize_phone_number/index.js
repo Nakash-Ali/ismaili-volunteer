@@ -1,32 +1,36 @@
 #!/bin/sh
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-"use strict";
+'use strict'
 
-process.stdin.on('end', () => { process.exit(1) })
-process.on('unhandledRejection', up => { throw up })
+process.stdin.on('end', () => {
+	process.exit(1)
+})
+process.on('unhandledRejection', up => {
+	throw up
+})
 
-const { argv } = require("yargs")
-const { setupConfig, logEncodedObj } = require("../utils")
-const schema = require("./schema.js")
+const { argv } = require('yargs')
+const { setupConfig, logEncodedObj } = require('../utils')
+const schema = require('./schema.js')
 const PNF = require('google-libphonenumber').PhoneNumberFormat
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
 const config = setupConfig(schema, argv.config)
 
 function normalizeNumbers(rawConfigs) {
-	return rawConfigs.map((config) => {
+	return rawConfigs.map(config => {
 		let number = null
 
 		try {
 			number = phoneUtil.parse(config.number, config.region)
-		} catch(e) {
+		} catch (e) {
 			return {
 				valid: false,
 				error: {
 					code: e.code,
-					message: e.message
-				}
+					message: e.message,
+				},
 			}
 		}
 
@@ -38,19 +42,16 @@ function normalizeNumbers(rawConfigs) {
 				number: phoneUtil.format(number, PNF[config.format]),
 				region,
 			}
-		}
-		else {
+		} else {
 			return {
 				valid: false,
 				error: {
 					code: undefined,
-					message: "Invalid phone number for region"
-				}
+					message: 'Invalid phone number for region',
+				},
 			}
 		}
 	})
 }
 
-logEncodedObj(
-	normalizeNumbers(config)
-)
+logEncodedObj(normalizeNumbers(config))

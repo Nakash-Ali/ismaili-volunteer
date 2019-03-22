@@ -1,15 +1,24 @@
 #!/bin/sh
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-"use strict";
+'use strict'
 
-process.stdin.on('end', () => { process.exit(1) })
-process.on('unhandledRejection', up => { throw up })
+process.stdin.on('end', () => {
+	process.exit(1)
+})
+process.on('unhandledRejection', up => {
+	throw up
+})
 
-const puppeteer = require("puppeteer")
-const { argv } = require("yargs")
-const { setupConfig, setupSuicideTimeout, launchBrowser, launchPage } = require("../utils")
-const schema = require("./schema.js")
+const puppeteer = require('puppeteer')
+const { argv } = require('yargs')
+const {
+	setupConfig,
+	setupSuicideTimeout,
+	launchBrowser,
+	launchPage,
+} = require('../utils')
+const schema = require('./schema.js')
 
 async function savePDFs(pdfConfigs) {
 	const browser = await launchBrowser(puppeteer)
@@ -25,8 +34,8 @@ async function savePDFs(pdfConfigs) {
 				top: '3cm',
 				right: '1cm',
 				bottom: '3cm',
-				left: '1cm'
-			}
+				left: '1cm',
+			},
 		})
 	})
 	await Promise.all(pdfAwaits)
@@ -36,5 +45,4 @@ async function savePDFs(pdfConfigs) {
 const config = setupConfig(schema, argv.config)
 const cancelSuicideTimeout = setupSuicideTimeout(30000)
 
-savePDFs(config)
-	.then(cancelSuicideTimeout)
+savePDFs(config).then(cancelSuicideTimeout)

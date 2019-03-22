@@ -27,16 +27,14 @@ function buildConfig(name) {
 				jsnext: false,
 				main: true,
 				browser: true,
-				extensions: [
-					'.js', '.json'
-				],
-				preferBuiltins: false
+				extensions: ['.js', '.json'],
+				preferBuiltins: false,
 			}),
 			commonJs(),
 			babel({
-				exclude: 'node_modules/**'
-			})
-		]
+				exclude: 'node_modules/**',
+			}),
+		],
 	}
 }
 
