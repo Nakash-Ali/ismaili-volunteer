@@ -1,0 +1,7 @@
+<%= if @sentry_event_id do %>
+	<script src="https://browser.sentry-cdn.com/4.6.4/bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+        Sentry.init({ dsn: '<%= @sentry_dsn %>' });
+        Sentry.showReportDialog({ eventId: '<%= @sentry_event_id %>' })
+    </script>
+<% end %>

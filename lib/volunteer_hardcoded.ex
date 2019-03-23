@@ -7,6 +7,26 @@ defmodule VolunteerHardcoded do
 
   defmacro __before_compile__(_env) do
     quote do
+      if is_nil(@raw_config) or not is_list(@raw_config) do
+        raise "@raw_config must be defined as a list"
+      end
+
+      @raw_config
+      |> Enum.map(&elem(&1, 0))
+      |> Enum.group_by(&(&1))
+      |> Enum.filter(&match?({_, list} when is_list(list) and length(list) > 1, &1))
+      |> case do
+        [] ->
+          # we're fine
+          true
+
+        dupes ->
+          IO.inspect(dupes)
+          raise "Found duplicates in #{__MODULE__}"
+      end
+
+      @config_by_id Enum.into(@raw_config, %{})
+
       def config_by_id() do
         @config_by_id
       end

@@ -33,8 +33,8 @@ defmodule VolunteerHardcoded.Regions do
     ]
   }
 
-  @config_by_id %{
-    1 => %{
+  @raw_config [
+    {1, %{
       title: "Canada",
       slug: nil,
       parent_id: nil,
@@ -61,8 +61,8 @@ defmodule VolunteerHardcoded.Regions do
           phone: ""
         }
       }
-    },
-    2 => %{
+    }},
+    {2, %{
       title: "Ontario",
       slug: nil,
       parent_id: 1,
@@ -124,8 +124,8 @@ defmodule VolunteerHardcoded.Regions do
           phone: ""
         }
       }
-    },
-    3 => %{
+    }},
+    {3, %{
       title: "British Columbia",
       slug: "bc",
       parent_id: 1,
@@ -171,8 +171,8 @@ defmodule VolunteerHardcoded.Regions do
           phone: "+1 (604) 376-8818"
         }
       }
-    },
-    4 => %{
+    }},
+    {4, %{
       title: "Edmonton",
       slug: nil,
       parent_id: 1,
@@ -199,8 +199,8 @@ defmodule VolunteerHardcoded.Regions do
           phone: ""
         }
       }
-    },
-    5 => %{
+    }},
+    {5, %{
       title: "Ottawa",
       slug: nil,
       parent_id: 1,
@@ -238,8 +238,8 @@ defmodule VolunteerHardcoded.Regions do
           phone: ""
         }
       }
-    },
-    6 => %{
+    }},
+    {6, %{
       title: "Prairies",
       slug: nil,
       parent_id: 1,
@@ -283,8 +283,8 @@ defmodule VolunteerHardcoded.Regions do
           phone: "+1 (403) 478-7867"
         }
       }
-    },
-    7 => %{
+    }},
+    {7, %{
       title: "Quebec and Maritimes",
       slug: "qm",
       parent_id: 1,
@@ -311,6 +311,6 @@ defmodule VolunteerHardcoded.Regions do
           phone: ""
         }
       }
-    }
-  }
+    }}
+  ]
 end
