@@ -24,6 +24,7 @@ defmodule VolunteerWeb.Admin.ListingView do
     [
       StaticHelpers.script_tag(conn, "/js/drafterize_form.js"),
       StaticHelpers.script_tag(conn, "/js/char_count.js"),
+      render(VolunteerWeb.VendorView, "datepicker.html"),
       render(VolunteerWeb.VendorView, "trix.html"),
     ]
   end

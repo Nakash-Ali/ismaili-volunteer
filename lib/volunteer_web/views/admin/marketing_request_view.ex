@@ -15,4 +15,10 @@ defmodule VolunteerWeb.Admin.MarketingRequestView do
       StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
+
+  def render("body_extra" <> page, %{conn: conn}) when page in [".new.html"] do
+    [
+      render(VolunteerWeb.VendorView, "datepicker.html"),
+    ]
+  end
 end

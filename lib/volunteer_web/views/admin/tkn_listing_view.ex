@@ -16,4 +16,10 @@ defmodule VolunteerWeb.Admin.TKNListingView do
       StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css")
     ]
   end
+
+  def render("body_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
+    [
+      render(VolunteerWeb.VendorView, "datepicker.html"),
+    ]
+  end
 end
