@@ -228,7 +228,7 @@ defmodule VolunteerWeb.Admin.ListingController do
           listing
 
         :unapprove ->
-          Listings.unapprove_listing_if_not_expired!(listing)
+          Listings.unapprove_listing_if_not_expired!(listing, UserSession.get_user(conn))
       end
 
     VolunteerWeb.Services.Analytics.track_event(

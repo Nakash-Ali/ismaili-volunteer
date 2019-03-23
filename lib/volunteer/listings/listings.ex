@@ -61,10 +61,23 @@ defmodule Volunteer.Listings do
     approved_listing
   end
 
-  def unapprove_listing_if_not_expired!(listing) do
-    listing
-    |> Listing.unapprove_if_not_expired()
-    |> Repo.update!()
+  def unapprove_listing_if_not_expired!(listing, unapproved_by) do
+    {:ok, unapproved_listing} =
+      Repo.transaction(fn ->
+        unapproved_listing =
+          listing
+          |> Listing.unapprove_if_not_expired()
+          |> Repo.update!()
+
+        _email =
+          unapproved_listing
+          |> VolunteerEmail.ListingsEmails.on_unapproval(unapproved_by)
+          |> VolunteerEmail.Mailer.deliver_now!()
+
+        unapproved_listing
+      end)
+
+    unapproved_listing
   end
 
   def expire_listing!(listing) do

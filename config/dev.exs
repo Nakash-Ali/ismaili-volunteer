@@ -15,7 +15,7 @@ config :volunteer, VolunteerWeb.Endpoint,
   http: [port: 4000],
   url: [host: "localhost"],
   secret_key_base: "this is the secret_key_base of at least 64 bytes for the development environment",
-  debug_errors: true,
+  debug_errors: false,
   code_reloader: true,
   check_origin: false,
   watchers: []
