@@ -6,23 +6,19 @@ defmodule VolunteerWeb.ListingSocialImageController do
 
   def show(conn, %{"id" => id}) do
     listing =
-      Listings.get_one_public_listing!(id, allow_expired: false)
+      Listings.get_one_public_listing!(id, allow_expired: true)
       |> Repo.preload(Listings.listing_preloadables())
-
-    {:ok, ots_website} =
-      Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
 
     conn
     |> put_layout({VolunteerWeb.LayoutView, "app_bare.html"})
     |> render(
       "show.html",
-      listing: listing,
-      ots_website: ots_website
+      listing: listing
     )
   end
 
   def png(conn, %{"id" => id}) do
-    listing = Listings.get_one_public_listing!(id, allow_expired: false)
+    listing = Listings.get_one_public_listing!(id, allow_expired: true)
     disk_path = ListingSocialImageGenerator.generate!(conn, listing)
 
     VolunteerWeb.Services.Analytics.track_event(
