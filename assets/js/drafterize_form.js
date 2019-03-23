@@ -61,7 +61,7 @@ function addDraftValueToTrixEditor(element, draftValue) {
 }
 
 function addDraftValueToInputValue(input, draftValue) {
-	if (input.value === '') {
+	if (input.value === '' && !input.disabled) {
 		input.value = draftValue
 	}
 }
