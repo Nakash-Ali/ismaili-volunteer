@@ -16,7 +16,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestView do
     ]
   end
 
-  def render("body_extra" <> page, %{conn: conn}) when page in [".new.html"] do
+  def render("body_extra" <> page, _) when page in [".new.html"] do
     [
       render(VolunteerWeb.VendorView, "datepicker.html"),
     ]

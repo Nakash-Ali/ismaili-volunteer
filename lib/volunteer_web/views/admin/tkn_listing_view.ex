@@ -17,7 +17,7 @@ defmodule VolunteerWeb.Admin.TKNListingView do
     ]
   end
 
-  def render("body_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
+  def render("body_extra" <> page, _) when page in [".edit.html", ".new.html"] do
     [
       render(VolunteerWeb.VendorView, "datepicker.html"),
     ]
