@@ -14,10 +14,10 @@ skip_files:
   - ".vagrant"
   - "assets/node_modules"
   - "deps"
-  - "passwords"
+  - "infra"
+  - "priv/static"
   - "priv/commands/node_modules"
-  - "priv/statuc"
-  - "assets/node_modules"
+  - "sync"
   - "test"
 
 env_variables:
