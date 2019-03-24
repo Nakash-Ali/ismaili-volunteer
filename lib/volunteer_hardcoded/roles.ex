@@ -1,32 +1,56 @@
 defmodule VolunteerHardcoded.Roles do
-  @roles_by_region (VolunteerHardcoded.Regions.take_from_all!([:roles]) |> Enum.into(%{}))
-  @roles_by_group (VolunteerHardcoded.Groups.take_from_all!([:roles]) |> Enum.into(%{}))
+  @superusers [
+    "alizain.feerasta@iicanada.net",
+    "hussein.kermally@iicanada.net",
+    "naila.alibhai@iicanada.net"
+  ]
 
-  def region_roles(region_id) do
-    Map.get(@roles_by_region, region_id, %{})
+  @roles_by_scope %{
+    region: VolunteerHardcoded.Regions.take_from_all!([:roles]) |> Enum.into(%{}),
+    group: VolunteerHardcoded.Groups.take_from_all!([:roles]) |> Enum.into(%{})
+  }
+
+  @roles_by_primary_email VolunteerHardcoded.Roles.Reduce.by_primary_email(@roles_by_scope)
+
+  @all_users Map.keys(@roles_by_primary_email)
+  |> Enum.concat(@superusers)
+  |> Enum.map(fn primary_email -> %VolunteerHardcoded.User{primary_email: primary_email} end)
+
+  def superusers() do @superusers end
+  def roles_by_primary_email() do @roles_by_primary_email end
+  def all_users() do @all_users end
+
+  for scope <- Map.keys(@roles_by_scope) do
+    def unquote(:"#{scope}_roles")(id) do
+      @roles_by_scope
+      |> Map.fetch!(unquote(scope))
+      |> Map.get(id, %{})
+    end
+
+    def unquote(:"#{scope}_roles")(id, role_types_to_include) do
+      unquote(:"#{scope}_roles")(id)
+      |> Enum.filter(fn {_email, role_type} ->
+        Enum.member?(role_types_to_include, role_type)
+      end)
+      |> Enum.into(%{})
+    end
   end
 
-  def group_roles(group_id) do
-    Map.get(@roles_by_group, group_id, %{})
+  def user_roles(%{primary_email: primary_email}, scope_type) do
+    user_roles(primary_email, scope_type)
   end
 
-  def region_roles_for_user(user) do
-    roles_for_user(@roles_by_region, user)
+  def user_roles(primary_email, scope_type) when is_binary(primary_email) do
+    @roles_by_primary_email
+    |> Map.get(primary_email, %{})
+    |> Map.get(scope_type, %{})
   end
 
-  def group_roles_for_user(user) do
-    roles_for_user(@roles_by_group, user)
-  end
-
-  def roles_for_user(roles_by_scope_type, %{primary_email: primary_email}) do
-    Enum.reduce(roles_by_scope_type, %{}, fn {scope_id, scope_map}, user_roles ->
-      case Map.get(scope_map, primary_email, nil) do
-        nil ->
-          user_roles
-
-        role ->
-          Map.put(user_roles, scope_id, role)
-      end
+  def user_roles(user, scope_type, role_types_to_include) do
+    user_roles(user, scope_type)
+    |> Enum.filter(fn {_group_id, role_type} ->
+      Enum.member?(role_types_to_include, role_type)
     end)
+    |> Enum.into(%{})
   end
 end

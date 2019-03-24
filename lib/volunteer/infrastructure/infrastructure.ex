@@ -116,7 +116,7 @@ defmodule Volunteer.Infrastructure do
         Map.put(
           region,
           :roles,
-          Permissions.get_for_region(region.id)
+          Permissions.region_roles(region.id)
         )
 
       {:groups, group_options}, region ->
@@ -134,7 +134,7 @@ defmodule Volunteer.Infrastructure do
         Map.put(
           group,
           :roles,
-          Permissions.get_for_group(group.id)
+          Permissions.group_roles(group.id)
         )
     end)
   end

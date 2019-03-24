@@ -194,11 +194,11 @@ defmodule Volunteer.Listings do
 
   defp query_for_user_listing(query, %Accounts.User{id: id} = user) do
     group_ids =
-      Volunteer.Permissions.get_for_user(user, :group, ["admin"])
+      Volunteer.Permissions.user_roles(user, :group, ["admin"])
       |> Map.keys()
 
     region_ids =
-      Volunteer.Permissions.get_for_user(user, :region, ["admin"])
+      Volunteer.Permissions.user_roles(user, :region, ["admin"])
       |> Map.keys()
 
     from(l in query,

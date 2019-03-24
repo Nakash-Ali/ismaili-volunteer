@@ -68,6 +68,7 @@ defmodule VolunteerHardcoded.Regions do
       parent_id: 1,
       roles: %{
         "nabeela.haji@iicanada.net" => "admin",
+        "zahra.nurmohamed@iicanada.net" => "cc_team",
       },
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
@@ -118,10 +119,10 @@ defmodule VolunteerHardcoded.Regions do
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
-          title: "",
-          email: "",
-          phone: ""
+          name: "Ayaz Kassam",
+          title: "Associate Director for TKN",
+          email: "ayaz.kassam@iicanada.net",
+          phone: "+1 (647) 271-4107"
         }
       }
     }},

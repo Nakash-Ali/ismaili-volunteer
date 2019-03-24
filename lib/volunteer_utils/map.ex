@@ -25,4 +25,16 @@ defmodule VolunteerUtils.Map do
         :error
     end
   end
+
+  def update_always(map, key, default_value, updater_func) do
+    new_value =
+      if Map.has_key?(map, key) do
+        Map.fetch!(map, key)
+      else
+        default_value
+      end
+      |> updater_func.()
+
+    Map.put(map, key, new_value)
+  end
 end

@@ -80,6 +80,11 @@ defmodule Volunteer.Accounts do
     |> Repo.all()
   end
 
+  def get_user_by_primary_email(primary_email) do
+    from(u in User, where: u.primary_email == ^primary_email)
+    |> Repo.one()
+  end
+
   def annotate(users, options) when is_list(users) do
     Enum.map(users, &annotate(&1, options))
   end

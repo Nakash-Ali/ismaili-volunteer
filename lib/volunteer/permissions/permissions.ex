@@ -5,10 +5,9 @@ defmodule Volunteer.Permissions do
     is_allowed?(user, action, nil)
   end
 
-  def is_allowed?(user, [:admin | _] = action, subject) do
+  def is_allowed?(user, [:admin | _] = action, subject, annotate_roles_for_user_func \\ &annotate_roles_for_user/1) do
     user
-    |> annotate_group_roles_for_user()
-    |> annotate_region_roles_for_user()
+    |> annotate_roles_for_user_func.()
     |> Ruleset.evaluate(action, subject, Ruleset.admin_ruleset())
     |> case do
       :allow -> true
@@ -16,72 +15,39 @@ defmodule Volunteer.Permissions do
     end
   end
 
-  def annotate_group_roles_for_user(user) do
-    Map.put(
-      user,
-      :group_roles,
-      get_for_user(user, :group)
-    )
-  end
-
-  def annotate_region_roles_for_user(user) do
-    Map.put(
-      user,
-      :region_roles,
-      get_for_user(user, :region)
-    )
-  end
-
-  def get_for_user(user, scope, role_types_to_include) do
+  def annotate_roles_for_user(user) do
     user
-    |> get_for_user(scope)
-    |> Enum.filter(fn {_group_id, role_type} ->
-      Enum.member?(role_types_to_include, role_type)
-    end)
-    |> Enum.into(%{})
+    |> Map.put(:group_roles, __MODULE__.user_roles(user, :group))
+    |> Map.put(:region_roles, __MODULE__.user_roles(user, :region))
   end
 
-  def get_for_user(user, :group) do
-    VolunteerHardcoded.Roles.group_roles_for_user(user)
+  def get_all_allowed_users(
+    action,
+    subject,
+    is_allowed_func \\ &is_allowed?/3,
+    all_users_func \\ &VolunteerHardcoded.Roles.all_users/0,
+    hydrate_actual_users_func \\ &VolunteerHardcoded.User.hydrate_actual_users/1
+  ) do
+    all_users_func.()
+    |> Enum.filter(&is_allowed_func.(&1, action, subject))
+    |> hydrate_actual_users_func.()
   end
 
-  def get_for_user(user, :region) do
-    VolunteerHardcoded.Roles.region_roles_for_user(user)
-  end
+  defdelegate region_roles(id),
+    to: VolunteerHardcoded.Roles
 
-  def get_all_allowed_users(action, subject, get_all_users \\ &Volunteer.Accounts.get_all_users/0) do
-    get_all_users.()
-    |> Enum.filter(fn user ->
-      user
-      |> annotate_group_roles_for_user()
-      |> annotate_region_roles_for_user()
-      |> is_allowed?(action, subject)
-    end)
-  end
+  defdelegate region_roles(id, role_types_to_include),
+    to: VolunteerHardcoded.Roles
 
-  def get_for_region(region_id) do
-    VolunteerHardcoded.Roles.region_roles(region_id)
-  end
+  defdelegate group_roles(id),
+    to: VolunteerHardcoded.Roles
 
-  def get_for_region(region_id, role_types_to_include) do
-    region_id
-    |> get_for_region()
-    |> Enum.filter(fn {_email, role_type} ->
-      Enum.member?(role_types_to_include, role_type)
-    end)
-    |> Enum.into(%{})
-  end
+  defdelegate group_roles(id, role_types_to_include),
+    to: VolunteerHardcoded.Roles
 
-  def get_for_group(group_id) do
-    VolunteerHardcoded.Roles.group_roles(group_id)
-  end
+  defdelegate user_roles(id, scope_type),
+    to: VolunteerHardcoded.Roles
 
-  def get_for_group(group_id, role_types_to_include) do
-    group_id
-    |> get_for_group()
-    |> Enum.filter(fn {_email, role_type} ->
-      Enum.member?(role_types_to_include, role_type)
-    end)
-    |> Enum.into(%{})
-  end
+  defdelegate user_roles(id, scope_type, role_types_to_include),
+    to: VolunteerHardcoded.Roles
 end

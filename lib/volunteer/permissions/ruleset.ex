@@ -1,11 +1,7 @@
 defmodule Volunteer.Permissions.Ruleset do
   alias Volunteer.Listings.Listing
 
-  @superusers [
-    "alizain.feerasta@iicanada.net",
-    "hussein.kermally@iicanada.net",
-    "naila.alibhai@iicanada.net"
-  ]
+  @superusers VolunteerHardcoded.Roles.superusers()
 
   @admin_listing_member_actions [
     :show,

@@ -116,11 +116,6 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   defp on_approve_or_unapprove(%Listing{} = listing, %User{} = action_by, config) do
-    region_admins =
-      listing.region_id
-      |> Volunteer.Permissions.get_for_region(["admin"])
-      |> Map.keys()
-
     users_with_approval_permissions =
       Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
 
@@ -128,7 +123,7 @@ defmodule VolunteerEmail.ListingsEmails do
 
     to_address_list = generate_all_address_list(listing)
 
-    cc_address_list = [action_by] ++ region_admins ++ users_with_approval_permissions
+    cc_address_list = [action_by] ++ users_with_approval_permissions
 
     email =
       Mailer.new_default_email(listing.region_id)

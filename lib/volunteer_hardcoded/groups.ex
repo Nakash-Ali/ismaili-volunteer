@@ -91,7 +91,9 @@ defmodule VolunteerHardcoded.Groups do
     {14, %{
       title: "Social Welfare Board (SWB) BC",
       region_id: Regions.get_id_from_title!("British Columbia"),
-      roles: %{}
+      roles: %{
+        "shirmeen.panju@iicanada.net" => "admin",
+      }
     }},
     {15, %{
       title: "World Partnership Walk Ontario",
@@ -452,6 +454,54 @@ defmodule VolunteerHardcoded.Groups do
       roles: %{
         "sadru.jetha@iicanada.net" => "admin"
       }
+    }},
+    {68, %{
+      title: "Arts & Culture BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "samir.modhwadia@iicanada.net" => "admin",
+      }
+    }},
+    {69, %{
+      title: "Women's Portfolio BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "faizana.hirji@iicanada.net" => "admin",
+      }
+    }},
+    {70, %{
+      title: "Economic Planning Board (EPB) BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "farida.bhimji@iicanada.net" => "admin"
+      }
+    }},
+    {71, %{
+      title: "Youth & Sports Board (AKYSB) BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "engela.kara@iicanada.net" => "admin"
+      }
+    }},
+    {72, %{
+      title: "Care for the Elderly BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "anisha.virani@iicanada.net" => "admin",
+        "shahena.kassam@iicanada.net" => "admin",
+      }
+    }},
+    {73, %{
+      title: "Health Board BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "amir.hussein@iicanada.net" => "admin",
+      }
+    }},
+    {74, %{
+      title: "World Partnership Walk  BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{}
     }},
   ]
 end
