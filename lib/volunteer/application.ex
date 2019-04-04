@@ -15,6 +15,8 @@ defmodule Volunteer.Application do
       # Start the generators
       worker(VolunteerWeb.Services.ListingSocialImageGenerator, []),
       worker(VolunteerWeb.Services.TKNAssignmentSpecGenerator, []),
+      # Start the SentryCorrelator
+      worker(VolunteerWeb.SentryCorrelator, []),
       # Start the endpoint when the application starts
       supervisor(VolunteerWeb.Endpoint, [])
     ]

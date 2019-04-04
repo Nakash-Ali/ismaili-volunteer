@@ -126,17 +126,21 @@ defmodule VolunteerWeb.Router do
       post "/:provider/callback", AuthController, :callback
     end
 
+    # get "/sentry_correlator/:request_id", SentryCorrelator, :event_id
+
     get "/regions/:id", RegionController, :show
     get "/:slug", RegionController, :show_by_slug
   end
 
   def configure_sentry_context(conn, _opts) do
-    case conn.assigns[:current_user] do
+    VolunteerWeb.SentryCorrelator.set_request_id(conn)
+
+    case VolunteerWeb.UserSession.get_user(conn) do
       nil ->
         conn
 
       user ->
-        Sentry.Context.set_user_context(%{title: user.title, id: user.id})
+        Sentry.Context.set_user_context(%{id: user.id, username: user.title, email: user.primary_email})
         conn
     end
   end
