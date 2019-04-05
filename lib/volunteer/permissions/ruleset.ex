@@ -71,12 +71,12 @@ defmodule Volunteer.Permissions.Ruleset do
         :allow
       end,
       fn %{group_roles: group_roles}, [:admin, :listing | _], %Listing{group_id: group_id} ->
-        if group_roles[group_id] == "admin" do
+        if group_roles[group_id] in ["admin"] do
           :allow
         end
       end,
       fn %{region_roles: region_roles}, [:admin, :listing | _], %Listing{region_id: region_id} ->
-        if region_roles[region_id] == "admin" do
+        if region_roles[region_id] in ["admin", "cc_team"] do
           :allow
         end
       end

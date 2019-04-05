@@ -499,7 +499,51 @@ defmodule VolunteerHardcoded.Groups do
       }
     }},
     {74, %{
-      title: "World Partnership Walk  BC",
+      title: "World Partnership Walk BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{}
+    }},
+    {75, %{
+      title: "ITREB Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{
+        "jamal.nazari@iicanada.net" => "admin",
+      }
+    }},
+    {76, %{
+      title: "Arts & Culture Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {77, %{
+      title: "Women's Portfolio Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {78, %{
+      title: "Education Board Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{
+        "khatira.saiemali@iicanada.net" => "admin",
+      }
+    }},
+    {79, %{
+      title: "Health Board Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {80, %{
+      title: "Youth & Sports Board (AKYSB) Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {81, %{
+      title: "Economic Planning Board (EPB) Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {82, %{
+      title: "Settlement Portfolio BC",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},

@@ -2,6 +2,7 @@ defmodule VolunteerHardcoded.Regions do
   use VolunteerHardcoded
   import Phoenix.HTML, only: [sigil_E: 2]
 
+  @global_url Application.get_env(:volunteer, :global_url)
   @system_email_prefix Application.get_env(:volunteer, :global_title)
 
   @canada_council_website %{
@@ -40,7 +41,7 @@ defmodule VolunteerHardcoded.Regions do
       parent_id: nil,
       roles: %{},
       system_email: {"#{@system_email_prefix} - Canada", "canada.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/muqarnas.png",
@@ -71,7 +72,7 @@ defmodule VolunteerHardcoded.Regions do
         "zahra.nurmohamed@iicanada.net" => "cc_team",
       },
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/ismaili-center-toronto.jpg",
@@ -120,7 +121,7 @@ defmodule VolunteerHardcoded.Regions do
         country: "Canada",
         coordinator: %{
           name: "Ayaz Kassam",
-          title: "Associate Director for TKN",
+          title: "Associate Director, TKN",
           email: "ayaz.kassam@iicanada.net",
           phone: "+1 (647) 271-4107"
         }
@@ -132,10 +133,11 @@ defmodule VolunteerHardcoded.Regions do
       parent_id: 1,
       roles: %{
         "saniya.jamal@iicanada.net" => "admin",
-        "Faheem.Ali@iicanada.net" => "admin"
+        "Faheem.Ali@iicanada.net" => "admin",
+        "khaleel.meghji@iicanada.net" => "cc_team"
       },
       system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/ismaili-center-burnaby-2.jpg",
@@ -167,7 +169,7 @@ defmodule VolunteerHardcoded.Regions do
         country: "Canada",
         coordinator: %{
           name: "Sultana Mithani",
-          title: "Associate Director (TKN)",
+          title: "Associate Director, TKN",
           email: "sultana.mithani@iicanada.net",
           phone: "+1 (604) 376-8818"
         }
@@ -177,27 +179,41 @@ defmodule VolunteerHardcoded.Regions do
       title: "Edmonton",
       slug: nil,
       parent_id: 1,
-      roles: %{},
+      roles: %{
+        "shabeena.habib@iicanada.net" => "admin",
+        "debra.somani@iicanada.net" => "admin",
+        "shafin.kanji@iicanada.net" => "cc_team",
+      },
       system_email: {"#{@system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/aga-khan-garden-edmonton.jpg",
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: [],
-        channels: %{}
+        email: ["jamil.ramji@gmail.com"],
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text"
+        }
       },
-      jamatkhanas: [],
+      jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Edmonton", [
+        "Fort McMurray",
+        "North",
+        "Red Deer",
+        "South",
+        "West",
+      ]),
       disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
-          title: "",
-          email: "",
-          phone: ""
+          name: "Asmita Manji",
+          title: "Associate Director, TKN",
+          email: "asmita.manji@iicanada.net",
+          phone: "+1 (780) 660-5786"
         }
       }
     }},
@@ -208,10 +224,11 @@ defmodule VolunteerHardcoded.Regions do
       roles: %{
         "femina.kanji@iicanada.net" => "admin",
         "almas.jaffer@iicanada.net" => "admin",
-        "aliya.makani@iicanada.net" => "admin"
+        "aliya.makani@iicanada.net" => "admin",
+        "jahangir.valiani@iicanada.net" => "cc_team"
       },
       system_email: {"#{@system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/delegation-of-the-ismaili-imamat.jpg",
@@ -234,7 +251,7 @@ defmodule VolunteerHardcoded.Regions do
         country: "Canada",
         coordinator: %{
           name: "Farhan Bhayani",
-          title: "Associate Director (TKN)",
+          title: "Associate Director, TKN",
           email: "farhan.bhayani@iicanada.net",
           phone: ""
         }
@@ -250,9 +267,10 @@ defmodule VolunteerHardcoded.Regions do
         "fareen.chartrand@iicanada.net" => "admin",
         "faraynaaz.mitha@iicanada.net" => "admin",
         "ranita.charania@iicanada.net" => "admin",
+        "sheizana.murji@iicanada.net" => "cc_team"
       },
       system_email: {"#{@system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/prairies-float.jpeg",
@@ -265,7 +283,7 @@ defmodule VolunteerHardcoded.Regions do
           "IICanada App & Website" => "text",
           "JK announcement" => "text",
           "Social media" => "text"
-        }
+        },
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Prairies", [
         "Franklin",
@@ -279,37 +297,51 @@ defmodule VolunteerHardcoded.Regions do
         country: "Canada",
         coordinator: %{
           name: "Karim Teja",
-          title: "Associate Director (TKN)",
+          title: "Associate Director, TKN",
           email: "Karim.Teja@iicanada.net",
           phone: "+1 (403) 478-7867"
         }
       }
     }},
     {7, %{
-      title: "Quebec and Maritimes",
+      title: "Quebec & Maritimes",
       slug: "qm",
       parent_id: 1,
-      roles: %{},
+      roles: %{
+        "shamila.ilyasi@iicanada.net" => "admin",
+        "karima.fazalkarim@iicanada.net" => "cc_team",
+      },
       system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
-      ots_website: Path.join([Application.get_env(:volunteer, :global_url), "/canada"]),
+      ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
         image_url: "/static/images/global-center-for-pluralism.jpg",
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: [],
-        channels: %{}
+        email: ["shamila.ilyasi@iicanada.net"],
+        channels: %{
+          "Al-Akhbar" => "text",
+          "IICanada App & Website" => "text",
+          "JK announcement" => "text",
+        },
       },
-      jamatkhanas: [],
+      jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Quebec & Maritimes", [
+        "Brossard",
+        "Granby",
+        "Headquarters",
+        "Laval",
+        "Quebec City",
+        "Sherbrooke",
+      ]),
       disclaimers: @canada_disclaimers,
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
-          title: "",
-          email: "",
-          phone: ""
+          name: "Karima Ismaili",
+          title: "Coordinator, TKN",
+          email: "karima.ismaili@iicanada.net",
+          phone: "+1 (514) 824-7744"
         }
       }
     }}
