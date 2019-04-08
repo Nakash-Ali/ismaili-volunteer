@@ -1,5 +1,0 @@
-<pre>
-<code>
-<%= inspect(assigns, pretty: true) %>
-</code>
-</pre>
