@@ -2,7 +2,7 @@ defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
   use Plug.ErrorHandler
   use Sentry.Plug
-  import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2]
+  import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2, annotate_roles_for_user: 2]
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
   import VolunteerWeb.UserPrefs, only: [fetch_user_prefs: 2]
 
@@ -72,7 +72,10 @@ defmodule VolunteerWeb.Router do
     end
 
     scope "/admin", Admin, as: :admin do
-      pipe_through [:ensure_authenticated]
+      pipe_through [
+        :ensure_authenticated,
+        :annotate_roles_for_user,
+      ]
 
       get "/", IndexController, :index
 

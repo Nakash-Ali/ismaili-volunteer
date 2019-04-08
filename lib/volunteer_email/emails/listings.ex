@@ -11,14 +11,11 @@ defmodule VolunteerEmail.ListingsEmails do
     {:ok, to_address_list} =
       Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :email])
 
-    reply_to_address = listing.organized_by.primary_email
-
     email =
       Mailer.new_default_email(listing.region_id)
       |> subject(subject_str)
       |> Tools.append(:to, to_address_list)
       |> Tools.append(:cc, generate_all_address_list(listing))
-      |> put_header("Reply-To", reply_to_address)
 
     render_email(
       VolunteerEmail.ListingsView,
@@ -74,7 +71,9 @@ defmodule VolunteerEmail.ListingsEmails do
       Mailer.new_default_email(listing.region_id)
       |> subject(subject_str)
       |> Tools.append(:to, Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
-                           |> Volunteer.Permissions.filter_region_roles(["cc_team"]))
+                           |> Volunteer.Permissions.reject_users_with_any_roles([{:region, "cc_team"}]))
+      |> Tools.append(:cc, Volunteer.Permissions.scope_roles(:region, listing.region_id, ["cc_team"])
+                           |> Volunteer.Permissions.emails_from_scope_roles())
       |> Tools.append(:cc, generate_all_address_list(listing))
       |> Tools.append(:cc, requested_by)
 
@@ -119,7 +118,6 @@ defmodule VolunteerEmail.ListingsEmails do
       |> Tools.append(:to, generate_all_address_list(listing))
       |> Tools.append(:cc, Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing))
       |> Tools.append(:cc, action_by)
-      |> IO.inspect()
 
     render_email(
       VolunteerEmail.ListingsView,
