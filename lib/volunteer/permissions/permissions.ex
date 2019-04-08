@@ -33,6 +33,10 @@ defmodule Volunteer.Permissions do
     |> hydrate_actual_users_func.()
   end
 
+  def reject_roles(roles, role_types_to_reject) do
+
+  end
+
   defdelegate region_roles(id),
     to: VolunteerHardcoded.Roles
 

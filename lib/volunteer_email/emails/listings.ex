@@ -49,7 +49,7 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   # def on_change(%Listing{} = listing, %User{} = changed_by) do
-  #   subject_str = generate_subject("Request for Approval", listing)
+  #   subject_str = generate_subject("Change", listing)
   #
   #   email =
   #     Mailer.new_default_email(listing.region_id)
@@ -73,7 +73,8 @@ defmodule VolunteerEmail.ListingsEmails do
     email =
       Mailer.new_default_email(listing.region_id)
       |> subject(subject_str)
-      |> Tools.append(:to, Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing))
+      |> Tools.append(:to, Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
+                           |> Volunteer.Permissions.filter_region_roles(["cc_team"]))
       |> Tools.append(:cc, generate_all_address_list(listing))
       |> Tools.append(:cc, requested_by)
 
