@@ -4,28 +4,24 @@ defmodule VolunteerHardcoded.RolesTest do
 
   # TODO: these tests are super brittle, fix them!
 
-  describe "region_roles/1" do
-    test "for ontario" do
-      assert Roles.region_roles(2) == %{"nabeela.haji@iicanada.net" => "admin", "zahra.nurmohamed@iicanada.net" => "cc_team"}
+  describe "scope_roles/1" do
+    test "region" do
+      assert Roles.scope_roles(:region, 2) == %{"nabeela.haji@iicanada.net" => "admin", "zahra.nurmohamed@iicanada.net" => "cc_team"}
+    end
+
+    test "group" do
+      assert Roles.scope_roles(:group, 3) == %{"rahima.alani2@iicanada.net" => "admin", "armeen.dhanjee@iicanada.net" => "admin"}
     end
   end
 
-  describe "region_roles/2" do
-    test "for ontario" do
-      assert Roles.region_roles(2, ["cc_team"]) == %{"zahra.nurmohamed@iicanada.net" => "cc_team"}
+  describe "scope_roles/2" do
+    test "region" do
+      assert Roles.scope_roles(:region, 2, ["cc_team"]) == %{"zahra.nurmohamed@iicanada.net" => "cc_team"}
     end
-  end
 
-  describe "group_roles/1" do
-    test "for education board ontario" do
-      assert Roles.group_roles(3) == %{"rahima.alani2@iicanada.net" => "admin", "armeen.dhanjee@iicanada.net" => "admin"}
-    end
-  end
-
-  describe "group_roles/2" do
-    test "for education board ontario" do
-      assert Roles.group_roles(3, ["admin"]) == %{"rahima.alani2@iicanada.net" => "admin", "armeen.dhanjee@iicanada.net" => "admin"}
-      assert Roles.group_roles(3, ["cc_team"]) == %{}
+    test "group" do
+      assert Roles.scope_roles(:group, 3, ["admin"]) == %{"rahima.alani2@iicanada.net" => "admin", "armeen.dhanjee@iicanada.net" => "admin"}
+      assert Roles.scope_roles(:group, 3, ["cc_team"]) == %{}
     end
   end
 
