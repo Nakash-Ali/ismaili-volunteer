@@ -465,9 +465,7 @@ defmodule VolunteerHardcoded.Groups do
     {69, %{
       title: "Women's Portfolio BC",
       region_id: Regions.get_id_from_title!("British Columbia"),
-      roles: %{
-        "faizana.hirji@iicanada.net" => "admin",
-      }
+      roles: %{}
     }},
     {70, %{
       title: "Economic Planning Board (EPB) BC",
@@ -544,6 +542,13 @@ defmodule VolunteerHardcoded.Groups do
     }},
     {82, %{
       title: "Settlement Portfolio BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{
+        "shazma.nazarali@iicanada.net" => "admin"
+      }
+    }},
+    {83, %{
+      title: "Education Board BC",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
