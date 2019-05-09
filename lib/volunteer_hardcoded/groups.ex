@@ -552,5 +552,12 @@ defmodule VolunteerHardcoded.Groups do
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
+    {84, %{
+      title: "Family Mentorship",
+      region_id: Regions.get_id_from_title!("Canada"),
+      roles: %{
+        "raheem.mussa@iicanada.net" => "admin"
+      }
+    }},
   ]
 end
