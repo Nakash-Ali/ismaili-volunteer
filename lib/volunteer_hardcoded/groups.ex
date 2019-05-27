@@ -559,5 +559,10 @@ defmodule VolunteerHardcoded.Groups do
         "raheem.mussa@iicanada.net" => "admin"
       }
     }},
+    {85, %{
+      title: "Generations (Multi-Generational Housing & Community Centre) Management Committee",
+      region_id: Regions.get_id_from_title!("Prairies"),
+      roles: %{}
+    }},
   ]
 end
