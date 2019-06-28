@@ -220,6 +220,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           changeset: changeset,
           listing: conn.assigns[:listing],
           back_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
+          classification_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.classification_choices(),
           commitment_type_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
           location_type_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
           search_scope_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),

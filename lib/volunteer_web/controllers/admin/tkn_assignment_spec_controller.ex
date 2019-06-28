@@ -3,6 +3,7 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
   alias Volunteer.Repo
   alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.FlashHelpers
   alias VolunteerWeb.Services.TKNAssignmentSpecGenerator
 
   # Plugs
@@ -31,7 +32,7 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
     case tkn_listing do
       nil ->
         conn
-        |> put_flash(:error, "TKN data does not exist, you must create it first!")
+        |> FlashHelpers.put_paragraph_flash(:error, "TKN data does not exist, you must create it first!")
         |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing_id))
 
       _ ->
@@ -68,20 +69,36 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
 
   def pdf(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
-    disk_path = TKNAssignmentSpecGenerator.generate!(conn, listing, tkn_listing)
 
-    VolunteerWeb.Services.Analytics.track_event(
-      "Listing",
-      "tkn_assignment_spec_pdf",
-      Slugify.slugify(listing),
-      conn
-    )
+    case TKNAssignmentSpecGenerator.generate(conn, listing, tkn_listing) do
+      {:ok, disk_path} ->
+        VolunteerWeb.Services.Analytics.track_event(
+          "Listing",
+          "tkn_assignment_spec_pdf",
+          Slugify.slugify(listing),
+          conn
+        )
 
-    send_download(
-      conn,
-      {:file, disk_path},
-      filename: VolunteerWeb.Presenters.Filename.slugified(listing, "TKN Assignment Spec", "pdf"),
-      charset: "utf-8"
-    )
+        send_download(
+          conn,
+          {:file, disk_path},
+          filename: VolunteerWeb.Presenters.Filename.slugified(listing, "TKN Assignment Spec", "pdf"),
+          charset: "utf-8"
+        )
+
+      {:error, "start_date required"} ->
+        conn
+        |> FlashHelpers.put_paragraph_flash(:error, start_date_error(conn, listing))
+        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing.id))
+    end
+  end
+
+  defp start_date_error(conn, listing) do
+    import Phoenix.HTML, only: [sigil_E: 2]
+    import Phoenix.HTML.Link, only: [link: 2]
+
+    ~E"""
+    Listing must have a specific start date to generate a TKN Assignment PDF, it cannot be "starting immediately". <%= link "Click here to edit the listing now.", class: "alert-link", to: RouterHelpers.admin_listing_path(conn, :edit, listing.id) %>
+    """
   end
 end

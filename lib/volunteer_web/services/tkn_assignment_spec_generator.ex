@@ -8,14 +8,14 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
     GenServer.start_link(__MODULE__.Server, nil, name: __MODULE__.Server)
   end
 
-  def generate!(conn, listing, tkn_listing) do
+  def generate(conn, listing, tkn_listing) do
     webpage_url =
       RouterHelpers.admin_listing_tkn_assignment_spec_url(conn, :show, listing)
       |> VolunteerWeb.UserSession.AuthToken.put_in_params(conn)
 
     GenServer.call(
       __MODULE__.Server,
-      {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at, tkn_listing.updated_at},
+      {:generate, webpage_url, @disk_dir, listing, tkn_listing},
       30_000
     )
   end
@@ -27,30 +27,37 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
 
     GenServer.cast(
       __MODULE__.Server,
-      {:generate, webpage_url, @disk_dir, listing.id, listing.updated_at, tkn_listing.updated_at}
+      {:generate, webpage_url, @disk_dir, listing, tkn_listing}
     )
   end
 
   defmodule Implementation do
-    def maybe_generate_pdf!(webpage_url, disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at) do
-      disk_path =
-        Implementation.pdf_disk_path(
-          disk_dir,
-          listing_id,
-          listing_updated_at,
-          tkn_listing_updated_at
-        )
+    def maybe_generate_pdf(webpage_url, disk_dir, listing, tkn_listing) do
+      case Volunteer.Listings.validate_tkn_assignment_spec_generation(listing, tkn_listing) do
+        :ok ->
+          disk_path =
+            Implementation.pdf_disk_path(
+              disk_dir,
+              listing.id,
+              listing.updated_at,
+              tkn_listing.updated_at
+            )
 
-      {:ok, _} =
-        VolunteerUtils.File.run_func_if_not_exists(
-          disk_path,
-          fn -> Implementation.generate_pdf!(webpage_url, disk_dir, disk_path) end
-        )
+          {:ok, _} =
+            VolunteerUtils.File.run_func_if_not_exists(
+              disk_path,
+              fn -> Implementation.generate_pdf(webpage_url, disk_dir, disk_path) end
+            )
 
-      disk_path
+          {:ok, disk_path}
+
+        {:error, reason} ->
+          {:error, reason}
+      end
+
     end
 
-    def generate_pdf!(webpage_url, disk_dir, disk_path) do
+    def generate_pdf(webpage_url, disk_dir, disk_path) do
       :ok = File.mkdir_p!(disk_dir)
 
       Commands.NodeJS.run(
@@ -91,22 +98,22 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
     end
 
     def handle_call(
-      {:generate, webpage_url, disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at},
+      {:generate, webpage_url, disk_dir, listing, tkn_listing},
       _from,
       state
     ) do
       disk_path =
-        Implementation.maybe_generate_pdf!(webpage_url, disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at)
+        Implementation.maybe_generate_pdf(webpage_url, disk_dir, listing, tkn_listing)
 
       {:reply, disk_path, state}
     end
 
     def handle_cast(
-      {:generate, webpage_url, disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at},
+      {:generate, webpage_url, disk_dir, listing, tkn_listing},
       state
     ) do
-      _disk_path =
-        Implementation.maybe_generate_pdf!(webpage_url, disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at)
+      {_, _disk_path} =
+        Implementation.maybe_generate_pdf(webpage_url, disk_dir, listing, tkn_listing)
 
       {:noreply, state}
     end

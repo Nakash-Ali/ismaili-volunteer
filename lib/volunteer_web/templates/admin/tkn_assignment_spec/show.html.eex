@@ -122,6 +122,12 @@
 					<div class="cell col-3 label label-required">Scope of Search</div>
 					<div class="cell col-3 value"><%= @tkn_listing.search_scope |> HTMLHelpers.default_if_blank? %></div>
 				</div>
+				<div class="row no-gutters">
+					<div class="cell col-3 label label-required">Assignment Classification</div>
+					<div class="cell col-3 value"><%= @tkn_listing.classification %></div>
+					<div class="cell col-3 label label-required">EOA Evaluation</div>
+					<div class="cell col-3 value"><%= @tkn_listing.eoa_evaluation |> VolunteerWeb.Admin.TKNListingView.eoa_evaluation_label %></div>
+				</div>
 			</div>
 		</section>
 
