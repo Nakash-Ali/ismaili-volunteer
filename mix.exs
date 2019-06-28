@@ -62,7 +62,7 @@ defmodule Volunteer.Mixfile do
       {:quantum, "~> 2.3"},
       {:recaptcha, "~> 2.3"},
       {:semtex, github: "alizain/semtex", branch: "master"},
-      {:sentry, "~> 7.0.3"},
+      {:sentry, "~> 7.1.0"},
       {:slugger, "~> 0.2"},
       {:timex, "~> 3.1"},
       {:ueberauth_microsoft, "~> 0.3"},
