@@ -98,19 +98,28 @@ defmodule Volunteer.Listings do
     |> Repo.update!()
   end
 
+  def base_listing_query() do
+    from(l in Listing, select_merge: %{
+      start_date_toggle: is_nil(l.start_date),
+      end_date_toggle: is_nil(l.end_date),
+    })
+  end
+
   def get_one_admin_listing!(id) do
-    Repo.get!(Listing, id)
+    from(l in base_listing_query(),
+      where: l.id == ^id)
+    |> Repo.one!
   end
 
   def get_all_admin_listings(opts \\ []) do
-    from(l in Listing)
+    from(l in base_listing_query())
     |> query_listings_with_admin_state_filters(Keyword.get(opts, :filters, %{}))
     |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
 
   def get_all_admin_listings_for_user(user, opts \\ []) do
-    from(l in Listing)
+    from(l in base_listing_query())
     |> query_for_user_listing(user)
     |> query_listings_with_admin_state_filters(Keyword.get(opts, :filters, %{}))
     |> order_by(desc: :expiry_date)
@@ -118,7 +127,7 @@ defmodule Volunteer.Listings do
   end
 
   def get_all_public_listings(opts \\ []) do
-    from(l in Listing)
+    from(l in base_listing_query())
     |> query_approved_listing()
     |> query_unexpired_listing()
     |> query_listings_with_region_filters(Keyword.get(opts, :filters, %{}))
@@ -135,13 +144,13 @@ defmodule Volunteer.Listings do
   end
 
   def get_one_preview_listing!(id) do
-    from(l in Listing, where: l.id == ^id)
+    from(l in base_listing_query(), where: l.id == ^id)
     |> query_unexpired_listing()
     |> Repo.one!()
   end
 
   def get_all_listings_for_expiry_reminder(expiry_date) do
-    from(l in Listing)
+    from(l in base_listing_query())
     |> query_unexpired_listing()
     |> query_listings_expiring_before(expiry_date)
     |> query_expiry_reminder_not_sent()
@@ -194,7 +203,7 @@ defmodule Volunteer.Listings do
 
   def query_one_public_listing(id, allow_expired: allow_expired) do
     query =
-      from(l in Listing, where: l.id == ^id)
+      from(l in base_listing_query(), where: l.id == ^id)
       |> query_approved_listing()
 
     if allow_expired do
@@ -300,6 +309,16 @@ defmodule Volunteer.Listings do
   def get_one_tkn_listing_for_listing(id) do
     query_tkn_listing_for_listing(id)
     |> Repo.one()
+  end
+
+  def validate_tkn_assignment_spec_generation(listing, _tkn_listing) do
+    case listing do
+      %{start_date: nil} ->
+        {:error, "start_date required"}
+
+      %{start_date: _start_date} ->
+        :ok
+    end
   end
 
   defp query_tkn_listing_for_listing(id) do
