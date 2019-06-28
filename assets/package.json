@@ -33,7 +33,7 @@
 		"eslint-plugin-compat": "^3.0.1",
 		"eslint-plugin-import": "^2.15.0",
 		"eslint-plugin-promise": "^4.0.1",
-		"html-minifier": "^3.4.2",
+		"html-minifier": "^4.0.0",
 		"minimist": "^1.2.0",
 		"mkdirp": "^0.5.1",
 		"moment": "^2.24.0",
