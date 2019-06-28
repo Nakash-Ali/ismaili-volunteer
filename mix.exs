@@ -38,7 +38,7 @@ defmodule Volunteer.Mixfile do
   # Type `mix help deps` for examples and options.
   def deps do
     [
-      {:appsignal, "~> 1.9.0-beta.1"},
+      {:appsignal, "~> 1.10.8"},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:csv, "~> 2.0.0"},
@@ -62,7 +62,7 @@ defmodule Volunteer.Mixfile do
       {:quantum, "~> 2.3"},
       {:recaptcha, "~> 2.3"},
       {:semtex, github: "alizain/semtex", branch: "master"},
-      {:sentry, "~> 7.0.3"},
+      {:sentry, "~> 7.1.0"},
       {:slugger, "~> 0.2"},
       {:timex, "~> 3.1"},
       {:ueberauth_microsoft, "~> 0.3"},
