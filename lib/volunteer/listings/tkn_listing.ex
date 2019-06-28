@@ -45,7 +45,8 @@ defmodule Volunteer.Listings.TKNListing do
     :commitment_type,
     :location_type,
     :search_scope,
-    :suggested_keywords
+    :suggested_keywords,
+    :eoa_evaluation,
   ]
 
   @attributes_sanitize_text [

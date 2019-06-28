@@ -23,6 +23,11 @@
 	%>
 
 	<%= render AdminView, "definition_container.html",
+		title_text: "Classification",
+		body_text: @tkn_listing.classification
+	%>
+
+	<%= render AdminView, "definition_container.html",
 		title_text: "Commitment type",
 		body_text: @tkn_listing.commitment_type
 	%>
@@ -40,6 +45,11 @@
 	<%= render AdminView, "definition_container.html",
 		title_text: "Suggested keywords",
 		body_text: @tkn_listing.suggested_keywords
+	%>
+
+	<%= render AdminView, "definition_container.html",
+		title_text: "EOA Evaluation",
+		body_text: eoa_evaluation_label(@tkn_listing.eoa_evaluation)
 	%>
 
 	<%= render AdminView, "definition_container.html",

@@ -22,4 +22,12 @@ defmodule VolunteerWeb.Admin.TKNListingView do
       render(VolunteerWeb.VendorView, "datepicker.html"),
     ]
   end
+
+  def eoa_evaluation_label(true) do
+    "Yes, required"
+  end
+
+  def eoa_evaluation_label(false) do
+    "No, not necessary"
+  end
 end
