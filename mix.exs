@@ -38,7 +38,7 @@ defmodule Volunteer.Mixfile do
   # Type `mix help deps` for examples and options.
   def deps do
     [
-      {:appsignal, "~> 1.9.0-beta.1"},
+      {:appsignal, "~> 1.10.8"},
       {:bamboo_smtp, github: "fewlinesco/bamboo_smtp", branch: "master"},
       {:bamboo, github: "thoughtbot/bamboo", branch: "master", override: true},
       {:csv, "~> 2.0.0"},
