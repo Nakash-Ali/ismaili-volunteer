@@ -1,6 +1,7 @@
 defmodule VolunteerWeb.AuthController do
   use VolunteerWeb, :controller
   alias VolunteerWeb.UserSession
+  alias VolunteerWeb.FlashHelpers
 
   plug Ueberauth
 
@@ -17,7 +18,7 @@ defmodule VolunteerWeb.AuthController do
   def logout(conn, _params) do
     conn
     |> UserSession.logout()
-    |> put_flash(:info, "You have been logged out!")
+    |> FlashHelpers.put_paragraph_flash(:info, "You have been logged out!")
     |> redirect(to: RouterHelpers.index_path(conn, :index))
   end
 
@@ -25,7 +26,7 @@ defmodule VolunteerWeb.AuthController do
     IO.inspect(failure)
 
     conn
-    |> put_flash(:error, "Failed to authenticate.")
+    |> FlashHelpers.put_paragraph_flash(:error, "Failed to authenticate.")
     |> redirect(to: RouterHelpers.auth_path(conn, :login))
   end
 
@@ -34,17 +35,17 @@ defmodule VolunteerWeb.AuthController do
       {:ok, user} ->
         conn
         |> UserSession.login(user)
-        |> put_flash(:info, "Successfully authenticated.")
+        |> FlashHelpers.put_paragraph_flash(:info, "Successfully authenticated.")
         |> redirect(to: UserSession.get_redirect(conn))
 
       {:error, :auth_email_domain_not_allowed} ->
         conn
-        |> put_flash(:error, "Email domain not permitted to login.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Email domain not permitted to login.")
         |> redirect(to: RouterHelpers.auth_path(conn, :login))
 
       {:error, _reason} ->
         conn
-        |> put_flash(:error, "Failed to login.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Failed to login.")
         |> redirect(to: RouterHelpers.auth_path(conn, :login))
     end
   end

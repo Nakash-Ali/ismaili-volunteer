@@ -3,12 +3,13 @@ defmodule VolunteerWeb.ListingController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias Volunteer.Listings
+  alias VolunteerWeb.FlashHelpers
 
   plug VolunteerWeb.Captcha, %{handle_deny: :handle_deny_captcha} when action == :create_applicant
 
   def handle_deny_captcha(conn, _opts) do
     conn
-    |> put_flash(:error, "Captcha validation failed, please try again.")
+    |> FlashHelpers.put_paragraph_flash(:error, "Captcha validation failed, please try again.")
     |> redirect(to: RouterHelpers.listing_path(conn, :show, conn.params["id"]))
     |> halt()
   end
@@ -35,7 +36,7 @@ defmodule VolunteerWeb.ListingController do
         VolunteerWeb.Services.Analytics.track_event("Listing", "apply", Slugify.slugify(listing), conn)
 
         conn
-        |> put_flash(:info, "Congratulations, your application has been submitted!")
+        |> FlashHelpers.put_paragraph_flash(:info, "Congratulations, your application has been submitted!")
         |> redirect(to: RouterHelpers.index_path(conn, :index))
 
       {:error, changesets} ->

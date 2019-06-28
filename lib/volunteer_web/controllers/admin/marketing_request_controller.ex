@@ -3,6 +3,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
   alias Volunteer.Repo
   alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.FlashHelpers
 
   # Plugs
 
@@ -63,12 +64,12 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
         )
 
         conn
-        |> put_flash(:success, "Marketing request created successfully.")
+        |> FlashHelpers.put_paragraph_flash(:success, "Marketing request created successfully.")
         |> redirect(to: RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
-        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_form(changeset)
     end
   end

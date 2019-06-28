@@ -138,7 +138,7 @@ defmodule VolunteerWeb.UserSession do
         _ ->
           conn
           |> VolunteerWeb.UserSession.put_redirect()
-          |> Phoenix.Controller.put_flash(:error, "Please log in to view this page")
+          |> VolunteerWeb.FlashHelpers.put_paragraph_flash(:error, "Please log in to view this page")
           |> Phoenix.Controller.redirect(to: RouterHelpers.auth_path(conn, :login))
           |> Plug.Conn.halt()
       end

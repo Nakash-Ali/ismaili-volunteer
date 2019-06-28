@@ -3,6 +3,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   alias Volunteer.Repo
   alias Volunteer.Listings
   alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.FlashHelpers
 
   # Plugs
 
@@ -39,7 +40,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
 
       _ ->
         conn
-        |> put_flash(
+        |> FlashHelpers.put_paragraph_flash(
           :error,
           "TKN data already exists, cannot create again! To change, edit instead."
         )
@@ -56,7 +57,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     case tkn_listing do
       nil ->
         conn
-        |> put_flash(:error, "TKN data does not exist, you must create it first!")
+        |> FlashHelpers.put_paragraph_flash(:error, "TKN data does not exist, you must create it first!")
         |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing_id))
 
       _ ->
@@ -106,12 +107,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         :ok = VolunteerWeb.Services.TKNAssignmentSpecGenerator.generate_async(conn, listing, tkn_listing)
 
         conn
-        |> put_flash(:success, "TKN Listing created successfully.")
+        |> FlashHelpers.put_paragraph_flash(:success, "TKN Listing created successfully.")
         |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
-        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_form(
           changeset,
           "new.html",
@@ -183,12 +184,12 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         :ok = VolunteerWeb.Services.TKNAssignmentSpecGenerator.generate_async(conn, listing, tkn_listing)
 
         conn
-        |> put_flash(:success, "Listing updated successfully.")
+        |> FlashHelpers.put_paragraph_flash(:success, "Listing updated successfully.")
         |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
-        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_form(
           changeset,
           "edit.html",
@@ -204,7 +205,7 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   #   {:ok, _tkn_listing} = Listings.delete_tkn_listing(tkn_listing)
   #
   #   conn
-  #   |> put_flash(:info, "Listing deleted successfully.")
+  #   |> FlashHelpers.put_paragraph_flash(:info, "Listing deleted successfully.")
   #   |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
   # end
 

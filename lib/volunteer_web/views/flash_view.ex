@@ -1,28 +1,35 @@
 defmodule VolunteerWeb.FlashView do
   use VolunteerWeb, :view
 
-  def flash_configs() do
-    [
-      %{
-        flash_type: :error,
-        container_class: "alert-danger",
-        icon_class: "fas fa-exclamation-triangle"
-      },
-      %{
-        flash_type: :warning,
-        container_class: "alert-warning",
-        icon_class: "fas fa-exclamation-triangle"
-      },
-      %{
-        flash_type: :success,
-        container_class: "alert-success",
-        icon_class: "far fa-check-circle"
-      },
-      %{
-        flash_type: :info,
-        container_class: "alert-info",
-        icon_class: "far fa-info-circle"
-      }
-    ]
+  @content_templates %{
+    paragraph: "paragraph.html",
+    structured: "structured.html",
+  }
+
+  def render_all(%Plug.Conn{} = conn) do
+    Enum.map(
+      VolunteerWeb.FlashHelpers.configs(),
+      &render_one(conn, &1)
+    )
+  end
+
+  def render_one(%Plug.Conn{} = conn, flash_config) do
+    case get_flash(conn, flash_config.type) do
+      {content_type, content} ->
+        render(
+          Map.fetch!(@content_templates, content_type),
+          Map.merge(flash_config, %{content: content})
+        )
+
+      content when is_binary(content) ->
+        raise """
+        Raw strings are not supported as flash content. Please use one of the
+        explicit functions in the `VolunteerWeb.FlashHelpers` module to render
+        flashes correctly.
+        """
+
+      nil ->
+        []
+    end
   end
 end

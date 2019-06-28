@@ -4,6 +4,7 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Listings
   alias Volunteer.Infrastructure
   alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.FlashHelpers
   alias VolunteerWeb.Admin.ListingParams
 
   # Plugs
@@ -95,12 +96,12 @@ defmodule VolunteerWeb.Admin.ListingController do
         )
 
         conn
-        |> put_flash(:success, "Listing created successfully.")
+        |> FlashHelpers.put_paragraph_flash(:success, "Listing created successfully.")
         |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
-        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_new_form(changeset)
     end
   end
@@ -148,12 +149,12 @@ defmodule VolunteerWeb.Admin.ListingController do
         )
 
         conn
-        |> put_flash(:success, "Listing updated successfully.")
+        |> FlashHelpers.put_paragraph_flash(:success, "Listing updated successfully.")
         |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
-        |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_edit_form(changeset, listing)
     end
   end
@@ -172,7 +173,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     Volunteer.Listings.request_approval!(listing, UserSession.get_user(conn))
 
     conn
-    |> put_flash(:success, "Your request for approval has been submitted for this listing.")
+    |> FlashHelpers.put_paragraph_flash(:success, "Your request for approval has been submitted for this listing.")
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
@@ -197,7 +198,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       %{valid?: true} ->
         if Listings.Listing.is_approved?(listing) do
           conn
-          |> put_flash(:warning, "Listing has already been approved.")
+          |> FlashHelpers.put_paragraph_flash(:warning, "Listing has already been approved.")
           |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
         else
           toggle_approval(conn, params, :approve)
@@ -239,7 +240,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     )
 
     conn
-    |> put_flash(:success, "Listing #{action}d successfully.")
+    |> FlashHelpers.put_paragraph_flash(:success, "Listing #{action}d successfully.")
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, toggled_listing))
   end
 
@@ -257,7 +258,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     )
 
     conn
-    |> put_flash(:success, "Successfully refreshed listing expiry.")
+    |> FlashHelpers.put_paragraph_flash(:success, "Successfully refreshed listing expiry.")
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
@@ -275,7 +276,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     )
 
     conn
-    |> put_flash(:success, "Successfully expired listing.")
+    |> FlashHelpers.put_paragraph_flash(:success, "Successfully expired listing.")
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
@@ -293,7 +294,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     )
 
     conn
-    |> put_flash(:success, "Listing deleted successfully.")
+    |> FlashHelpers.put_paragraph_flash(:success, "Listing deleted successfully.")
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :index))
   end
 
