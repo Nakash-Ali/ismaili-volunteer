@@ -6,10 +6,12 @@ defmodule Volunteer.Listings.TKNListing do
 
   schema "tkn_listings" do
     field :openings, :integer
+    field :classification, :string
     field :commitment_type, :string
     field :location_type, :string
     field :search_scope, :string
     field :suggested_keywords, :string
+    field :eoa_evaluation, :boolean
 
     field :function, :string, default: ""
     field :industry, :string, default: ""
@@ -24,10 +26,12 @@ defmodule Volunteer.Listings.TKNListing do
   @attributes_cast_always [
     :listing_id,
     :openings,
+    :classification,
     :commitment_type,
     :location_type,
     :search_scope,
     :suggested_keywords,
+    :eoa_evaluation,
     :function,
     :industry,
     :education_level,
@@ -37,6 +41,7 @@ defmodule Volunteer.Listings.TKNListing do
   @attributes_required_always [
     :listing_id,
     :openings,
+    :classification,
     :commitment_type,
     :location_type,
     :search_scope,
@@ -46,6 +51,14 @@ defmodule Volunteer.Listings.TKNListing do
   @attributes_sanitize_text [
     :suggested_keywords
   ]
+
+  def classification_choices do
+    [
+      "Professional",
+      "Administrative",
+      "Team"
+    ]
+  end
 
   def commitment_type_choices do
     [
@@ -72,10 +85,9 @@ defmodule Volunteer.Listings.TKNListing do
 
   def function_choices do
     [
-      "Administration and operations",
-      "Program development / implementation",
-      "Strategic",
-      "Team / event-based"
+      "Administration and Operations",
+      "Program Development / Implementation",
+      "Team / Event-based"
     ]
   end
 
@@ -159,6 +171,7 @@ defmodule Volunteer.Listings.TKNListing do
     |> Volunteer.StringSanitizer.sanitize_changes(@attributes_sanitize_text, %{type: :text})
     |> validate_required(@attributes_required_always)
     |> foreign_key_constraint(:listing_id)
+    |> validate_inclusion(:classification, classification_choices())
     |> validate_inclusion(:commitment_type, commitment_type_choices())
     |> validate_inclusion(:location_type, location_type_choices())
     |> validate_inclusion(:search_scope, search_scope_choices())
