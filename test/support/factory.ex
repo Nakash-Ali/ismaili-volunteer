@@ -59,8 +59,7 @@ defmodule Volunteer.TestSupport.Factory do
         start_date: Faker.Date.backward(100),
         end_date: Faker.Date.forward(200),
         time_commitment_amount: Faker.random_between(1, 10),
-        time_commitment_type:
-          Volunteer.Listings.Listing.time_commitment_type_choices() |> Enum.random(),
+        time_commitment_type: Volunteer.Listings.Listing.time_commitment_type_choices() |> Enum.random(),
         program_description: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         responsibilities: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
