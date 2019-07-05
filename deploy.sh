@@ -28,7 +28,7 @@ export GCLOUD_TARGET_HOST="${GCLOUD_VERSION}-dot-${GCLOUD_PROJECT}.appspot.com"
 
 echo $GIT_SHA >> git-sha
 
-mix run --no-start infra/generate-appengine.exs --env $GCLOUD_ENV --out "./app-generated.yaml"
+elixir infra/generate-appengine.exs --env $GCLOUD_ENV --out "./app-generated.yaml"
 
 ./compile_and_test.sh
 
