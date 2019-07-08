@@ -13,6 +13,7 @@ esac
 
 export GCLOUD_ENV
 
+mix deps.get
 mix deps.unlock --unused
 mix deps.clean --unused
 
