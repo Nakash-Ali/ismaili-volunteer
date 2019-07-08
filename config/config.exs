@@ -14,6 +14,9 @@ version =
       nil
   end
 
+# Use Tzdata everywhere
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 # Configure global constants
 config :volunteer,
   version: version,

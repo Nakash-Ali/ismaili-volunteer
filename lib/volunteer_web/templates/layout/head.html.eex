@@ -3,6 +3,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="version" content="<%= Application.fetch_env!(:volunteer, :version) %>">
 
+<link rel="icon" type="image/png" href="<%= RouterHelpers.static_path(@conn, "/favicon.png") %>">
+
 <!-- <meta name="description" content="{{ .Site.Params.description }}"> -->
 <!-- <meta name="author" content=""> -->
 
