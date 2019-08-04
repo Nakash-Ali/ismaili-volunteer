@@ -2,6 +2,8 @@
 	<h4 class="mb-2 py-2q"><%= Title.html(@group) %></h4>
 <% end %>
 
+<%= render "request_changes.html", assigns %>
+
 <section class="container mt-5 my-4">
 	<%= for {title, body} <- definition_list(:details, @group, @conn) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>

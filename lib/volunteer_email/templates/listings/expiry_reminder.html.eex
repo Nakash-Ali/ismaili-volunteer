@@ -6,7 +6,7 @@
 
 <p>If you take no action, <strong>it will expire <%= PublicListingView.expires_in(@listing) %></strong></p>
 
-<p>If you'd still like this listing to be public, please refresh expiration as soon as possible.</p>
+<p>If you'd still like this listing to be public, <strong>please login to OTS and refresh expiration</strong> as soon as possible.</p>
 
 <p>Best Regards,<br>
 <%= Application.fetch_env!(:volunteer, :global_title) %></p>

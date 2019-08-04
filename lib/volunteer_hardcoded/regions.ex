@@ -134,6 +134,7 @@ defmodule VolunteerHardcoded.Regions do
       roles: %{
         "saniya.jamal@iicanada.net" => "admin",
         "Faheem.Ali@iicanada.net" => "admin",
+        "amaanali.fazal@iicanada.net" => "admin",
         "khaleel.meghji@iicanada.net" => "cc_team"
       },
       system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},

@@ -1,0 +1,8 @@
+<section class="container">
+	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
+		<div class="btn-group" role="group">
+			<%= link "Change a group", target: "_blank", to: "https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ByfQmNZ-0kas8iLr3S1cF5BmMCX9u0FPnzM6p8hKY6BURVdMVlI5M01TMjgxWDlXWkFQQUJBRU45Si4u", class: "btn btn-outline-primary" %>
+			<%= link "Change a group admin", target: "_blank", to: "https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ByfQmNZ-0kas8iLr3S1cF5BmMCX9u0FPnzM6p8hKY6BUQkc0TDBZRE84RFZPNFk4WFFKUUJXVVVPWi4u", class: "btn btn-outline-primary" %>
+		</div>
+	</div>
+</section>

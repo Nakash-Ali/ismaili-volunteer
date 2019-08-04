@@ -2,6 +2,8 @@
 	<h4 class="mb-2 py-2q">All Groups</h4>
 <% end %>
 
+<%= render "request_changes.html", assigns %>
+
 <section class="container my-3">
 	<%= for group <- @groups do %>
 		<div class="">

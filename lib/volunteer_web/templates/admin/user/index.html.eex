@@ -26,9 +26,3 @@
 		</table>
 	</div>
 </section>
-
-<section class="container my-3 mb-4">
-	<code>
-		<%= email_list(@users) %>
-	</code>
-</section>

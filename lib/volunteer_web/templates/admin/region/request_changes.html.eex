@@ -1,0 +1,9 @@
+<section class="container">
+	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
+		<div class="btn-group" role="group">
+			<%= link "Create or update a region", target: "_blank", to: "https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ByfQmNZ-0kas8iLr3S1cF5BmMCX9u0FPnzM6p8hKY6BUM0s2OFFGU1hUS0tZOTNBSFhWUFREMUxRRy4u", class: "btn btn-outline-primary" %>
+			<%= link "Change a region admin", target: "_blank", to: "https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ByfQmNZ-0kas8iLr3S1cF5BmMCX9u0FPnzM6p8hKY6BUOVBQRERDVThTV1NMMUpBNEZIQTlaSVEzTy4u", class: "btn btn-outline-primary" %>
+			<%= link "Change a jamatkhana", target: "_blank", to: "https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ByfQmNZ-0kas8iLr3S1cF5BmMCX9u0FPnzM6p8hKY6BUQlNPSkY2OENYR001TzJTT0NCMzZCVFJYTC4u", class: "btn btn-outline-primary" %>
+		</div>
+	</div>
+</section>

@@ -9,12 +9,6 @@ defmodule VolunteerWeb.Admin.UserView do
     ]
   end
 
-  defp email_list(users) do
-    users
-    |> Enum.map(fn user -> user.primary_email end)
-    |> Enum.join(", ")
-  end
-
   def preferred_contact_text(%{preferred_contact: preferred_contact}) do
     Volunteer.Accounts.User.preferred_contact_choices()
     |> VolunteerUtils.Choices.labels(preferred_contact)
