@@ -72,16 +72,6 @@ config :phoenix, :template_engines,
 # Use Jason for JSON parsing in Bamboo
 config :bamboo, :json_library, Jason
 
-# Configure hammer rate-limiter
-config :hammer,
-  backend: {
-    Hammer.Backend.ETS,
-    [
-      expiry_ms: 60_000 * 60 * 4,
-      cleanup_interval_ms: 60_000 * 10
-    ]
-  }
-
 # Configure Sentry's error logging
 config :sentry,
   environment_name: Mix.env(),

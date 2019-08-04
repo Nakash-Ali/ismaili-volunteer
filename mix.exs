@@ -46,8 +46,6 @@ defmodule Volunteer.Mixfile do
       {:ecto_sql, "~> 3.0"},
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
-      {:hammer_plug, "~> 2.0"},
-      {:hammer, "~> 6.0"},
       {:jason, "~> 1.0"},
       {:jose, "~> 1.8"},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
