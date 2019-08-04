@@ -550,7 +550,9 @@ defmodule VolunteerHardcoded.Groups do
     {83, %{
       title: "Education Board BC",
       region_id: Regions.get_id_from_title!("British Columbia"),
-      roles: %{}
+      roles: %{
+        "shahida.hassanali@iicanada.net" => "admin",
+      }
     }},
     {84, %{
       title: "Family Mentorship",
@@ -562,6 +564,11 @@ defmodule VolunteerHardcoded.Groups do
     {85, %{
       title: "Generations (Multi-Generational Housing & Community Centre) Management Committee",
       region_id: Regions.get_id_from_title!("Prairies"),
+      roles: %{}
+    }},
+    {86, %{
+      title: "Communications & Publications",
+      region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
   ]

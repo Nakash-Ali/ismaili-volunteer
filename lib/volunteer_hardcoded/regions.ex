@@ -135,7 +135,7 @@ defmodule VolunteerHardcoded.Regions do
         "saniya.jamal@iicanada.net" => "admin",
         "Faheem.Ali@iicanada.net" => "admin",
         "amaanali.fazal@iicanada.net" => "admin",
-        "khaleel.meghji@iicanada.net" => "cc_team"
+        "shelina.dilgir@iicanada.net" => "cc_team"
       },
       system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
