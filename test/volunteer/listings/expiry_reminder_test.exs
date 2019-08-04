@@ -21,7 +21,7 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
           expired?: false,
           overrides: %{
             expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 3) |> Timex.to_datetime("UTC")
+            expiry_date: expiry_date |> Timex.shift(days: 4) |> Timex.to_datetime("UTC")
           }
         })
 
