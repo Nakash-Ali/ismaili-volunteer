@@ -1,7 +1,7 @@
 defmodule Volunteer.Listings.ExpiryReminder do
   alias Volunteer.Repo
 
-  @future_expiry_date_shift 2
+  @future_expiry_date_shift 3
 
   def future_expiry_date() do
     VolunteerUtils.Temporal.utc_now_truncated_to_seconds()
