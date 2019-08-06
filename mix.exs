@@ -42,7 +42,7 @@ defmodule Volunteer.Mixfile do
       {:bamboo_smtp, "~> 1.7.0"},
       {:bamboo, "~> 1.3.0"},
       {:csv, "~> 2.0.0"},
-      {:distillery, "~> 2.0"},
+      {:distillery, "~> 2.0.3"},
       {:ecto_sql, "~> 3.0"},
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
