@@ -41,7 +41,7 @@ defmodule Volunteer.Mixfile do
       {:appsignal, "~> 1.10.8"},
       {:bamboo_smtp, "~> 1.7.0"},
       {:bamboo, "~> 1.3.0"},
-      {:csv, "~> 2.0.0"},
+      {:csv, "~> 2.3.1"},
       {:distillery, "~> 2.0.3"},
       {:ecto_sql, "~> 3.0"},
       {:faker, "~> 0.11", only: [:dev, :test]},
