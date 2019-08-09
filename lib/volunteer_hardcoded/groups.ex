@@ -34,7 +34,8 @@ defmodule VolunteerHardcoded.Groups do
       title: "ITREB Ontario",
       region_id: Regions.get_id_from_title!("Ontario"),
       roles: %{
-        "salima.khakoo@iicanada.net" => "admin"
+        "salima.khakoo@iicanada.net" => "admin",
+        "shalina.valimohamed@iicanada.net" => "admin",
       }
     }},
     {6, %{
