@@ -42,8 +42,9 @@ defmodule VolunteerHardcoded.Groups do
       title: "Economic Planning Board (EPB) Ontario",
       region_id: Regions.get_id_from_title!("Ontario"),
       roles: %{
-        "farhad.shariff@iicanada.net" => "admin",
-        "alykhan.nensi@iicanada.net" => "admin"
+        "anaar.dhanji@iicanada.net" => "admin",
+        "amreen.poonawala@iicanada.net" => "admin",
+        "ontario.epb.pm@iicanada.net" => "admin"
       }
     }},
     {7, %{
