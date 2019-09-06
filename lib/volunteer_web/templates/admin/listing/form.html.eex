@@ -1,108 +1,102 @@
 <%= form_for @changeset, @action_path, fn form -> %>
-	<%= render FormView, "text.html",
-	form: form,
-	field: :position_title,
-	title: "Position title",
-	placeholder: "Music Teacher",
-	required: true,
-	max_char_count: @max_char_counts.position_title
+	<%= FormView.render_field "generic.html",
+		form: form,
+		field: :position_title,
+		title: "Position title",
+		placeholder: "Music Teacher",
+		required: true,
+		max_char_count: @max_char_counts.position_title
 	%>
 
-	<%= render FormView, "text.html",
-	form: form,
-	field: :program_title,
-	title: "Program title",
-	placeholder: "SEED",
-	max_char_count: @max_char_counts.program_title
+	<%= FormView.render_field "generic.html",
+		form: form,
+		field: :program_title,
+		title: "Program title",
+		placeholder: "SEED",
+		max_char_count: @max_char_counts.program_title
 	%>
 
-	<%= render FormView, "text.html",
-	form: form,
-	field: :summary_line,
-	title: "Summary",
-	placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents",
-	required: true,
-	max_char_count: @max_char_counts.summary_line
+	<%= FormView.render_field "generic.html",
+		form: form,
+		field: :summary_line,
+		title: "Summary",
+		placeholder: "Deliver and facilitate energetic and fun music programming to children aged 0-3 and their parents",
+		required: true,
+		max_char_count: @max_char_counts.summary_line
 	%>
 
-	<%= render FormView, "select.html",
-	form: form,
-	field: :region_id,
-	choices: @region_id_choices,
-	title: "Region",
-	required: true
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :region_id,
+		choices: @region_id_choices,
+		title: "Region",
+		required: true
 	%>
 
-	<%= render FormView, "select.html",
-	form: form,
-	field: :group_id,
-	choices: @group_id_choices,
-	title: "Organizing group",
-	required: true
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :group_id,
+		choices: @group_id_choices,
+		title: "Organizing group",
+		required: true
 	%>
 
-	<%= render FormView, "select.html",
-	form: form,
-	field: :organized_by_id,
-	choices: @organized_by_id_choices,
-	title: "Organizing user",
-	required: true
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :organized_by_id,
+		choices: @organized_by_id_choices,
+		title: "Organizing user",
+		required: true
 	%>
 
-	<%= render FormView, "text.html",
-	form: form,
-	field: :cc_emails,
-	title: "CC'ed emails",
-	help_text: "Comma separated list of email addresses to CC when a new application is received",
-	placeholder: "some_person@gmail.com, another_person@hotmail.com",
-	input_opts: [
-		type: "email",
-		multiple: "true"
-	]
+	<%= FormView.render_field "generic.html",
+		form: form,
+		tag: &email_input/3,
+		field: :cc_emails,
+		title: "CC'ed emails",
+		help_text: "Comma separated list of email addresses to CC when a new application is received",
+		placeholder: "some_person@gmail.com, another_person@hotmail.com",
+		input_opts: [
+			multiple: "true"
+		]
 	%>
 
-	<%= render FormView, "with_toggler.html",
-	form: form,
-	tag: &text_input/3,
-	title: "Start date",
-	field: :start_date,
-	toggle: :start_date_toggle,
-	toggle_label: VolunteerWeb.ListingView.start_date_text(nil),
-	toggle_true: :disable,
-	toggle_input_clear: true,
-	input_opts: [
-		type: "date"
-	],
-	required: true
+	<%= FormView.render_field "generic.html", "with_toggle.html",
+		form: form,
+		title: "Start date",
+		tag: &date_input/3,
+		field: :start_date,
+		toggle: :start_date_toggle,
+		toggle_label: VolunteerWeb.ListingView.start_date_text(nil),
+		toggle_true: :disable,
+		toggle_input_clear: true,
+		required: true
 	%>
 
-	<%= render FormView, "with_toggler.html",
-	form: form,
-	tag: &text_input/3,
-	title: "End date",
-	field: :end_date,
-	toggle: :end_date_toggle,
-	toggle_label: VolunteerWeb.ListingView.end_date_text(nil),
-	toggle_true: :disable,
-	toggle_input_clear: true,
-	input_opts: [
-		type: "date"
-	],
-	required: true
+	<%= FormView.render_field "generic.html", "with_toggle.html",
+		form: form,
+		title: "End date",
+		tag: &date_input/3,
+		field: :end_date,
+		toggle: :end_date_toggle,
+		toggle_label: VolunteerWeb.ListingView.end_date_text(nil),
+		toggle_true: :disable,
+		toggle_input_clear: true,
+		required: true
 	%>
 
-	<%= render FormView, "with_select.html",
-	form: form,
-	tag: &number_input/3,
-	title: "Time commitment",
-	field: :time_commitment_amount,
-	select: :time_commitment_type,
-	select_choices: @time_commitment_type_choices,
-	required: true
+	<%= FormView.render_field "generic.html", "with_select.html",
+		form: form,
+		title: "Time commitment",
+		tag: &number_input/3,
+		field: :time_commitment_amount,
+		select: :time_commitment_type,
+		select_choices: @time_commitment_type_choices,
+		required: true
 	%>
 
 	<div class="listing-textblob">
-		<%= render FormView, "textarea.html",
+		<%= FormView.render_field "editor.html",
 		form: form,
 		field: :program_description,
 		title: "About the program",
@@ -113,7 +107,7 @@
 	</div>
 
 	<div class="listing-textblob">
-		<%= render FormView, "textarea.html",
+		<%= FormView.render_field "editor.html",
 		form: form,
 		field: :responsibilities,
 		title: "About the role",
@@ -124,7 +118,7 @@
 	</div>
 
 	<div class="listing-textblob">
-		<%= render FormView, "textarea.html",
+		<%= FormView.render_field "editor.html",
 		form: form,
 		field: :qualifications,
 		title: "About the applicant",
@@ -134,7 +128,7 @@
 		%>
 	</div>
 
-	<!-- render FormView, "multi_checkbox.html",
+	<!-- FormView.render_field "multi_checkbox.html",
 		form: form,
 		field: :qualifications_required,
 		title: "Qualifications required",

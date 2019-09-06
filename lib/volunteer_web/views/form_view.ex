@@ -1,6 +1,28 @@
 defmodule VolunteerWeb.FormView do
   use VolunteerWeb, :view
 
+  @wrapper "_wrapper.html"
+
+  def render_nested([], opts) do
+    nil
+  end
+
+  def render_nested([template], opts) do
+    render(template, opts)
+  end
+
+  def render_nested([template | rem_templates], opts) do
+    render_nested(rem_templates, opts ++ [do: render(template, opts)])
+  end
+
+  def render_field(template, opts) when is_list(opts) do
+    render_nested([template, @wrapper], opts)
+  end
+
+  def render_field(template, with_template, opts) when is_list(opts) do
+    render_nested([template, with_template, @wrapper], opts)
+  end
+
   def is_submitted?(form) do
     form.source.action != nil
   end
