@@ -1,0 +1,11 @@
+<div class="form-group row mb-2 mt-3">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["control-label"]) %></strong>
+	</div>
+	<div class="col-sm-9">
+		<%= textarea_hidden_input @form, @field %>
+	    <trix-editor class="<%= input_classes(@form, @field, ["form-control"]) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
+		<%= render "help_text.html", assigns %>
+	    <%= ErrorHelpers.error_tag @form, @field %>
+	</div>
+</div>

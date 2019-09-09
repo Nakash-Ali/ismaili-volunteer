@@ -1,0 +1,12 @@
+<div class="form-group row mb-2">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
+	</div>
+	<div class="col-sm-9">
+		<%= number_input @form, @field,
+			class: input_classes(@form, @field, ["form-control"]),
+			placeholder: assigns[:placeholder],
+			required: (if assigns[:required] == true, do: true, else: false) %>
+		<%= ErrorHelpers.error_tag @form, @field %>
+	</div>
+</div>

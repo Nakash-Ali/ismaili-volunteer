@@ -1,14 +1,13 @@
 <%= form_for @changeset, @action_path, fn form -> %>
-	<%= FormView.render_field "generic.html",
+	<%= render FormView, "number.html",
 		form: form,
-		tag: &number_input/3,
 		field: :openings,
 		title: "Number of positions open",
 		placeholder: "3",
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :classification,
 		title: "Classification",
@@ -16,7 +15,7 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :commitment_type,
 		title: "Commitment type",
@@ -24,7 +23,7 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :location_type,
 		title: "Location type",
@@ -32,7 +31,7 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :search_scope,
 		title: "Search scope",
@@ -40,7 +39,7 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "generic.html",
+	<%= render FormView, "text.html",
 		form: form,
 		field: :suggested_keywords,
 		title: "Suggested keywords",
@@ -48,7 +47,7 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "boolean.html",
+	<%= render FormView, "boolean.html",
 		form: form,
 		field: :eoa_evaluation,
 		title: "EOA Evaluation",
@@ -57,28 +56,28 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :function,
 		title: "Position function",
 		choices: @function_choices
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :industry,
 		title: "Position industry",
 		choices: @industry_choices
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :education_level,
 		title: "Education level",
 		choices: @education_level_choices
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		field: :work_experience_years,
 		title: "Years of work experience",

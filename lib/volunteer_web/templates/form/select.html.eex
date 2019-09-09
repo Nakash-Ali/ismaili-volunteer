@@ -1,17 +1,36 @@
-<%= if assigns[:multiple] == true do %>
-	<%= multiple_select(@form, @field, @choices,
-		[
-			class: input_classes(@form, @field, ["form-control"]),
-			required: (if assigns[:required] == true, do: true, else: false),
-		]
-		++ Map.get(assigns, :input_opts, [])) %>
-<% else %>
-	<%= select(@form, @field, @choices,
-		[
-			class: input_classes(@form, @field, ["form-control"]),
-			required: (if assigns[:required] == true, do: true, else: false),
-		]
-		++ Map.get(assigns, :input_opts, [])) %>
-<% end %>
-<%= render "help_text.html", assigns %>
-<%= ErrorHelpers.error_tag @form, @field %>
+<div class="form-group row mb-2">
+	<div class="col-sm-3 text-right">
+		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
+	</div>
+	<div class="col-sm-9">
+		<%= if assigns[:multiple] == true do %>
+			<%= multiple_select(@form, @field, @choices,
+				[
+					class: input_classes(@form, @field, ["form-control"]),
+					required: (if assigns[:required] == true, do: true, else: false),
+				]
+				++ Map.get(assigns, :input_opts, [])) %>
+		<% else %>
+			<%= select(@form, @field, @choices,
+				[
+					class: input_classes(@form, @field, ["form-control"]),
+					required: (if assigns[:required] == true, do: true, else: false),
+				]
+				++ Map.get(assigns, :input_opts, [])) %>
+		<% end %>
+		<%= render "help_text.html", assigns %>
+	    <%= ErrorHelpers.error_tag @form, @field %>
+	</div>
+</div>
+<!-- <script defer type="text/javascript">
+	(function() {
+		"use strict";
+		var isMultiSelect = "<%= assigns[:multiple] %>" === "true"
+		new Choices("#<%= input_id(@form, @field) %>", {
+			maxItemCount: isMultiSelect ? -1 : 1,
+			duplicateItemsAllowed: false,
+			resetScrollPosition: false,
+			searchResultLimit: 12
+		})
+	})()
+</script> -->

@@ -5,15 +5,17 @@
 		<% end %>
 	</div>
 
-	<%= FormView.render_field "generic.html",
+	<%= render FormView, "text.html",
 		form: form,
 		title: "Start date",
-		tag: &date_input/3,
 		field: :start_date,
+		input_opts: [
+			type: "date"
+		],
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= render FormView, "select.html",
 		form: form,
 		title: "Applicable JKs",
 		field: :target_jamatkhanas,
@@ -24,7 +26,7 @@
 	%>
 
 	<%= inputs_for form, :text_channels, fn form -> %>
-		<%= FormView.render_field "generic.html", "with_toggle.html",
+		<%= render FormView, "with_toggler.html",
 			form: form,
 			tag: &textarea/3,
 			title: input_value(form, :title),
