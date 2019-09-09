@@ -95,6 +95,7 @@ defmodule VolunteerHardcoded.Groups do
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "shirmeen.panju@iicanada.net" => "admin",
+        "shahina.jessa@iicanada.net" => "admin",
       }
     }},
     {15, %{
@@ -488,7 +489,6 @@ defmodule VolunteerHardcoded.Groups do
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "anisha.virani@iicanada.net" => "admin",
-        "shahena.kassam@iicanada.net" => "admin",
       }
     }},
     {73, %{
@@ -507,40 +507,50 @@ defmodule VolunteerHardcoded.Groups do
       title: "ITREB Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
       roles: %{
-        "jamal.nazari@iicanada.net" => "admin",
+        "moominzada@gmail.com" => "admin",
       }
     }},
     {76, %{
       title: "Arts & Culture Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
-      roles: %{}
+      roles: %{
+        "noorzia.shearzad@iicanada.net" => "admin",
+      }
     }},
     {77, %{
       title: "Women's Portfolio Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
-      roles: %{}
+      roles: %{
+        "neelab.nekzad@iicanada.net" => "admin",
+      }
     }},
     {78, %{
       title: "Education Board Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
       roles: %{
-        "khatira.saiemali@iicanada.net" => "admin",
+        "iffat.salaam-karim@iicanada.net" => "admin",
       }
     }},
     {79, %{
       title: "Health Board Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
-      roles: %{}
+      roles: %{
+        "natasha.nathoo@iicanada.net" => "admin",
+      }
     }},
     {80, %{
       title: "Youth & Sports Board (AKYSB) Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
-      roles: %{}
+      roles: %{
+        "bohjat.karimi@iicanada.net" => "admin",
+      }
     }},
     {81, %{
       title: "Economic Planning Board (EPB) Quebec & Maritimes",
       region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
-      roles: %{}
+      roles: %{
+        "nichad.dad@iicanada.net" => "admin",
+      }
     }},
     {82, %{
       title: "Settlement Portfolio BC",
@@ -571,6 +581,56 @@ defmodule VolunteerHardcoded.Groups do
     {86, %{
       title: "Communications & Publications",
       region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{}
+    }},
+    {87, %{
+      title: "ITREB BC",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+      roles: %{}
+    }},
+    {88, %{
+      title: "Care for the Elderly Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {89, %{
+      title: "Communications Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {90, %{
+      title: "External Relations Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {91, %{
+      title: "Finance Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {92, %{
+      title: "Ismaili Volunteers (IV) Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {93, %{
+      title: "Settlement Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {94, %{
+      title: "Social Welfare Board (SWB) Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {95, %{
+      title: "Council for Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+      roles: %{}
+    }},
+    {96, %{
+      title: "Property Matters Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
       roles: %{}
     }},
   ]

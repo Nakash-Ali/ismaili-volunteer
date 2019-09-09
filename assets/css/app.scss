@@ -131,6 +131,11 @@ small {
 	page-break-inside: avoid;
 }
 
+img.disabled {
+	opacity: $btn-disabled-opacity;
+	filter: grayscale(100%);
+}
+
 #old-browsers {
 	background: $danger;
 	color: #FFF;

@@ -4,10 +4,8 @@
 
 <link rel="stylesheet" href="https://use.typekit.net/imw4stg.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/3.21.0/raven.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript">
-	Raven.config('https://8130b93bc1e74deab16568c276e3134e@sentry.io/253594').install()
-</script>
+<script src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js" integrity="sha384-/Cqa/8kaWn7emdqIBLk3AkFMAHBk0LObErtMhO+hr52CntkaurEnihPmqYj3uJho" crossorigin="anonymous"></script>
+<script type="text/javascript">Sentry.init({ dsn: 'https://37489870519745949b63d96bde99ba78@sentry.io/1552838' });</script>
 
 <script src="<%= RouterHelpers.static_path(@conn, "/js/modernizr.js") %>"></script>
 <script src="<%= RouterHelpers.static_path(@conn, "/js/old_browsers.js") %>"></script>

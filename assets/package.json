@@ -27,9 +27,9 @@
 		"@babel/plugin-external-helpers": "^7.0.0",
 		"@babel/preset-env": "^7.5.5",
 		"autoprefixer": "^9.6.1",
-		"del": "^4.1.1",
+		"del": "^5.1.0",
 		"eslint": "^5.16.0",
-		"eslint-config-airbnb-base": "^13.2.0",
+		"eslint-config-airbnb-base": "^14.0.0",
 		"eslint-plugin-compat": "^3.3.0",
 		"eslint-plugin-import": "^2.18.2",
 		"eslint-plugin-promise": "^4.0.1",
@@ -59,6 +59,6 @@
 		"phoenix": "file:../deps/phoenix",
 		"phoenix_html": "file:../deps/phoenix_html",
 		"popper.js": "^1.14.4",
-		"url-search-params-polyfill": "^6.0.0"
+		"url-search-params-polyfill": "^7.0.0"
 	}
 }

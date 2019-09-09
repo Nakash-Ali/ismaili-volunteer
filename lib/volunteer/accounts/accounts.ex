@@ -71,6 +71,7 @@ defmodule Volunteer.Accounts do
       u in User,
       select: {u.title, u.id}
     )
+    |> order_by(desc: :title)
     |> Repo.all()
   end
 

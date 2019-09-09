@@ -2,7 +2,6 @@ defmodule Volunteer.Accounts.User do
   use Volunteer, :schema
   import Ecto.Changeset
   alias Volunteer.Accounts.Identity
-  alias Volunteer.Permissions.Role
   alias Volunteer.Apply.Applicant
 
   schema "users" do
@@ -21,7 +20,6 @@ defmodule Volunteer.Accounts.User do
     field :education_level, :string
 
     has_many :identities, Identity
-    has_many :roles, Role
 
     has_many :applicants, Applicant
 

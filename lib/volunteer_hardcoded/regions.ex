@@ -82,7 +82,7 @@ defmodule VolunteerHardcoded.Regions do
         email: ["cfo-announcements@iicanada.net"],
         channels: %{
           "Al-Akhbar" => "text",
-          "IICanada App & Website" => "text",
+          "IICanada app & website" => "text",
           "JK announcement" => "text"
         }
       },
@@ -310,7 +310,6 @@ defmodule VolunteerHardcoded.Regions do
       parent_id: 1,
       roles: %{
         "shamila.ilyasi@iicanada.net" => "admin",
-        "karima.fazalkarim@iicanada.net" => "cc_team",
       },
       system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
