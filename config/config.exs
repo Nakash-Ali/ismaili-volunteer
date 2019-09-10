@@ -72,6 +72,9 @@ config :phoenix, :template_engines,
 # Use Jason for JSON parsing in Bamboo
 config :bamboo, :json_library, Jason
 
+# Use Jason for JSON parsing in Recaptcha
+config :recaptcha, :json_library, Jason
+
 # Configure Sentry's error logging
 config :sentry,
   environment_name: Mix.env(),
