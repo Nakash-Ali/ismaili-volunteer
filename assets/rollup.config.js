@@ -23,17 +23,14 @@ function buildConfig(name) {
 		external: ['jquery'],
 		plugins: [
 			nodeResolve({
-				module: true,
-				jsnext: false,
-				main: true,
-				browser: true,
+				mainFields: ['browser', 'module', 'main'],
 				extensions: ['.js', '.json'],
 				preferBuiltins: false,
 			}),
-			commonJs(),
 			babel({
 				exclude: 'node_modules/**',
 			}),
+			commonJs(),
 		],
 	}
 }

@@ -1,15 +1,15 @@
 {
-	"presets": [
-		[
-			"@babel/env", {
-				"modules": false,
-				"targets": {
-					"browsers": ["last 5 versions", "> 1%"]
-				}
-	    }
-		]
-	],
-	"plugins": [
-		"@babel/external-helpers"
-	]
+  "presets": [
+    [
+      "@babel/env", {
+        "modules": false,
+        "targets": {
+          "browsers": ["last 6 versions", "> 1%"]
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
