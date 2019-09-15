@@ -3,7 +3,7 @@ defmodule VolunteerWeb.FormView do
 
   @wrapper "_wrapper.html"
 
-  def render_nested([], opts) do
+  def render_nested([], _opts) do
     nil
   end
 
