@@ -133,11 +133,11 @@ defmodule VolunteerWeb.NavbarItems do
         end)
       end
 
-      defp docs(_assigns) do
-        [
-          %Item{text: "Handbook", external: true, href: "https://docs.google.com/document/d/1NppvEe5pxM7YEn0kvsR4Vw2IPUyffaczPrkzFDSLv0k/edit?usp=sharing"}
-        ]
-      end
+      # defp docs(_assigns) do
+      #   [
+      #     %Item{text: "Handbook", external: true, href: "https://docs.google.com/document/d/1NppvEe5pxM7YEn0kvsR4Vw2IPUyffaczPrkzFDSLv0k/edit?usp=sharing"}
+      #   ]
+      # end
     end
 
     defmodule Feedback do

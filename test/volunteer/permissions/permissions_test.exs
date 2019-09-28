@@ -3,6 +3,8 @@ defmodule Volunteer.PermissionsTest do
   alias Volunteer.Permissions
   alias Volunteer.TestSupport.Factory
 
+  # TODO: improve these tests
+
   describe "annotate_roles_for_user/1" do
     test "simple", context do
       user = Factory.user!
