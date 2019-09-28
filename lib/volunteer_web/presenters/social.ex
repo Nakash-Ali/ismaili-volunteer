@@ -21,7 +21,7 @@ defimpl VolunteerWeb.Presenters.Social, for: Volunteer.Listings.Listing do
   end
 
   def title(listing) do
-    "Apply for #{VolunteerWeb.Presenters.Title.text(listing)}!"
+    "Apply for #{VolunteerWeb.Presenters.Title.plain(listing)}!"
   end
 
   def description(listing) do

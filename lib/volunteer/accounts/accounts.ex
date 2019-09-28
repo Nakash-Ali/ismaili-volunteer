@@ -5,6 +5,8 @@ defmodule Volunteer.Accounts do
   alias Volunteer.Accounts.User
   alias Volunteer.Accounts.Identity
 
+  @primary_email_admin_domain "iicanada.net"
+
   def upsert_authenticated_user(%{provider: provider, provider_id: provider_id} = attrs) do
     Repo.transaction(fn ->
       case get_identity_and_user(provider, provider_id) do
@@ -66,12 +68,13 @@ defmodule Volunteer.Accounts do
     User |> Repo.get(id)
   end
 
-  def get_user_id_choices do
+  def get_admin_user_id_choices do
     from(
       u in User,
-      select: {u.title, u.id}
+      select: {u.title, u.id},
+      where: ilike(u.primary_email, ^"%#{@primary_email_admin_domain}")
     )
-    |> order_by(desc: :title)
+    |> order_by(asc: :title)
     |> Repo.all()
   end
 
@@ -84,23 +87,5 @@ defmodule Volunteer.Accounts do
   def get_user_by_primary_email(primary_email) do
     from(u in User, where: u.primary_email == ^primary_email)
     |> Repo.one()
-  end
-
-  def annotate(users, options) when is_list(users) do
-    Enum.map(users, &annotate(&1, options))
-  end
-
-  def annotate(%User{} = user, options) do
-    Enum.reduce(options, user, fn
-      {:other_applicants, listing_id}, user ->
-        Map.put(
-          user,
-          :other_applicants,
-          Enum.reject(user.applicants, fn
-            %{listing_id: ^listing_id} -> true
-            _ -> false
-          end)
-        )
-    end)
   end
 end

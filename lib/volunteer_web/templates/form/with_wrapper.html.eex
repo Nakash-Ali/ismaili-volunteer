@@ -1,6 +1,6 @@
 <div class="form-group row mb-2">
 	<div class="col-sm-3 text-right">
-		<strong><%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label"]) %></strong>
+		<%= label @form, @field, @title, class: label_classes(assigns, ["col-form-label", "font-family-sans-serif"]) %>
 	</div>
 	<div class="col-sm-9">
 		<%= assigns[:do] %>

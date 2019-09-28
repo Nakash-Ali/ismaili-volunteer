@@ -1,3 +1,0 @@
-<%= if assigns[:help_text] do %>
-	<small class="form-text text-muted"><%= assigns[:help_text] %></small>
-<% end %>

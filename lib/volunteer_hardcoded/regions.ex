@@ -34,6 +34,13 @@ defmodule VolunteerHardcoded.Regions do
     ]
   }
 
+  @canada_marketing_channels %{
+    "Al-Akhbar" => "text",
+    "IICanada app & website" => "text",
+    "JK announcement" => "text",
+    "Social media" => "image",
+  }
+
   @raw_config [
     {1, %{
       title: "Canada",
@@ -50,6 +57,10 @@ defmodule VolunteerHardcoded.Regions do
       marketing_request: %{
         email: [],
         channels: %{}
+      },
+      region_in_path: %{
+        true => "all national and regional listings",
+        false => "national listings only"
       },
       jamatkhanas: [],
       disclaimers: @canada_disclaimers,
@@ -69,7 +80,6 @@ defmodule VolunteerHardcoded.Regions do
       parent_id: 1,
       roles: %{
         "nabeela.haji@iicanada.net" => "admin",
-        "zahra.nurmohamed@iicanada.net" => "cc_team",
       },
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
@@ -80,11 +90,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         email: ["cfo-announcements@iicanada.net"],
-        channels: %{
-          "Al-Akhbar" => "text",
-          "IICanada app & website" => "text",
-          "JK announcement" => "text"
-        }
+        channels: @canada_marketing_channels
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Ontario", [
         "Barrie",
@@ -146,11 +152,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         email: ["farah.surani@iicanada.net"],
-        channels: %{
-          "Al-Akhbar" => "text",
-          "IICanada App & Website" => "text",
-          "JK announcement" => "text"
-        }
+        channels: @canada_marketing_channels
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("BC", [
         "Burnaby Lake",
@@ -194,11 +196,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         email: ["jamil.ramji@gmail.com"],
-        channels: %{
-          "Al-Akhbar" => "text",
-          "IICanada App & Website" => "text",
-          "JK announcement" => "text"
-        }
+        channels: @canada_marketing_channels
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Edmonton", [
         "Fort McMurray",
@@ -237,11 +235,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         email: ["jahangir.valliani@iicanada.net"],
-        channels: %{
-          "Al-Akhbar" => "text",
-          "IICanada App & Website" => "text",
-          "JK announcement" => "text"
-        }
+        channels: @canada_marketing_channels
       },
       jamatkhanas: [
         "Headquarters",
@@ -279,12 +273,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         email: ["volunteer.prairies@iicanada.net"],
-        channels: %{
-          "Al-Akhbar" => "text",
-          "IICanada App & Website" => "text",
-          "JK announcement" => "text",
-          "Social media" => "text"
-        },
+        channels: @canada_marketing_channels
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Prairies", [
         "Franklin",
@@ -320,11 +309,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         email: ["shamila.ilyasi@iicanada.net"],
-        channels: %{
-          "Al-Akhbar" => "text",
-          "IICanada App & Website" => "text",
-          "JK announcement" => "text",
-        },
+        channels: @canada_marketing_channels
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Quebec & Maritimes", [
         "Brossard",

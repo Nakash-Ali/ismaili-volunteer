@@ -1,22 +1,14 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2 py-2q"><%= Title.html(@group) %></h4>
-<% end %>
+<%= render_subtitle "info", assigns %>
 
 <%= render "request_changes.html", assigns %>
 
-<section class="container mt-5 my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:details, @group, @conn) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container my-4">
-	<%= for {title, body} <- definition_list(:roles, @group) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
-</section>
-
-<section class="container my-4 mb-5">
+<section class="container mt-3 mb-5">
 	<%= for {title, body} <- definition_list(:meta, @group) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>

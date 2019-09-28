@@ -4,11 +4,8 @@ const babel = require('rollup-plugin-babel')
 
 const FILE_NAMES = [
 	'app',
-	'char_count',
 	'drafterize_form',
-	'iframe_resizer',
-	'old_browsers',
-	'smooth',
+	'stimulus',
 ]
 
 function buildConfig(name) {
@@ -18,9 +15,7 @@ function buildConfig(name) {
 			name,
 			file: `../priv/static/js/${name}.js`,
 			format: 'iife',
-			globals: { jquery: '$' },
 		},
-		external: ['jquery'],
 		plugins: [
 			nodeResolve({
 				mainFields: ['browser', 'module', 'main'],

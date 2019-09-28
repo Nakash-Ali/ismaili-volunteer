@@ -1,28 +1,35 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2 py-2q">All Users</h4>
-<% end %>
+<%= render SubtitleView, "bare.html", subtitle: "All Users" %>
 
-<section class="container my-3">
-	<div class="table-responsive">
-		<table class="table table-borderless table-hover">
-			<thead class="font-family-sans-serif">
-				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Email</th>
-					<th scope="col">Phone</th>
-					<th scope="col">Date joined</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%= for user <- @users do %>
-					<tr>
-						<td><%= Title.text(user) %></td>
-						<td><code><%= user.primary_email %></code></td>
-						<td><code><%= user.primary_phone %></code></td>
-						<td><%= Temporal.format_datetime(user.inserted_at) %></td>
-					</tr>
-				<% end %>
-			</tbody>
-		</table>
+<section class="container mt-3 mb-5">
+	<div class="list-group">
+		<%= for user <- @users do %>
+			<div class="list-group-item px-2 py-5q">
+				<p class="mb-1q"><strong><%= Title.plain(user) %></strong></p>
+				<div class="row align-items-baseline">
+					<div class="col-6">
+						<div class="row">
+							<div class="col-auto">
+								<p class="mb-0 text-muted font-family-sans-serif">Email</p>
+
+							</div>
+							<div class="col">
+								<p class="mb-0"><%= user.primary_email %></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="row">
+							<div class="col-auto">
+								<p class="mb-0 text-muted font-family-sans-serif">Phone</p>
+							</div>
+							<div class="col">
+								<p class="mb-0"><%= user.primary_phone %></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p class="mb-0 mt-3q text-muted font-family-sans-serif">Created on <%= TemporalView.local(user.inserted_at) %></p>
+			</div>
+		<% end %>
 	</div>
 </section>

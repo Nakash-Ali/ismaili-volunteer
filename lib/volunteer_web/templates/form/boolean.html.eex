@@ -1,12 +1,12 @@
 <div class="custom-control custom-radio">
 	<%= radio_button @form, @field, "true",
-		class: input_classes(@form, @field, ["custom-control-input"]),
+		class: HTMLHelpers.io_join(["custom-control-input"] ++ ErrorHelpers.error_classes(@form, @field)),
 		required: (if assigns[:required] == true, do: true, else: false) %>
 	<%= label @form, @field, @true_label, for: "#{input_id(@form, @field)}_true", class: "custom-control-label" %>
 </div>
 <div class="custom-control custom-radio">
 	<%= radio_button @form, @field, "false",
-		class: input_classes(@form, @field, ["custom-control-input"]),
+		class: HTMLHelpers.io_join(["custom-control-input"] ++ ErrorHelpers.error_classes(@form, @field)),
 		required: (if assigns[:required] == true, do: true, else: false) %>
 	<%= label @form, @field, @false_label, for: "#{input_id(@form, @field)}_false", class: "custom-control-label" %>
 </div>

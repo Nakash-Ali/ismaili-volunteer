@@ -1,18 +1,13 @@
 defmodule VolunteerWeb.Admin.ListingView do
   use VolunteerWeb, :view
   alias Volunteer.Listings
-  alias VolunteerWeb.FormView
   alias VolunteerWeb.ListingView, as: PublicListingView
+  alias VolunteerWeb.FormView
   alias VolunteerWeb.AdminView
+  alias VolunteerWeb.Admin.SubtitleView
   alias VolunteerWeb.HTMLHelpers
-  alias VolunteerWeb.Presenters.{Title, Temporal}
-
-  def render("head_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
-    [
-      # render(VolunteerWeb.VendorView, "choices.html"),
-      StaticHelpers.stylesheet_tag(conn, "/css/admin/common.css"),
-    ]
-  end
+  alias VolunteerWeb.Presenters.Title
+  alias VolunteerUtils.Temporal
 
   def render("head_extra" <> _, %{conn: conn}) do
     [
@@ -23,28 +18,20 @@ defmodule VolunteerWeb.Admin.ListingView do
   def render("body_extra" <> page, %{conn: conn}) when page in [".edit.html", ".new.html"] do
     [
       StaticHelpers.script_tag(conn, "/js/drafterize_form.js"),
-      StaticHelpers.script_tag(conn, "/js/char_count.js"),
       render(VolunteerWeb.VendorView, "datepicker.html"),
       render(VolunteerWeb.VendorView, "trix.html"),
     ]
   end
 
-  def sub_title_nav(%{conn: conn, listing: listing, active_nav: active_nav}) do
+  def render_subtitle(active_nav, %{conn: conn, listing: listing} = assigns) do
     [
       {"Info", RouterHelpers.admin_listing_path(conn, :show, listing)},
-      # {"Applicants", RouterHelpers.admin_listing_applicant_path(conn, :index, listing)},
+      {"Roles", RouterHelpers.admin_listing_role_path(conn, :index, listing)},
+      {"Applicants", RouterHelpers.admin_listing_applicant_path(conn, :index, listing)},
       {"TKN", RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing)},
-      {"Marketing", RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing)}
+      {"Marketing", RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing)},
     ]
-    |> Enum.map(fn {title, path} ->
-      case String.downcase(title) do
-        ^active_nav ->
-          {title, path, "active"}
-
-        _ ->
-          {title, path, ""}
-      end
-    end)
+    |> SubtitleView.with_nav(active_nav, subtitle: Title.bolded(listing), meta: render("subtitle_meta.html", assigns))
   end
 
   def listing_state_text_and_class(listing) do
@@ -76,7 +63,7 @@ defmodule VolunteerWeb.Admin.ListingView do
   def definition_list(:reference, listing) do
     definition_list(:links, listing) ++
       [
-        {"Title", Title.text(listing)},
+        {"Title", Title.plain(listing)},
         {"Region", listing.region.title},
         {"Organizing group", listing.group.title}
       ]
@@ -94,7 +81,7 @@ defmodule VolunteerWeb.Admin.ListingView do
       [
         {"Approved?", approved_text(listing)},
         {"Approved by", listing.approved_by.title},
-        {"Approval date", Temporal.format_datetime(listing.approved_on)}
+        {"Approved at", Temporal.format_datetime!(listing.approved_on)}
       ]
     else
       [
@@ -130,8 +117,8 @@ defmodule VolunteerWeb.Admin.ListingView do
   def definition_list(:meta, listing) do
     [
       {"Created by", listing.created_by.title},
-      {"Creation date", Temporal.format_datetime(listing.inserted_at)},
-      {"Last updated date", Temporal.format_datetime(listing.updated_at)}
+      {"Created at", Temporal.format_datetime!(listing.inserted_at)},
+      {"Updated at", Temporal.format_datetime!(listing.updated_at)}
     ]
   end
 

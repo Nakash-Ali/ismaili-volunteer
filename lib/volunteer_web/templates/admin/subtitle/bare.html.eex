@@ -1,0 +1,9 @@
+<section class="title mb-2 pt-2 text-center">
+	<div class="container">
+		<%= if assigns[:do] != nil do %>
+			<%= assigns[:do] %>
+		<% else %>
+			<h4 class="mb-2 py-2q"><%= assigns[:subtitle] %></h4>
+		<% end %>
+	</div>
+</section>

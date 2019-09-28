@@ -1,17 +1,13 @@
-<%= if assigns[:multiple] == true do %>
-	<%= multiple_select(@form, @field, @choices,
-		[
-			class: input_classes(@form, @field, ["form-control"]),
-			required: (if assigns[:required] == true, do: true, else: false),
+<% tag = if assigns[:multiple] == true, do: &multiple_select/4, else: &select/4 %>
+<%= tag.(@form, @field, @choices,
+	[
+		class: HTMLHelpers.io_join(["form-control"] ++ ErrorHelpers.error_classes(@form, @field, Map.get(assigns, :error_classes_opts, []))),
+		required: (if assigns[:required] == true, do: true, else: false),
+		data: [
+			target: "toggle.toDisable"
 		]
-		++ Map.get(assigns, :input_opts, [])) %>
-<% else %>
-	<%= select(@form, @field, @choices,
-		[
-			class: input_classes(@form, @field, ["form-control"]),
-			required: (if assigns[:required] == true, do: true, else: false),
-		]
-		++ Map.get(assigns, :input_opts, [])) %>
-<% end %>
-<%= render "help_text.html", assigns %>
+	]
+	++ Map.get(assigns, :input_opts, []))
+%>
+<%= help_text assigns %>
 <%= ErrorHelpers.error_tag @form, @field %>

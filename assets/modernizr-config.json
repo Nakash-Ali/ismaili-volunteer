@@ -1,15 +1,35 @@
 {
-	"minify": false,
-	"options": [],
+	"minify": true,
+	"classPrefix": "mod-",
+	"options": [
+		"domPrefixes",
+		"prefixes",
+		"setClasses"
+	],
 	"feature-detects": [
+		"test/history",
+		"test/inputtypes",
 		"test/queryselector",
+		"test/requestanimationframe",
 		"test/css/animations",
 		"test/css/backgroundsizecover",
 		"test/css/borderradius",
 		"test/css/boxshadow",
+		"test/css/boxsizing",
+		"test/css/cssgrid",
 		"test/css/flexbox",
 		"test/css/flexwrap",
+		"test/css/fontface",
 		"test/css/mediaqueries",
-		"test/css/remunit"
+		"test/css/opacity",
+		"test/css/pointerevents",
+		"test/css/remunit",
+		"test/css/transforms",
+		"test/css/transformslevel2",
+		"test/css/transitions",
+		"test/dom/classlist",
+		"test/forms/inputnumber-l10n",
+		"test/forms/validation",
+		"test/url/urlsearchparams"
 	]
 }

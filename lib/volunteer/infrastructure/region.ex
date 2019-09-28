@@ -6,6 +6,8 @@ defmodule Volunteer.Infrastructure.Region do
   alias Volunteer.Infrastructure.Group
 
   schema "regions" do
+    has_many :roles, Volunteer.Roles.Role
+    
     field :title, :string
     field :slug, :string
     field :parent_path, {:array, :id}, default: []

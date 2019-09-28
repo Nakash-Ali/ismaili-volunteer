@@ -1,9 +1,13 @@
-<%= if assigns[:region_in_path] == true do %>
-	<div class="btn-group" role="group">
-		<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'false'); return false;">Hide listings from regions</a>
-	</div>
-<% else %>
-	<div class="btn-group" role="group">
-		<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'true'); return false;">Show listings from regions</a>
-	</div>
+<%= if @region.hardcoded[:region_in_path] do %>
+	<%= if assigns[:region_in_path] == true do %>
+		<div class="btn-group btn-group-sm" role="group">
+			<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'false'); return false;">Show <%= @region.hardcoded.region_in_path[false] %></a>
+			<a class="btn btn-outline-secondary active" href="#" onclick="setQueryParam('region_in_path', 'true'); return false;">Showing <%= @region.hardcoded.region_in_path[true] %></a>
+		</div>
+	<% else %>
+		<div class="btn-group btn-group-sm" role="group">
+			<a class="btn btn-outline-secondary active" href="#" onclick="setQueryParam('region_in_path', 'false'); return false;">Showing <%= @region.hardcoded.region_in_path[false] %></a>
+			<a class="btn btn-outline-secondary" href="#" onclick="setQueryParam('region_in_path', 'true'); return false;">Show <%= @region.hardcoded.region_in_path[true] %></a>
+		</div>
+	<% end %>
 <% end %>

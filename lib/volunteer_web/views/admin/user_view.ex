@@ -1,7 +1,8 @@
 defmodule VolunteerWeb.Admin.UserView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.AdminView
-  alias VolunteerWeb.Presenters.{Title, Temporal}
+  alias VolunteerWeb.Admin.SubtitleView
+  alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.TemporalView
 
   def render("head_extra" <> _, %{conn: conn}) do
     [
@@ -35,7 +36,7 @@ defmodule VolunteerWeb.Admin.UserView do
 
   def definition_list(:details, user) do
     [
-      {"Title", Title.text(user)},
+      {"Title", Title.plain(user)},
       {"Email", user.primary_email},
       {"Phone", user.primary_phone},
       {"Preferred contact method", preferred_contact_text(user)},

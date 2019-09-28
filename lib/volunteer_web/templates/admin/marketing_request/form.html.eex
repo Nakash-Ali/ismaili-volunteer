@@ -1,10 +1,4 @@
 <%= form_for @changeset, @action_path, fn form -> %>
-	<div class="mb-2">
-		<%= ErrorHelpers.error_tag form, :_minimum_channels, fn error -> %>
-			<div class="alert alert-danger"><%= error %></div>
-		<% end %>
-	</div>
-
 	<%= FormView.render_field "generic.html",
 		form: form,
 		title: "Start date",
@@ -20,7 +14,7 @@
 		multiple: true,
 		choices: @jamatkhanas_for_region,
 		required: true,
-		help_text: "You can select multiple Jamatkhanas from this list"
+		help_text: "You can select multiple Jamatkhanas from this list."
 	%>
 
 	<%= inputs_for form, :text_channels, fn form -> %>
@@ -31,10 +25,22 @@
 			field: :text,
 			toggle: :enabled,
 			toggle_label: "Enable",
-			toggle_true: :enable,
-			toggle_input_clear: false
+			toggle_when_true: :enable,
+			toggle_clear_on_disable: false
 		%>
-		<%= hidden_input(form, :title) %>
+	<% end %>
+
+	<%= inputs_for form, :image_channels, fn form -> %>
+		<%= FormView.render_field "filepicker.html", "with_toggle.html",
+			form: form,
+			title: input_value(form, :title),
+			field: :image_url,
+			default_img: @listing_social_image,
+			toggle: :enabled,
+			toggle_label: "Enable",
+			toggle_when_true: :enable,
+			toggle_clear_on_disable: false
+		%>
 	<% end %>
 
 	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>

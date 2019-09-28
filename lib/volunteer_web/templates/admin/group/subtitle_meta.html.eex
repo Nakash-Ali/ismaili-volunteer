@@ -1,0 +1,1 @@
+<li class="list-inline-item">View public listings at <%= link RouterHelpers.group_url(@conn, :show, @group.id), to: RouterHelpers.group_url(@conn, :show, @group.id), target: "_blank" %></li>

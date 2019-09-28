@@ -2,6 +2,9 @@ defmodule VolunteerHardcoded.Groups do
   use VolunteerHardcoded
   alias VolunteerHardcoded.Regions
 
+  # NOTE: The name of the region at the end of the title must exactly match
+  # the title of the region itself. Otherwise, it won't get bolded correctly
+
   @raw_config [
     {1, %{
       title: "Council for Canada",
@@ -62,7 +65,7 @@ defmodule VolunteerHardcoded.Groups do
       roles: %{}
     }},
     {9, %{
-      title: "Community Relations BC",
+      title: "Community Relations British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
@@ -81,17 +84,17 @@ defmodule VolunteerHardcoded.Groups do
       }
     }},
     {12, %{
-      title: "Ismaili Volunteers (IV) BC",
+      title: "Ismaili Volunteers (IV) British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
     {13, %{
-      title: "Quality of Life (QoL) BC",
+      title: "Quality of Life (QoL) British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
     {14, %{
-      title: "Social Welfare Board (SWB) BC",
+      title: "Social Welfare Board (SWB) British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "shirmeen.panju@iicanada.net" => "admin",
@@ -459,47 +462,47 @@ defmodule VolunteerHardcoded.Groups do
       }
     }},
     {68, %{
-      title: "Arts & Culture BC",
+      title: "Arts & Culture British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "samir.modhwadia@iicanada.net" => "admin",
       }
     }},
     {69, %{
-      title: "Women's Portfolio BC",
+      title: "Women's Portfolio British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
     {70, %{
-      title: "Economic Planning Board (EPB) BC",
+      title: "Economic Planning Board (EPB) British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "farida.bhimji@iicanada.net" => "admin"
       }
     }},
     {71, %{
-      title: "Youth & Sports Board (AKYSB) BC",
+      title: "Youth & Sports Board (AKYSB) British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "engela.kara@iicanada.net" => "admin"
       }
     }},
     {72, %{
-      title: "Care for the Elderly BC",
+      title: "Care for the Elderly British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "anisha.virani@iicanada.net" => "admin",
       }
     }},
     {73, %{
-      title: "Health Board BC",
+      title: "Health Board British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "amir.hussein@iicanada.net" => "admin",
       }
     }},
     {74, %{
-      title: "World Partnership Walk BC",
+      title: "World Partnership Walk British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},
@@ -553,14 +556,14 @@ defmodule VolunteerHardcoded.Groups do
       }
     }},
     {82, %{
-      title: "Settlement Portfolio BC",
+      title: "Settlement Portfolio British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "shazma.nazarali@iicanada.net" => "admin"
       }
     }},
     {83, %{
-      title: "Education Board BC",
+      title: "Education Board British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{
         "shahida.hassanali@iicanada.net" => "admin",
@@ -584,7 +587,7 @@ defmodule VolunteerHardcoded.Groups do
       roles: %{}
     }},
     {87, %{
-      title: "ITREB BC",
+      title: "ITREB British Columbia",
       region_id: Regions.get_id_from_title!("British Columbia"),
       roles: %{}
     }},

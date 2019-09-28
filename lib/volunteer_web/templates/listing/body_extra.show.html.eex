@@ -13,13 +13,3 @@
 		}
 	})(window)
 </script>
-<%= render(VolunteerWeb.VendorView, "choices.html") %>
-<script type="text/javascript">
-	(function(window) {
-		"use strict";
-		var choices = new Choices(document.getElementById("user_primary_jamatkhanas"), {
-			maxItemCount: 1,
-			resetScrollPosition: false,
-		})
-	})(window)
-</script>

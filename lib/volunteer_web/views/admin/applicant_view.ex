@@ -1,8 +1,9 @@
 defmodule VolunteerWeb.Admin.ApplicantView do
   use VolunteerWeb, :view
+  alias VolunteerUtils.Temporal
   alias VolunteerWeb.HTMLHelpers
   alias VolunteerWeb.Admin.ListingView
-  alias VolunteerWeb.Presenters.{Title, Temporal}
+  alias VolunteerWeb.Presenters.Title
 
   def render("head_extra" <> _, %{conn: conn}) do
     [
@@ -19,9 +20,9 @@ defmodule VolunteerWeb.Admin.ApplicantView do
       end
 
     if VolunteerUtils.Temporal.is?(updated_at, :equal, applicant.inserted_at) do
-      "created #{Temporal.relative(applicant.inserted_at)}"
+      "Applied #{Temporal.format_relative(applicant.inserted_at)}"
     else
-      "created #{Temporal.relative(applicant.inserted_at)}, updated later"
+      "Last updated #{Temporal.format_relative(updated_at)}, applied #{Temporal.format_relative(applicant.inserted_at)}"
     end
   end
 

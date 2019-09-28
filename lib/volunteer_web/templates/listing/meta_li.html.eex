@@ -1,11 +1,11 @@
 <!-- {{ with .Params.proqualifications }}
 	{{ if . }}
-		<li class="list-inline-item"><i class="far fa-certificate mr-2q" aria-hidden="true"></i><em>Professional qualifications</em> required</li>
+		<li class="list-inline-item"><i class="far fa-certificate mr-2q" aria-hidden="true"></i>Professional qualifications required</li>
 	{{ end }}
 {{ end }} -->
 
 <%= if Enum.member?(@show, :time_commitment) do %>
-	<li class="list-inline-item"><i class="far fa-clock mr-2q" aria-hidden="true"></i><em><%= time_commitment_text(@listing) %></em></li>
+	<li class="list-inline-item"><i class="far fa-clock mr-2q" aria-hidden="true"></i><%= time_commitment_text(@listing) %></li>
 <% end %>
 
 <%= if Enum.member?(@show, :start_date_and_end_date) do %>
@@ -13,21 +13,21 @@
 <% end %>
 
 <%= if Enum.member?(@show, :region) do %>
-	<li class="list-inline-item"><i class="far fa-globe-stand mr-2q" aria-hidden="true"></i><%= VolunteerWeb.Presenters.Title.text(@listing.region) %></li>
+	<li class="list-inline-item"><i class="far fa-globe-stand mr-2q" aria-hidden="true"></i><%= VolunteerWeb.Presenters.Title.plain(@listing.region) %></li>
 <% end %>
 
 <%= if Enum.member?(@show, :group) do %>
-	<li class="list-inline-item"><i class="far fa-users mr-2q" aria-hidden="true"></i><%= VolunteerWeb.Presenters.Title.text(@listing.group) %></li>
+	<li class="list-inline-item"><i class="far fa-users mr-2q" aria-hidden="true"></i><%= VolunteerWeb.Presenters.Title.plain(@listing.group) %></li>
 <% end %>
 
 <!-- {{ with .Params.weeksduration }}
-	<li class="list-inline-item"><i class="far fa-hourglass-half mr-2q" aria-hidden="true"></i><em>{{ . }} week</em> program</li>
+	<li class="list-inline-item"><i class="far fa-hourglass-half mr-2q" aria-hidden="true"></i>{{ . }} week program</li>
 {{ end }}
 
 {{ with .Params.totalhours }}
-	<li class="list-inline-item"><i class="far fa-check-square mr-2q" aria-hidden="true"></i><em>{{ if eq . 1 }}{{ . }} hour{{ else }}{{ . }} hours{{ end }}</em> in total</li>
+	<li class="list-inline-item"><i class="far fa-check-square mr-2q" aria-hidden="true"></i>{{ if eq . 1 }}{{ . }} hour{{ else }}{{ . }} hours{{ end }} in total</li>
 {{ end }} -->
 
 <%= if Enum.member?(@show, :expiry) do %>
-	<li class="list-inline-item"><i class="far fa-hourglass-half mr-2q" aria-hidden="true"></i>Listing expires on <em><%= expiry_datetime_text(@listing.expiry_date) %></em></li>
+	<li class="list-inline-item"><i class="far fa-hourglass-half mr-2q" aria-hidden="true"></i>Listing expires on <%= expiry_datetime_text(@listing.expiry_date) %></li>
 <% end %>

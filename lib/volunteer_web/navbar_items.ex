@@ -2,14 +2,14 @@ defmodule VolunteerWeb.NavbarItems do
   alias VolunteerWeb.Router.Helpers, as: RouterHelpers
   alias VolunteerWeb.UserSession
 
+  @item_module VolunteerWeb.LayoutView
+  @item_template "navbar_item.html"
+
   defmodule Item do
-    defstruct text: nil, href: nil, children: nil, is_active?: false
+    defstruct text: nil, href: nil, children: nil, external: false, is_active?: false
   end
 
   defmodule Implementation do
-    @item_module VolunteerWeb.LayoutView
-    @item_template "navbar_item.html"
-
     def get_view_module_path(%{view_module: view_module}) do
       Module.split(view_module)
     end
@@ -73,12 +73,6 @@ defmodule VolunteerWeb.NavbarItems do
       |> String.trim("/")
       |> String.split("/")
     end
-
-    def render_nav_item(%Item{} = item, assigns) do
-      all_assigns = Map.merge(assigns, %{item: item})
-
-      Phoenix.View.render(@item_module, @item_template, all_assigns)
-    end
   end
 
   defmodule Config do
@@ -98,10 +92,7 @@ defmodule VolunteerWeb.NavbarItems do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              %Item{
-                text: VolunteerWeb.Presenters.Title.text(UserSession.get_user(conn)),
-                href: nil
-              },
+              %Item{text: VolunteerWeb.Presenters.Title.plain(UserSession.get_user(conn)), href: nil},
               %Item{text: "Logout", href: RouterHelpers.auth_path(conn, :logout)}
             ]
 
@@ -114,13 +105,13 @@ defmodule VolunteerWeb.NavbarItems do
     end
 
     defmodule Admin do
-      def base(%{conn: conn}) do
+      def items(%{conn: conn} = assigns) do
         case UserSession.logged_in?(conn) do
           true ->
             [
-              %Item{text: "Admin", href: RouterHelpers.admin_index_path(conn, :index)}
-              # TODO: Enable documentation
-              # {"Documentation", "https://drive.google.com/open?id=1Hvf9o_d5BPXYh0UJvvGO8GfAyCbia088"},
+              %Item{text: "Admin", children: home(assigns) ++ features(assigns)},
+              # TODO: re-enable once docs have been reviewed
+              # %Item{text: "Docs", children: docs(assigns)},
             ]
 
           false ->
@@ -128,12 +119,24 @@ defmodule VolunteerWeb.NavbarItems do
         end
       end
 
-      def primary(%{conn: conn}) do
+      defp home(%{conn: conn}) do
+        [
+          %Item{text: "Home", href: RouterHelpers.admin_index_path(conn, :index)}
+        ]
+      end
+
+      defp features(%{conn: conn}) do
         conn
         |> VolunteerWeb.FeatureModules.configs_for_conn()
         |> Enum.map(fn conf ->
           %Item{text: conf.title, href: conf.path.(conn)}
         end)
+      end
+
+      defp docs(_assigns) do
+        [
+          %Item{text: "Handbook", external: true, href: "https://docs.google.com/document/d/1NppvEe5pxM7YEn0kvsR4Vw2IPUyffaczPrkzFDSLv0k/edit?usp=sharing"}
+        ]
       end
     end
 
@@ -159,20 +162,23 @@ defmodule VolunteerWeb.NavbarItems do
       end
     end
 
-    def for(["VolunteerWeb", "Admin" | _], assigns) do
-      Admin.primary(assigns) ++
-        Admin.base(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
+    def for(_path, assigns) do
+      Admin.items(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
     end
+  end
 
-    def for(["VolunteerWeb" | _], assigns) do
-      Admin.base(assigns) ++ Feedback.items(assigns) ++ User.items(assigns)
-    end
+  def render_nav_item(%Item{} = item, assigns) do
+    Phoenix.View.render(
+      @item_module,
+      @item_template,
+      Map.merge(assigns, %{item: item})
+    )
   end
 
   def render(assigns) do
     Implementation.get_view_module_path(assigns)
     |> Config.for(assigns)
     |> Implementation.identify_active(assigns)
-    |> Enum.map(&Implementation.render_nav_item(&1, assigns))
+    |> Enum.map(&render_nav_item(&1, assigns))
   end
 end

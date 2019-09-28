@@ -11,18 +11,8 @@ defmodule VolunteerHardcoded do
         raise "@raw_config must be defined as a list"
       end
 
-      @raw_config
-      |> Enum.map(&elem(&1, 0))
-      |> Enum.group_by(&(&1))
-      |> Enum.filter(&match?({_, list} when is_list(list) and length(list) > 1, &1))
-      |> case do
-        [] ->
-          # we're fine
-          true
-
-        dupes ->
-          IO.inspect(dupes)
-          raise "Found duplicates in #{__MODULE__}"
+      if not VolunteerUtils.Keyword.all_keys_unique?(@raw_config) do
+        raise "Found duplicates in #{__MODULE__}"
       end
 
       @config_by_id Enum.into(@raw_config, %{})
@@ -77,7 +67,9 @@ defmodule VolunteerHardcoded do
   end
 
   def construct_jamatkhanas(region_name, jamatkhanas) do
-    Enum.map(jamatkhanas, fn jk -> "#{jk}, #{region_name}" end)
+    jamatkhanas
+    |> Enum.map(fn jk -> "#{jk}, #{region_name}" end)
+    |> Enum.sort
   end
 
   def do_fetch_config(conf, key) when not is_list(key) do

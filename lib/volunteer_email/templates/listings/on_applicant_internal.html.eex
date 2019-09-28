@@ -1,6 +1,6 @@
-<p>Ya Ali Madad <%= Title.text(@listing.organized_by) %>,</p>
+<p>Ya Ali Madad <%= Title.plain(@listing.organized_by) %>,</p>
 
-<p>You've just received an application from <%= Title.text(@user) %>. The full details are below.</p>
+<p>You've just received an application from <%= Title.plain(@user) %>. The full details are below.</p>
 
 <p>Please use this email thread for any internal conversations regarding the applicant, including those with the <%= Application.fetch_env!(:volunteer, :global_title) %> team. <em>This thread should not be shared with the applicant.</em></p>
 

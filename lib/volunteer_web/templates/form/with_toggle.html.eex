@@ -1,52 +1,19 @@
 <!-- <div class="form-group row mb-2 align-items-center"> -->
-<div class="row align-items-center">
+<!-- TODO: change this to align-items-baseline? -->
+<div class="row align-items-center"
+	data-controller="toggle"
+	data-toggle-clear-on-disable="<%= assigns[:toggle_clear_on_disable] || false %>"
+	data-toggle-when-true="<%= assigns[:toggle_when_true] || "enable" %>"
+>
 	<div class="col-sm-7">
 		<%= assigns[:do] %>
 	</div>
-	<div class="col-sm-5">
+	<div class="col-sm-5 text-center">
 		<div class="custom-control custom-checkbox">
-			<%= checkbox @form, @toggle, class: input_classes(@form, @field, ["form-check-input"]) %>
-			<%= label @form, @toggle, @toggle_label, class: "form-check-label" %>
+			<%= checkbox @form, @toggle,
+				class: HTMLHelpers.io_join(["custom-control-input"] ++ ErrorHelpers.error_classes(@form, @field)),
+				data: [target: "toggle.checkbox", action: "click->toggle#toggle"] %>
+			<%= label @form, @toggle, @toggle_label, class: "custom-control-label" %>
 		</div>
 	</div>
 </div>
-<script>
- 	(function() {
-	    var toggle_true = "<%= @toggle_true %>"
-		var toggle_input_clear = "<%= @toggle_input_clear %>"
-		var toggle = $("input#<%= input_id @form, @toggle %>")
-	    var target = $("#<%= input_id @form, @field %>")
-
-		var opposite = {
-			"disable": "enable",
-			"enable": "disable"
-		}
-
-		var actions = {
-			enable: function enable() {
-				target.prop("disabled", false)
-			},
-			disable: function disable() {
-				if (toggle_input_clear === "true") {
-					target.val("")
-				}
-		        target.prop("disabled", true)
-			}
-		}
-
-	    toggle.change(function(event) {
-			event.stopPropagation()
-			if (toggle.prop("checked") === true) {
-				actions[toggle_true]()
-			} else if (toggle.prop("checked") === false) {
-				actions[opposite[toggle_true]]()
-			}
-	    })
-
-	    if (toggle.prop("checked") === true) {
-			actions[toggle_true]()
-	    } else {
-			actions[opposite[toggle_true]]()
-		}
-	})()
-</script>

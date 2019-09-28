@@ -4,11 +4,6 @@
 	color: $gray-600;
 	li.list-inline-item {
 		margin-right: map-get($spacers, 3q);
-		em {
-			color: $gray-600;
-			font-weight: 400;
-			font-style: normal;
-		}
 		i {
 			color: $primary-dark;
 		}
@@ -24,14 +19,6 @@
 		}
 		&:last-child:after {
 			content: none;
-		}
-	}
-}
-
-.item-meta-underline {
-	li {
-		em {
-			@include tufte-underline($body-bg, $gray-600);
 		}
 	}
 }

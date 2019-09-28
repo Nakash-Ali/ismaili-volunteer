@@ -147,7 +147,7 @@ defmodule VolunteerWeb.UserSession do
     def annotate_roles_for_user(conn, _) do
       case VolunteerWeb.UserSession.get_user(conn) do
         user = %Accounts.User{} ->
-          VolunteerWeb.UserSession.put_user(conn, Volunteer.Permissions.annotate_roles_for_user(user, :if_absent))
+          VolunteerWeb.UserSession.put_user(conn, Volunteer.Permissions.annotate_roles_for_user(user, :lazy))
 
         _ ->
           conn

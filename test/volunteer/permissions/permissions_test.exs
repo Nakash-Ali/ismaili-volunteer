@@ -1,14 +1,23 @@
 defmodule Volunteer.PermissionsTest do
   use Volunteer.DataCase
   alias Volunteer.Permissions
+  alias Volunteer.TestSupport.Factory
 
   describe "annotate_roles_for_user/1" do
-    test "works for when there are no permissions" do
-      assert Permissions.annotate_roles_for_user(%{primary_email: "alizain.feerasta@iicanada.net"}) == %{primary_email: "alizain.feerasta@iicanada.net", group_roles: %{}, region_roles: %{}}
-    end
+    test "simple", context do
+      user = Factory.user!
+      region = Factory.region!
 
-    test "works for the complex use-case" do
-      assert Permissions.annotate_roles_for_user(%{primary_email: "zahra.nurmohamed@iicanada.net"}) == %{primary_email: "zahra.nurmohamed@iicanada.net", group_roles: %{57 => "admin"}, region_roles: %{2 => "cc_team"}}
+      Volunteer.Roles.create_subject_role(:region, region.id, %{user_id: user.id, relation: "admin"})
+
+      role =
+        user
+        |> Permissions.annotate_roles_for_user
+        |> Map.get(:roles_by_subject, %{})
+        |> Map.get(:region, %{})
+        |> Map.get(region.id, nil)
+
+      assert role == "admin"
     end
   end
 end

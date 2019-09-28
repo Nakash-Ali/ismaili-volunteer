@@ -1,0 +1,56 @@
+<%= render_subject_subtitle assigns %>
+
+<section class="container">
+	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
+		<%= if ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :create], @subject) do %>
+			<div class="btn-group" role="group">
+				<%= link {:safe, "<i class=\"far fa-plus mr-1q\" aria-hidden=\"true\"></i> Create"}, to: @router_helper.(@conn, :new, @subject), class: "btn btn-outline-primary" %>
+			</div>
+		<% end %>
+	</div>
+</section>
+
+<% is_allowed_delete = ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :delete], @subject) %>
+
+<section class="container mt-2 mb-5">
+	<%= if length(@roles) == 0 do %>
+		<div class="row text-center justify-content-center my-3">
+			<div class="col-sm-5">
+				<p class="mb-0">No roles have been created for this <%= @subject_type %>.</p>
+			</div>
+		</div>
+	<% else %>
+		<%= for role <- @roles do %>
+			<a href="#<%= role.id %>"></a>
+			<div class="card mb-2">
+				<div class="card-body py-5q px-0">
+					<div class="row no-gutters align-items-stretch">
+						<div class="px-2 col">
+							<p class="mb-1q"><strong><%= Title.plain(role.user) %></strong></p>
+							<div class="row">
+								<div class="col-auto">
+									<p class="mb-0 text-muted font-family-sans-serif">Email</p>
+								</div>
+								<div class="col">
+									<p class="mb-0"><%= role.user.primary_email %></p>
+								</div>
+							</div>
+							<p class="mb-0 mt-3q font-family-sans-serif text-muted">Granted <%= Temporal.format_relative(role.inserted_at) %> on <%= TemporalView.local(role.inserted_at) %></p>
+						</div>
+						<div class="px-2 col-2 border-left d-flex align-items-center justify-content-center font-family-sans-serif">
+							<p class="mb-0"><%= role.relation %></p>
+						</div>
+						<%= if is_allowed_delete do %>
+							<div class="px-2 col-auto border-left d-flex align-items-center justify-content-center font-family-sans-serif">
+								<%= link {:safe, "<i class=\"far fa-trash-alt\" aria-hidden=\"true\"></i>"}, to: apply(@router_module, @router_func, [@conn, :delete, @subject, role]), method: :delete, data: [confirm: "Are you sure? Deleting a role is non-reversible!"], class: "text-danger" %>
+							</div>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+</section>
+
+<!-- TODO: Add note about users who have implicit permissions -->
+<!-- <section class="container mt-3 mb-5 font-family-sans-serif"></section> -->

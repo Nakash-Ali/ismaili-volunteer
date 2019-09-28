@@ -1,14 +1,12 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2 py-2q">All Groups</h4>
-<% end %>
+<%= render SubtitleView, "bare.html", subtitle: "All Groups" %>
 
 <%= render "request_changes.html", assigns %>
 
-<section class="container my-3">
+<section class="container mt-3 mb-5">
 	<%= for group <- @groups do %>
-		<div class="">
-			<h6 class="">
-				<a href="<%= RouterHelpers.admin_group_path(@conn, :show, group) %>"><%= Title.html(group) %></a>
+		<div class="my-2">
+			<h6 class="mb-0">
+				<a href="<%= RouterHelpers.admin_group_path(@conn, :show, group) %>"><%= Title.bolded(group) %></a>
 			</h6>
 		</div>
 	<% end %>

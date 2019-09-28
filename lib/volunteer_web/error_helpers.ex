@@ -5,13 +5,21 @@ defmodule VolunteerWeb.ErrorHelpers do
 
   use Phoenix.HTML
 
+  def is_submitted?(form) do
+    form.source.action != nil
+  end
+
+  def has_errors?(form, field) do
+    Keyword.has_key?(form.errors, field)
+  end
+
   def error_tag(form, field) do
     error_tag(form, field, class: "invalid-feedback")
   end
 
-  def error_tag(form, field, class: class) do
+  def error_tag(form, field, opts) when is_list(opts) do
     error_tag(form, field, fn error ->
-      content_tag(:div, error, class: class)
+      content_tag(:div, error, opts)
     end)
   end
 
@@ -21,8 +29,78 @@ defmodule VolunteerWeb.ErrorHelpers do
     end)
   end
 
-  def has_errors?(form, field) do
-    Keyword.has_key?(form.errors, field)
+  def error_classes(form, field, opts \\ %{})
+
+  def error_classes(form, field, opts) when is_list(opts) do
+    error_classes(form, field, Enum.into(opts, %{}))
+  end
+
+  def error_classes(_form, _field, %{force: :none}) do
+    []
+  end
+
+  def error_classes(_form, _field, %{force: :invalid}) do
+    ["is-invalid"]
+  end
+
+  def error_classes(_form, _field, %{force: :valid}) do
+    ["is-valid"]
+  end
+
+  def error_classes(form, field, _opts) do
+    if is_submitted?(form) do
+      case has_errors?(form, field) do
+        true -> ["is-invalid"]
+        false -> ["is-valid"]
+      end
+    else
+      []
+    end
+  end
+
+  def get_underscore_errors(%Ecto.Changeset{} = changeset) do
+    changeset
+    |> Ecto.Changeset.traverse_errors(&format_error/3)
+    |> get_underscore_errors([])
+    |> Enum.dedup
+  end
+
+  def get_underscore_errors(raw_errors, accum) do
+    get_underscore_errors(raw_errors, accum, nil)
+  end
+
+  def get_underscore_errors(nil, accum, _parent_key) do
+    accum
+  end
+
+  def get_underscore_errors(raw_errors, accum, parent_key) when is_atom(parent_key) do
+    get_underscore_errors(raw_errors, accum, Atom.to_string(parent_key))
+  end
+
+  def get_underscore_errors(raw_errors, accum, _parent_key) when is_map(raw_errors) do
+    Enum.reduce(raw_errors, accum, fn {error_key, error_value}, accum ->
+      get_underscore_errors(error_value, accum, error_key)
+    end)
+  end
+
+  def get_underscore_errors(raw_errors, accum, parent_key) when is_list(raw_errors) do
+    Enum.reduce(raw_errors, accum, fn error_value, accum ->
+      get_underscore_errors(error_value, accum, parent_key)
+    end)
+  end
+
+  def get_underscore_errors(error_value, accum, "_" <> _ = parent_key) when is_binary(error_value) do
+    [{parent_key, error_value} | accum]
+  end
+
+  def get_underscore_errors(error_value, accum, _parent_key) when is_binary(error_value) do
+    accum
+  end
+
+  def format_error(_changeset, _field, {msg, opts}) do
+    Enum.reduce(opts, msg, fn {key, value}, acc ->
+      String.replace(acc, "%{#{key}}", to_string(value))
+    end)
   end
 
   @doc """

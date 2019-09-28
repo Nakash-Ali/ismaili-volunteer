@@ -1,14 +1,18 @@
-<%= render ListingView, "sub_title.html", assigns, active_nav: "tkn" %>
+<%= ListingView.render_subtitle "tkn", assigns %>
 
 <section class="container">
 	<div class="d-flex align-items-center justify-content-between font-family-sans-serif">
-		<div class="btn-group mr-2" role="group">
-			<%= link "Generate TKN Assignment PDF", to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing), class: "btn btn-primary text-white" %>
-		</div>
-		<div class="btn-toolbar justify-content-end" role="toolbar">
-			<div class="btn-group mr-2q" role="group">
-				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_tkn_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+		<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn_listing, :spec], @listing) do %>
+			<div class="btn-group mr-2" role="group">
+				<%= link "Generate TKN Assignment PDF", to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing), class: "btn btn-primary text-white" %>
 			</div>
+		<% end %>
+		<div class="btn-toolbar justify-content-end" role="toolbar">
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn_listing, :update], @listing) do %>
+				<div class="btn-group ml-2" role="group">
+					<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_tkn_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+				</div>
+			<% end %>
 			<!-- <div class="btn-group" role="group">
 				<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Delete"}, to: RouterHelpers.admin_listing_tkn_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger btn-xs" %>
 			</div> -->

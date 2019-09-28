@@ -18,6 +18,10 @@ defmodule Volunteer.StringSanitizer do
     end
   end
 
+  def sanitize(nil, _opts) do
+    nil
+  end
+
   def sanitize(input, %{type: :text} = opts) do
     default_opts = %{
       normalize_spaces: false

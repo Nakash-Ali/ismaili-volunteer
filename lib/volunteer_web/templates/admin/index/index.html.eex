@@ -1,6 +1,4 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2 py-2q">Admin Home</h4>
-<% end %>
+<%= render SubtitleView, "bare.html", subtitle: "Admin Home" %>
 
 <section class="container my-3">
 	<div class="row">

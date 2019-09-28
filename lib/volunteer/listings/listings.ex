@@ -2,20 +2,31 @@ defmodule Volunteer.Listings do
   import Ecto.Query
 
   alias Volunteer.Repo
+  alias Volunteer.Roles
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Listings.Listing
   alias Volunteer.Listings.TKNListing
   alias Volunteer.Listings.MarketingRequest
-  alias Volunteer.Accounts
 
   def new_listing do
     Listing.new()
   end
 
   def create_listing(attrs, created_by) do
-    attrs
-    |> Listing.create(created_by)
-    |> Repo.insert()
+    Repo.transaction(fn ->
+      attrs
+      |> Listing.create(created_by)
+      |> Repo.insert()
+      |> case do
+        {:ok, listing} ->
+          Roles.create_roles_for_new_listing!(listing)
+
+          listing
+
+        {:error, changeset} ->
+          Repo.rollback(changeset)
+      end
+    end)
   end
 
   def edit_listing(listing, attrs \\ %{}) do
@@ -118,19 +129,12 @@ defmodule Volunteer.Listings do
     |> Repo.all()
   end
 
-  def get_all_admin_listings_for_user(user, opts \\ []) do
-    from(l in base_listing_query())
-    |> query_for_user_listing(user)
-    |> query_listings_with_admin_state_filters(Keyword.get(opts, :filters, %{}))
-    |> order_by(desc: :expiry_date)
-    |> Repo.all()
-  end
-
   def get_all_public_listings(opts \\ []) do
     from(l in base_listing_query())
     |> query_approved_listing()
     |> query_unexpired_listing()
     |> query_listings_with_region_filters(Keyword.get(opts, :filters, %{}))
+    |> query_listings_with_group_filters(Keyword.get(opts, :filters, %{}))
     |> order_by(desc: :expiry_date)
     |> Repo.all()
   end
@@ -201,7 +205,7 @@ defmodule Volunteer.Listings do
     query_expired_listing(query)
   end
 
-  def query_one_public_listing(id, allow_expired: allow_expired) do
+  defp query_one_public_listing(id, allow_expired: allow_expired) do
     query =
       from(l in base_listing_query(), where: l.id == ^id)
       |> query_approved_listing()
@@ -212,22 +216,6 @@ defmodule Volunteer.Listings do
       query
       |> query_unexpired_listing()
     end
-  end
-
-  defp query_for_user_listing(query, %Accounts.User{id: id} = user) do
-    group_ids =
-      Volunteer.Permissions.user_roles(user, :group, ["admin"])
-      |> Map.keys()
-
-    region_ids =
-      Volunteer.Permissions.user_roles(user, :region, ["admin"])
-      |> Map.keys()
-
-    from(l in query,
-      where: l.created_by_id == ^id
-          or l.organized_by_id == ^id
-          or l.group_id in ^group_ids
-          or l.region_id in ^region_ids)
   end
 
   defp query_approved_listing(query) do
@@ -268,6 +256,14 @@ defmodule Volunteer.Listings do
   end
 
   defp query_listings_with_region_filters(query, _filters) do
+    query
+  end
+
+  defp query_listings_with_group_filters(query, %{group_id: group_id}) when is_integer(group_id) do
+    from(l in query, where: l.group_id == ^group_id)
+  end
+
+  defp query_listings_with_group_filters(query, _filters) do
     query
   end
 
@@ -325,23 +321,50 @@ defmodule Volunteer.Listings do
     from(l in TKNListing, where: l.listing_id == ^id)
   end
 
-  def new_marketing_request(listing) do
-    {:ok, ots_website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
+  def new_marketing_request(listing, assigns) do
     {:ok, marketing_channels} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :channels])
 
-    MarketingRequest.new(marketing_channels, %{listing: listing, ots_website: ots_website})
+    MarketingRequest.new(
+      marketing_channels,
+      Map.merge(
+        assigns_for_marketing_request(listing),
+        assigns
+      )
+    )
   end
 
-  def create_marketing_request(listing, attrs) do
-    {:ok, ots_website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
+  def create_marketing_request(listing, assigns, attrs) do
     {:ok, marketing_channels} = Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :channels])
 
-    MarketingRequest.create(marketing_channels, %{listing: listing, ots_website: ots_website}, attrs)
+    MarketingRequest.create(
+      marketing_channels,
+      Map.merge(
+        assigns_for_marketing_request(listing),
+        assigns
+      ),
+      attrs
+    )
     |> Ecto.Changeset.apply_action(:insert)
+    |> case do
+      {:ok, marketing_request} ->
+        {:ok, MarketingRequest.filter_disabled_channels(marketing_request)}
+
+      {:error, _changeset} = result ->
+        result
+    end
   end
 
-  def send_marketing_request(listing, attrs) do
-    case create_marketing_request(listing, attrs) do
+  def assigns_for_marketing_request(listing) do
+    {:ok, ots_website} = Volunteer.Infrastructure.get_region_config(listing.region_id, :ots_website)
+
+    %{
+      listing: listing,
+      ots_website: ots_website
+    }
+  end
+
+  def send_marketing_request(listing, assigns, attrs) do
+    case create_marketing_request(listing, assigns, attrs) do
       {:ok, marketing_request} ->
         preloaded_listing =
           Repo.preload(listing, Volunteer.Listings.listing_preloadables())

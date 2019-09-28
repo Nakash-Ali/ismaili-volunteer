@@ -1,6 +1,7 @@
 defmodule Volunteer.Listings.MarketingRequest.TextChannel do
-  use Ecto.Schema
+  use Volunteer, :schema
   import Ecto.Changeset
+  alias Volunteer.Listings.MarketingRequest.Channel
 
   embedded_schema do
     field :enabled, :boolean, default: false
@@ -17,13 +18,14 @@ defmodule Volunteer.Listings.MarketingRequest.TextChannel do
   end
 
   def initial(title, assigns) do
-    %{
-      "title" => title,
-      "text" => apply_template(title, assigns)
+    %__MODULE__{
+      id: Channel.id(title, assigns),
+      title: title,
+      text: generate_marketing_text(title, assigns)
     }
   end
 
-  defp apply_template(_title, %{listing: listing, ots_website: ots_website}) do
+  defp generate_marketing_text(_title, %{listing: listing, ots_website: ots_website}) do
     for_text =
       if listing.program_title != "" do
         "volunteers for #{listing.program_title}"

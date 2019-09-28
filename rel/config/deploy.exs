@@ -43,6 +43,10 @@ config :recaptcha,
 config :volunteer, :canny,
   private_key: VolunteerConfigHelpers.require_env!("CANNY_PRIVATE_KEY")
 
+# Configure Filestack
+config :volunteer, :filestack,
+  api_key: VolunteerConfigHelpers.require_env!("FILESTACK_API_KEY")
+
 # Configure Azure AD v2.0 OAuth2 Flow
 config :ueberauth, Ueberauth.Strategy.Microsoft.OAuth,
   client_id: VolunteerConfigHelpers.require_env!("MICROSOFT_OAUTH_CLIENT_ID"),

@@ -12,7 +12,7 @@
 		</div>
 	</div>
 	<div style="flex-grow: 1;" class="listing bg-primary text-white p-3 d-flex flex-column flex-nowrap justify-content-center">
-		<h1 class="mb-1 break-word"><%= Title.html(@listing) %></h1>
+		<h1 class="mb-1 break-word"><%= Title.bolded(@listing) %></h1>
 		<p class="description mb-1"><%= @listing.summary_line %></p>
 		<%= render(ListingView, "meta.html", listing: @listing, show: [:time_commitment, :start_date_and_end_date]) %>
 	</div>

@@ -2,14 +2,14 @@
 	<div class="dropdown">
 		<button
 			id="opportunities-region-dropdown"
-			class="btn btn-primary dropdown-toggle"
+			class="btn btn-sm btn-primary dropdown-toggle"
 			type="button"
 			data-toggle="dropdown"
 			aria-haspopup="true"
 			aria-expanded="false">Filter further by regions</button>
 		<div class="dropdown-menu" aria-labelledby="opportunities-region-dropdown">
 			<%= for region <- assigns[:region_choices] do %>
-				<a class="dropdown-item" href="<%= RouterHelpers.region_path(@conn, :show, region) %>"><%= Title.text(region) %></a>
+				<a class="dropdown-item" href="<%= RouterHelpers.region_path(@conn, :show, region) %>"><%= Title.plain(region) %></a>
 			<% end %>
 		</div>
 	</div>

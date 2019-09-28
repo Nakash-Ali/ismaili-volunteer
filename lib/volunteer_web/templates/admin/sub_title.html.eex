@@ -1,5 +1,0 @@
-<section class="title mb-2 pt-2 text-center">
-	<div class="container">
-		<%= assigns[:do] %>
-	</div>
-</section>

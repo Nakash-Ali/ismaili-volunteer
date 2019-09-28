@@ -2,17 +2,24 @@ defmodule VolunteerWeb.Admin.RegionController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Infrastructure
-  alias VolunteerWeb.ConnPermissions
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
 
   # Plugs
 
-  plug :authorize
+  plug :load_region when action not in [:index]
+  plug :authorize,
+    action_root: [:admin, :region],
+    assigns_subject_key: :region
 
-  def authorize(conn, _opts) do
-    ConnPermissions.ensure_allowed!(conn, [:admin, :region])
+  def load_region(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
+    Plug.Conn.assign(
+      conn,
+      :region,
+      Infrastructure.get_region!(id)
+    )
   end
 
-  # Controller Actions
+  # Actions
 
   def index(conn, _params) do
     regions =
@@ -22,11 +29,11 @@ defmodule VolunteerWeb.Admin.RegionController do
     render(conn, "index.html", regions: regions)
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(%Plug.Conn{assigns: %{region: region}} = conn, _params) do
     region =
-      Infrastructure.get_region!(id)
+      region
       |> Repo.preload(Infrastructure.region_preloadables())
-      |> Infrastructure.annotate([:hardcoded, :roles, {:groups, [:roles]}])
+      |> Infrastructure.annotate([:hardcoded])
 
     render(conn, "show.html", region: region)
   end

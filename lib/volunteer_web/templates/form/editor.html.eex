@@ -1,5 +1,5 @@
 <!-- <div class="form-group row mb-2 mt-3"> -->
 <%= textarea_hidden_input @form, @field %>
-<trix-editor class="<%= input_classes(@form, @field, ["form-control"]) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
-<%= render "help_text.html", assigns %>
+<trix-editor class="<%= HTMLHelpers.io_join(["form-control"] ++ ErrorHelpers.error_classes(@form, @field)) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
+<%= help_text assigns %>
 <%= ErrorHelpers.error_tag @form, @field %>

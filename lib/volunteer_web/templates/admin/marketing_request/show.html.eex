@@ -1,13 +1,15 @@
-<%= render ListingView, "sub_title.html", assigns, active_nav: "marketing" %>
+<%= ListingView.render_subtitle "marketing", assigns %>
 
-<section class="container text-center my-3">
+<section class="container text-center my-5">
 	<div class="row justify-content-center">
 		<div class="col-sm-5">
 			<%= if @listing.approved do %>
 				<p>You now have easy access to all jamati marketing channels. Get the word out for this listing!</p>
-				<div class="font-family-sans-serif mt-2">
-					<%= link {:safe, "<i class=\"far fa-bullhorn mr-1q\" aria-hidden=\"true\"></i> Send marketing request"}, to: RouterHelpers.admin_listing_marketing_request_path(@conn, :new, @listing), class: "btn btn-primary" %>
-				</div>
+				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :marketing_request, :create], @listing) do %>
+					<div class="font-family-sans-serif mt-2">
+						<%= link {:safe, "<i class=\"far fa-bullhorn mr-1q\" aria-hidden=\"true\"></i> Send marketing request"}, to: RouterHelpers.admin_listing_marketing_request_path(@conn, :new, @listing), class: "btn btn-primary" %>
+					</div>
+				<% end %>
 				<div class="font-family-sans-serif mt-1">
 					<%= link {:safe, "<i class=\"far fa-image mr-1q\" aria-hidden=\"true\"></i> View shareable image"}, to: RouterHelpers.listing_social_image_path(@conn, :png, @listing), target: "_blank", class: "btn btn-outline-primary" %>
 				</div>

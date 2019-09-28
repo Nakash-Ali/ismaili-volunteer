@@ -2,16 +2,20 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Listings
-  alias VolunteerWeb.ConnPermissions
   alias VolunteerWeb.FlashHelpers
   alias VolunteerWeb.Services.TKNAssignmentSpecGenerator
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
 
   # Plugs
 
   plug :load_tkn_listing
   plug :load_listing
+  plug :authorize,
+    action_root: [:admin, :listing, :tkn_listing],
+    action_name_mapping: %{show: :spec, pdf: :spec},
+    assigns_subject_key: :listing
+
   plug :redirect_to_show_if_not_exists
-  plug :authorize
 
   def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     tkn_listing = Listings.get_one_tkn_listing_for_listing(id)
@@ -38,11 +42,6 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
       _ ->
         conn
     end
-  end
-
-  def authorize(conn, _opts) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
   end
 
   # Controller Actions

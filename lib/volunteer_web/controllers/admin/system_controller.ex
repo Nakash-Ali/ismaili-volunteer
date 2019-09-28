@@ -1,21 +1,12 @@
 defmodule VolunteerWeb.Admin.SystemController do
   use VolunteerWeb, :controller
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
 
-  @allowed_primary_emails [
-    "alizain.feerasta@iicanada.net"
-  ]
+  # Plugs
 
-  plug :authorize_primary_email
+  plug :authorize, action_root: [:admin, :system]
 
-  def authorize_primary_email(conn, _opts) do
-    case VolunteerWeb.UserSession.get_user(conn) do
-      %{primary_email: primary_email} when primary_email in @allowed_primary_emails ->
-        conn
-
-      _ ->
-        raise VolunteerWeb.ConnPermissions.NotAllowedError
-    end
-  end
+  # Actions
 
   def env(conn, _params) do
     render(
@@ -43,5 +34,22 @@ defmodule VolunteerWeb.Admin.SystemController do
       "data.html",
       data: :ets.tab2list(VolunteerWeb.Endpoint)
     )
+  end
+
+  def req_headers(conn, _params) do
+    render(
+      conn,
+      "data.html",
+      data: conn.req_headers
+    )
+  end
+
+  def spoof(conn, %{"user_id" => user_id}) do
+    user = Volunteer.Accounts.get_user!(user_id)
+
+    conn
+    |> VolunteerWeb.UserSession.login(user)
+    |> VolunteerWeb.FlashHelpers.put_paragraph_flash(:info, "Successfully authenticated as #{VolunteerWeb.Presenters.Title.plain(user)}")
+    |> redirect(to: RouterHelpers.admin_index_path(conn, :index))
   end
 end

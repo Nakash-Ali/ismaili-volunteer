@@ -8,7 +8,11 @@
 			<a class="nav-link dropdown-toggle <%= if @item.is_active?, do: "active" %>" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= @item.text %></a>
 			<div class="dropdown-menu">
 				<%= for child_item <- @item.children do %>
-					<a class="nav-link px-1 <%= if child_item.is_active?, do: "active" %>" href="<%= child_item.href %>"><%= child_item.text %></a>
+					<a
+						class="nav-link px-1 <%= if child_item.is_active?, do: "active" %>"
+						href="<%= child_item.href %>"
+						<%= if child_item.external, do: "target=_blank" %>
+					><%= child_item.text %></a>
 				<% end %>
 			</div>
 		</li>

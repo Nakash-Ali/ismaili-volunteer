@@ -7,6 +7,8 @@
 // in vendor, which are never wrapped in imports and
 // therefore are always executed.
 
+import "./jquery"
+
 // Polyfills
 //
 // Important things that some browsers may not have

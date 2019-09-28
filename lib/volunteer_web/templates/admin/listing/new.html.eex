@@ -1,6 +1,4 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2 py-2q">Create a New Listing</h4>
-<% end %>
+<%= render SubtitleView, "bare.html", subtitle: "Create a New Listing" %>
 
 <section class="container">
 	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
@@ -10,6 +8,6 @@
 	</div>
 </section>
 
-<section class="container my-3">
+<section class="container mt-3 mb-5">
 	<%= render "form.html", assigns %>
 </section>

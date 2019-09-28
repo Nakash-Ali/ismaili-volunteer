@@ -8,6 +8,8 @@ defmodule Volunteer.Listings.Listing do
   alias Volunteer.Accounts.User
 
   schema "listings" do
+    has_many :roles, Volunteer.Roles.Role
+
     field :expiry_date, :utc_datetime
     field :expiry_reminder_sent, :boolean
 

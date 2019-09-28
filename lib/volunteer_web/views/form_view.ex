@@ -1,48 +1,27 @@
 defmodule VolunteerWeb.FormView do
   use VolunteerWeb, :view
+  alias VolunteerWeb.HTMLHelpers
 
-  @wrapper "_wrapper.html"
+  @wrapper "with_wrapper.html"
 
-  def render_nested([], _opts) do
+  def render_field(field_template, opts) when is_list(opts) do
+    render_nested([field_template, @wrapper], opts)
+  end
+
+  def render_field(field_template, with_template, opts) when is_list(opts) do
+    render_nested([field_template, with_template, @wrapper], opts)
+  end
+
+  def form_text(opts, content \\ nil) do
+    content_tag(:p, content, opts ++ [class: HTMLHelpers.io_join(["form-text", "small", "mt-2q", "mb-0", "text-muted"])])
+  end
+
+  def help_text(%{help_text: help_text}) do
+    form_text([], help_text)
+  end
+
+  def help_text(_assigns) do
     nil
-  end
-
-  def render_nested([template], opts) do
-    render(template, opts)
-  end
-
-  def render_nested([template | rem_templates], opts) do
-    render_nested(rem_templates, opts ++ [do: render(template, opts)])
-  end
-
-  def render_field(template, opts) when is_list(opts) do
-    render_nested([template, @wrapper], opts)
-  end
-
-  def render_field(template, with_template, opts) when is_list(opts) do
-    render_nested([template, with_template, @wrapper], opts)
-  end
-
-  def is_submitted?(form) do
-    form.source.action != nil
-  end
-
-  def input_classes(form, field, others) do
-    is_submitted?(form)
-    |> input_classes_for_state(form, field)
-    |> Enum.concat(others)
-    |> Enum.join(" ")
-  end
-
-  def input_classes_for_state(_submitted = true, form, field) do
-    case ErrorHelpers.has_errors?(form, field) do
-      true -> ["is-invalid"]
-      false -> ["is-valid"]
-    end
-  end
-
-  def input_classes_for_state(_submitted = false, _form, _field) do
-    []
   end
 
   defp textarea_hidden_input(form, field) do

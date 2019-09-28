@@ -1,0 +1,27 @@
+<div data-controller="filepicker" data-filepicker-default-img="<%= @default_img %>">
+	<%= hidden_input @form, @field, data: [target: "toggle.toClear filepicker.input"] %>
+
+	<img
+		id="<%= input_id(@form, @field, "img") %>"
+		data-target="toggle.toDisable filepicker.img"
+		class="d-block mb-1 border border-light rounded"
+		width="100%"
+		height="auto"
+		src="<%= input_value(@form, @field) %>"
+	/>
+
+	<div class="btn-group font-family-sans-serif" role="group">
+		<button
+			type="button"
+			id="<%= input_id(@form, @field, "default_img_btm") %>"
+			class="btn btm-sm btn-outline-secondary"
+			data-target="toggle.toDisable filepicker.defaultBtn"
+		>Use default image</button>
+		<button
+			type="button"
+			id="<%= input_id(@form, @field, "pick_img_btn") %>"
+			class="btn btm-sm btn-outline-secondary"
+			data-target="toggle.toDisable filepicker.pickBtn"
+		>Pick your own image</button>
+	</div>
+</div>

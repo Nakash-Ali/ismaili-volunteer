@@ -3,23 +3,18 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias Volunteer.Listings
-  alias VolunteerWeb.ConnPermissions
-  import VolunteerWeb.NoRouteErrorController, only: [raise_error: 2]
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
 
   # Plugs
 
-  plug :raise_error
   plug :load_listing
-  plug :authorize
+  plug :authorize,
+    action_root: [:admin, :listing, :applicant],
+    assigns_subject_key: :listing
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Listings.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing = Listings.get_one_admin_listing!(id)
     Plug.Conn.assign(conn, :listing, listing)
-  end
-
-  def authorize(conn, _opts) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :applicant], listing)
   end
 
   # Controller Actions
@@ -29,8 +24,8 @@ defmodule VolunteerWeb.Admin.ApplicantController do
 
     applicants =
       listing
-      |> Apply.get_all_applicants_by_listing()
-      |> Repo.preload([user: [applicants: :listing]])
+      |> Apply.get_all_applicants_by_listing
+      |> Apply.preload_index_ordered
       |> Apply.annotate([{:user, [{:other_applicants, listing.id}]}])
 
     render(conn, "index.html", applicants: applicants)
@@ -60,8 +55,8 @@ defmodule VolunteerWeb.Admin.ApplicantController do
       [
         {"Applicant ID", &(&1.id)},
         {"User ID", &(&1.user.id)},
-        {"Created at", &(VolunteerWeb.Presenters.Temporal.format_datetime(&1.inserted_at))},
-        {"Updated at", &(VolunteerWeb.Presenters.Temporal.format_datetime(&1.updated_at))},
+        {"Created at", &(VolunteerUtils.Temporal.format_datetime!(&1.inserted_at))},
+        {"Updated at", &(VolunteerUtils.Temporal.format_datetime!(&1.updated_at))},
         {"First name", &(&1.user.given_name)},
         {"Last name", &(&1.user.sur_name)},
         {"Confirm availability", &VolunteerWeb.Admin.ApplicantView.confirm_availability_text/1},

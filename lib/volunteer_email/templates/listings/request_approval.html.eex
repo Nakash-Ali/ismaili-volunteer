@@ -1,6 +1,6 @@
 <p>Ya Ali Madad,</p>
 
-<p>Your approval has been <strong>requested by <%= Title.text(@requested_by) %></strong> on the following listing:</p>
+<p>Your approval has been <strong>requested by <%= Title.plain(@requested_by) %></strong> on the following listing:</p>
 
 <p><%= render LayoutView, "many_definition_lists.html", sections: ([:reference] |> Enum.map(&VolunteerWeb.Admin.ListingView.definition_list(&1, @listing))) %></p>
 

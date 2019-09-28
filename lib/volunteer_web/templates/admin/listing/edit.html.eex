@@ -1,12 +1,9 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2q">Edit <%= Title.html(@listing) %></h4>
-	<ul class="item-meta list-inline font-family-sans-serif mb-2">
-		<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
-			<li class="list-inline-item text-danger">Saving any changes will un-approve the listing!</li>
-		<% end %>
-	</ul>
-<% end %>
+<%= render_subtitle "info", assigns %>
 
-<section class="container my-3">
+<section class="container text-center font-family-sans-serif">
+	<p class="mb-0 text-danger">Saving any changes will automatically un-approve this listing!</p>
+</section>
+
+<section class="container mt-3 mb-5">
 	<%= render "form.html", assigns %>
 </section>

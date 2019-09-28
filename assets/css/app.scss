@@ -7,7 +7,6 @@
 
 // Other files
 @import "convenience";
-@import "choices";
 @import "flatpickr";
 
 
@@ -103,6 +102,13 @@ small {
 	line-height: $line-height-sm;
 }
 
+// TODO: test this out
+@media (-webkit-max-device-pixel-ratio: 1.3), (max-resolution: 124.8dpi) {
+    h1, h2, h3, h4, h5, h6, .font-family-sans-serif {
+		letter-spacing: 0.6px;
+	}
+}
+
 .break-word {
 	overflow-wrap: break-word;
 	hyphens: auto;
@@ -136,10 +142,14 @@ img.disabled {
 	filter: grayscale(100%);
 }
 
-#old-browsers {
-	background: $danger;
-	color: #FFF;
-	a {
-		color: #FFF;
+label.required-label {
+	position: relative;
+	&:after {
+		content: '*';
+		position: absolute;
+		color: $complement-two;
+		font-size: 2 * $font-size-base-sans-serif;
+		line-height: 1;
+		margin-left: 2px;
 	}
 }

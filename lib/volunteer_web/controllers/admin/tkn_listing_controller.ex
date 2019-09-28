@@ -1,14 +1,16 @@
 defmodule VolunteerWeb.Admin.TKNListingController do
   use VolunteerWeb, :controller
-  alias Volunteer.Repo
   alias Volunteer.Listings
-  alias VolunteerWeb.ConnPermissions
   alias VolunteerWeb.FlashHelpers
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
 
   # Plugs
 
   plug :load_tkn_listing
   plug :load_listing
+  plug :authorize,
+    action_root: [:admin, :listing, :tkn_listing],
+    assigns_subject_key: :listing
 
   plug :redirect_to_show_if_exists
        when action in [:new, :create]
@@ -16,15 +18,13 @@ defmodule VolunteerWeb.Admin.TKNListingController do
   plug :redirect_to_show_if_not_exists
        when action in [:edit, :update, :delete]
 
-  plug :authorize
-
   def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     tkn_listing = Listings.get_one_tkn_listing_for_listing(id)
     Plug.Conn.assign(conn, :tkn_listing, tkn_listing)
   end
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Listings.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing = Listings.get_one_admin_listing!(id)
     Plug.Conn.assign(conn, :listing, listing)
   end
 
@@ -65,12 +65,35 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     end
   end
 
-  def authorize(conn, _opts) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :tkn_listing], listing)
-  end
-
   # Controller Actions
+
+  def show(conn, _params) do
+    %Plug.Conn{assigns: %{listing: listing}} = conn
+
+    VolunteerWeb.Services.Analytics.track_event(
+      "Listing",
+      "admin_tkn_show",
+      Slugify.slugify(listing),
+      conn
+    )
+
+    case Listings.get_one_tkn_listing_for_listing(listing.id) do
+      nil ->
+        render(
+          conn,
+          "show_none.html",
+          listing: listing
+        )
+
+      tkn_listing ->
+        render(
+          conn,
+          "show_one.html",
+          listing: listing,
+          tkn_listing: tkn_listing
+        )
+    end
+  end
 
   def new(conn, _params) do
     %Plug.Conn{assigns: %{listing: listing}} = conn
@@ -121,36 +144,9 @@ defmodule VolunteerWeb.Admin.TKNListingController do
     end
   end
 
-  def show(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    VolunteerWeb.Services.Analytics.track_event(
-      "Listing",
-      "admin_tkn_show",
-      Slugify.slugify(listing),
-      conn
-    )
-
-    case Listings.get_one_tkn_listing_for_listing(listing.id) do
-      nil ->
-        render(
-          conn,
-          "show_none.html",
-          listing: listing
-        )
-
-      tkn_listing ->
-        render(
-          conn,
-          "show_one.html",
-          listing: listing,
-          tkn_listing: tkn_listing
-        )
-    end
-  end
-
   def edit(conn, _params) do
     %Plug.Conn{assigns: %{tkn_listing: tkn_listing, listing: listing}} = conn
+
     changeset = Listings.edit_tkn_listing(tkn_listing)
 
     VolunteerWeb.Services.Analytics.track_event(
@@ -198,16 +194,6 @@ defmodule VolunteerWeb.Admin.TKNListingController do
         )
     end
   end
-
-  # def delete(conn, _paramss) do
-  #   %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
-  #
-  #   {:ok, _tkn_listing} = Listings.delete_tkn_listing(tkn_listing)
-  #
-  #   conn
-  #   |> FlashHelpers.put_paragraph_flash(:info, "Listing deleted successfully.")
-  #   |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing))
-  # end
 
   # Utilities
 

@@ -23,7 +23,6 @@ defmodule VolunteerWeb do
       import Plug.Conn
       import VolunteerWeb.Gettext
       alias VolunteerWeb.Router.Helpers, as: RouterHelpers
-      alias VolunteerWeb.UserSession
 
       action_fallback VolunteerWeb.FallbackController
     end
@@ -55,6 +54,26 @@ defmodule VolunteerWeb do
 
       def render(view_module, view_template, assigns, keywords, opts) do
         render(view_module, view_template, assigns, Enum.concat(keywords, opts))
+      end
+
+      def render_nested([], _opts) do
+        nil
+      end
+
+      def render_nested([current], opts) do
+        render_mixed(current, opts)
+      end
+
+      def render_nested([current | remaining], opts) do
+        render_nested(remaining, opts ++ [do: render_mixed(current, opts)])
+      end
+
+      def render_mixed({view_module, view_template}, opts) do
+        render(view_module, view_template, opts)
+      end
+
+      def render_mixed(view_template, opts) do
+        render(view_template, opts)
       end
     end
   end

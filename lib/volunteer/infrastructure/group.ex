@@ -5,6 +5,8 @@ defmodule Volunteer.Infrastructure.Group do
   alias Volunteer.Infrastructure.Region
 
   schema "groups" do
+    has_many :roles, Volunteer.Roles.Role
+
     field :title, :string
     belongs_to :region, Region
 

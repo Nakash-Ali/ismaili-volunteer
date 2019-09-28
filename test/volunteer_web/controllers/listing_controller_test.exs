@@ -18,7 +18,7 @@ defmodule VolunteerWeb.ListingControllerTest do
       html = html_response(conn, 200)
 
       listing_html = fn li ->
-        VolunteerWeb.Presenters.Title.html(li) |> Phoenix.HTML.safe_to_string()
+        VolunteerWeb.Presenters.Title.bolded(li) |> Phoenix.HTML.safe_to_string()
       end
 
       assert html =~ "Volunteer Opportunities"

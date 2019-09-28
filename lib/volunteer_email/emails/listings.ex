@@ -70,10 +70,8 @@ defmodule VolunteerEmail.ListingsEmails do
     email =
       Mailer.new_default_email(listing.region_id)
       |> subject(subject_str)
-      |> Tools.append(:to, Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing)
-                           |> Volunteer.Permissions.reject_users_with_any_roles([{:region, "cc_team"}]))
-      |> Tools.append(:cc, Volunteer.Permissions.scope_roles(:region, listing.region_id, ["cc_team"])
-                           |> Volunteer.Permissions.emails_from_scope_roles())
+      |> Tools.append(:to, Volunteer.Permissions.get_all_allowed_users([:admin, :listing, :approve], listing))
+      |> Tools.append(:cc, Volunteer.Roles.get_users_with_subject_roles(:region, listing.region_id, ["cc_team"]))
       |> Tools.append(:cc, generate_all_address_list(listing))
       |> Tools.append(:cc, requested_by)
 
@@ -133,7 +131,7 @@ defmodule VolunteerEmail.ListingsEmails do
     subject_str =
       generate_subject(
         [
-          Title.text(user),
+          Title.plain(user),
           "Volunteer Application"
         ],
         listing
@@ -161,7 +159,7 @@ defmodule VolunteerEmail.ListingsEmails do
       generate_subject(
         [
           "INTERNAL",
-          Title.text(user),
+          Title.plain(user),
           "Volunteer Application"
         ],
         listing
@@ -185,7 +183,7 @@ defmodule VolunteerEmail.ListingsEmails do
   end
 
   defp generate_subject(prefixes, listing) when is_list(prefixes) do
-    "#{Enum.join(prefixes, " - ")} --- #{Title.text(listing)}"
+    "#{Enum.join(prefixes, " - ")} --- #{Title.plain(listing)}"
   end
 
   defp generate_subject(prefix, listing) when not is_list(prefix) do

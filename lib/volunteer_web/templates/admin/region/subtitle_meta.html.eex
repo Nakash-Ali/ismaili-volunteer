@@ -1,0 +1,1 @@
+<li class="list-inline-item">View public listings at <%= link RouterHelpers.region_url(@conn, :show_by_slug, @region.slug), to: RouterHelpers.region_path(@conn, :show_by_slug, @region.slug), target: "_blank" %></li>

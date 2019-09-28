@@ -5,9 +5,6 @@
 
 <link rel="icon" type="image/png" href="<%= RouterHelpers.static_path(@conn, "/favicon.png") %>">
 
-<!-- <meta name="description" content="{{ .Site.Params.description }}"> -->
-<!-- <meta name="author" content=""> -->
-
 <!-- <link rel="icon" type="image/png" href="/favicon.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
 
@@ -15,7 +12,7 @@
 <%= SocialTags.render(assigns) %>
 
 <link rel="stylesheet" href="<%= RouterHelpers.static_path(@conn, "/css/app.css") %>">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Raleway:500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
 <%= render_or_fallback("head_extra", assigns) %>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>

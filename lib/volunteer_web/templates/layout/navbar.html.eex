@@ -13,6 +13,6 @@
 	</div>
 </div>
 
-<ul class="navbar-nav ml-auto font-family-sans-serif d-print-none flex-row justify-content-center flex-wrap">
+<ul class="navbar-nav ml-auto pl-3 font-family-sans-serif d-print-none flex-row justify-content-center flex-wrap">
 	<%= NavbarItems.render(assigns) %>
 </ul>

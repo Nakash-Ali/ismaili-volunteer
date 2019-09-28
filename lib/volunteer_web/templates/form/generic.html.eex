@@ -1,19 +1,19 @@
 <%= (assigns[:tag] || &text_input/3).(@form, @field, [
-		class: input_classes(@form, @field, ["form-control"]),
+		class: HTMLHelpers.io_join(["form-control"] ++ ErrorHelpers.error_classes(@form, @field)),
 		placeholder: assigns[:placeholder],
 		required: assigns[:required] || false,
+		data: [target: "toggle.toDisable toggle.toClear"]
 	] ++ Map.get(assigns, :input_opts, [])
 ) %>
+<%= help_text assigns %>
 <%= if assigns[:max_char_count] do %>
-	<small
-		data-char-count="true"
-		data-max-char-count="<%= assigns[:max_char_count] %>"
-		data-input-el="#<%= input_id(@form, @field) %>"
-		data-input-error-class="is-invalid"
-		data-count-error-class="text-danger"
-		data-count-unerror-class="text-muted"
-		data-char-count-text="characters remaining"
-		class="form-text text-muted"></small>
+	<%= form_text data: [
+		controller: "char-count",
+		char_count_max: assigns[:max_char_count],
+		char_count_input_id: input_id(@form, @field),
+		char_count_input_invalid_class: "is-invalid",
+		char_count_this_invalid_class: "text-danger",
+		char_count_this_valid_class: "text-muted",
+	] %>
 <% end %>
-<%= render "help_text.html", assigns %>
 <%= ErrorHelpers.error_tag @form, @field %>

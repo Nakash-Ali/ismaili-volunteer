@@ -1,63 +1,105 @@
-<%= render ListingView, "sub_title.html", assigns, active_nav: "applicants" %>
+<%= ListingView.render_subtitle "applicants", assigns %>
 
 <section class="container">
 	<div class="btn-toolbar justify-content-between font-family-sans-serif" role="toolbar">
-		<div class="btn-group ml-auto" role="group">
-			<%= link {:safe, "<i class=\"far fa-file-export mr-1q\" aria-hidden=\"true\"></i> Export to CSV"}, to: RouterHelpers.admin_listing_applicant_path(@conn, :export, @listing), class: "btn btn-outline-primary" %>
-		</div>
+		<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :applicant, :export], @listing) do %>
+			<div class="btn-group ml-auto" role="group">
+				<%= link {:safe, "<i class=\"far fa-file-export mr-1q\" aria-hidden=\"true\"></i> Export to CSV"}, to: RouterHelpers.admin_listing_applicant_path(@conn, :export, @listing), class: "btn btn-outline-primary" %>
+			</div>
+		<% end %>
 	</div>
 </section>
 
-<section class="container my-3 mb-5">
-	<%= for applicant <- @applicants do %>
-		<a href="#<%= applicant.id %>"></a>
-		<div class="card mb-3">
-			<div class="card-header d-flex flex-row align-items-center justify-content-between">
-				<h5 class="mb-0 py-2q" style="color: #000;"><%= Title.text(applicant.user) %></h5>
-				<p class="mb-0 ml-2"><%= applicant_updated_and_inserted_at(applicant) %></p>
+<section class="container mt-2 mb-5">
+	<%= if length(@applicants) == 0 do %>
+		<div class="row text-center justify-content-center my-3">
+			<div class="col-sm-5">
+				<p class="mb-0">No applications have been received for this listing.</p>
 			</div>
-			<div class="card-body pb-3q">
-				<div class="d-flex flex-row align-items-center">
-					<p class="mb-2q mr-5q"><strong class="mr-2q">Email</strong><%= applicant.user.primary_email %></p>
-					<p class="mb-2q mr-5q"><strong class="mr-2q">Phone</strong><%= applicant.user.primary_phone %></p>
-					<p class="mb-2q mr-5q"><strong class="mr-2q">Preferred Contact</strong><%= VolunteerWeb.Admin.UserView.preferred_contact_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
-				</div>
-				<div class="d-flex flex-row align-items-center">
-					<p class="mb-2q mr-5q"><strong class="mr-2q">Ismaili Muslim</strong><%= VolunteerWeb.Admin.UserView.ismaili_status_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
-					<p class="mb-2q mr-5q"><strong class="mr-2q">Primary Jamatkhana</strong><%= VolunteerWeb.Admin.UserView.primary_jamatkhanas_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
-				</div>
-				<div class="d-flex flex-row align-items-center">
-					<p class="mb-2q mr-5q"><strong class="mr-2q">Education Level</strong><%= VolunteerWeb.Admin.UserView.education_level_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
-				</div>
-			</div>
-			<ul class="list-group list-group-flush">
-				<%= if not HTMLHelpers.is_blank?(applicant.additional_info) do %>
-					<li class="list-group-item py-5q">
-						<p class="mb-1q"><strong>Additional information</strong></h6>
-						<p class="mb-1q"><%= applicant.additional_info %></p>
-					</li>
-				<% end %>
-				<%= if not HTMLHelpers.is_blank?(applicant.hear_about) do %>
-					<li class="list-group-item py-5q">
-						<p class="mb-1q"><strong>How did you hear about this listing?</strong></h6>
-						<p class="mb-1q"><%= applicant.hear_about %></p>
-					</li>
-				<% end %>
-				<%= if not HTMLHelpers.is_blank?(applicant.user.other_applicants) do %>
-					<li class="list-group-item py-5q">
-						<p class="mb-1q"><strong>Other listings applied to by this user</strong></h6>
-						<ul class="list-unstyled">
-							<%= for other_applicant <- applicant.user.other_applicants do %>
-								<li>
-									<p class="mb-0">
-										<a href="<%= RouterHelpers.admin_listing_applicant_path(@conn, :index, other_applicant.listing) %>#<%= other_applicant.id %>"><%= Title.html(other_applicant.listing) %></a>
-									</p>
-								</li>
-							<% end %>
-						</ul>
-					</li>
-				<% end %>
-			</ul>
 		</div>
+	<% else %>
+		<%= for applicant <- @applicants do %>
+			<a href="#<%= applicant.id %>"></a>
+			<div class="card mb-2 px-2">
+				<div class="card-header bg-white px-0">
+					<p class="mb-0 py-2q"><strong><%= Title.plain(applicant.user) %></strong></p>
+				</div>
+				<div class="card-body p-0">
+					<div class="row align-items-baseline my-5q">
+						<div class="col-6">
+							<div class="row">
+								<div class="col-auto">
+									<p class="mb-1q text-muted font-family-sans-serif">Email</p>
+									<p class="mb-1q text-muted font-family-sans-serif">Phone</p>
+									<p class="mb-0 text-muted font-family-sans-serif">Prefers</p>
+								</div>
+								<div class="col">
+									<p class="mb-1q"><%= applicant.user.primary_email %></p>
+									<p class="mb-1q"><%= applicant.user.primary_phone %></p>
+									<p class="mb-0"><%= VolunteerWeb.Admin.UserView.preferred_contact_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
+								</div>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="row">
+								<div class="col-auto">
+									<p class="mb-1q text-muted font-family-sans-serif">Ismaili Muslim</p>
+									<p class="mb-1q text-muted font-family-sans-serif">Primary Jamatkhana</p>
+									<p class="mb-0 text-muted font-family-sans-serif">Education Level</p>
+								</div>
+								<div class="col">
+									<p class="mb-1q"><%= VolunteerWeb.Admin.UserView.ismaili_status_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
+									<p class="mb-1q"><%= VolunteerWeb.Admin.UserView.primary_jamatkhanas_text(applicant.user) |> HTMLHelpers.default_if_blank?() %></p>
+									<p class="mb-0"><%= applicant.user.education_level |> HTMLHelpers.default_if_blank?() %></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<%= if not HTMLHelpers.is_blank?(applicant.additional_info) do %>
+						<div class="my-5q">
+							<p class="mb-0 text-muted font-family-sans-serif">Additional Information</h6>
+							<p class="mb-0"><%= applicant.additional_info %></p>
+						</div>
+					<% end %>
+					<%= if not HTMLHelpers.is_blank?(applicant.hear_about) do %>
+						<div class="my-5q">
+							<p class="mb-0 text-muted font-family-sans-serif">How did you hear about this listing?</h6>
+							<p class="mb-0"><%= applicant.hear_about %></p>
+						</div>
+					<% end %>
+					<%= if length(applicant.user.other_applicants.active) != 0 do %>
+						<div class="my-5q pt-5q border-top">
+							<p class="mb-0 text-muted font-family-sans-serif">Other <strong>active</strong> listings applied to by this user</h6>
+							<ul class="list-unstyled mb-0">
+								<%= for other_applicant <- applicant.user.other_applicants.active do %>
+									<li>
+										<p class="mb-0">
+											<a href="<%= RouterHelpers.admin_listing_applicant_path(@conn, :index, other_applicant.listing) %>#<%= other_applicant.id %>"><%= Title.plain(other_applicant.listing) %></a><span class="font-family-sans-serif text-muted ml-1"><%= Temporal.format_relative(other_applicant.inserted_at) %></span>
+										</p>
+									</li>
+								<% end %>
+							</ul>
+						</div>
+					<% end %>
+					<%= if length(applicant.user.other_applicants.expired) != 0 do %>
+						<div class="my-5q pt-5q border-top">
+							<p class="mb-0 text-muted font-family-sans-serif">Other <strong>expired</strong> listings applied to by this user</h6>
+							<ul class="list-unstyled mb-0">
+								<%= for other_applicant <- applicant.user.other_applicants.expired do %>
+									<li>
+										<p class="mb-0">
+											<a href="<%= RouterHelpers.admin_listing_applicant_path(@conn, :index, other_applicant.listing) %>#<%= other_applicant.id %>"><%= Title.plain(other_applicant.listing) %></a><span class="font-family-sans-serif text-muted ml-1"><%= Temporal.format_relative(other_applicant.inserted_at) %></span>
+										</p>
+									</li>
+								<% end %>
+							</ul>
+						</div>
+					<% end %>
+					<div class="my-5q pt-5q font-family-sans-serif border-top">
+						<p class="mb-0 text-muted"><%= applicant_updated_and_inserted_at(applicant) %></p>
+					</div>
+				</div>
+			</div>
+		<% end %>
 	<% end %>
 </section>

@@ -68,8 +68,8 @@
 		field: :start_date,
 		toggle: :start_date_toggle,
 		toggle_label: VolunteerWeb.ListingView.start_date_text(nil),
-		toggle_true: :disable,
-		toggle_input_clear: true,
+		toggle_when_true: :disable,
+		toggle_clear_on_disable: true,
 		required: true
 	%>
 
@@ -80,8 +80,8 @@
 		field: :end_date,
 		toggle: :end_date_toggle,
 		toggle_label: VolunteerWeb.ListingView.end_date_text(nil),
-		toggle_true: :disable,
-		toggle_input_clear: true,
+		toggle_when_true: :disable,
+		toggle_clear_on_disable: true,
 		required: true
 	%>
 

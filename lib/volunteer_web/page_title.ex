@@ -16,12 +16,13 @@ defmodule VolunteerWeb.PageTitle do
     |> Enum.join(@joiner)
   end
 
-  def title(%{view_module: VolunteerWeb.ListingView, listing: listing}) do
-    [
-      "Listings",
-      VolunteerWeb.Presenters.Title.text(listing)
-    ]
-  end
+  # TODO: Fix this to work correctly
+  # def title(%{view_module: VolunteerWeb.ListingView, listing: listing}) do
+  #   [
+  #     "Listings",
+  #     VolunteerWeb.Presenters.Title.plain(listing)
+  #   ]
+  # end
 
   def title(_) do
     []

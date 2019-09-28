@@ -2,8 +2,9 @@ defmodule VolunteerWeb.Router do
   use VolunteerWeb, :router
   use Plug.ErrorHandler
   use Sentry.Plug
-  import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2, annotate_roles_for_user: 2]
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
+  import VolunteerWeb.ConnPermissions.Plugs, only: [ensure_permissioned: 2]
+  import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2, annotate_roles_for_user: 2]
   import VolunteerWeb.UserPrefs, only: [fetch_user_prefs: 2]
 
   @user_prefs %{
@@ -73,6 +74,7 @@ defmodule VolunteerWeb.Router do
 
     scope "/admin", Admin, as: :admin do
       pipe_through [
+        :ensure_permissioned,
         :ensure_authenticated,
         :annotate_roles_for_user,
       ]
@@ -81,6 +83,8 @@ defmodule VolunteerWeb.Router do
 
       scope "/listings" do
         resources "/", ListingController do
+          resources "/roles", RoleController, only: [:index, :new, :create, :delete]
+
           scope "/tkn_listing" do
             resources "/", TKNListingController, singleton: true
 
@@ -109,8 +113,14 @@ defmodule VolunteerWeb.Router do
       end
 
       resources "/users", UserController, only: [:index]
-      resources "/regions", RegionController, only: [:index, :show]
-      resources "/groups", GroupController, only: [:index, :show]
+
+      resources "/regions", RegionController, only: [:index, :show] do
+        resources "/roles", RoleController, only: [:index, :new, :create, :delete]
+      end
+
+      resources "/groups", GroupController, only: [:index, :show] do
+        resources "/roles", RoleController, only: [:index, :new, :create, :delete]
+      end
 
       get "/feedback/*path", FeedbackController, :index
 
@@ -118,6 +128,8 @@ defmodule VolunteerWeb.Router do
         get "/env", SystemController, :env
         get "/app", SystemController, :app
         get "/endpoint", SystemController, :endpoint
+        get "/req_headers", SystemController, :req_headers
+        get "/spoof", SystemController, :spoof
       end
     end
 
@@ -133,6 +145,8 @@ defmodule VolunteerWeb.Router do
 
     get "/regions/:id", RegionController, :show
     get "/:slug", RegionController, :show_by_slug
+
+    get "/groups/:id", GroupController, :show
   end
 
   def configure_sentry_context(conn, _opts) do

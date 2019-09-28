@@ -2,30 +2,36 @@ defmodule VolunteerWeb.Admin.GroupController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Infrastructure
-  alias VolunteerWeb.ConnPermissions
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
 
   # Plugs
 
-  plug :authorize
+  plug :load_group when action not in [:index]
+  plug :authorize,
+    action_root: [:admin, :group],
+    assigns_subject_key: :group
 
-  def authorize(conn, _opts) do
-    ConnPermissions.ensure_allowed!(conn, [:admin, :group])
+  def load_group(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
+    Plug.Conn.assign(
+      conn,
+      :group,
+      Infrastructure.get_group!(id)
+    )
   end
 
-  # Controller Actions
+  # Actions
 
   def index(conn, _params) do
     groups =
       Infrastructure.get_groups()
+      |> Repo.preload(:region)
 
     render(conn, "index.html", groups: groups)
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(%Plug.Conn{assigns: %{group: group}} = conn, _params) do
     group =
-      Infrastructure.get_group!(id)
-      |> Repo.preload([region: :parent])
-      |> Infrastructure.annotate([:roles])
+      Repo.preload(group, [region: :parent])
 
     render(conn, "show.html", group: group)
   end

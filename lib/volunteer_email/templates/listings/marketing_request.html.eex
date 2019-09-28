@@ -25,6 +25,12 @@
 				<td style="padding: 4px 0px;"><%= channel.text %></td>
 			</tr>
 		<% end %>
+		<%= for channel <- @marketing_request.image_channels do %>
+			<tr>
+				<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;"><%= channel.title %></td>
+				<td style="padding: 4px 0px;"><%= channel.image_url %></td>
+			</tr>
+		<% end %>
 	</tbody>
   </table>
 </p>

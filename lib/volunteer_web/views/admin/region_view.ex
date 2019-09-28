@@ -1,8 +1,10 @@
 defmodule VolunteerWeb.Admin.RegionView do
   use VolunteerWeb, :view
   alias VolunteerWeb.AdminView
+  alias VolunteerWeb.Admin.SubtitleView
   alias VolunteerWeb.HTMLHelpers
-  alias VolunteerWeb.Presenters.{Title, Temporal}
+  alias VolunteerWeb.Presenters.Title
+  alias VolunteerUtils.Temporal
 
   def render("head_extra" <> _, %{conn: conn}) do
     [
@@ -10,12 +12,20 @@ defmodule VolunteerWeb.Admin.RegionView do
     ]
   end
 
+  def render_subtitle(active_nav, %{conn: conn, region: region} = assigns) do
+    [
+      {"Info", RouterHelpers.admin_region_path(conn, :show, region)},
+      {"Roles", RouterHelpers.admin_region_role_path(conn, :index, region)},
+    ]
+    |> SubtitleView.with_nav(active_nav, subtitle: Title.bolded(region, %{with_parent: true}), meta: render("subtitle_meta.html", assigns))
+  end
+
   def definition_list(:hierarchy, region, conn) do
     [
       {
         "Parent region",
         if region.parent do
-          link(Title.html(region.parent), to: RouterHelpers.admin_region_path(conn, :show, region.parent))
+          link(Title.bolded(region.parent), to: RouterHelpers.admin_region_path(conn, :show, region.parent))
         else
           nil
         end
@@ -23,7 +33,7 @@ defmodule VolunteerWeb.Admin.RegionView do
       {
         "Child regions",
         region.children
-        |> Enum.map(&link(Title.html(&1), to: RouterHelpers.admin_region_path(conn, :show, &1)))
+        |> Enum.map(&link(Title.bolded(&1), to: RouterHelpers.admin_region_path(conn, :show, &1)))
         |> HTMLHelpers.with_line_breaks()
       },
     ]
@@ -34,7 +44,7 @@ defmodule VolunteerWeb.Admin.RegionView do
       {
         "Groups",
         region.groups
-        |> Enum.map(&link(Title.html(&1), to: RouterHelpers.admin_group_path(conn, :show, &1)))
+        |> Enum.map(&link(Title.plain(&1), to: RouterHelpers.admin_group_path(conn, :show, &1)))
         |> HTMLHelpers.with_line_breaks()
       }
     ]
@@ -44,18 +54,7 @@ defmodule VolunteerWeb.Admin.RegionView do
     [
       {
         "Jamatkhanas",
-        region.hardcoded.jamatkhanas |> Enum.sort() |> HTMLHelpers.with_line_breaks()
-      }
-    ]
-  end
-
-  def definition_list(:roles, region) do
-    [
-      {
-        "Admins",
-        region.roles
-        |> Enum.map(fn {email, role} -> link("#{email} (#{role})", to: "mailto:#{email}") end)
-        |> HTMLHelpers.with_line_breaks()
+        region.hardcoded.jamatkhanas |> HTMLHelpers.with_line_breaks()
       }
     ]
   end
@@ -135,14 +134,8 @@ defmodule VolunteerWeb.Admin.RegionView do
 
   def definition_list(:meta, region) do
     [
-      {
-        "Creation date",
-        Temporal.format_datetime(region.inserted_at)
-      },
-      {
-        "Last updated date",
-        Temporal.format_datetime(region.updated_at)
-      },
+      {"Created at", Temporal.format_datetime!(region.inserted_at)},
+      {"Updated at", Temporal.format_datetime!(region.updated_at)},
     ]
   end
 end

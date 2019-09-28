@@ -3,8 +3,9 @@ defmodule Volunteer.Apply do
 
   alias Volunteer.Repo
   alias Volunteer.Apply.Applicant
-  alias Volunteer.Listings.Listing
   alias Volunteer.Accounts
+  alias Volunteer.Accounts.User
+  alias Volunteer.Listings.Listing
 
   def new_applicant() do
     Applicant.create(%{}, nil, nil)
@@ -83,6 +84,20 @@ defmodule Volunteer.Apply do
     |> Repo.preload([:user, :listing])
   end
 
+  def preload_index_ordered(results) do
+    Repo.preload(
+      results,
+      [
+        user: [
+          applicants: {
+            from(l in Applicant, order_by: [desc: :inserted_at]),
+            [:listing]
+          }
+        ]
+      ]
+    )
+  end
+
   def annotate(applicants, options) when is_list(applicants) do
     Enum.map(applicants, &annotate(&1, options))
   end
@@ -93,8 +108,24 @@ defmodule Volunteer.Apply do
         Map.update!(
           applicant,
           :user,
-          &Accounts.annotate(&1, user_options)
+          &annotate_applicant_user(&1, user_options)
         )
+    end)
+  end
+
+  def annotate_applicant_user(%User{} = user, options) do
+    Enum.reduce(options, user, fn
+      {:other_applicants, listing_id}, user ->
+        other_applicants =
+          Enum.reject(user.applicants, fn
+            %{listing_id: ^listing_id} -> true
+            _ -> false
+          end)
+
+        Map.put(user, :other_applicants, %{
+          active: Enum.reject(other_applicants, &Listing.is_expired?(&1.listing)),
+          expired: Enum.filter(other_applicants, &Listing.is_expired?(&1.listing)),
+        })
     end)
   end
 end

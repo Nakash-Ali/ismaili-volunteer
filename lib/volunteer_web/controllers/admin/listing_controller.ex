@@ -3,87 +3,64 @@ defmodule VolunteerWeb.Admin.ListingController do
   alias Volunteer.Repo
   alias Volunteer.Listings
   alias Volunteer.Infrastructure
-  alias VolunteerWeb.ConnPermissions
+  alias Volunteer.Permissions
+  alias VolunteerWeb.UserSession
   alias VolunteerWeb.FlashHelpers
   alias VolunteerWeb.Admin.ListingParams
+  import VolunteerWeb.ConnPermissions, only: [authorize: 2]
+
+  @preloads %{
+    show: [:region, :group, :created_by, :organized_by, :approved_by],
+    edit: [:region, :group, :organized_by, :approved_by],
+    update: [:region, :group, :organized_by, :approved_by],
+    request_approval: [:region, :group, :created_by, :organized_by],
+    approve_confirmation: [],
+    approve: [:region, :group, :created_by, :organized_by, :approved_by],
+    unapprove: [:region, :group, :created_by, :organized_by, :approved_by],
+    refresh_expiry: [:approved_by],
+    expire: [],
+    delete: [],
+  }
 
   # Plugs
 
-  plug :load_listing
-       when action not in [:index, :new, :create]
+  plug :load_listing when action not in [:index, :new, :create]
+  plug :authorize,
+    action_root: [:admin, :listing],
+    action_name_mapping: %{approve_confirmation: :approve},
+    assigns_subject_key: :listing
 
   def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
     listing =
       id
       |> Listings.get_one_admin_listing!()
-      |> preload_relations(action_name(conn))
+      |> Repo.preload(Map.fetch!(@preloads, action_name(conn)))
 
     Plug.Conn.assign(conn, :listing, listing)
-  end
-
-  def preload_relations(listing, action) when action in [
-    :show,
-    :edit,
-    :update,
-    :request_approval,
-    # :approve_confirmation,
-    :approve,
-    :unapprove,
-    :refresh_expiry,
-    :expire
-    # :delete
-  ] do
-    listing |> Repo.preload(Listings.listing_preloadables())
-  end
-
-  def preload_relations(listing, action) when action in [
-    # :show,
-    # :edit,
-    # :update,
-    # :request_approval,
-    :approve_confirmation,
-    # :approve,
-    # :unapprove,
-    # :refresh_expiry,
-    # :expire,
-    :delete
-  ] do
-    listing
   end
 
   # Controller Actions
 
   def index(conn, params) do
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :index])
-
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_index", nil, conn)
 
     {filter_changes, filter_data} = ListingParams.IndexFilters.changes_and_data(params["filters"])
 
     listings =
-      if ConnPermissions.is_allowed?(conn, [:admin, :listing, :index_all]) do
-        Listings.get_all_admin_listings(filters: filter_data)
-      else
-        conn
-        |> UserSession.get_user()
-        |> Listings.get_all_admin_listings_for_user(filters: filter_data)
-      end
+      Listings.get_all_admin_listings(filters: filter_data)
+      |> Permissions.filter_subjects(UserSession.get_user(conn), [:admin, :listing, :show])
       |> Repo.preload([:group, :organized_by])
 
     render(conn, "index.html", listings: listings, filters: filter_changes)
   end
 
   def new(conn, _params) do
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
-
     VolunteerWeb.Services.Analytics.track_event("Listing", "admin_new", nil, conn)
 
     render_new_form(conn, Listings.new_listing())
   end
 
   def create(conn, %{"listing" => listing_params}) do
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :create])
-
     listing_params
     |> Listings.create_listing(UserSession.get_user(conn))
     |> case do
@@ -106,10 +83,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     end
   end
 
-  def show(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :show], listing)
-
+  def show(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
       "admin_show",
@@ -120,10 +94,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     render(conn, "show.html", listing: listing)
   end
 
-  def edit(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
-
+  def edit(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
       "admin_edit",
@@ -134,11 +105,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     render_edit_form(conn, Listings.edit_listing(listing), listing)
   end
 
-  def update(conn, %{"listing" => listing_params}) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :update], listing)
-
+  def update(%Plug.Conn{assigns: %{listing: listing}} = conn, %{"listing" => listing_params}) do
     case Listings.update_listing(listing, listing_params) do
       {:ok, listing} ->
         VolunteerWeb.Services.Analytics.track_event(
@@ -159,10 +126,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     end
   end
 
-  def request_approval(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :request_approval], listing)
-
+  def request_approval(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
       "admin_request_approval",
@@ -177,10 +141,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
-  def approve_confirmation(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :approve], listing)
-
+  def approve_confirmation(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
       "admin_approve_confirmation",
@@ -191,17 +152,29 @@ defmodule VolunteerWeb.Admin.ListingController do
     render_approve_confirmation(conn, ListingParams.ApproveChecks.new(), listing)
   end
 
-  def approve(conn, params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
+  def approve(%Plug.Conn{assigns: %{listing: listing}} = conn, params) do
     case ListingParams.ApproveChecks.changeset(params["checks"]) do
       %{valid?: true} ->
         if Listings.Listing.is_approved?(listing) do
           conn
           |> FlashHelpers.put_paragraph_flash(:warning, "Listing has already been approved.")
           |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
+
         else
-          toggle_approval(conn, params, :approve)
+          listing = Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
+
+          :ok = VolunteerWeb.Services.ListingSocialImageGenerator.generate_async(conn, listing)
+
+          VolunteerWeb.Services.Analytics.track_event(
+            "Listing",
+            "admin_approve",
+            Slugify.slugify(listing),
+            conn
+          )
+
+          conn
+          |> FlashHelpers.put_paragraph_flash(:success, "Listing approved successfully.")
+          |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
         end
 
       changeset ->
@@ -209,45 +182,22 @@ defmodule VolunteerWeb.Admin.ListingController do
     end
   end
 
-  def unapprove(conn, params) do
-    toggle_approval(conn, params, :unapprove)
-  end
-
-  defp toggle_approval(conn, _params, action) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, action], listing)
-
-    toggled_listing =
-      case action do
-        :approve ->
-          listing =
-            Listings.approve_listing_if_not_expired!(listing, UserSession.get_user(conn))
-
-          :ok =
-            VolunteerWeb.Services.ListingSocialImageGenerator.generate_async(conn, listing)
-
-          listing
-
-        :unapprove ->
-          Listings.unapprove_listing_if_not_expired!(listing, UserSession.get_user(conn))
-      end
+  def unapprove(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
+    Listings.unapprove_listing_if_not_expired!(listing, UserSession.get_user(conn))
 
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
-      "admin_#{action}",
+      "admin_unapprove",
       Slugify.slugify(listing),
       conn
     )
 
     conn
-    |> FlashHelpers.put_paragraph_flash(:success, "Listing #{action}d successfully.")
-    |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, toggled_listing))
+    |> FlashHelpers.put_paragraph_flash(:success, "Listing unapproved successfully.")
+    |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
-  def refresh_expiry(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :refresh_expiry], listing)
+  def refresh_expiry(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     Listings.refresh_and_maybe_unapprove_listing!(listing)
 
     VolunteerWeb.Services.Analytics.track_event(
@@ -262,10 +212,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
-  def expire(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
+  def expire(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     Listings.expire_listing!(listing)
 
     VolunteerWeb.Services.Analytics.track_event(
@@ -278,24 +225,6 @@ defmodule VolunteerWeb.Admin.ListingController do
     conn
     |> FlashHelpers.put_paragraph_flash(:success, "Successfully expired listing.")
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
-  end
-
-  def delete(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing}} = conn
-
-    ConnPermissions.ensure_allowed!(conn, [:admin, :listing, :delete], listing)
-    {:ok, _listing} = Listings.delete_listing(listing)
-
-    VolunteerWeb.Services.Analytics.track_event(
-      "Listing",
-      "admin_delete",
-      Slugify.slugify(listing),
-      conn
-    )
-
-    conn
-    |> FlashHelpers.put_paragraph_flash(:success, "Listing deleted successfully.")
-    |> redirect(to: RouterHelpers.admin_listing_path(conn, :index))
   end
 
   # Utilities
@@ -348,8 +277,8 @@ defmodule VolunteerWeb.Admin.ListingController do
         [
           changeset: changeset,
           region_id_choices: get_region_id_choices(),
-          group_id_choices: get_group_id_choices() |> Enum.sort(),
-          organized_by_id_choices: get_user_id_choices() |> Enum.sort(),
+          group_id_choices: get_group_id_choices(),
+          organized_by_id_choices: get_admin_user_id_choices(),
           time_commitment_type_choices: Listings.Listing.time_commitment_type_choices(),
           qualifications_required_choices: Listings.Listing.qualifications_required_choices(),
           max_char_counts: Listings.Listing.max_char_counts()
@@ -365,7 +294,7 @@ defmodule VolunteerWeb.Admin.ListingController do
     VolunteerUtils.Controller.blank_select_choice() ++ Infrastructure.get_group_id_choices()
   end
 
-  defp get_user_id_choices() do
-    VolunteerUtils.Controller.blank_select_choice() ++ Volunteer.Accounts.get_user_id_choices()
+  defp get_admin_user_id_choices() do
+    VolunteerUtils.Controller.blank_select_choice() ++ Volunteer.Accounts.get_admin_user_id_choices()
   end
 end

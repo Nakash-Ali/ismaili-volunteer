@@ -1,6 +1,6 @@
 defmodule VolunteerWeb.Admin.IndexView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.AdminView
+  alias VolunteerWeb.Admin.SubtitleView
 
   def render("head_extra" <> _, %{conn: conn}) do
     [

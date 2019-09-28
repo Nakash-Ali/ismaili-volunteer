@@ -1,4 +1,4 @@
-<%= render __MODULE__, "sub_title.html", assigns, active_nav: "info" %>
+<%= render_subtitle "info", assigns %>
 
 <section class="container">
 	<div class="d-flex flex-row align-items-center justify-content-space-between">
@@ -14,10 +14,10 @@
 					</div>
 				<% end %>
 				<div class="btn-group mr-2q" role="group">
-					<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
-						<button disabled class="btn btn-outline-secondary">Listing approved</button>
-					<% else %>
-						<%= link "Request Approval", to: RouterHelpers.admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<%= if not Volunteer.Listings.Listing.is_approved?(@listing) do %>
+						<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :request_approval], @listing) do %>
+							<%= link "Request Approval", to: RouterHelpers.admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
+						<% end %>
 					<% end %>
 				</div>
 			<% else %>
@@ -26,16 +26,22 @@
 		</div>
 		<div class="btn-toolbar justify-content-start font-family-sans-serif ml-auto" role="toolbar">
 			<div class="btn-group ml-2q" role="group">
-				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
-				<%= if Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
-				<% else %>
-					<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing) do %>
+					<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+				<% end %>
+				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :refresh_expiry], @listing) do %>
+					<%= if Volunteer.Listings.Listing.is_expired?(@listing) do %>
+						<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<% else %>
+						<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<% end %>
 				<% end %>
 			</div>
 			<div class="btn-group ml-2q" role="group">
 				<%= if not Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
+					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :expire], @listing) do %>
+						<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
+					<% end %>
 				<% else %>
 					<button disabled class="btn btn-outline-secondary"><i class="far fa-times-circle mr-1q" aria-hidden="true"></i>Listing archived</button>
 				<% end %>
@@ -77,7 +83,7 @@
 	<% end %>
 </section>
 
-<section class="container my-3 mb-5">
+<section class="container mt-3 mb-5">
 	<%= for {title, body} <- definition_list(:meta, @listing) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>

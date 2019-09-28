@@ -1,6 +1,6 @@
-<p>Ya Ali Madad <%= Title.text(@user) %>,</p>
+<p>Ya Ali Madad <%= Title.plain(@user) %>,</p>
 
-<p>Thank you very much for applying to the position of <%= Title.text(@listing) %>!</p>
+<p>Thank you very much for applying to the position of <%= Title.plain(@listing) %>!</p>
 
 <p>The organizers of this listing and the HR team have been CC'ed on this email. They will be your point-of-contact for this application, and will be in touch shortly. If you have any questions or comments, feel free to reply-all to this email.</p>
 

@@ -1,6 +1,6 @@
 <p>Ya Ali Madad,</p>
 
-<p>Congratulations! The following listing has been <strong>approved by <%= Title.text(@action_by) %></strong> and is now live on the website.</p>
+<p>Congratulations! The following listing has been <strong>approved by <%= Title.plain(@action_by) %></strong> and is now live on the website.</p>
 
 <p>Please note the Communications Team for your region and the admins for your board/portfolio have been cc'ed in this email for any follow-up.</p>
 

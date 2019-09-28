@@ -1,0 +1,24 @@
+<% error_classes_force = if assigns[:underscore_errors], do: :none, else: nil %>
+<%= form_for @changeset, @action_path, fn form -> %>
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :user_id,
+		title: "User",
+		required: true,
+		choices: @user_id_choices,
+		error_classes_opts: [
+			force: error_classes_force
+		]
+	%>
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :relation,
+		title: "Role",
+		required: true,
+		choices: @relation_choices,
+		error_classes_opts: [
+			force: error_classes_force
+		]
+	%>
+	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
+<% end %>

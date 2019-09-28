@@ -1,10 +1,4 @@
 defmodule VolunteerHardcoded.Roles do
-  @superusers [
-    "alizain.feerasta@iicanada.net",
-    "hussein.kermally@iicanada.net",
-    "naila.alibhai@iicanada.net"
-  ]
-
   @roles_by_scope %{
     region: VolunteerHardcoded.Regions.take_from_all!([:roles]) |> Enum.into(%{}),
     group: VolunteerHardcoded.Groups.take_from_all!([:roles]) |> Enum.into(%{})
@@ -13,11 +7,9 @@ defmodule VolunteerHardcoded.Roles do
   @roles_by_primary_email VolunteerHardcoded.Roles.Reduce.by_primary_email(@roles_by_scope)
 
   @all_users Map.keys(@roles_by_primary_email)
-  |> Enum.concat(@superusers)
   |> Enum.map(fn primary_email -> %VolunteerHardcoded.User{primary_email: primary_email} end)
 
   def scopes() do Map.keys(@roles_by_scope) end
-  def superusers() do @superusers end
   def roles_by_primary_email() do @roles_by_primary_email end
   def all_users() do @all_users end
 

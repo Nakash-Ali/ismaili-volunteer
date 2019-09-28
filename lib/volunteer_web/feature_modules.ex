@@ -5,25 +5,25 @@ defmodule VolunteerWeb.FeatureModules do
   def configs() do
     [
       %{
-        permission: [:admin, :listing],
+        permission: [:admin, :listing, :index],
         title: "Listings",
         description: "Create, edit, and manage volunteer opportunities.",
         path: fn conn -> RouterHelpers.admin_listing_path(conn, :index) end
       },
       %{
-        permission: [:admin, :region],
+        permission: [:admin, :region, :index],
         title: "Regions",
         description: "View config for regions",
         path: fn conn -> RouterHelpers.admin_region_path(conn, :index) end
       },
       %{
-        permission: [:admin, :group],
+        permission: [:admin, :group, :index],
         title: "Groups",
         description: "View config for groups",
         path: fn conn -> RouterHelpers.admin_group_path(conn, :index) end
       },
       %{
-        permission: [:admin, :user],
+        permission: [:admin, :user, :index],
         title: "Users",
         description: "View users in the system",
         path: fn conn -> RouterHelpers.admin_user_path(conn, :index) end

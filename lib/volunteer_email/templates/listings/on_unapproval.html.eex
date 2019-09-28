@@ -1,6 +1,6 @@
 <p>Ya Ali Madad,</p>
 
-<p>The following listing has been <strong>unapproved by <%= Title.text(@action_by) %></strong>, and should now be totally publically inaccessible.</p>
+<p>The following listing has been <strong>unapproved by <%= Title.plain(@action_by) %></strong>, and should now be totally publically inaccessible.</p>
 
 <p>Please note the Communications Team for your region and the admins for your board/portfolio have been cc'ed in this email for any follow-up.</p>
 

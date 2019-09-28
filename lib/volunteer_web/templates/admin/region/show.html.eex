@@ -1,61 +1,50 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-1q"><%= Title.html(@region, %{with_parent: true}) %></h4>
-	<ul class="item-meta list-inline font-family-sans-serif mb-2">
-		<li class="list-inline-item">View public listings at <%= link RouterHelpers.region_url(@conn, :show_by_slug, @region.slug), to: RouterHelpers.region_path(@conn, :show_by_slug, @region.slug), target: "_blank" %></li>
-	</ul>
-<% end %>
+<%= render_subtitle "info", assigns %>
 
 <%= render "request_changes.html", assigns %>
 
-<section class="container mt-5 my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:hierarchy, @region, @conn) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container mt-5 my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:groups, @region, @conn) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container mt-5 my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:jamatkhanas, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container my-4">
-	<%= for {title, body} <- definition_list(:roles, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
-</section>
-
-<section class="container my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:links, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:tkn, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:marketing, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container my-4">
+<section class="container my-3">
 	<%= for {title, body} <- definition_list(:jumbotron, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>
 </section>
 
-<section class="container my-4 mb-5">
+<section class="container mt-3 mb-5">
 	<%= for {title, body} <- definition_list(:meta, @region) do %>
 		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
 	<% end %>

@@ -1,6 +1,4 @@
-<%= render AdminView, "sub_title.html", assigns do %>
-	<h4 class="mb-2 py-2q">Listings</h4>
-<% end %>
+<%= render SubtitleView, "bare.html", subtitle: "Listings" %>
 
 <section class="container">
 	<div class="btn-toolbar justify-content-between font-family-sans-serif" role="toolbar">
@@ -33,12 +31,12 @@
 	</div>
 </section>
 
-<section class="container my-3">
+<section class="container mt-3 mb-5">
 	<%= for listing <- @listings do %>
 		<div class="my-2">
-			<a href="<%= RouterHelpers.admin_listing_path(@conn, :show, listing) %>">
-				<h6 class="mb-1q"><%= Title.html(listing) %></h6>
-			</a>
+			<h6 class="mb-1q">
+				<a href="<%= RouterHelpers.admin_listing_path(@conn, :show, listing) %>"><%= Title.bolded(listing) %></a>
+			</h6>
 			<ul class="item-meta list-inline font-family-sans-serif mb-0">
 				<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
 			</ul>

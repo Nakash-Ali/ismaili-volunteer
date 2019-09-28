@@ -5,7 +5,6 @@ defmodule Volunteer.Infrastructure do
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Infrastructure.Group
   alias Volunteer.Infrastructure.Jamatkhana
-  alias Volunteer.Permissions
 
   def create_region!(attrs, parent \\ nil) do
     %Region{}
@@ -73,6 +72,7 @@ defmodule Volunteer.Infrastructure do
 
   def get_group_id_choices do
     from(g in Group, select: {g.title, g.id})
+    |> order_by(asc: :title)
     |> Repo.all()
   end
 
@@ -112,13 +112,6 @@ defmodule Volunteer.Infrastructure do
           get_region_config!(region.id)
         )
 
-      :roles, region ->
-        Map.put(
-          region,
-          :roles,
-          Permissions.scope_roles(:region, region.id)
-        )
-
       {:groups, group_options}, region ->
         Map.update!(
           region,
@@ -128,15 +121,8 @@ defmodule Volunteer.Infrastructure do
     end)
   end
 
-  def annotate(%Group{} = group, options) do
-    Enum.reduce(options, group, fn
-      :roles, group ->
-        Map.put(
-          group,
-          :roles,
-          Permissions.scope_roles(:group, group.id)
-        )
-    end)
+  def annotate(%Group{} = group, _options) do
+    group
   end
 
   def jamatkhana_choices() do

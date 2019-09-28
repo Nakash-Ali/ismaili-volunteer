@@ -18,7 +18,7 @@
 			</div>
 			<div class="row no-gutters">
 				<div class="cell col-4 label label-required">Institution Name</div>
-				<div class="cell col-8 value"><%= Title.text(@listing.group) |> HTMLHelpers.default_if_blank? %></div>
+				<div class="cell col-8 value"><%= Title.plain(@listing.group) |> HTMLHelpers.default_if_blank? %></div>
 			</div>
 		</section>
 
@@ -46,7 +46,7 @@
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label label-required">Name</div>
-					<div class="cell col-3 value"><%= Title.text(@listing.organized_by) |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= Title.plain(@listing.organized_by) |> HTMLHelpers.default_if_blank? %></div>
 					<div class="cell col-3 label">Name</div>
 					<div class="cell col-3 value"><%= @tkn_coordinator.name |> HTMLHelpers.default_if_blank? %></div>
 				</div>
@@ -78,7 +78,7 @@
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label label-required">Position Title</div>
-					<div class="cell col-9 value"><%= Title.text(@listing) |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-9 value"><%= Title.plain(@listing) |> HTMLHelpers.default_if_blank? %></div>
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label">Function/Sector</div>

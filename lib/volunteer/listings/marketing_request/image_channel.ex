@@ -1,6 +1,7 @@
 defmodule Volunteer.Listings.MarketingRequest.ImageChannel do
-  use Ecto.Schema
+  use Volunteer, :schema
   import Ecto.Changeset
+  alias Volunteer.Listings.MarketingRequest.Channel
 
   embedded_schema do
     field :enabled, :boolean, default: false
@@ -15,9 +16,11 @@ defmodule Volunteer.Listings.MarketingRequest.ImageChannel do
     |> validate_required([:enabled, :title, :image_url])
   end
 
-  def initial(title, _assigns) do
-    %{
-      "title" => title
+  def initial(title, assigns) do
+    %__MODULE__{
+      id: Channel.id(title, assigns),
+      title: title,
+      image_url: assigns.listing_social_image
     }
   end
 end

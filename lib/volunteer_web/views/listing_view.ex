@@ -1,7 +1,9 @@
 defmodule VolunteerWeb.ListingView do
   alias Volunteer.Listings
-  alias VolunteerWeb.Presenters.{Title, Social, Temporal}
+  alias VolunteerUtils.Temporal
+  alias VolunteerWeb.Presenters.{Title, Social}
   alias VolunteerWeb.FormView
+  alias VolunteerWeb.HTMLHelpers
 
   use VolunteerWeb, :view
 
@@ -72,7 +74,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def start_date_text(%Date{} = start_date) do
-    Temporal.format_date(start_date)
+    Temporal.format_date!(start_date)
   end
 
   def end_date_text(nil) do
@@ -80,34 +82,34 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def end_date_text(%Date{} = start_date) do
-    Temporal.format_date(start_date)
+    Temporal.format_date!(start_date)
   end
 
   def start_date_and_end_date_html(nil, nil) do
-    ~E"<em><%= end_date_text(nil) %> <%= start_date_text(nil) |> String.downcase %></em>"
+    ~E"<%= end_date_text(nil) %> <%= start_date_text(nil) |> String.downcase %>"
   end
 
   def start_date_and_end_date_html(nil, %Date{} = end_date) do
-    ~E"<em><%= start_date_text(nil) %></em> to <em><%= end_date_text(end_date) %></em>"
+    ~E"<%= start_date_text(nil) %> to <%= end_date_text(end_date) %>"
   end
 
   def start_date_and_end_date_html(%Date{} = start_date, nil) do
-    ~E"<em><%= end_date_text(nil) %></em> starting on <em><%= start_date_text(start_date) %></em>"
+    ~E"<%= end_date_text(nil) %> starting on <%= start_date_text(start_date) %>"
   end
 
   def start_date_and_end_date_html(%Date{} = start_date, %Date{} = end_date) do
-    ~E"<em><%= start_date_text(start_date) %></em> to <em><%=  Temporal.format_date(end_date) %></em>"
+    ~E"<%= start_date_text(start_date) %> to <%= Temporal.format_date!(end_date) %>"
   end
 
   def expiry_datetime_text(%DateTime{} = datetime) do
-    Temporal.format_datetime(datetime)
+    Temporal.format_datetime!(datetime)
   end
 
   def expires_in(%{expiry_date: expiry_date}) do
-    Temporal.relative(expiry_date)
+    Temporal.format_relative(expiry_date)
   end
 
   def organizer_html(%Listings.Listing{} = listing) do
-    ~E"Organized by <em><%= Title.text(listing.organized_by) %></em> and the <em><%= Title.text(listing.group) %></em>"
+    ~E"Organized by <%= Title.plain(listing.organized_by) %> and the <%= Title.plain(listing.group) %>"
   end
 end

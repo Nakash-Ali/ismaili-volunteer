@@ -3,6 +3,13 @@ defmodule VolunteerWeb.HTMLHelpers do
 
   defguard is_non_empty_binary(text) when is_binary(text) and text != ""
 
+  def io_join(list, str \\ " ") do
+    List.foldr(list, [], fn
+      item, [] -> [item]
+      item, acc -> [item, str] ++ acc
+    end)
+  end
+
   def external_link(text) when is_non_empty_binary(text) do
     external_link(text, text)
   end

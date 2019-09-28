@@ -19,14 +19,4 @@ defmodule VolunteerUtils.Changeset do
       end
     end)
   end
-
-  def ignore_built_with_no_changes(changeset) do
-    case changeset do
-      %{changes: changes, data: %{__meta__: %{state: :built}}} = changeset when changes == %{} ->
-        %{changeset | action: :ignore}
-
-      changeset ->
-        changeset
-    end
-  end
 end
