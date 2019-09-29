@@ -78,9 +78,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Ontario",
       slug: nil,
       parent_id: 1,
-      roles: %{
-        "nabeela.haji@iicanada.net" => "admin",
-      },
+      roles: %{},
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,

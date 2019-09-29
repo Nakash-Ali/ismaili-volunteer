@@ -10,6 +10,9 @@ defmodule Volunteer.Permissions.Ruleset do
   @super_admins [
     "alizain.feerasta@iicanada.net",
     "hussein.kermally@iicanada.net",
+    # TODO: change rulesets so that we don't have to make her super_admin, and
+    # permissions from the Canada region filter down to sub-regions and groups.
+    "aliya.shivji@iicanada.net"
   ]
 
   def evaluate(user, action, subject, [rule | ruleset]) do
