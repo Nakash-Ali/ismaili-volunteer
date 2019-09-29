@@ -10,6 +10,10 @@ defmodule VolunteerWeb.ConnPermissions do
     defexception message: "forbidden to access this resource", plug_status: 403
   end
 
+  defmodule NotPermissionedError do
+    defexception message: "permissions not checked for this resource", plug_status: 500
+  end
+
   defmodule Plugs do
     def ensure_permissioned(conn, _) do
       Plug.Conn.register_before_send(conn, fn conn ->
@@ -19,7 +23,7 @@ defmodule VolunteerWeb.ConnPermissions do
 
           conn ->
             # TODO: make sure this works
-            Sentry.capture_exception("ensure_permissioned_failed")
+            VolunteerWeb.SentryHelper.capture_exception(conn, %NotPermissionedError{})
             conn
         end
       end)
