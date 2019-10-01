@@ -3,8 +3,6 @@
 	(function(window) {
 		"use strict";
 
-		window.FilestackClient = filestack.init("<%= @filestack_api_key %>", {
-			security: {}
-		});
+		window.FilestackClient = filestack.init("<%= @filestack_api_key %>");
 	})(window);
 </script>
