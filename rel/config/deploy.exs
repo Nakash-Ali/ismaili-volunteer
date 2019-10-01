@@ -45,7 +45,8 @@ config :volunteer, :canny,
 
 # Configure Filestack
 config :volunteer, :filestack,
-  api_key: VolunteerConfigHelpers.require_env!("FILESTACK_API_KEY")
+  api_key: VolunteerConfigHelpers.require_env!("FILESTACK_API_KEY"),
+  app_secret: VolunteerConfigHelpers.require_env!("FILESTACK_APP_SECRET")
 
 # Configure Azure AD v2.0 OAuth2 Flow
 config :ueberauth, Ueberauth.Strategy.Microsoft.OAuth,

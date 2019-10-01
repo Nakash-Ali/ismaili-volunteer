@@ -109,7 +109,8 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
     listing = conn.assigns[:listing]
 
     filestack_api_key = Application.get_env(:volunteer, :filestack) |> Keyword.fetch!(:api_key)
-    filestack_security = VolunteerWeb.Services.Filestack.generate_security
+    # TODO: re-enable when fixed
+    # filestack_security = VolunteerWeb.Services.Filestack.generate_security
 
     {:ok, jamatkhanas_for_region} =
       Volunteer.Infrastructure.get_region_config(listing.region_id, :jamatkhanas)
@@ -125,7 +126,8 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
           action_path: RouterHelpers.admin_listing_marketing_request_path(conn, :create, listing),
           jamatkhanas_for_region: jamatkhanas_for_region,
           filestack_api_key: filestack_api_key,
-          filestack_security: filestack_security,
+          # TODO: re-enable when fixed
+          # filestack_security: filestack_security,
         ]
     )
   end
