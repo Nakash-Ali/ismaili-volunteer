@@ -1,0 +1,16 @@
+<!-- Begin Mailchimp Signup Form -->
+<div class="font-family-sans-serif" id="mc_embed_signup">
+	<form action="https://iicanada.us20.list-manage.com/subscribe/post?u=71e69c26ec02b835d960a0191&amp;id=328cc438a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+		<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_71e69c26ec02b835d960a0191_328cc438a9" tabindex="-1" value=""></div>
+		<!-- <div class="form-row"> -->
+			<div class="form-group" id="mc_embed_signup_scroll">
+				<label class="sr-only" for="mce-EMAIL">Email</label>
+				<input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL" placeholder="email address" required>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary">
+			</div>
+		<!-- </div> -->
+	</form>
+</div>
+<!--End mc_embed_signup-->

@@ -2,11 +2,13 @@
 	<div class="col-md-8">
 		<div class="found-none my-0">
 			<%= if @listings == [] do %>
-				<h5 class="mb-2q">We didn't find anything.</h5>
+				<h5 class="mb-3q">We didn't find anything.</h5>
 			<% else %>
-				<h5 class="mb-2q">Didn't find anything interesting?</h5>
+				<h5 class="mb-3q">Didn't find anything interesting?</h5>
 			<% end %>
-			<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up!</p>
+			<p class="mb-0">Keep checking back, we're adding more opportunities as soon as they come up.</p>
+			<p class="mb-1">Or, sign-up to receive periodic notifications with new listings!</p>
+			<%= render VolunteerWeb.VendorView, "mailchimp.html", assigns %>
 		</div>
 	</div>
 </div>

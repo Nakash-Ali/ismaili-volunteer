@@ -6,6 +6,7 @@ defmodule VolunteerWeb.Services.Filestack do
     call: ["pick"]
   }
 
+  # TODO: use this for both uploading AND viewing images
   def generate_security(props \\ %{}, expires_in \\ @default_expires_in) do
     policy = generate_policy(props, expires_in)
     signature = generate_signature(policy)
