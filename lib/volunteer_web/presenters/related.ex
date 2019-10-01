@@ -14,8 +14,8 @@ defmodule VolunteerWeb.Presenters.Related do
     {related_module, related_id_field} = get_related_schema!(parent, related_field)
     related_type = get_related_type!(related_module)
 
-    case Map.fetch(parent, related_field) do
-      {:ok, %{__struct__: ^related_module} = related} ->
+    case Map.fetch!(parent, related_field) do
+      %{__struct__: ^related_module} = related ->
         render_related(
           related_type,
           related
