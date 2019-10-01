@@ -48,6 +48,10 @@ defmodule VolunteerWeb.Router do
 
   forward "/sent_emails", Bamboo.SentEmailViewerPlug
 
+  scope "/api", VolunteerWeb.API do
+    resources "/listings", ListingController, only: [:index]
+  end
+
   scope "/", VolunteerWeb do
     pipe_through :browser
 

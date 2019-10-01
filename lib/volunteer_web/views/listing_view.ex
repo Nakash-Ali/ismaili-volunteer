@@ -85,20 +85,20 @@ defmodule VolunteerWeb.ListingView do
     Temporal.format_date!(start_date)
   end
 
-  def start_date_and_end_date_html(nil, nil) do
-    ~E"<%= end_date_text(nil) %> <%= start_date_text(nil) |> String.downcase %>"
+  def start_date_and_end_date_text(nil, nil) do
+    "#{end_date_text(nil)} #{start_date_text(nil) |> String.downcase}"
   end
 
-  def start_date_and_end_date_html(nil, %Date{} = end_date) do
-    ~E"<%= start_date_text(nil) %> to <%= end_date_text(end_date) %>"
+  def start_date_and_end_date_text(nil, %Date{} = end_date) do
+    "#{start_date_text(nil)} to #{end_date_text(end_date)}"
   end
 
-  def start_date_and_end_date_html(%Date{} = start_date, nil) do
-    ~E"<%= end_date_text(nil) %> starting on <%= start_date_text(start_date) %>"
+  def start_date_and_end_date_text(%Date{} = start_date, nil) do
+    "#{end_date_text(nil)} starting on #{start_date_text(start_date)}"
   end
 
-  def start_date_and_end_date_html(%Date{} = start_date, %Date{} = end_date) do
-    ~E"<%= start_date_text(start_date) %> to <%= Temporal.format_date!(end_date) %>"
+  def start_date_and_end_date_text(%Date{} = start_date, %Date{} = end_date) do
+    "#{start_date_text(start_date)} to #{Temporal.format_date!(end_date)}"
   end
 
   def expiry_datetime_text(%DateTime{} = datetime) do
