@@ -1,4 +1,4 @@
-defmodule VolunteerWeb.API.RelatedHelpers do
+defmodule VolunteerWeb.Presenters.Related do
   alias Volunteer.Accounts.User
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Infrastructure.Group

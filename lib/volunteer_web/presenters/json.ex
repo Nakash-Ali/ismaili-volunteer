@@ -10,4 +10,7 @@ defmodule VolunteerWeb.Presenters.JSON do
     |> Base.encode64()
     |> Phoenix.HTML.raw()
   end
+
+  def nilify?(""), do: nil
+  def nilify?(str) when is_binary(str), do: str
 end

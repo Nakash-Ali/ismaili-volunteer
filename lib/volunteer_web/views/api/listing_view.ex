@@ -2,8 +2,7 @@ defmodule VolunteerWeb.API.ListingView do
   use VolunteerWeb, :view
   alias Volunteer.Listings
   alias VolunteerWeb.ListingView
-  alias VolunteerWeb.API.{RelatedHelpers, DataHelpers}
-  alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.Presenters.{Title, Related, ISO8601, JSON}
 
   def render("index.json", %{listings: listings, conn: conn}) do
     Enum.map(listings, &render_listing(&1, conn))
@@ -13,26 +12,26 @@ defmodule VolunteerWeb.API.ListingView do
     %{
       id: listing.id,
       url: VolunteerWeb.Router.Helpers.listing_url(conn, :show, listing),
-      expiry_date: DataHelpers.to_iso8601(listing.expiry_date),
-      created_by: RelatedHelpers.render!(listing, :created_by),
+      expiry_date: ISO8601.stringify(listing.expiry_date),
+      created_by: Related.render!(listing, :created_by),
       approved: listing.approved,
-      approved_on: DataHelpers.to_iso8601(listing.approved_on),
-      approved_by: RelatedHelpers.render!(listing, :approved_by),
+      approved_on: ISO8601.stringify(listing.approved_on),
+      approved_by: Related.render!(listing, :approved_by),
       title: Title.plain(listing),
-      position_title: DataHelpers.nilify?(listing.position_title),
-      program_title: DataHelpers.nilify?(listing.program_title),
-      summary_line: DataHelpers.nilify?(listing.summary_line),
-      region: RelatedHelpers.render!(listing, :region),
-      group: RelatedHelpers.render!(listing, :group),
-      organized_by: RelatedHelpers.render!(listing, :organized_by),
-      start_date: DataHelpers.to_iso8601(listing.start_date),
-      end_date: DataHelpers.to_iso8601(listing.end_date),
+      position_title: JSON.nilify?(listing.position_title),
+      program_title: JSON.nilify?(listing.program_title),
+      summary_line: JSON.nilify?(listing.summary_line),
+      region: Related.render!(listing, :region),
+      group: Related.render!(listing, :group),
+      organized_by: Related.render!(listing, :organized_by),
+      start_date: ISO8601.stringify(listing.start_date),
+      end_date: ISO8601.stringify(listing.end_date),
       start_date_and_end_date_text: ListingView.start_date_and_end_date_text(listing.start_date, listing.end_date),
       time_commitment_amount: listing.time_commitment_amount,
       time_commitment_type: listing.time_commitment_type,
       time_commitment_text: ListingView.time_commitment_text(listing),
-      inserted_at: DataHelpers.to_iso8601(listing.inserted_at),
-      updated_at: DataHelpers.to_iso8601(listing.updated_at),
+      inserted_at: ISO8601.stringify(listing.inserted_at),
+      updated_at: ISO8601.stringify(listing.updated_at),
     }
   end
 
