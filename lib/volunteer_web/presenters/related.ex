@@ -29,7 +29,7 @@ defmodule VolunteerWeb.Presenters.Related do
     end
   end
 
-  defp render_reference(type, nil) do
+  defp render_reference(_type, nil) do
     nil
   end
 
