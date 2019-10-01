@@ -1,7 +1,21 @@
 <header class="py-1">
 	<div class="container py-2q">
 		<nav class="navbar navbar-light navbar-expand-lg p-0 d-block d-lg-flex">
-			<%= render "navbar.html", assigns %>
+			<div class="my-5q d-flex flex-row flex-nowrap align-items-center justify-content-start">
+				<div class="mr-5q">
+					<a class="navbar-brand p-0 m-0" href="/">
+						<img src="<%= RouterHelpers.static_path(@conn, "/images/the-ismaili-logo.png") %>" width="auto" height="60" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
+					</a>
+				</div>
+				<div>
+					<a class="navbar-brand p-0 m-0" href="/">
+						<img style="" src="<%= RouterHelpers.static_path(@conn, "/images/ots-the-ismaili-wordmark-canada.png") %>" width="auto" height="60" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
+					</a>
+				</div>
+			</div>
+			<ul class="navbar-nav ml-auto pl-lg-3 font-family-sans-serif d-print-none flex-row justify-content-center flex-wrap">
+				<%= NavbarItems.render(assigns) %>
+			</ul>
 		</nav>
 	</div>
 </header>

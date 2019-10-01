@@ -1,7 +1,7 @@
 <%= ListingView.render_subtitle "applicants", assigns %>
 
-<section class="container">
-	<div class="btn-toolbar justify-content-between font-family-sans-serif" role="toolbar">
+<section class="container font-family-sans-serif">
+	<div class="btn-toolbar" role="toolbar">
 		<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :applicant, :export], @listing) do %>
 			<div class="btn-group ml-auto" role="group">
 				<%= link {:safe, "<i class=\"far fa-file-export mr-1q\" aria-hidden=\"true\"></i> Export to CSV"}, to: RouterHelpers.admin_listing_applicant_path(@conn, :export, @listing), class: "btn btn-outline-primary" %>
@@ -25,8 +25,9 @@
 					<p class="mb-0 py-2q"><strong><%= Title.plain(applicant.user) %></strong></p>
 				</div>
 				<div class="card-body p-0">
+					<!-- TODO: improve responsive behaviour -->
 					<div class="row align-items-baseline my-5q">
-						<div class="col-6">
+						<div class="col-12 col-lg-6">
 							<div class="row">
 								<div class="col-auto">
 									<p class="mb-1q text-muted font-family-sans-serif">Email</p>
@@ -40,7 +41,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-6">
+						<div class="col-12 col-lg-6">
 							<div class="row">
 								<div class="col-auto">
 									<p class="mb-1q text-muted font-family-sans-serif">Ismaili Muslim</p>

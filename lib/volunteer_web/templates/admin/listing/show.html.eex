@@ -1,11 +1,11 @@
 <%= render_subtitle "info", assigns %>
 
-<section class="container">
-	<div class="d-flex flex-row align-items-center justify-content-space-between">
-		<div class="btn-toolbar justify-content-end font-family-sans-serif mr-auto" role="toolbar">
+<section class="container font-family-sans-serif">
+	<div class="d-flex flex-row flex-wrap align-items-center justify-content-between" style="margin-left: -0.25rem; margin-right: -0.25rem; margin-bottom: -0.5rem;">
+		<div class="btn-toolbar" role="toolbar">
 			<%= if Volunteer.Listings.Listing.is_approve_allowed?(@listing) do %>
 				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
-					<div class="btn-group mr-2q" role="group">
+					<div class="btn-group mb-2q mx-1q" role="group">
 						<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
 							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: RouterHelpers.admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
 						<% else %>
@@ -13,19 +13,19 @@
 						<% end %>
 					</div>
 				<% end %>
-				<div class="btn-group mr-2q" role="group">
-					<%= if not Volunteer.Listings.Listing.is_approved?(@listing) do %>
-						<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :request_approval], @listing) do %>
+				<%= if not Volunteer.Listings.Listing.is_approved?(@listing) do %>
+					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :request_approval], @listing) do %>
+						<div class="btn-group mb-2q mx-1q" role="group">
 							<%= link "Request Approval", to: RouterHelpers.admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
-						<% end %>
+						</div>
 					<% end %>
-				</div>
+				<% end %>
 			<% else %>
 				<button disabled class="btn btn-outline-secondary">Archived listings cannot be approved</button>
 			<% end %>
 		</div>
-		<div class="btn-toolbar justify-content-start font-family-sans-serif ml-auto" role="toolbar">
-			<div class="btn-group ml-2q" role="group">
+		<div class="btn-toolbar" role="toolbar">
+			<div class="btn-group mb-2q mx-1q" role="group">
 				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing) do %>
 					<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 				<% end %>
@@ -37,7 +37,7 @@
 					<% end %>
 				<% end %>
 			</div>
-			<div class="btn-group ml-2q" role="group">
+			<div class="btn-group mb-2q mx-1q" role="group">
 				<%= if not Volunteer.Listings.Listing.is_expired?(@listing) do %>
 					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :expire], @listing) do %>
 						<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
