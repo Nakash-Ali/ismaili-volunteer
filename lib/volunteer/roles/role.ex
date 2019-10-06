@@ -17,22 +17,21 @@ defmodule Volunteer.Roles.Role do
     timestamps()
   end
 
-  @config_by_subject_type %{
-    group: %{
-      relations: ["admin"],
-      module: Volunteer.Infrastructure.Group
-    },
-    region: %{
-      relations: ["admin", "cc_team"],
-      module: Volunteer.Infrastructure.Region
-    },
-    listing: %{
-      relations: ["admin", "read-only"],
-      module: Volunteer.Listings.Listing
-    }
+  @subject_types [
+    :group,
+    :region,
+    :listing
+  ]
+
+  @relations_by_subject_type %{
+    group: ["admin"],
+    region: ["admin", "cc-team"],
+    listing: ["admin", "read-only"],
   }
 
-  @subject_types @config_by_subject_type |> Map.keys
+  @relations_upgrade_path %{
+    {:region, "cc_team"} => "cc-team",
+  }
 
   @attributes_cast_always [
     :relation,
@@ -43,10 +42,6 @@ defmodule Volunteer.Roles.Role do
     :relation,
     :user_id,
   ]
-
-  def config_by_subject_type() do
-    @config_by_subject_type
-  end
 
   def subject_types() do
     @subject_types
@@ -64,10 +59,12 @@ defmodule Volunteer.Roles.Role do
     {:listing, subject_id}
   end
 
-  def config_for_subject_type(subject_type, key) when subject_type in @subject_types do
-    @config_by_subject_type
-    |> Map.fetch!(subject_type)
-    |> Map.fetch!(key)
+  def module_for_subject_type(subject_type) when subject_type in @subject_types do
+    __schema__(:association, subject_type) |> Map.fetch!(:queryable)
+  end
+
+  def relations_for_subject_type(subject_type) when subject_type in @subject_types do
+    Map.fetch!(@relations_by_subject_type, subject_type)
   end
 
   def new(subject_type, subject_id) do
@@ -81,7 +78,7 @@ defmodule Volunteer.Roles.Role do
     |> validate_required(@attributes_required_always)
     |> validate_at_least_one_subject
     |> validate_all_subject_types
-    |> validate_relation_for_subject_type(subject_type)
+    |> validate_relation(subject_type)
     |> foreign_key_constraint(:user_id)
     |> check_constraint(
       :_exclusive_arc,
@@ -109,13 +106,29 @@ defmodule Volunteer.Roles.Role do
     )
   end
 
-  def validate_relation_for_subject_type(changeset, subject_type) do
-    case fetch_field(changeset, :"#{subject_type}_id") do
-      {_source, value} when not is_nil(value) ->
-        validate_inclusion(changeset, :relation, config_for_subject_type(subject_type, :relations))
+  def validate_relation(changeset, subject_type) do
+    validate_inclusion(changeset, :relation, relations_for_subject_type(subject_type))
+  end
 
-      _ ->
-        changeset
+  def validate_and_upgrade_relation(%__MODULE__{relation: relation} = role) do
+    {subject_type, _subject_id} = disambiguate_role(role)
+    allowed_relations = relations_for_subject_type(subject_type)
+
+    upgraded_relation = upgrade_relation(subject_type, relation)
+    changeset = cast(role, %{relation: upgraded_relation}, [:relation])
+
+    if upgraded_relation in allowed_relations do
+      changeset
+    else
+      add_error(changeset, :relation, "upgraded relation is invalid")
+    end
+  end
+
+  def upgrade_relation(subject_type, relation) do
+    if Map.has_key?(@relations_upgrade_path, {subject_type, relation}) do
+      upgrade_relation(subject_type, Map.fetch!(@relations_upgrade_path, {subject_type, relation}))
+    else
+      relation
     end
   end
 end

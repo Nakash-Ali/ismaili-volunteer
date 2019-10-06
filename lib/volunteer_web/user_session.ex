@@ -116,7 +116,7 @@ defmodule VolunteerWeb.UserSession do
       Enum.reduce_while(Mechanisms.active(), conn, fn {module, func}, conn ->
         case apply(module, func, [conn]) do
           {:ok, user_id} when is_integer(user_id) ->
-            case Accounts.get_user(user_id) do
+            case Accounts.get_user_for_session(user_id) do
               nil ->
                 {:halt, conn}
 

@@ -1,4 +1,4 @@
-<%= render_subtitle "info", assigns %>
+<%= render_subtitle assigns %>
 
 <section class="container font-family-sans-serif">
 	<div class="d-flex flex-row flex-wrap align-items-center justify-content-between" style="margin-left: -0.25rem; margin-right: -0.25rem; margin-bottom: -0.5rem;">

@@ -14,12 +14,11 @@ defmodule VolunteerWeb.Admin.ListingController do
     edit: [:region, :group, :organized_by, :approved_by],
     update: [:region, :group, :organized_by, :approved_by],
     request_approval: [:region, :group, :created_by, :organized_by],
-    approve_confirmation: [],
+    approve_confirmation: [:region],
     approve: [:region, :group, :created_by, :organized_by, :approved_by],
     unapprove: [:region, :group, :created_by, :organized_by, :approved_by],
-    refresh_expiry: [:approved_by],
-    expire: [],
-    delete: [],
+    refresh_expiry: [:region, :approved_by],
+    expire: [:region],
   }
 
   # Plugs
@@ -46,12 +45,30 @@ defmodule VolunteerWeb.Admin.ListingController do
 
     {filter_changes, filter_data} = ListingParams.IndexFilters.changes_and_data(params["filters"])
 
-    listings =
-      Listings.get_all_admin_listings(filters: filter_data)
-      |> Permissions.filter_subjects(UserSession.get_user(conn), [:admin, :listing, :show])
-      |> Repo.preload([:group, :organized_by])
+    user = UserSession.get_user(conn)
 
-    render(conn, "index.html", listings: listings, filters: filter_changes)
+    grouped_listings =
+      Listings.get_all_admin_listings(filters: filter_data)
+      |> Repo.preload([:region, :group, :organized_by])
+      |> Enum.reverse()
+      |> Enum.reduce(%{
+        created: [],
+        manage: [],
+        other: []
+      }, fn listing, accum ->
+        cond do
+          listing.created_by_id == user.id ->
+            %{accum | created: [listing | accum.created]}
+
+          Permissions.is_allowed?(user, [:admin, :listing, :role, :create]) ->
+            %{accum | manage: [listing | accum.manage]}
+
+          true ->
+            %{accum | other: [listing | accum.other]}
+        end
+      end)
+
+    render(conn, "index.html", grouped_listings: grouped_listings, filters: filter_changes)
   end
 
   def new(conn, _params) do

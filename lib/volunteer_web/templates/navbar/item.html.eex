@@ -1,24 +1,24 @@
 <%= if @item.href == nil do %>
 	<%= if @item.children == nil do %>
 		<li class="nav-item">
-			<span class="nav-link"><%= @item.text %></span>
+			<span class="nav-link"><%= @item.title %></span>
 		</li>
 	<% else %>
 		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle <%= if @item.is_active?, do: "active" %>" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= @item.text %></a>
+			<a class="nav-link dropdown-toggle <%= if @item.is_active?, do: "active" %>" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= @item.title %></a>
 			<div class="dropdown-menu">
 				<%= for child_item <- @item.children do %>
 					<a
 						class="nav-link px-1 <%= if child_item.is_active?, do: "active" %>"
 						href="<%= child_item.href %>"
 						<%= if child_item.external, do: "target=_blank" %>
-					><%= child_item.text %></a>
+					><%= child_item.title %></a>
 				<% end %>
 			</div>
 		</li>
 	<% end %>
 <% else %>
 	<li class="nav-item">
-		<a class="nav-link <%= if @item.is_active?, do: "active" %>" href="<%= @item.href %>"><%= @item.text %></a>
+		<a class="nav-link <%= if @item.is_active?, do: "active" %>" href="<%= @item.href %>"><%= @item.title %></a>
 	</li>
 <% end %>

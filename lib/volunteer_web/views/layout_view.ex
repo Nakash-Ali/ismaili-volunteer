@@ -2,7 +2,7 @@ defmodule VolunteerWeb.LayoutView do
   use VolunteerWeb, :view
   alias VolunteerWeb.PageTitle
   alias VolunteerWeb.SocialTags
-  alias VolunteerWeb.NavbarItems
+  alias VolunteerWeb.NavbarView
 
   def render_with_block(template, assigns, [do: __block] = opts) do
     render(template, Enum.concat(assigns, opts))

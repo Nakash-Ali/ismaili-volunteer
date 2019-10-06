@@ -68,6 +68,11 @@ defmodule Volunteer.Accounts do
     User |> Repo.get(id)
   end
 
+  def get_user_for_session(id) do
+    get_user(id)
+    |> Repo.preload(:roles)
+  end
+
   def get_admin_user_id_choices do
     from(
       u in User,

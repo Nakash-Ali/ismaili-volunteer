@@ -4,9 +4,10 @@
 		<%= assigns[:meta] %>
 	</ul>
 	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-5q">
-		<%= for {title, path, active_class} <- assigns[:nav_items] do %>
+		<%= for child_item <- assigns[:nav_items] do %>
 			<li class="nav-item">
-				<%= link title, to: path, class: "#{active_class} px-1 px-sm-5q px-md-2 nav-link" %>
+				<a class="px-1 px-sm-5q px-md-2 nav-link <%= if child_item.is_active?, do: "active" %>" href="<%= child_item.href %>"
+				><%= child_item.title %></a>
 			</li>
 		<% end %>
 	</ul>

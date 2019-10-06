@@ -10,11 +10,9 @@ defmodule Volunteer.Permissions.Ruleset do
   @super_admins [
     "alizain.feerasta@iicanada.net",
     "hussein.kermally@iicanada.net",
-    # TODO: change rulesets so that we don't have to make her super_admin, and
-    # permissions from the Canada region filter down to sub-regions and groups.
-    "aliya.shivji@iicanada.net"
   ]
 
+  # Thought: It's the roles that need to be evaluated, not the user
   def evaluate(user, action, subject, [rule | ruleset]) do
     rule
     |> apply_with_rescue([user, action, subject])
@@ -79,6 +77,11 @@ defmodule Volunteer.Permissions.Ruleset do
           :allow
         end
       end,
+      fn %{roles_by_subject: %{region: region_roles}}, [:admin, :region, :role | _], %Region{parent_path: parent_path} ->
+        if Enum.any?(parent_path, fn parent_id -> region_roles[parent_id] in ["admin"] end) do
+          :allow
+        end
+      end,
     ]
   end
 
@@ -100,14 +103,42 @@ defmodule Volunteer.Permissions.Ruleset do
           :allow
         end
       end,
+      fn %{roles_by_subject: %{region: region_roles}}, [:admin, :group, :role | _], %Group{region: region} ->
+        case region do
+          %Region{parent_path: parent_path} ->
+            if Enum.any?(parent_path, fn parent_id -> region_roles[parent_id] in ["admin"] end) do
+              :allow
+            end
+
+          %Ecto.Association.NotLoaded{} ->
+            raise "Parent association not loaded, cannot check permissions"
+        end
+      end,
     ]
   end
 
   def listing_ruleset() do
     [
+      fn _user, [:admin, :listing | action], %Listing{} when action in [
+        [:show],
+        [:role, :index],
+      ] ->
+        :allow
+      end,
       fn %{roles_by_subject: %{region: region_roles}}, [:admin, :listing | _], %Listing{region_id: region_id} ->
-        if region_roles[region_id] in ["admin", "cc_team"] do
+        if region_roles[region_id] in ["admin", "cc-team"] do
           :allow
+        end
+      end,
+      fn %{roles_by_subject: %{region: region_roles}}, [:admin, :listing | _], %Listing{region: region} ->
+        case region do
+          %Region{parent_path: parent_path} ->
+            if Enum.any?(parent_path, fn parent_id -> region_roles[parent_id] in ["admin", "cc-team"] end) do
+              :allow
+            end
+
+          %Ecto.Association.NotLoaded{} ->
+            raise "Region association not loaded, cannot check permissions"
         end
       end,
       fn %{roles_by_subject: %{group: group_roles}}, [:admin, :listing | _], %Listing{group_id: group_id} ->

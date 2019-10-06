@@ -11,12 +11,11 @@ defmodule VolunteerWeb.Admin.GroupView do
     ]
   end
 
-  def render_subtitle(active_nav, %{conn: conn, group: group} = assigns) do
-    [
-      {"Info", RouterHelpers.admin_group_path(conn, :show, group)},
-      {"Roles", RouterHelpers.admin_group_role_path(conn, :index, group)},
-    ]
-    |> SubtitleView.with_nav(active_nav, subtitle: Title.bolded(group), meta: render("subtitle_meta.html", assigns))
+  def render_subtitle(%{group: group} = assigns) do
+    SubtitleView.with_features_nav(:group_subtitle, assigns, %{
+      subtitle: Title.bolded(group),
+      meta: render("subtitle_meta.html", assigns)
+    })
   end
 
   def definition_list(:details, group, conn) do

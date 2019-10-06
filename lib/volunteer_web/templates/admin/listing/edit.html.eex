@@ -1,4 +1,4 @@
-<%= render_subtitle "info", assigns %>
+<%= render_subtitle assigns %>
 
 <section class="container text-center font-family-sans-serif">
 	<p class="mb-0 text-danger">Saving any changes will automatically un-approve this listing!</p>

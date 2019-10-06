@@ -1,22 +1,13 @@
 defmodule VolunteerWeb.Admin.SubtitleView do
 	use VolunteerWeb, :view
+  alias VolunteerWeb.Features
 
-  def with_nav(nav_items, active_nav, assigns) do
+  def with_features_nav(features_id, assigns, additional_assigns) do
     render(
       "with_nav.html",
-      [nav_items: mark_nav_items_active(nav_items, active_nav)] ++ assigns
+      assigns
+      |> Map.merge(additional_assigns)
+      |> Map.merge(%{nav_items: Features.generate_and_identify(features_id, assigns)})
     )
-  end
-
-  def mark_nav_items_active(nav_items, active_nav) do
-    Enum.map(nav_items, fn {title, path} ->
-    	case String.downcase(title) do
-    	  ^active_nav ->
-    		{title, path, "active"}
-
-    	  _ ->
-    		{title, path, ""}
-    	end
-  	end)
   end
 end

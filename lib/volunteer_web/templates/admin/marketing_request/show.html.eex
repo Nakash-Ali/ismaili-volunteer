@@ -1,6 +1,6 @@
-<%= ListingView.render_subtitle "marketing", assigns %>
+<%= ListingView.render_subtitle assigns %>
 
-<section class="container text-center my-5">
+<section class="container text-center mt-5 mb-7">
 	<div class="row justify-content-center">
 		<div class="col-sm-5">
 			<%= if @listing.approved do %>

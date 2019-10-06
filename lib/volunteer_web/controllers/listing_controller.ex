@@ -14,12 +14,6 @@ defmodule VolunteerWeb.ListingController do
     |> halt()
   end
 
-  def load_listing(id, opts) do
-    id
-    |> Listings.get_one_public_listing!(opts)
-    |> Repo.preload(Listings.listing_preloadables())
-  end
-
   def show(conn, %{"id" => id}) do
     listing = load_listing(id, allow_expired: true)
 
@@ -42,6 +36,12 @@ defmodule VolunteerWeb.ListingController do
       {:error, changesets} ->
         render_form(conn, changesets, listing)
     end
+  end
+
+  defp load_listing(id, opts) do
+    id
+    |> Listings.get_one_public_listing!(opts)
+    |> Repo.preload(Listings.listing_preloadables())
   end
 
   defp render_form(conn, {user_changeset, applicant_changeset}, listing, opts \\ []) do

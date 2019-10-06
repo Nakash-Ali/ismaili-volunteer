@@ -8,12 +8,12 @@ defmodule Volunteer.Roles do
   @preloads %{
     region: [:parent],
     group: [:region],
-    listing: []
+    listing: [:region]
   }
 
   def get_subject!(subject_type, subject_id) do
     subject_type
-    |> Role.config_for_subject_type(:module)
+    |> Role.module_for_subject_type()
     |> Repo.get!(subject_id)
     |> Repo.preload(@preloads[subject_type])
   end
@@ -87,6 +87,7 @@ defmodule Volunteer.Roles do
     |> Repo.delete!
   end
 
+  # TODO: Move this back to the listings service!
   def create_roles_for_new_listing!(listing) do
     {:ok, _role} =
       create_subject_role(
@@ -132,13 +133,7 @@ defmodule Volunteer.Roles do
     from(r in query, where: r.relation in ^relations_to_include)
   end
 
-  def collated_roles_for_user(user_id) do
-    user_id
-    |> get_user_roles
-    |> collate_roles_by_subject_type
-  end
-
-  def collate_roles_by_subject_type(roles) do
+  def collate_roles_by_subject_type(roles) when is_list(roles) do
     Enum.reduce(roles, %{}, fn role, accum ->
       {subject_type, subject_id} = Role.disambiguate_role(role)
       VolunteerUtils.Map.update_always(accum, subject_type, %{}, fn subject_roles ->
@@ -148,6 +143,6 @@ defmodule Volunteer.Roles do
   end
 
   def choices_for_relations(subject_type) do
-    Role.config_for_subject_type(subject_type, :relations)
+    Role.relations_for_subject_type(subject_type)
   end
 end

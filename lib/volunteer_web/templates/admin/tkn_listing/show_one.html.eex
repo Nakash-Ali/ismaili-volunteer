@@ -1,4 +1,4 @@
-<%= ListingView.render_subtitle "tkn", assigns %>
+<%= ListingView.render_subtitle assigns %>
 
 <section class="container">
 	<div class="d-flex align-items-center justify-content-between font-family-sans-serif">

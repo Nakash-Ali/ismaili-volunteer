@@ -6,7 +6,7 @@ defmodule Volunteer.PermissionsTest do
   # TODO: improve these tests
 
   describe "annotate_roles_for_user/1" do
-    test "simple", context do
+    test "simple", _context do
       user = Factory.user!
       region = Factory.region!
 
@@ -14,6 +14,7 @@ defmodule Volunteer.PermissionsTest do
 
       role =
         user
+        |> Volunteer.Repo.preload([:roles])
         |> Permissions.annotate_roles_for_user
         |> Map.get(:roles_by_subject, %{})
         |> Map.get(:region, %{})

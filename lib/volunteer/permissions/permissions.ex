@@ -25,11 +25,15 @@ defmodule Volunteer.Permissions do
   end
 
   def annotate_roles_for_user(user, :lazy) do
-    Map.put_new_lazy(user, :roles_by_subject, fn -> Roles.collated_roles_for_user(user.id) end)
+    if Map.has_key?(user, :roles_by_subject) do
+      user
+    else
+      Map.put(user, :roles_by_subject, Roles.collate_roles_by_subject_type(user.roles))
+    end
   end
 
   def annotate_roles_for_user(user, :eager) do
-    Map.put(user, :roles_by_subject, Roles.collated_roles_for_user(user.id))
+    Map.put(user, :roles_by_subject, Roles.collate_roles_by_subject_type(user.roles))
   end
 
   def get_all_allowed_users(action, subject, all_users_func \\ &Volunteer.Roles.get_all_users_with_roles/0) do

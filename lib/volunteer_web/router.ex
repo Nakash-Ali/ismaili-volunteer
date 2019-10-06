@@ -11,11 +11,11 @@ defmodule VolunteerWeb.Router do
     admin_feedback_anonymize: {:boolean, false}
   }
 
-  pipeline :browser do
-    if Application.fetch_env!(:volunteer, :use_ssl) do
-      plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
-    end
+  if Application.fetch_env!(:volunteer, :use_ssl) do
+    plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
+  end
 
+  pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -32,23 +32,14 @@ defmodule VolunteerWeb.Router do
   #   plug :allow_embedding_as_frame
   #   plug :put_embedded_layout
   # end
-  #
-  # scope "/", VolunteerWeb, host: "embedded." do
-  #   pipe_through :browser
-  #   pipe_through :embedded
-  #
-  #   get "/", Embedded.IndexController, :index
-  #
-  #   scope "/listings/:id" do
-  #     get "/", ListingController, :show
-  #   end
-  #
-  #   match :*, "/*path", NoRouteErrorController, :raise_error
-  # end
 
-  forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
 
   scope "/api", VolunteerWeb.API do
+    pipe_through :api
+
     resources "/listings", ListingController, only: [:index]
   end
 
@@ -152,6 +143,23 @@ defmodule VolunteerWeb.Router do
 
     get "/groups/:id", GroupController, :show
   end
+
+  # scope "/", VolunteerWeb, host: "embedded." do
+  #   pipe_through :browser
+  #   pipe_through :embedded
+  #
+  #   get "/", Embedded.IndexController, :index
+  #
+  #   scope "/listings/:id" do
+  #     get "/", ListingController, :show
+  #   end
+  #
+  #   match :*, "/*path", NoRouteErrorController, :raise_error
+  # end
+
+  get "/health/ping", VolunteerWeb.HealthController, :ping
+
+  forward "/sent_emails", Bamboo.SentEmailViewerPlug
 
   def configure_sentry_context(conn, _opts) do
     VolunteerWeb.SentryCorrelator.set_request_id(conn)

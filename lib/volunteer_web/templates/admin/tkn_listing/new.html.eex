@@ -1,4 +1,4 @@
-<%= ListingView.render_subtitle "tkn", assigns %>
+<%= ListingView.render_subtitle assigns %>
 
 <section class="container mt-3 mb-5">
 	<%= render "form.html", assigns %>

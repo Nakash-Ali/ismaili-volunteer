@@ -12,12 +12,11 @@ defmodule VolunteerWeb.Admin.RegionView do
     ]
   end
 
-  def render_subtitle(active_nav, %{conn: conn, region: region} = assigns) do
-    [
-      {"Info", RouterHelpers.admin_region_path(conn, :show, region)},
-      {"Roles", RouterHelpers.admin_region_role_path(conn, :index, region)},
-    ]
-    |> SubtitleView.with_nav(active_nav, subtitle: Title.bolded(region, %{with_parent: true}), meta: render("subtitle_meta.html", assigns))
+  def render_subtitle(%{region: region} = assigns) do
+    SubtitleView.with_features_nav(:region_subtitle, assigns, %{
+      subtitle: Title.bolded(region, %{with_parent: true}),
+      meta: render("subtitle_meta.html", assigns)
+    })
   end
 
   def definition_list(:hierarchy, region, conn) do

@@ -19,10 +19,17 @@ html {
 
 html.app-layout, {
 	min-height: 100%;
+	height: 100%;
 
 	body,
 	body > div.wrapper {
 		min-height: 100%;
+		height: 100%;
+	}
+
+	header,
+	footer {
+		flex-shrink: 0;
 	}
 
 	main {
@@ -91,7 +98,6 @@ footer {
 	border-top: 1px solid $gray-200;
 	font-family: $font-family-serif;
 	color: $gray-700;
-	flex-shrink: 0;
 }
 
 a {

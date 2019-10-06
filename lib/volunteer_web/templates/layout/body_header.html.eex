@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			<ul class="navbar-nav ml-auto pl-lg-3 font-family-sans-serif d-print-none flex-row justify-content-center flex-wrap">
-				<%= NavbarItems.render(assigns) %>
+				<%= NavbarView.render_navbar(assigns) %>
 			</ul>
 		</nav>
 	</div>

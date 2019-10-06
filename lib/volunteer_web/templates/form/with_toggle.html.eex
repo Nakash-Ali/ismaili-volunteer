@@ -8,8 +8,8 @@
 	<div class="col-sm-7">
 		<%= assigns[:do] %>
 	</div>
-	<div class="col-sm-5 text-center">
-		<div class="custom-control custom-checkbox">
+	<div class="col-sm-5">
+		<div class="ml-0 ml-md-2q ml-lg-5q custom-control custom-checkbox">
 			<%= checkbox @form, @toggle,
 				class: HTMLHelpers.io_join(["custom-control-input"] ++ ErrorHelpers.error_classes(@form, @field)),
 				data: [target: "toggle.checkbox", action: "click->toggle#toggle"] %>

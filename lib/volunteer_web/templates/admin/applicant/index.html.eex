@@ -1,4 +1,4 @@
-<%= ListingView.render_subtitle "applicants", assigns %>
+<%= ListingView.render_subtitle assigns %>
 
 <section class="container font-family-sans-serif">
 	<div class="btn-toolbar" role="toolbar">

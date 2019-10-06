@@ -19,7 +19,7 @@
 				<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
 					<%= for {key, str} <- fields do %>
 						<% checked = if input_value(f, key) == "true" or input_value(f, key) == true, do: true, else: false %>
-						<label class="btn btn-outline-secondary <%= if checked, do: "active" %>">
+						<label class="btn btn-outline-primary <%= if checked, do: "active" %>">
 							<%= text_input f, key, [value: "true", checked: checked, type: "checkbox"] %>
 							<%= str %>
 						</label>
@@ -31,19 +31,30 @@
 	</div>
 </section>
 
-<section class="container mt-3 mb-5">
-	<%= for listing <- @listings do %>
-		<div class="my-2">
-			<h6 class="mb-1q">
-				<a href="<%= RouterHelpers.admin_listing_path(@conn, :show, listing) %>"><%= Title.bolded(listing) %></a>
-			</h6>
-			<ul class="item-meta list-inline font-family-sans-serif mb-0">
-				<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
-			</ul>
-			<ul class="item-meta list-inline font-family-sans-serif mb-0">
-				<% {state_text, state_class} = listing_state_text_and_class(listing) %>
-				<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
-			</ul>
-		</div>
-	<% end %>
-</section>
+<%= for {group_type, listings} <- @grouped_listings do %>
+	<section class="container my-3">
+		<h6><strong><%= group_label(group_type) %></strong></h6>
+		<%= if listings == [] do %>
+			<div class="my-2">
+				<p class="m-0 font-family-sans-serif text-muted">Nothing here</p>
+			</div>
+		<% else %>
+			<%= for listing <- listings do %>
+				<div class="my-2">
+					<h6 class="mb-1q">
+						<a href="<%= RouterHelpers.admin_listing_path(@conn, :show, listing) %>"><%= Title.bolded(listing) %></a>
+					</h6>
+					<ul class="item-meta list-inline font-family-sans-serif mb-0">
+						<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
+					</ul>
+					<ul class="item-meta list-inline font-family-sans-serif mb-0">
+						<% {state_text, state_class} = listing_state_text_and_class(listing) %>
+						<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
+					</ul>
+				</div>
+			<% end %>
+		<% end %>
+	</section>
+<% end %>
+
+<div class="mt-5"></div>

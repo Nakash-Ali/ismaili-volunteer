@@ -12,23 +12,20 @@ defmodule VolunteerWeb.Admin.RoleView do
   end
 
   def render_subject_subtitle(%{subject_type: :region} = assigns) do
-    VolunteerWeb.Admin.RegionView.render_subtitle(
-      "roles",
-      assigns |> Map.put(:region, assigns[:subject])
-    )
+    assigns
+    |> Map.put(:region, assigns[:subject])
+    |> VolunteerWeb.Admin.RegionView.render_subtitle()
   end
 
   def render_subject_subtitle(%{subject_type: :group} = assigns) do
-    VolunteerWeb.Admin.GroupView.render_subtitle(
-      "roles",
-      assigns |> Map.put(:group, assigns[:subject])
-    )
+    assigns
+    |> Map.put(:group, assigns[:subject])
+    |> VolunteerWeb.Admin.GroupView.render_subtitle()
   end
 
   def render_subject_subtitle(%{subject_type: :listing} = assigns) do
-    VolunteerWeb.Admin.ListingView.render_subtitle(
-      "roles",
-      assigns |> Map.put(:listing, assigns[:subject])
-    )
+    assigns
+    |> Map.put(:listing, assigns[:subject])
+    |> VolunteerWeb.Admin.ListingView.render_subtitle()
   end
 end

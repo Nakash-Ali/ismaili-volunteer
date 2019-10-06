@@ -23,16 +23,16 @@ defmodule VolunteerWeb.Admin.ListingView do
     ]
   end
 
-  def render_subtitle(active_nav, %{conn: conn, listing: listing} = assigns) do
-    [
-      {"Info", RouterHelpers.admin_listing_path(conn, :show, listing)},
-      {"Roles", RouterHelpers.admin_listing_role_path(conn, :index, listing)},
-      {"Applicants", RouterHelpers.admin_listing_applicant_path(conn, :index, listing)},
-      {"TKN", RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing)},
-      {"Marketing", RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing)},
-    ]
-    |> SubtitleView.with_nav(active_nav, subtitle: Title.bolded(listing), meta: render("subtitle_meta.html", assigns))
+  def render_subtitle(%{listing: listing} = assigns) do
+    SubtitleView.with_features_nav(:listing_subtitle, assigns, %{
+      subtitle: Title.bolded(listing),
+      meta: render("subtitle_meta.html", assigns)
+    })
   end
+
+  def group_label(:created), do: "Listings I have created"
+  def group_label(:manage), do: "Other listings I can manage"
+  def group_label(:other), do: "All other listings"
 
   def listing_state_text_and_class(listing) do
     if Volunteer.Listings.Listing.is_expired?(listing) do
