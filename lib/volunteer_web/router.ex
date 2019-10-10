@@ -11,11 +11,16 @@ defmodule VolunteerWeb.Router do
     admin_feedback_anonymize: {:boolean, false}
   }
 
-  if Application.fetch_env!(:volunteer, :use_ssl) do
-    plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
+  defmacro ssl? do
+    quote do
+      if Application.fetch_env!(:volunteer, :use_ssl) do
+        plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
+      end
+    end
   end
 
   pipeline :browser do
+    ssl?
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -34,6 +39,7 @@ defmodule VolunteerWeb.Router do
   # end
 
   pipeline :api do
+    ssl?
     plug :accepts, ["json"]
   end
 
