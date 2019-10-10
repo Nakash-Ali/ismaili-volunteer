@@ -11,16 +11,13 @@ defmodule VolunteerWeb.Router do
     admin_feedback_anonymize: {:boolean, false}
   }
 
-  defmacro ssl? do
-    quote do
-      if Application.fetch_env!(:volunteer, :use_ssl) do
-        plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
-      end
+  pipeline :ssl? do
+    if Application.fetch_env!(:volunteer, :use_ssl) do
+      plug Plug.SSL, rewrite_on: [:x_forwarded_proto], expires: 604_800
     end
   end
 
   pipeline :browser do
-    ssl?
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -33,23 +30,24 @@ defmodule VolunteerWeb.Router do
     # plug VolunteerWeb.HTMLMinifier
   end
 
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
   # pipeline :embedded do
   #   plug :allow_embedding_as_frame
   #   plug :put_embedded_layout
   # end
 
-  pipeline :api do
-    ssl?
-    plug :accepts, ["json"]
-  end
-
   scope "/api", VolunteerWeb.API do
+    pipe_through :ssl?
     pipe_through :api
 
     resources "/listings", ListingController, only: [:index]
   end
 
   scope "/", VolunteerWeb do
+    pipe_through :ssl?
     pipe_through :browser
 
     get "/", IndexController, :index
@@ -74,11 +72,9 @@ defmodule VolunteerWeb.Router do
     end
 
     scope "/admin", Admin, as: :admin do
-      pipe_through [
-        :ensure_permissioned,
-        :ensure_authenticated,
-        :annotate_roles_for_user,
-      ]
+      pipe_through :ensure_permissioned
+      pipe_through :ensure_authenticated
+      pipe_through :annotate_roles_for_user
 
       get "/", IndexController, :index
 
@@ -151,6 +147,7 @@ defmodule VolunteerWeb.Router do
   end
 
   # scope "/", VolunteerWeb, host: "embedded." do
+  #   pipe_through :ssl?
   #   pipe_through :browser
   #   pipe_through :embedded
   #
