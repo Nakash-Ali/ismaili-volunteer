@@ -1,4 +1,4 @@
-defmodule VolunteerHardcoded.Regions do
+defmodule VolunteerHardcoded.DeprecatedRegions do
   use VolunteerHardcoded
   import Phoenix.HTML, only: [sigil_E: 2]
 
@@ -46,6 +46,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Canada",
       slug: nil,
       parent_id: nil,
+      roles: %{},
       system_email: {"#{@system_email_prefix} - Canada", "canada.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
@@ -77,6 +78,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Ontario",
       slug: nil,
       parent_id: 1,
+      roles: %{},
       system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
@@ -133,6 +135,12 @@ defmodule VolunteerHardcoded.Regions do
       title: "British Columbia",
       slug: "bc",
       parent_id: 1,
+      roles: %{
+        "saniya.jamal@iicanada.net" => "admin",
+        "Faheem.Ali@iicanada.net" => "admin",
+        "amaanali.fazal@iicanada.net" => "admin",
+        "shelina.dilgir@iicanada.net" => "cc_team"
+      },
       system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
@@ -172,6 +180,11 @@ defmodule VolunteerHardcoded.Regions do
       title: "Edmonton",
       slug: nil,
       parent_id: 1,
+      roles: %{
+        "shabeena.habib@iicanada.net" => "admin",
+        "debra.somani@iicanada.net" => "admin",
+        "shafin.kanji@iicanada.net" => "cc_team",
+      },
       system_email: {"#{@system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
@@ -205,6 +218,12 @@ defmodule VolunteerHardcoded.Regions do
       title: "Ottawa",
       slug: nil,
       parent_id: 1,
+      roles: %{
+        "femina.kanji@iicanada.net" => "admin",
+        "almas.jaffer@iicanada.net" => "admin",
+        "aliya.makani@iicanada.net" => "admin",
+        "jahangir.valiani@iicanada.net" => "cc_team"
+      },
       system_email: {"#{@system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
@@ -235,6 +254,14 @@ defmodule VolunteerHardcoded.Regions do
       title: "Prairies",
       slug: nil,
       parent_id: 1,
+      roles: %{
+        "alykhan.bhimji@iicanada.net" => "admin",
+        "zabin.jadavji@iicanada.net" => "admin",
+        "fareen.chartrand@iicanada.net" => "admin",
+        "faraynaaz.mitha@iicanada.net" => "admin",
+        "ranita.charania@iicanada.net" => "admin",
+        "sheizana.murji@iicanada.net" => "cc_team"
+      },
       system_email: {"#{@system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
@@ -268,6 +295,9 @@ defmodule VolunteerHardcoded.Regions do
       title: "Quebec & Maritimes",
       slug: "qm",
       parent_id: 1,
+      roles: %{
+        "shamila.ilyasi@iicanada.net" => "admin",
+      },
       system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,

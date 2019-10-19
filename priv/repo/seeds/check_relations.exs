@@ -1,3 +1,5 @@
+# TODO: validate that this works correctly in production
+
 Volunteer.Repo.transaction(fn ->
   Volunteer.Repo.query!("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;")
 
