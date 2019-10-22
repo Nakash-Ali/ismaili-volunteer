@@ -1,5 +1,7 @@
 <%= render_subject_subtitle assigns %>
 
+<% is_allowed_delete = ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :delete], @subject) %>
+
 <section class="container">
 	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
 		<%= if ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :create], @subject) do %>
@@ -10,7 +12,11 @@
 	</div>
 </section>
 
-<% is_allowed_delete = ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :delete], @subject) %>
+<!-- TODO: make this better -->
+<section class="container my-2 text-center">
+	<p class="mb-2q">Roles allow you to manage who can do what to this <%= @subject_type %>.</p>
+	<p>If you 'd like to understand more on how roles work in OTS, read the <a target="_blank" href="https://alizain-feerasta.gitbook.io/ots-docs/">documentation</a>!</p>
+</section>
 
 <section class="container mt-2 mb-5">
 	<%= if length(@roles) == 0 do %>

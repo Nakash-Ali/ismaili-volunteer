@@ -6,6 +6,12 @@
 		title: "User",
 		required: true,
 		choices: @user_id_choices,
+		help_text: """
+		If you don't see the name of the person you'd like to assign this role to,
+		please ask them to login to OTS. In order to assign a role to a user, that user
+		must have logged-in to OTS atleast once. The first time they login, they are
+		automatically registered as a user in OTS.
+		""",
 		error_classes_opts: [
 			force: error_classes_force
 		]

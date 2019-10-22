@@ -12,7 +12,7 @@ defmodule Volunteer.Permissions.Ruleset do
     "hussein.kermally@iicanada.net",
   ]
 
-  # Thought: It's the roles that need to be evaluated, not the user
+  # TODO: It's the roles that need to be evaluated, not the user
   def evaluate(user, action, subject, [rule | ruleset]) do
     rule
     |> apply_with_rescue([user, action, subject])

@@ -44,6 +44,7 @@ defmodule Volunteer.StringSanitizer do
     |> Enum.join(",")
   end
 
+  # TODO: fix this, Trix wraps the content in a <div/>
   def sanitize(input, %{type: :html}) do
     VolunteerWeb.HTMLInput.sanitize(input)
   end
