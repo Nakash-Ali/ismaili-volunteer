@@ -15,7 +15,7 @@
 <!-- TODO: make this better -->
 <section class="container my-2 text-center">
 	<p class="mb-2q">Roles allow you to manage who can do what to this <%= @subject_type %>.</p>
-	<p>If you 'd like to understand more on how roles work in OTS, read the <a target="_blank" href="https://alizain-feerasta.gitbook.io/ots-docs/">documentation</a>!</p>
+	<p>If you 'd like to understand more on how roles work in OTS, read the <a target="_blank" href="https://ots.gitbook.io/docs/">documentation</a>!</p>
 </section>
 
 <section class="container mt-2 mb-5">
