@@ -407,5 +407,9 @@ defmodule VolunteerHardcoded.Groups do
       title: "Human Resources Ottawa",
       region_id: Regions.get_id_from_title!("Ottawa"),
     }},
+    {102, %{
+      title: "Ismaili Centre, Vancouver",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+    }},
   ]
 end
