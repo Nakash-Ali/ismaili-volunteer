@@ -19,13 +19,13 @@ jobs:
           install-hex:    true
           install-rebar:  true
 
-      - name:             Setup PostgreSQL
-        uses:             Harmon758/postgresql-action@v1.0.0
-        with:
-          postgresql version: "9.6"
-          postgresql db:  "postgres_test"
-          postgresql user: "postgres"
-          postgresql password: "postgres"
+      # - name:             Setup PostgreSQL
+      #   uses:             Harmon758/postgresql-action@v1.0.0
+      #   with:
+      #     postgresql version: "9.6"
+      #     postgresql db:  "postgres_test"
+      #     postgresql user: "postgres"
+      #     postgresql password: "postgres"
 
       - name:             Cache `_build` folder
         uses:             actions/cache@v1
