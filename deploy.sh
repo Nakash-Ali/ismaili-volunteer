@@ -11,8 +11,6 @@ case $GCLOUD_ENV in
     *) echo "invalid environment" && exit 1;;
 esac
 
-export GCLOUD_ENV
-
 if [ $GCLOUD_ENV = "prod" ]; then
   test -z "$(git status --porcelain)"
 fi
