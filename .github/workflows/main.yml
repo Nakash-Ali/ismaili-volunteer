@@ -48,10 +48,10 @@ jobs:
       - name:             Test
         run:              "./test.sh"
 
-      - name:             Decrypt Secrets
-        run:              "./infra-decrypt.sh"
-        env:
-          INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
-
-      - name:             Deploy to Production
-        run:              "./deploy.sh prod"
+      # - name:             Decrypt Secrets
+      #   run:              "./infra-decrypt.sh"
+      #   env:
+      #     INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
+      #
+      # - name:             Deploy to Production
+      #   run:              "./deploy.sh prod"
