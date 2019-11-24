@@ -24,5 +24,20 @@ jobs:
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
 
+      - name:             Test
+        run:              "./compile_and_test.sh"
+
       - name:             Deploy to Production
         run:              "./deploy.sh prod"
+
+      - name: Cache `_build` folder
+        uses: actions/cache@v1
+        with:
+          path: "./_build"
+          key: ${{ runner.os }}-${{ hashFiles('./mix.lock') }}
+
+      - name: Cache `deps` folder
+        uses: actions/cache@v1
+        with:
+          path: "./deps"
+          key: ${{ runner.os }}-${{ hashFiles('./mix.lock') }}
