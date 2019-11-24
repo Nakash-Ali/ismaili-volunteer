@@ -17,4 +17,4 @@ jobs:
         install-hex: true
         install-rebar: true
     - name: Deploy to Production
-      run: "./deploy prod"
+      run: "./deploy.sh prod"
