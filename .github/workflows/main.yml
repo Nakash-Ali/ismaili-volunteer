@@ -31,13 +31,13 @@ jobs:
         uses:             actions/cache@v1
         with:
           path:           "./_build"
-          key:            ${{ runner.os }}-${{ hashFiles('./mix.*') }}
+          key:            ${{ runner.os }}-${{ hashFiles('./mix.lock') }}-${{ hashFiles('./mix.exs') }}
 
       - name:             Cache `deps` folder
         uses:             actions/cache@v1
         with:
           path:           "./deps"
-          key:            ${{ runner.os }}-${{ hashFiles('./mix.*') }}
+          key:            ${{ runner.os }}-${{ hashFiles('./mix.lock') }}-${{ hashFiles('./mix.exs') }}
 
       - name:             Fetch deps
         run:              "./refresh_elixir_deps.sh"
