@@ -31,13 +31,13 @@ jobs:
         uses:             actions/cache@v1
         with:
           path:           "./_build"
-          key:            ${{ runner.os }}-${{ hashFiles('mix.*') }}
+          key:            ${{ runner.os }}
 
       - name:             Cache `deps` folder
         uses:             actions/cache@v1
         with:
           path:           "./deps"
-          key:            ${{ runner.os }}-${{ hashFiles('mix.*') }}
+          key:            ${{ runner.os }}
 
       - name:             Fetch deps
         run:              "./refresh_elixir_deps.sh"
@@ -45,8 +45,8 @@ jobs:
       - name:             Compile
         run:              "./compile.sh"
 
-      # - name:             Test
-      #   run:              "./test.sh"
+      - name:             Test
+        run:              "./test.sh"
 
       # - name:             Decrypt Secrets
       #   run:              "./infra-decrypt.sh"
