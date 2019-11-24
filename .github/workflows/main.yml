@@ -31,15 +31,15 @@ jobs:
         uses:             actions/cache@v1
         with:
           path:           "./_build"
-          key:            ${{ runner.os }}
+          key:            ${{ runner.os }}-build
 
       - name:             Cache `deps` folder
         uses:             actions/cache@v1
         with:
           path:           "./deps"
-          key:            ${{ runner.os }}
+          key:            ${{ runner.os }}-deps
 
-      - name:             Fetch deps
+      - name:             Refresh Elixir deps
         run:              "./refresh_elixir_deps.sh"
 
       - name:             Compile
