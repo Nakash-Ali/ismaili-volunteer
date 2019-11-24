@@ -1,0 +1,22 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Elixir
+      uses: actions/setup-elixir@1.0.0
+      with:
+        elixir-version: 1.8.2
+        otp-version: 21.3
+        install-hex: true
+        install-rebar: true
+    - name: Google Cloud Platform (GCP) CLI - gcloud
+      uses: actions-hub/gcloud@272.0.0
+      with:
+        PROJECT_ID: "ismailivolunteer-201223"
