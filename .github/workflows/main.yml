@@ -16,7 +16,5 @@ jobs:
         otp-version: 21.3
         install-hex: true
         install-rebar: true
-    - name: Install Google Cloud Platform (GCP) CLI
-      run: "apt-get install gcp"
     - name: Deploy to Production
       run: "./deploy prod"
