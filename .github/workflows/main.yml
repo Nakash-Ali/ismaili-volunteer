@@ -1,20 +1,29 @@
-name: CI
+name:                   CI
 
-on: [push]
+on:                     [push]
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on:            ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Setup Elixir
-      uses: actions/setup-elixir@1.0.0
-      with:
-        elixir-version: 1.8.2
-        otp-version: 21.3
-        install-hex: true
-        install-rebar: true
-    - name: Deploy to Production
-      run: "./deploy.sh prod"
+
+      - uses:             actions/checkout@v1
+
+      - name:             Setup Elixir
+        uses:             actions/setup-elixir@1.0.0
+        with:
+          elixir-version: 1.8.2
+          otp-version:    21.3
+          install-hex:    true
+          install-rebar:  true
+          - name:         Hello world action
+
+      - name:             Decrypt Secrets
+        run:              "./infra-decrypt.sh"
+        env:
+          INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
+          
+      - name:             Deploy to Production
+        run:              "./deploy.sh prod"
