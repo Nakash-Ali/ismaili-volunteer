@@ -5,8 +5,8 @@ runtime_config:
   packages:
     - rustc
   build:
-    - "cd assets && npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" <%= font_awesome.auth_token %> && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest"
-    - "cd priv/commands && NODE_ENV=production npm install"
+    - 'cd assets && npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" <%= font_awesome.auth_token %> && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest'
+    - 'cd priv/commands && NODE_ENV=production npm install'
 
 skip_files:
   - "_build"
