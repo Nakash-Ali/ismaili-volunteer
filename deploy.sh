@@ -13,10 +13,6 @@ esac
 
 export GCLOUD_ENV
 
-mix deps.get
-mix deps.unlock --unused
-mix deps.clean --unused
-
 if [ $GCLOUD_ENV = "prod" ]; then
   test -z "$(git status --porcelain)"
 fi
