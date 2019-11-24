@@ -7,17 +7,19 @@ jobs:
 
     runs-on:              ubuntu-latest
 
+    container:            elixir:1.8.2-otp-22
+
     steps:
 
       - uses:             actions/checkout@v1
 
-      - name:             Setup Elixir
-        uses:             actions/setup-elixir@1.0.0
-        with:
-          elixir-version: 1.8.2
-          otp-version:    21.3
-          install-hex:    true
-          install-rebar:  true
+      # - name:             Setup Elixir
+      #   uses:             actions/setup-elixir@1.0.0
+      #   with:
+      #     elixir-version: 1.8.2
+      #     otp-version:    21.3
+      #     install-hex:    true
+      #     install-rebar:  true
 
       # - name:             Setup PostgreSQL
       #   uses:             Harmon758/postgresql-action@v1.0.0
