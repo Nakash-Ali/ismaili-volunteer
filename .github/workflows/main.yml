@@ -1,4 +1,4 @@
-name:                     BuildTestDeploy
+name:                     Everything
 
 on:                       [push]
 
@@ -31,13 +31,13 @@ jobs:
         uses:             actions/cache@v1
         with:
           path:           "./_build"
-          key:            ${{ runner.os }}-${{ hashFiles('./mix.lock') }}-${{ hashFiles('./mix.exs') }}
+          key:            ${{ runner.os }}-${{ hashFiles('mix.*') }}
 
       - name:             Cache `deps` folder
         uses:             actions/cache@v1
         with:
           path:           "./deps"
-          key:            ${{ runner.os }}-${{ hashFiles('./mix.lock') }}-${{ hashFiles('./mix.exs') }}
+          key:            ${{ runner.os }}-${{ hashFiles('mix.*') }}
 
       - name:             Fetch deps
         run:              "./refresh_elixir_deps.sh"
