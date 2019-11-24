@@ -18,12 +18,11 @@ jobs:
           otp-version:    21.3
           install-hex:    true
           install-rebar:  true
-          - name:         Hello world action
 
       - name:             Decrypt Secrets
         run:              "./infra-decrypt.sh"
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
-          
+
       - name:             Deploy to Production
         run:              "./deploy.sh prod"
