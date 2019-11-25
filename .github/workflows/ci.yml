@@ -1,67 +1,56 @@
-name: CI
+name:                        CI
 
-on: [push, pull_request]
+on:                          [push, pull_request]
 
 jobs:
   build_and_test:
 
-    runs-on:              ubuntu-latest
+    runs-on:                 ubuntu-latest
 
     services:
       postgres:
-        image: postgres:9.6
+        image:               postgres:9.6
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER:     postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres_test
+          POSTGRES_DB:       postgres_test
         ports:
           - 5432:5432
-        options: --name pg
-        # options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options:             --name pg
+        # options:           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
 
-      - uses:             actions/checkout@v1
+      - uses:                actions/checkout@v1
 
-      - name:             Setup Elixir
-        uses:             actions/setup-elixir@1.0.0
+      - name:                Setup Elixir
+        uses:                actions/setup-elixir@1.0.0
         with:
-          elixir-version: 1.9.4
-          otp-version:    21.3.8.11
-          install-hex:    true
-          install-rebar:  true
+          elixir-version:    1.9.4
+          otp-version:       21.3.8.11
+          install-hex:       true
+          install-rebar:     true
 
-      - name:             Cache `_build` folder
-        uses:             actions/cache@v1
+      - name:                Cache `_build` folder
+        uses:                actions/cache@v1
         with:
-          path:           "./_build"
-          key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-build
+          path:              "./_build"
+          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-build
 
-      - name:             Cache `deps` folder
-        uses:             actions/cache@v1
+      - name:                Cache `deps` folder
+        uses:                actions/cache@v1
         with:
-          path:           "./deps"
-          key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-deps
+          path:              "./deps"
+          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-deps
 
-      - name:             Refresh Elixir deps
-        run: |
-          mix deps.get
-          mix deps.unlock --unused
-          mix deps.clean --unused
+      - name:                Refresh Elixir deps
+        run:                 "./refresh_elixir_deps.sh"
 
-      - name:             Compile
-        run: |
-          MIX_ENV=dev mix compile --warnings-as-errors --force
-          MIX_ENV=test mix compile --warnings-as-errors --force
+      - name:                Compile
+        run:                 "./local_compile.sh"
 
-      - name:             Setup Database
-        run: |
-          mix ecto.create
-          mix ecto.migrate
-          mix run --require ./priv/repo/seeds/prod/*.exs
-          mix run --require ./priv/repo/seeds/dev/*.exs
-        env:
-          MIX_ENV: test
+      - name:                Setup Database
+        run:                 "./local_db_init.sh test"
 
-      - name: Test
-        run: mix test
+      - name:                Test
+        run:                 mix test

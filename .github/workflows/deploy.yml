@@ -1,4 +1,4 @@
-name: Deploy
+name:                     Deploy
 
 on:
   push:
@@ -34,27 +34,19 @@ jobs:
           path:           "./deps"
           key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-deps
 
-      - name:             Refresh Elixir deps
-        run: |
-          mix deps.get
-          mix deps.unlock --unused
-          mix deps.clean --unused
+      - name:                Refresh Elixir deps
+        run:                 "./refresh_elixir_deps.sh"
 
-      # - name:             Decrypt Secrets
-      #   run:              "./infra-decrypt.sh"
-      #   env:
-      #     INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
-      #
-      # - name:             Setup Database
-      #   run: |
-      #     mix do ecto.create
-      #     mix do ecto.migrate
+      - name:             Decrypt Secrets
+        run:              "./infra-decrypt.sh"
+        env:
+          INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
+
+      # - name:             Migrate & Seed Production Database
+      #   run:              |
+      #     source <(elixir ./infra/generate-envvars.exs --env prod)
+      #     mix ecto.migrate
       #     mix run --require ./priv/repo/seeds/prod/*.exs
-      #     mix run --require ./priv/repo/seeds/dev/*.exs
-      #   env:
-      #     MIX_ENV: test
 
-
-
-      # - name:             Deploy to Production
-      #   run:              "./deploy.sh prod"
+      - name:             Deploy to Production
+        run:              "./deploy.sh prod"

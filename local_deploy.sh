@@ -3,6 +3,8 @@
 set -ex
 
 ./refresh_elixir_deps.sh
-./compile.sh
-./test.sh
+
+./local_compile.sh
+./local_test.sh
+
 ./deploy.sh $1
