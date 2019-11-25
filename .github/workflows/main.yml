@@ -55,8 +55,8 @@ jobs:
 
       - name:             Test
         run:              "./test.sh"
-        # env:
-        #   PGPASSWORD:     "postgres"
+        env:
+          PGPASSWORD:     "postgres"
 
       # - name:             Decrypt Secrets
       #   run:              "./infra-decrypt.sh"
