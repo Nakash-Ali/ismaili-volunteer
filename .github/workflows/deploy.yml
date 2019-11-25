@@ -42,11 +42,9 @@ jobs:
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
 
-      - name:             Load secrets into env
-        run:              "source <(elixir ./infra/generate-envvars.exs --env prod)"
-
       - name:             Setup GCP CLI
         run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
           gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
           gcloud config set project $GCLOUD_PROJECT
           gcloud config set app/cloud_build_timeout 60m
