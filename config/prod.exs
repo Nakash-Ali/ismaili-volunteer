@@ -27,6 +27,13 @@ config :volunteer, VolunteerWeb.Endpoint,
   server: true,
   code_reloader: false
 
+# Configure database
+config :volunteer, Volunteer.Repo,
+  username: require_env!.("DB_USERNAME"),
+  password: require_env!.("DB_PASSWORD"),
+  database: require_env!.("DB_NAME"),
+  socket: require_env!.("DB_HOST")
+
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start the server for all endpoints:
 config :phoenix, :serve_endpoints, true

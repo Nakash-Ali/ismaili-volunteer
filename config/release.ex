@@ -21,7 +21,7 @@ config :volunteer, VolunteerWeb.Endpoint,
   url: [host: require_env!.("ENDPOINT_URL_HOST"), port: 80],
   check_origin: require_env!.("ENDPOINT_URL_CHECK_ORIGIN") |> String.split(",")
 
-# Configure database
+# Re-configure database
 config :volunteer, Volunteer.Repo,
   username: require_env!.("DB_USERNAME"),
   password: require_env!.("DB_PASSWORD"),
