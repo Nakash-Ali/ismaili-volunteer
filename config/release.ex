@@ -7,7 +7,7 @@ require_env! =
         value
 
       _ ->
-        raise "expected the #{key} environment variable to be set" end
+        raise "expected the #{key} environment variable to be set"
     end
   end
 
