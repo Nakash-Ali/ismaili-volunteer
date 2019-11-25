@@ -67,7 +67,14 @@ jobs:
         run:              "./compile.sh"
 
       - name:             Test
-        run:              "docker exec -t -e MIX_ENV=test pg /bin/bash -c \"`cat ./reset_db_local.sh`\""
+        # run:              "docker exec -t -e MIX_ENV=test pg /bin/bash -c \"`cat ./reset_db_local.sh`\""
+        run: |
+          mix do ecto.create, ecto.migrate
+          mix run ./priv/repo/seeds/hardcoded_infrastructure.exs
+          mix run ./priv/repo/test_seeds/accounts.exs
+          mix test
+        env:
+          MIX_ENV: test
 
       # - name:             Decrypt Secrets
       #   run:              "./infra-decrypt.sh"
