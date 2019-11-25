@@ -11,8 +11,4 @@ compiled =
   "./infra/app.yaml"
   |> EEx.eval_file([envvars: envvars] ++ secrets, [trim: true])
 
-IO.puts("")
-IO.puts(compiled)
-IO.puts("")
-
 File.write!(out, compiled)
