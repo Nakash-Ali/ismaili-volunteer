@@ -57,3 +57,4 @@ passwords
 # AppEngine artifacts
 app-generated.yaml
 git-sha
+cloud_sql_proxy
