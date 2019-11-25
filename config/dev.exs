@@ -63,6 +63,7 @@ config :volunteer, Volunteer.Repo,
   password: "postgres",
   database: "postgres",
   hostname: "127.0.0.1",
+  show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
 # Configure mailer

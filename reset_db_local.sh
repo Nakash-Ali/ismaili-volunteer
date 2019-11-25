@@ -18,6 +18,6 @@ PGPASSWORD=postgres psql -c "create database ${DB_NAME};" -U postgres || true
 PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d $DB_NAME -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
 
 mix do ecto.create, ecto.migrate
-mix run ./priv/repo/seeds/hardcoded_infrastructure.exs
 
-mix run priv/repo/test_seeds/accounts.exs
+mix run --require ./priv/repo/seeds/prod/*.exs
+mix run --require ./priv/repo/seeds/dev/*.exs

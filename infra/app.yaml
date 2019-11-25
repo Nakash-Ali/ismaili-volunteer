@@ -21,7 +21,7 @@ skip_files:
   - "test"
 
 env_variables:
-<%= for {key, value} <- env do %>
+<%= for {key, value} <- envvars do %>
   <%= key %>: "<%= value %>"
 <% end %>
 

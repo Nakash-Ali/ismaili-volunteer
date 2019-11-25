@@ -4,8 +4,8 @@ defmodule Volunteer.Mixfile do
   def project do
     [
       app: :volunteer,
-      version: "1.1.0",
-      elixir: "~> 1.8.2",
+      version: "2.0.0",
+      elixir: "~> 1.9.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -42,7 +42,6 @@ defmodule Volunteer.Mixfile do
       {:bamboo_smtp, "~> 1.7.0"},
       {:bamboo, "~> 1.3.0"},
       {:csv, "~> 2.3.1"},
-      {:distillery, "~> 2.0.3"},
       {:ecto_sql, "~> 3.2"},
       {:faker, "~> 0.11", only: [:dev, :test]},
       {:gettext, "~> 0.13"},

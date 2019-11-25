@@ -1,0 +1,60 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+
+    runs-on:              ubuntu-latest
+
+    steps:
+
+      - uses:             actions/checkout@v1
+
+      - name:             Setup Elixir
+        uses:             actions/setup-elixir@1.0.0
+        with:
+          elixir-version: 1.9.4
+          otp-version:    21.3.8.11
+          install-hex:    true
+          install-rebar:  true
+
+      - name:             Cache `_build` folder
+        uses:             actions/cache@v1
+        with:
+          path:           "./_build"
+          key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-build
+
+      - name:             Cache `deps` folder
+        uses:             actions/cache@v1
+        with:
+          path:           "./deps"
+          key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-deps
+
+      - name:             Refresh Elixir deps
+        run: |
+          mix deps.get
+          mix deps.unlock --unused
+          mix deps.clean --unused
+
+      # - name:             Decrypt Secrets
+      #   run:              "./infra-decrypt.sh"
+      #   env:
+      #     INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
+      #
+      # - name:             Setup Database
+      #   run: |
+      #     mix do ecto.create
+      #     mix do ecto.migrate
+      #     mix run --require ./priv/repo/seeds/prod/*.exs
+      #     mix run --require ./priv/repo/seeds/dev/*.exs
+      #   env:
+      #     MIX_ENV: test
+
+
+
+      # - name:             Deploy to Production
+      #   run:              "./deploy.sh prod"

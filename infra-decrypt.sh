@@ -2,5 +2,5 @@
 
 set -e
 
-gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/config.stg.appengine-secrets.exs --decrypt ./infra/config.stg.appengine.gpg
-gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/config.prod.appengine-secrets.exs --decrypt ./infra/config.prod.appengine.gpg
+gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/config.stg.secrets.exs --decrypt ./infra/config.stg.gpg
+gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/config.prod.secrets.exs --decrypt ./infra/config.prod.gpg
