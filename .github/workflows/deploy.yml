@@ -61,8 +61,7 @@ jobs:
         run:              |
           source <(elixir ./infra/generate-envvars.exs --env prod)
           MIX_ENV=prod mix ecto.migrate
+          MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
 
-      # mix run --require ./priv/repo/seeds/prod/*.exs
-
-      # - name:           Deploy to Production
-      #   run:            "./deploy.sh prod"
+      - name:           Deploy to Production
+        run:            "./deploy.sh prod"
