@@ -57,11 +57,12 @@ jobs:
           sudo chmod 777 /cloudsql
           ./cloud_sql_proxy -dir=/cloudsql &
 
-      # - name:           Migrate & Seed Production Database
-      #   run:            |
-      #     source <(elixir ./infra/generate-envvars.exs --env prod)
-      #     mix ecto.migrate
-      #     mix run --require ./priv/repo/seeds/prod/*.exs
-      #
+      - name:             Migrate & Seed Production Database
+        run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
+          mix ecto.migrate
+
+      # mix run --require ./priv/repo/seeds/prod/*.exs
+
       # - name:           Deploy to Production
       #   run:            "./deploy.sh prod"
