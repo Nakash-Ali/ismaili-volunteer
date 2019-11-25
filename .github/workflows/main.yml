@@ -7,6 +7,17 @@ jobs:
 
     runs-on:              ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:9.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
 
       - uses:             actions/checkout@v1
@@ -19,13 +30,13 @@ jobs:
           install-hex:    true
           install-rebar:  true
 
-      - name:             Setup PostgreSQL
-        run: |
-          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
-          wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
-          sudo apt update
-          sudo apt install postgresql-9.6 postgresql-contrib-9.6
-          sudo service postgresql start
+      # - name:             Setup PostgreSQL
+      #   run: |
+      #     sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+      #     wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+      #     sudo apt update
+      #     sudo apt install postgresql-9.6 postgresql-contrib-9.6
+      #     sudo service postgresql start
 
       # - name:             Setup PostgreSQL
       #   uses:             Harmon758/postgresql-action@v1.0.0
@@ -54,7 +65,7 @@ jobs:
         run:              "./compile.sh"
 
       - name:             Test
-        run:              "./test.sh"
+        run:              "docker exec -t postgres ./reset_db_local.sh test"
         env:
           PGPASSWORD:     "postgres"
 
