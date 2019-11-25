@@ -42,6 +42,9 @@ jobs:
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
 
+      - name:             Login to GCP
+        run:              "gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json"
+
       # - name:           Migrate & Seed Production Database
       #   run:            |
       #     source <(elixir ./infra/generate-envvars.exs --env prod)

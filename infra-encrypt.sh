@@ -2,5 +2,7 @@
 
 set -e
 
-gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/config.stg.gpg --symmetric ./infra/config.stg.secrets.exs
-gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/config.prod.gpg --symmetric ./infra/config.prod.secrets.exs
+gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/gpg.gcp.serviceaccount.deploy.bin --symmetric ./infra/gcp.serviceaccount.deploy.secrets.json
+
+gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/gpg.config.stg.bin --symmetric ./infra/config.stg.secrets.exs
+gpg --yes --batch --passphrase=$INFRA_GPG_PASS --output ./infra/gpg.config.prod.bin --symmetric ./infra/config.prod.secrets.exs
