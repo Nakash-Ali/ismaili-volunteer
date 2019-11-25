@@ -1,5 +1,6 @@
 name:                        CI
 
+# TODO: fix this so that it doesn't double build, and only does pushes for master
 on:                          [push, pull_request]
 
 jobs:
