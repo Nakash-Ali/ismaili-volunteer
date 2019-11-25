@@ -16,7 +16,9 @@ jobs:
           POSTGRES_DB: postgres_test
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: --name pg
+        # options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
 
     steps:
 
@@ -65,7 +67,7 @@ jobs:
         run:              "./compile.sh"
 
       - name:             Test
-        run:              "docker exec -t postgres ./reset_db_local.sh test"
+        run:              "docker exec -t pg ./reset_db_local.sh test"
         env:
           PGPASSWORD:     "postgres"
 
