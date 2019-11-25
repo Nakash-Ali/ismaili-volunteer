@@ -20,12 +20,19 @@ jobs:
           install-rebar:  true
 
       - name:             Setup PostgreSQL
-        uses:             Harmon758/postgresql-action@v1.0.0
-        with:
-          postgresql version: "9.6"
-          postgresql db:  "postgres_test"
-          postgresql user: "postgres"
-          postgresql password: "postgres"
+        run: |
+          sudo add-apt-repository "deb https://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+          sudo apt update
+          sudo apt install postgresql-9.6 postgresql-contrib-9.6
+          sudo service postgresql start
+
+      # - name:             Setup PostgreSQL
+      #   uses:             Harmon758/postgresql-action@v1.0.0
+      #   with:
+      #     postgresql version: "9.6"
+      #     postgresql db:  "postgres_test"
+      #     postgresql user: "postgres"
+      #     postgresql password: "postgres"
 
       - name:             Cache `_build` folder
         uses:             actions/cache@v1
@@ -46,9 +53,9 @@ jobs:
         run:              "./compile.sh"
 
       - name:             Test
-        run:              "sudo apt update && sudo apt install postgresql postgresql-contrib && ./test.sh"
-        env:
-          PGPASSWORD:     "postgres"
+        run:              "./test.sh"
+        # env:
+        #   PGPASSWORD:     "postgres"
 
       # - name:             Decrypt Secrets
       #   run:              "./infra-decrypt.sh"
