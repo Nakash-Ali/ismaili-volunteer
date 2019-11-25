@@ -67,7 +67,7 @@ jobs:
         run:              "./compile.sh"
 
       - name:             Test
-        run:              "docker exec -t -e MIX_ENV=test pg /bin/bash -c "`cat ./reset_db_local.sh`""
+        run:              "docker exec -t -e MIX_ENV=test pg /bin/bash -c \"`cat ./reset_db_local.sh`\""
 
       # - name:             Decrypt Secrets
       #   run:              "./infra-decrypt.sh"
