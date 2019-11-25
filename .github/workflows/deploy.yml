@@ -60,7 +60,7 @@ jobs:
       - name:             Migrate & Seed Production Database
         run:              |
           source <(elixir ./infra/generate-envvars.exs --env prod)
-          mix ecto.migrate
+          MIX_ENV=prod mix ecto.migrate
 
       # mix run --require ./priv/repo/seeds/prod/*.exs
 
