@@ -34,16 +34,16 @@ jobs:
           path:           "./deps"
           key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-deps
 
-      - name:                Refresh Elixir deps
-        run:                 "./refresh_elixir_deps.sh"
+      - name:             Refresh Elixir deps
+        run:              "./refresh_elixir_deps.sh"
 
       - name:             Decrypt Secrets
         run:              "./infra-decrypt.sh"
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
 
-      # - name:             Migrate & Seed Production Database
-      #   run:              |
+      # - name:           Migrate & Seed Production Database
+      #   run:            |
       #     source <(elixir ./infra/generate-envvars.exs --env prod)
       #     mix ecto.migrate
       #     mix run --require ./priv/repo/seeds/prod/*.exs

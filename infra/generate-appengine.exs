@@ -1,4 +1,4 @@
-Code.require_file("./infra/Config.exs")
+Code.require_file("./infra/config.exs")
 
 {[env: env, out: out], _, _} =
   System.argv()
