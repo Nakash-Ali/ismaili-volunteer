@@ -37,23 +37,27 @@ jobs:
       - name:             Refresh Elixir deps
         run:              "./refresh_elixir_deps.sh"
 
-      - name:             Decrypt Secrets
+      - name:             Decrypt secrets
         run:              "./infra-decrypt.sh"
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
 
+      - name:             Load secrets into env
+        run:              "source <(elixir ./infra/generate-envvars.exs --env prod)"
+
       - name:             Setup GCP CLI
         run:              |
           gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
+          gcloud config set project $GCLOUD_PROJECT
           gcloud config set app/cloud_build_timeout 60m
 
       - name:             Setup GCP CloudSQL Proxy
         run:              |
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
-          sudo mkdir ~/cloudsql
-          sudo chmod 777 ~/cloudsql
-          ./cloud_sql_proxy -dir=~/cloudsql &
+          sudo mkdir /cloudsql
+          sudo chmod 777 /cloudsql
+          ./cloud_sql_proxy -dir=/cloudsql &
 
       # - name:           Migrate & Seed Production Database
       #   run:            |

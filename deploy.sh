@@ -15,11 +15,7 @@ if [ $GCLOUD_ENV = "prod" ]; then
   test -z "$(git status --porcelain)"
 fi
 
-export GIT_SHA=`git rev-parse HEAD`
-export GIT_SHA_SHORT=`git rev-parse --short HEAD`
-export GCLOUD_VERSION="${GCLOUD_ENV}-${GIT_SHA_SHORT}"
-export GCLOUD_PROJECT="ismailivolunteer-201223"
-export GCLOUD_TARGET_HOST="${GCLOUD_VERSION}-dot-${GCLOUD_PROJECT}.appspot.com"
+source <(elixir ./infra/generate-envvars.exs --env $GCLOUD_ENV)
 
 echo $GIT_SHA >> git-sha
 

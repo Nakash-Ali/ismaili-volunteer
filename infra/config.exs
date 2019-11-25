@@ -1,3 +1,36 @@
+defmodule VolunteerInfra.Secrets.Common do
+  @gcloud_project "ismailivolunteer-201223"
+
+  def base(_context, env) when env in ["prod", "stg"] do
+    git_sha = exec_cmd!("git", ["rev-parse", "HEAD"])
+    git_sha_short = exec_cmd!("git", ["rev-parse", "--short", "HEAD"])
+
+    gcloud_version = "#{env}-#{git_sha_short}"
+
+    %{
+      gcloud: %{
+        project: @gcloud_project,
+        version: gcloud_version,
+        target_host: "#{gcloud_version}-dot-#{@gcloud_project}.appspot.com"
+      },
+      git: %{
+        sha: git_sha,
+        sha_short: git_sha_short
+      },
+    }
+  end
+
+  def exec_cmd!(cmd, args) do
+    case System.cmd(cmd, args) do
+      {result, 0} ->
+        String.trim(result)
+
+      {error_msg, _error_code} ->
+        raise "Execution of #{cmd} failed with error '#{error_msg}'"
+    end
+  end
+end
+
 defmodule VolunteerInfra.Config do
   def envvars(env) do
     env
@@ -6,11 +39,12 @@ defmodule VolunteerInfra.Config do
   end
 
   def secrets(env) do
-    "./infra/config.#{env}.secrets.exs"
-    |> Code.require_file()
+    [{compiled_module, _}] =
+      "./infra/config.#{env}.secrets.exs"
+      |> Code.compile_file()
 
     System.get_env()
-    |> VolunteerInfra.Secrets.configure()
+    |> compiled_module.configure(env)
     |> Enum.into([])
   end
 

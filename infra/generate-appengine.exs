@@ -1,3 +1,4 @@
+Code.compiler_options(ignore_module_conflict: true)
 Code.require_file("./infra/config.exs")
 
 {[env: env, out: out], _, _} =
