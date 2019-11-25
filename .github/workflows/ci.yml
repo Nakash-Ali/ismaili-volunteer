@@ -35,13 +35,13 @@ jobs:
         uses:                actions/cache@v1
         with:
           path:              "./_build"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-build
+          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-timestamp') }}-build
 
       - name:                Cache `deps` folder
         uses:                actions/cache@v1
         with:
           path:              "./deps"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-deps
+          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-timestamp') }}-deps
 
       - name:                Refresh Elixir deps
         run:                 "./refresh_elixir_deps.sh"
