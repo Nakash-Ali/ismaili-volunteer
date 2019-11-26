@@ -32,21 +32,16 @@ defmodule VolunteerInfra.Secrets.Common do
 end
 
 defmodule VolunteerInfra.Config do
-  def envvars(env) do
-    env
-    |> secrets
-    |> env_compile
+  def envvars(context, env) do
+    secrets(context, env) |> env_compile
   end
 
-  def secrets(env) do
+  def secrets(context, env) do
     [{compiled_module, _}] =
       "./infra/config.#{env}.secrets.exs"
       |> Code.compile_file()
 
-    System.get_env()
-    |> IO.inspect()
-    |> compiled_module.configure(env)
-    |> Enum.into([])
+    compiled_module.configure(context, env) |> Enum.into([])
   end
 
   defp env_compile(key_values) do

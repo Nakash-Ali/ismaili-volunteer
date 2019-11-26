@@ -5,7 +5,11 @@ Code.require_file("./infra/config.exs")
   System.argv()
   |> OptionParser.parse(switches: [env: :string])
 
-envvars = VolunteerInfra.Config.envvars(env)
+context =
+  System.get_env()
+
+envvars =
+  VolunteerInfra.Config.envvars(context, env)
 
 Enum.each(envvars, fn {key, value} ->
   IO.puts("export #{key}=\"#{value}\"")

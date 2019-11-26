@@ -9,15 +9,19 @@ runtime_config:
     - 'cd priv/commands && NODE_ENV=production npm install'
 
 skip_files:
+  <%= if skip_build_folder == false do %>
+  <% else %>
   - "_build"
-  - ".git"
-  - ".vagrant"
-  - "assets/node_modules"
+  <% end %>
+  <%= if skip_deps_folder == false do %>
+  <% else %>
   - "deps"
+  <% end %>
+  - ".git"
   - "infra"
-  - "priv/static"
+  - "assets/node_modules"
   - "priv/commands/node_modules"
-  - "sync"
+  - "priv/static"
   - "test"
 
 env_variables:

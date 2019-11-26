@@ -5,15 +5,24 @@ Code.require_file("./infra/config.exs")
   System.argv()
   |> OptionParser.parse(switches: [env: :string, out: :string])
 
+context =
+  System.get_env()
+
 secrets =
-  VolunteerInfra.Config.secrets(env)
+  VolunteerInfra.Config.secrets(context, env)
 
 envvars =
-  VolunteerInfra.Config.envvars(env)
+  VolunteerInfra.Config.envvars(context, env)
   |> Map.drop(["GCLOUD_PROJECT"])
+
+assigns = secrets ++ [
+  envvars: envvars,
+  skip_deps_folder: (if context["CI"] == "true", do: false, else: true),
+  skip_build_folder: (if context["CI"] == "true", do: false, else: true),
+]
 
 compiled =
   "./infra/app.yaml"
-  |> EEx.eval_file([envvars: envvars] ++ secrets, [trim: true])
+  |> EEx.eval_file(assigns, [trim: true])
 
 File.write!(out, compiled)
