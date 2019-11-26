@@ -11,6 +11,11 @@ defmodule Volunteer.Mixfile do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      releases: [
+        volunteer: [
+          
+        ]
+      ]
     ]
   end
 
