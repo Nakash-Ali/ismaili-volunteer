@@ -5,8 +5,13 @@ Code.require_file("./infra/config.exs")
   System.argv()
   |> OptionParser.parse(switches: [env: :string, out: :string])
 
-envvars = VolunteerInfra.Config.envvars(env)
-secrets = VolunteerInfra.Config.secrets(env)
+secrets =
+  VolunteerInfra.Config.secrets(env)
+
+envvars =
+  VolunteerInfra.Config.envvars(env)
+  |> Map.drop(["GCLOUD_PROJECT"])
+  |> IO.inspect
 
 compiled =
   "./infra/app.yaml"
