@@ -11,7 +11,6 @@ secrets =
 envvars =
   VolunteerInfra.Config.envvars(env)
   |> Map.drop(["GCLOUD_PROJECT"])
-  |> IO.inspect
 
 compiled =
   "./infra/app.yaml"
