@@ -8,10 +8,6 @@ Code.require_file("./infra/config.exs")
 context =
   System.get_env()
 
-Enum.each(context, fn {key, value} ->
-  IO.puts("#{key} :::: #{value}")
-end)
-
 secrets =
   VolunteerInfra.Config.secrets(context, env)
 
@@ -28,7 +24,5 @@ assigns = secrets ++ [
 compiled =
   "./infra/app.yaml"
   |> EEx.eval_file(assigns, [trim: true])
-
-IO.puts(compiled)
 
 File.write!(out, compiled)
