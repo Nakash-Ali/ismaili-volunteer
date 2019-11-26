@@ -7,7 +7,10 @@ Code.require_file("./infra/config.exs")
 
 context =
   System.get_env()
-  |> IO.inspect
+
+Enum.each(context, fn {key, value} ->
+  IO.puts("#{key}       #{value}")
+end)
 
 secrets =
   VolunteerInfra.Config.secrets(context, env)
