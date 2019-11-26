@@ -9,7 +9,7 @@ on:
 jobs:
   build_and_test:
 
-    runs-on:                 ubuntu-latest
+    runs-on:                 ubuntu-18.04
 
     services:
       postgres:
@@ -27,34 +27,34 @@ jobs:
 
       - uses:                actions/checkout@v1
 
-      - name:                Setup Elixir
-        uses:                actions/setup-elixir@1.0.0
-        with:
-          elixir-version:    1.9.4
-          otp-version:       21.3.8.10
-          install-hex:       true
-          install-rebar:     true
-
-      - name:                Cache `_build` folder
-        uses:                actions/cache@v1
-        with:
-          path:              "./_build"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-timestamp') }}-build
-
-      - name:                Cache `deps` folder
-        uses:                actions/cache@v1
-        with:
-          path:              "./deps"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-timestamp') }}-deps
-
-      - name:                Refresh Elixir deps
-        run:                 "./refresh_elixir_deps.sh"
-
-      - name:                Compile
-        run:                 "./local_compile.sh"
-
-      - name:                Setup Database
-        run:                 "./local_db_init.sh test"
-
-      - name:                Test
-        run:                 mix test
+      # - name:                Setup Elixir
+      #   uses:                actions/setup-elixir@1.0.0
+      #   with:
+      #     elixir-version:    1.9.4
+      #     otp-version:       21.3.8.10
+      #     install-hex:       true
+      #     install-rebar:     true
+      #
+      # - name:                Cache `_build` folder
+      #   uses:                actions/cache@v1
+      #   with:
+      #     path:              "./_build"
+      #     key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-timestamp') }}-build
+      #
+      # - name:                Cache `deps` folder
+      #   uses:                actions/cache@v1
+      #   with:
+      #     path:              "./deps"
+      #     key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-timestamp') }}-deps
+      #
+      # - name:                Refresh Elixir deps
+      #   run:                 "./refresh_elixir_deps.sh"
+      #
+      # - name:                Compile
+      #   run:                 "./local_compile.sh"
+      #
+      # - name:                Setup Database
+      #   run:                 "./local_db_init.sh test"
+      #
+      # - name:                Test
+      #   run:                 mix test

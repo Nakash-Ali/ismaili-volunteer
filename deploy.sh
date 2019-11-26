@@ -23,15 +23,15 @@ echo $GIT_SHA >> git-sha
 
 elixir infra/generate-appengine.exs --env $GCLOUD_ENV --out "./app-generated.yaml"
 
-if [ $GCLOUD_ENV = "prod" ]; then
-  gcloud app deploy "app-generated.yaml" --verbosity=info --project=$GCLOUD_PROJECT -v $GCLOUD_VERSION --promote --quiet
-elif [ $GCLOUD_ENV = "stg" ]
-then
-  (../ots-stg-redirect/deploy.sh "https://$GCLOUD_TARGET_HOST")
-  gcloud app deploy "app-generated.yaml" --verbosity=info --project=$GCLOUD_PROJECT -v $GCLOUD_VERSION --no-promote --quiet
-else
-  echo "arghhh"
-  exit 1
-fi
+# if [ $GCLOUD_ENV = "prod" ]; then
+#   gcloud app deploy "app-generated.yaml" --verbosity=info --project=$GCLOUD_PROJECT -v $GCLOUD_VERSION --promote --quiet
+# elif [ $GCLOUD_ENV = "stg" ]
+# then
+#   (../ots-stg-redirect/deploy.sh "https://$GCLOUD_TARGET_HOST")
+#   gcloud app deploy "app-generated.yaml" --verbosity=info --project=$GCLOUD_PROJECT -v $GCLOUD_VERSION --no-promote --quiet
+# else
+#   echo "arghhh"
+#   exit 1
+# fi
 
 rm -f git-sha app-generated.yaml

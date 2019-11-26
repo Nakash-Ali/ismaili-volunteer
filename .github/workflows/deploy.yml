@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
 
-    runs-on:              ubuntu-latest
+    runs-on:              ubuntu-18.04
 
     steps:
 
@@ -49,19 +49,19 @@ jobs:
           gcloud config set project $GCLOUD_PROJECT
           gcloud config set app/cloud_build_timeout 60m
 
-      - name:             Setup GCP CloudSQL Proxy
-        run:              |
-          wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-          chmod +x cloud_sql_proxy
-          sudo mkdir /cloudsql
-          sudo chmod 777 /cloudsql
-          ./cloud_sql_proxy -dir=/cloudsql &
+      # - name:             Setup GCP CloudSQL Proxy
+      #   run:              |
+      #     wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+      #     chmod +x cloud_sql_proxy
+      #     sudo mkdir /cloudsql
+      #     sudo chmod 777 /cloudsql
+      #     ./cloud_sql_proxy -dir=/cloudsql &
 
-      - name:             Migrate & Seed Production Database
-        run:              |
-          source <(elixir ./infra/generate-envvars.exs --env prod)
-          MIX_ENV=prod mix ecto.migrate
-          MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
+      # - name:             Migrate & Seed Production Database
+      #   run:              |
+      #     source <(elixir ./infra/generate-envvars.exs --env prod)
+      #     MIX_ENV=prod mix ecto.migrate
+      #     MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
 
-      - name:           Deploy to Production
-        run:            "./deploy.sh prod"
+      - name:             Deploy to Production
+        run:              "./deploy.sh prod"

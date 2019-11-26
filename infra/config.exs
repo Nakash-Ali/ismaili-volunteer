@@ -44,6 +44,7 @@ defmodule VolunteerInfra.Config do
       |> Code.compile_file()
 
     System.get_env()
+    |> IO.inspect()
     |> compiled_module.configure(env)
     |> Enum.into([])
   end
