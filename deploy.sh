@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
-
-rm -f git-sha app-generated.yaml
+set -e
 
 GCLOUD_ENV=$1;
 
@@ -11,11 +9,15 @@ case $GCLOUD_ENV in
     *) echo "invalid environment" && exit 1;;
 esac
 
+source <(elixir ./infra/generate-envvars.exs --env $GCLOUD_ENV)
+
+set -x
+
+rm -f git-sha app-generated.yaml
+
 if [ $GCLOUD_ENV = "prod" ]; then
   test -z "$(git status --porcelain)"
 fi
-
-source <(elixir ./infra/generate-envvars.exs --env $GCLOUD_ENV)
 
 echo $GIT_SHA >> git-sha
 
