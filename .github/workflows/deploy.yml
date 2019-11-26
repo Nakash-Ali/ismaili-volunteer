@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  ON_CI_SERVER:           true                       
+  ON_CI_SERVER:           true
 
 jobs:
   deploy:
@@ -44,6 +44,11 @@ jobs:
         run:              "./infra-decrypt.sh"
         env:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
+
+      - name:             Compile
+        run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
+          MIX_ENV=prod mix compile --warnings-as-errors --force
 
       - name:             Setup GCP CLI
         run:              |
