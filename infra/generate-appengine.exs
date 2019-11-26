@@ -7,6 +7,7 @@ Code.require_file("./infra/config.exs")
 
 context =
   System.get_env()
+  |> IO.inspect
 
 secrets =
   VolunteerInfra.Config.secrets(context, env)
