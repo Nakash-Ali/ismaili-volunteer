@@ -43,11 +43,11 @@ jobs:
           INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
 
       - name:             Setup GCP CLI
-        run:              source <(elixir ./infra/generate-envvars.exs --env prod)
-
-      # gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
-      # gcloud config set project $GCLOUD_PROJECT
-      # gcloud config set app/cloud_build_timeout 60m
+        run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
+          gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
+          gcloud config set project $GCLOUD_PROJECT
+          gcloud config set app/cloud_build_timeout 60m
 
       # - name:             Setup GCP CloudSQL Proxy
       #   run:              |
@@ -63,5 +63,5 @@ jobs:
       #     MIX_ENV=prod mix ecto.migrate
       #     MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
 
-      # - name:             Deploy to Production
-      #   run:              "./deploy.sh prod"
+      - name:             Deploy to Production
+        run:              "./deploy.sh prod"

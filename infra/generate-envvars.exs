@@ -7,7 +7,6 @@ Code.require_file("./infra/config.exs")
 
 context =
   System.get_env()
-  |> IO.inspect
 
 envvars =
   VolunteerInfra.Config.envvars(context, env)
