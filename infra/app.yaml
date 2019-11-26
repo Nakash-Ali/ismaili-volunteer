@@ -26,7 +26,7 @@ skip_files:
 
 env_variables:
 <%= for {key, value} <- envvars do %>
-  <%= key %>: "<%= value %>"
+  <%= key %>: '<%= value %>'
 <% end %>
 
 beta_settings:

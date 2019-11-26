@@ -20,6 +20,7 @@ config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 # Configure global constants
 config :volunteer,
   version: version,
+  environment: Mix.env(),
   global_title: "OpportunitiesToServe",
   global_email: "ots@iicanada.net",
   global_url: "https://ots.the.ismaili",

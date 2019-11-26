@@ -106,7 +106,7 @@ defmodule Volunteer.Commands do
     end
 
     def get_node_executable_name() do
-      case Mix.env() do
+      case Application.get_env(:volunteer, :environment) do
         :prod -> "nodejs"
         :dev -> "node"
       end
