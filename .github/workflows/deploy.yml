@@ -5,16 +5,16 @@ on:
     branches:
       - master
 
-# jobs:
-#   deploy:
-#
-#     runs-on:              ubuntu-18.04
-#
-#     steps:
-#
-#       - uses:             actions/checkout@v1
-#         with:
-#           fetch-depth: 1
+jobs:
+  deploy:
+
+    runs-on:              ubuntu-18.04
+
+    steps:
+
+      - uses:             actions/checkout@v1
+        with:
+          fetch-depth: 1
 #
 #       - name:             Setup Elixir
 #         uses:             actions/setup-elixir@1.0.0
