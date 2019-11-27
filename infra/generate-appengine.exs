@@ -15,11 +15,7 @@ envvars =
   VolunteerInfra.Config.envvars(context, env)
   |> Map.drop(["GCLOUD_PROJECT"])
 
-assigns = secrets ++ [
-  envvars: envvars,
-  skip_deps_folder: (if context["ON_CI_SERVER"] == "true", do: false, else: true),
-  skip_build_folder: (if context["ON_CI_SERVER"] == "true", do: false, else: true),
-]
+assigns = [envvars: envvars] ++ secrets
 
 compiled =
   "./infra/app.yaml"
