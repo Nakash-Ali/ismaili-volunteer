@@ -2,10 +2,6 @@ name:                     Deploy
 
 on:                       ['deployment']
 
-# on:
-#   schedule:
-#     - cron:             '0 2 * * *'
-
 jobs:
   deploy:
 
