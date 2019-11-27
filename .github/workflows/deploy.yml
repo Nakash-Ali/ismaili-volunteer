@@ -1,9 +1,10 @@
 name:                     Deploy
 
-on:
-  push:
-    branches:
-      - master
+on: ['deployment']
+
+# on:
+#   schedule:
+#     - cron: '0 2 * * *'
 
 jobs:
   deploy:
