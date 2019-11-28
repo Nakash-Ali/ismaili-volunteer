@@ -111,3 +111,12 @@ import_config "appsignal.exs"
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+if Process.get({Volunteer, :monkey_patch}, nil) == nil do
+  Process.put({Volunteer, :monkey_patch}, false)
+
+  config = Config.__eval__!("./config/config.exs")
+
+  IO.inspect(config)
+  File.write!("./priv/config.txt", Kernel.inspect(config))
+end

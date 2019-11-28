@@ -17,6 +17,7 @@ require_env! =
 
 # General application configuration
 config :volunteer,
+  monkey: require_env!.("VOLUNTEER_MONKEY"),
   send_analytics: true
 
 # Configure the endpoint
