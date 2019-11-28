@@ -58,3 +58,6 @@ passwords
 app-generated.yaml
 git-sha
 cloud_sql_proxy
+
+# Temporary testing
+.config.txt

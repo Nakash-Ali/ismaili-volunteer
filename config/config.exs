@@ -118,5 +118,5 @@ if Process.get({Volunteer, :monkey_patch}, nil) == nil do
   config = Config.__eval__!("./config/config.exs")
 
   IO.inspect(config)
-  File.write!("./priv/config.txt", Kernel.inspect(config))
+  File.write!("./priv/inspect.#{System.unique_integer([:positive, :monotonic])}.config.txt", Kernel.inspect(config))
 end
