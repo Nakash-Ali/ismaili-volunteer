@@ -1,5 +1,5 @@
 env: flex
-runtime: gs://elixir-runtime/elixir-2019-07-01-065508.yaml
+runtime: gs://elixir-runtime/elixir-2019-10-29-183530.yaml
 entrypoint: /app/lib/volunteer-2.0.0/priv/startup.sh
 runtime_config:
   release_app: volunteer

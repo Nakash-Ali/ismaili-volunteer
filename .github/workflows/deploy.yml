@@ -1,5 +1,6 @@
 name:                     Deploy
 
+# TODO: get deliverybot working correctly
 on:                       ['deployment']
 
 jobs:

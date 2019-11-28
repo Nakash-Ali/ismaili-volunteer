@@ -1,20 +1,6 @@
 defmodule Volunteer.Application do
   use Application
 
-  defmodule Startup do
-    def run_scripts!(app) do
-      dir = :code.priv_dir(app) |> Path.join("startup")
-
-      dir
-      |> File.ls!()
-      |> Enum.sort
-      |> Enum.map(&Path.join(dir, &1))
-      |> Enum.each(fn bin ->
-        {_, 0} = System.cmd(bin, [])
-      end)
-    end
-  end
-
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
