@@ -60,4 +60,4 @@ git-sha
 cloud_sql_proxy
 
 # Temporary testing
-.config.txt
+*.config.txt
