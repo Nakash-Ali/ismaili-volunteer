@@ -17,7 +17,7 @@ config :volunteer, VolunteerWeb.Endpoint,
 config :volunteer, Volunteer.Repo,
   username: "postgres",
   password: System.get_env("DB_PASS") || "postgres",
-  database: "postgres_test",
+  database: "postgres",
   hostname: "127.0.0.1",
   pool: Ecto.Adapters.SQL.Sandbox
 
