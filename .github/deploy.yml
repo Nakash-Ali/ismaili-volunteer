@@ -1,4 +1,3 @@
 production:
   environment: production
   production_environment: true
-  required_contexts: ["ci"]
