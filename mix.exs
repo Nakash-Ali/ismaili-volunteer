@@ -13,7 +13,7 @@ defmodule Volunteer.Mixfile do
       deps: deps(),
       releases: [
         volunteer: [
-          
+
         ]
       ]
     ]
@@ -43,12 +43,12 @@ defmodule Volunteer.Mixfile do
   # Type `mix help deps` for examples and options.
   def deps do
     [
-      {:appsignal, "~> 1.10.8"},
+      {:appsignal, "~> 1.10"},
       {:bamboo_smtp, "~> 1.7.0"},
       {:bamboo, "~> 1.3.0"},
-      {:csv, "~> 2.3.1"},
+      {:csv, "~> 2.3"},
       {:ecto_sql, "~> 3.2"},
-      {:faker, "~> 0.11", only: [:dev, :test]},
+      {:faker, "~> 0.13", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
       {:jason, "~> 1.0"},
       {:jose, "~> 1.8"},
@@ -63,12 +63,12 @@ defmodule Volunteer.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:quantum, "~> 2.3"},
       {:recaptcha, "~> 3.0"},
-      {:semtex, github: "alizain/semtex", branch: "master"},
-      {:sentry, "~> 7.1.0"},
+      {:semtex, github: "alizain/semtex", ref: "e8a2b90b89e07b4f285a246d3d01c7728eab39c5"},
+      {:sentry, "~> 7.1"},
       {:slugger, "~> 0.2"},
       {:timex, "~> 3.1"},
-      {:ueberauth_microsoft, "~> 0.3"},
-      {:ueberauth, "~> 0.4"},
+      {:ueberauth_microsoft, "~> 0.4.0"},
+      {:ueberauth, "~> 0.6.0"},
     ]
   end
 
