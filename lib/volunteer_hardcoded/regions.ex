@@ -46,7 +46,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Canada",
       slug: nil,
       parent_id: nil,
-      system_email: {"#{@system_email_prefix} - Canada", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Canada", "canada.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
@@ -77,7 +77,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Ontario",
       slug: nil,
       parent_id: 1,
-      system_email: {"#{@system_email_prefix} - Ontario", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Ontario", "ontario.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
@@ -133,7 +133,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "British Columbia",
       slug: "bc",
       parent_id: 1,
-      system_email: {"#{@system_email_prefix} - British Columbia", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - British Columbia", "bc.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
@@ -172,7 +172,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Edmonton",
       slug: nil,
       parent_id: 1,
-      system_email: {"#{@system_email_prefix} - Edmonton", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Edmonton", "edmonton.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
@@ -205,7 +205,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Ottawa",
       slug: nil,
       parent_id: 1,
-      system_email: {"#{@system_email_prefix} - Ottawa", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Ottawa", "ottawa.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
@@ -235,7 +235,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Prairies",
       slug: nil,
       parent_id: 1,
-      system_email: {"#{@system_email_prefix} - Prairies", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Prairies", "prairies.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
@@ -268,7 +268,7 @@ defmodule VolunteerHardcoded.Regions do
       title: "Quebec & Maritimes",
       slug: "qm",
       parent_id: 1,
-      system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "ots@iicanada.net"},
+      system_email: {"#{@system_email_prefix} - Quebec & Maritimes", "qm.ots@iicanada.net"},
       ots_website: Path.join([@global_url, "/canada"]),
       council_website: @canada_council_website,
       jumbotron: %{
