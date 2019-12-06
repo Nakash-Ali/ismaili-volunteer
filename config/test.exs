@@ -10,7 +10,7 @@ config :volunteer,
 config :volunteer, VolunteerWeb.Endpoint,
   http: [port: 4001],
   url: [host: "localhost"],
-  secret_key_base: "this is the secret_key_base of at least 64 bytes for the test environment",
+  secret_key_base: :crypto.strong_rand_bytes(128) |> Base.encode64() |> binary_part(0, 128),
   server: false
 
 # Configure your database

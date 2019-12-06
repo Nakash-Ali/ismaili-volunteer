@@ -304,14 +304,14 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   defp get_region_id_choices() do
-    VolunteerUtils.Controller.blank_select_choice() ++ Infrastructure.get_region_id_choices()
+    Infrastructure.get_regions() |> VolunteerUtils.Choices.make(%{blank: true})
   end
 
   defp get_group_id_choices() do
-    VolunteerUtils.Controller.blank_select_choice() ++ Infrastructure.get_group_id_choices()
+    Infrastructure.get_groups() |> VolunteerUtils.Choices.make(%{blank: true})
   end
 
   defp get_admin_user_id_choices() do
-    VolunteerUtils.Controller.blank_select_choice() ++ Volunteer.Accounts.get_admin_user_id_choices()
+    Volunteer.Accounts.get_all_admin_users() |> VolunteerUtils.Choices.make(%{blank: true})
   end
 end

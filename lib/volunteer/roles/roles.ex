@@ -142,7 +142,7 @@ defmodule Volunteer.Roles do
     end)
   end
 
-  def choices_for_relations(subject_type) do
+  def relations_for_subject_type(subject_type) do
     Role.relations_for_subject_type(subject_type)
   end
 end

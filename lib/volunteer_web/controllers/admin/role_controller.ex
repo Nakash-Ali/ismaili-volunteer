@@ -107,8 +107,8 @@ defmodule VolunteerWeb.Admin.RoleController do
         changeset: changeset,
         action_path: subject_config.router_helper.(conn, :create, subject_config.subject_id),
         back_path: subject_config.router_helper.(conn, :index, subject_config.subject_id),
-        user_id_choices: VolunteerUtils.Controller.blank_select_choice() ++ Volunteer.Accounts.get_admin_user_id_choices(),
-        relation_choices: VolunteerUtils.Controller.blank_select_choice() ++ Roles.choices_for_relations(subject_config.subject_type)
+        user_id_choices: Volunteer.Accounts.get_all_admin_users() |> VolunteerUtils.Choices.make(%{blank: true}),
+        relation_choices: Roles.relations_for_subject_type(subject_config.subject_type) |> VolunteerUtils.Choices.make(%{blank: true}),
       ] ++ Enum.into(subject_config, []) ++ opts
     )
   end
