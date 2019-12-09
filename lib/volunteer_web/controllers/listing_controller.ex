@@ -59,8 +59,8 @@ defmodule VolunteerWeb.ListingController do
           recaptcha_public_key: Application.fetch_env!(:recaptcha, :public_key),
           preferred_contact_choices: Volunteer.Accounts.User.preferred_contact_choices(),
           ismaili_status_choices: Volunteer.Accounts.User.ismaili_status_choices(),
-          jamatkhana_choices: Volunteer.Infrastructure.all_jamatkhanas() |> VolunteerUtils.Choices.make(%{default: true}),
-          education_level_choices: Volunteer.Accounts.User.education_level_choices() |> VolunteerUtils.Choices.transpose()  |> VolunteerUtils.Choices.make(%{default: true}),
+          jamatkhana_choices: Volunteer.Infrastructure.all_jamatkhanas() |> VolunteerUtils.Choices.make(%{blank: true}),
+          education_level_choices: Volunteer.Accounts.User.education_level_choices() |> VolunteerUtils.Choices.transpose()  |> VolunteerUtils.Choices.make(%{blank: true}),
         ]
     )
   end
