@@ -73,10 +73,9 @@ defmodule Volunteer.Accounts do
     |> Repo.preload(:roles)
   end
 
-  def get_admin_user_id_choices do
+  def get_all_admin_users do
     from(
       u in User,
-      select: {u.title, u.id},
       where: ilike(u.primary_email, ^"%#{@primary_email_admin_domain}")
     )
     |> order_by(asc: :title)

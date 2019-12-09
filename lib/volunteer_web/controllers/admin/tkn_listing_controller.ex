@@ -206,14 +206,14 @@ defmodule VolunteerWeb.Admin.TKNListingController do
           changeset: changeset,
           listing: conn.assigns[:listing],
           back_path: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, conn.assigns[:listing]),
-          classification_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.classification_choices(),
-          commitment_type_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.commitment_type_choices(),
-          location_type_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.location_type_choices(),
-          search_scope_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.search_scope_choices(),
-          function_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.function_choices(),
-          industry_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.industry_choices(),
-          education_level_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.education_level_choices(),
-          work_experience_years_choices: VolunteerUtils.Controller.blank_select_choice() ++ Listings.TKNListing.work_experience_years_choices()
+          classification_choices: Listings.TKNListing.classification_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          commitment_type_choices: Listings.TKNListing.commitment_type_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          location_type_choices: Listings.TKNListing.location_type_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          search_scope_choices: Listings.TKNListing.search_scope_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          function_choices: Listings.TKNListing.function_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          industry_choices: Listings.TKNListing.industry_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          education_level_choices: Listings.TKNListing.education_level_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
+          work_experience_years_choices: Listings.TKNListing.work_experience_years_choices() |> VolunteerUtils.Choices.make(%{blank: true}),
         ]
     )
   end

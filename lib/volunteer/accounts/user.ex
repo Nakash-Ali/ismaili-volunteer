@@ -105,7 +105,7 @@ defmodule Volunteer.Accounts.User do
     |> validate_inclusion(:ismaili_status, (ismaili_status_choices() |> VolunteerUtils.Choices.values()))
     # |> validate_inclusion(:education_level, (education_level_choices() |> VolunteerUtils.Choices.values()))
     # |> validate_length(:primary_jamatkhanas, min: 1, max: 1)
-    # |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.jamatkhana_choices())
+    # |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.all_jamatkhanas())
     |> cast_and_validate_primary_jamatkhanas(attrs)
     |> VolunteerUtils.Changeset.put_defaults(@defaults)
   end
@@ -147,7 +147,7 @@ defmodule Volunteer.Accounts.User do
     changeset
     |> cast(attrs, [:primary_jamatkhanas], empty_values: [[], [""]])
     |> Volunteer.StringSanitizer.sanitize_changes([:primary_jamatkhanas], %{type: :text})
-    |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.jamatkhana_choices())
+    |> validate_subset(:primary_jamatkhanas, Volunteer.Infrastructure.all_jamatkhanas())
     |> validate_length(:primary_jamatkhanas, min: 1, max: 1)
   end
 

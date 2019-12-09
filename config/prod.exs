@@ -23,7 +23,7 @@ config :volunteer,
 config :volunteer, VolunteerWeb.Endpoint,
   root: ".",
   cache_static_manifest: "priv/static/cache_manifest.json",
-  secret_key_base: :crypto.strong_rand_bytes(64) |> Base.encode64() |> binary_part(0, 64),
+  secret_key_base: :crypto.strong_rand_bytes(128) |> Base.encode64() |> binary_part(0, 128),
   server: true,
   code_reloader: false
 

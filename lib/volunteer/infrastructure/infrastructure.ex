@@ -22,11 +22,6 @@ defmodule Volunteer.Infrastructure do
     |> Repo.one()
   end
 
-  def get_region_id_choices do
-    from(r in Region, select: {r.title, r.id})
-    |> Repo.all()
-  end
-
   def get_regions(opts \\ []) do
     from(r in Region)
     |> query_regions_with_filters(Keyword.get(opts, :filters, %{}))
@@ -67,12 +62,6 @@ defmodule Volunteer.Infrastructure do
   def get_groups() do
     from(r in Group)
     |> order_by([asc: :title])
-    |> Repo.all()
-  end
-
-  def get_group_id_choices do
-    from(g in Group, select: {g.title, g.id})
-    |> order_by(asc: :title)
     |> Repo.all()
   end
 
@@ -125,7 +114,7 @@ defmodule Volunteer.Infrastructure do
     group
   end
 
-  def jamatkhana_choices() do
+  def all_jamatkhanas() do
     VolunteerHardcoded.Regions.take_from_all!(:jamatkhanas)
     |> Enum.flat_map(fn {_key, value} -> value end)
     |> Enum.sort()
