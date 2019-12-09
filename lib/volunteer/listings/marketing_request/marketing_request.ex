@@ -7,7 +7,8 @@ defmodule Volunteer.Listings.MarketingRequest do
 
   schema "marketing_requests" do
     field :start_date, :date, default: Date.utc_today()
-    field :target_jamatkhanas, {:array, :string}
+    field :targets_all, :boolean, default: false
+    field :targets, {:array, :string}
     embeds_many :text_channels, TextChannel
     embeds_many :image_channels, ImageChannel
     embeds_many :text_image_channels, TextImageChannel
@@ -15,55 +16,118 @@ defmodule Volunteer.Listings.MarketingRequest do
 
   @attributes_cast_always [
     :start_date,
-    :target_jamatkhanas
+    :targets,
+    :targets_all,
   ]
 
-  @attributes_required_always @attributes_cast_always
+  @attributes_required_always [
+    :start_date
+  ]
 
-  @mapping %{
-    "text" => TextChannel,
-    "image" => ImageChannel,
-    "text_image" => TextImageChannel
+  @type_mapping %{
+    "text" => :text_channels,
+    "image" => :image_channels,
+    "text_image" => :text_image_channels,
   }
 
-  def new(channels, assigns) do
-    channels
+  @module_mapping %{
+    :text_channels => TextChannel,
+    :image_channels => ImageChannel,
+    :text_image_channels => TextImageChannel
+  }
+
+  def new(%{channels_allowed: channels_allowed}, assigns) do
+    channels_allowed
     |> initial(assigns)
     |> change()
   end
 
-  def create(channels, assigns, attrs) do
-    channels
+  def create(%{channels_allowed: channels_allowed, targets_allowed: targets_allowed} = config, assigns, attrs) do
+    channels_allowed
     |> initial(assigns)
     |> cast(attrs, @attributes_cast_always)
-    |> Volunteer.StringSanitizer.sanitize_changes([:target_jamatkhanas], %{type: :text})
+    |> Volunteer.StringSanitizer.sanitize_changes([:targets], %{type: :text})
     |> validate_required(@attributes_required_always)
+    |> validate_targets(targets_allowed)
     |> cast_embed(:text_channels)
     |> cast_embed(:image_channels)
     |> cast_embed(:text_image_channels)
-    |> validate_atleast_one_in_any_channel([:text_channels, :image_channels, :text_image_channels])
+    |> validate_minimum_channels_selected(config.channels_allowed)
   end
 
-  defp initial(channels, assigns) do
-    %__MODULE__{
-      text_channels: initial_channels_for_type(TextChannel, channels, assigns),
-      image_channels: initial_channels_for_type(ImageChannel, channels, assigns),
-      text_image_channels: initial_channels_for_type(TextImageChannel, channels, assigns)
-    }
+  def group_channels_by_type(channels_allowed) do
+    Enum.group_by(
+      channels_allowed,
+      fn {_title, str_type} ->
+        Map.fetch!(@type_mapping, str_type)
+      end,
+      fn {title, _str_type} ->
+        title
+      end
+    )
   end
 
-  defp initial_channels_for_type(required_channel_module, channels, assigns) do
-    channels
-    |> Enum.map(fn {title, str_type} -> {Map.fetch!(@mapping, str_type), title} end)
-    |> Enum.filter(fn {channel_module, _title} -> channel_module == required_channel_module end)
-    |> Enum.map(fn {channel_module, title} -> channel_module.initial(title, assigns) end)
+  def filter_enabled_and_allowed_channels(marketing_request, channels_allowed) do
+    @module_mapping
+    |> Map.keys()
+    |> Enum.reduce(marketing_request, fn type, marketing_request ->
+      Map.update!(marketing_request, type, fn channels ->
+        allowed_title_list = Map.get(channels_allowed, type, [])
+
+        Enum.filter(channels, fn channel ->
+          case channel do
+            %{enabled: false} ->
+              false
+
+            %{enabled: true, title: title} ->
+              Enum.member?(allowed_title_list, title)
+          end
+        end)
+      end)
+    end)
   end
 
-  defp validate_atleast_one_in_any_channel(changeset, channels) do
-    channels
-    |> Enum.flat_map(&get_field(changeset, &1, []))
-    |> Enum.filter(&Map.get(&1, :enabled, false))
-    |> Enum.any?()
+  defp initial(channels_allowed, assigns) do
+    initial_channels =
+      channels_allowed
+      |> Enum.map(fn {type, title_list} ->
+        module = Map.fetch!(@module_mapping, type)
+        channels = Enum.map(title_list, &module.initial(&1, assigns))
+        {type, channels}
+      end)
+      |> Enum.into(%{})
+
+    struct(__MODULE__, initial_channels)
+  end
+
+  defp validate_targets(changeset, targets_allowed) do
+    case fetch_field(changeset, :targets_all) do
+      {_, true} ->
+        changeset
+
+      {_, false} ->
+        changeset
+        |> validate_required(:targets)
+        |> validate_subset(:targets, targets_allowed)
+        |> validate_length(:targets, min: 1)
+    end
+  end
+
+  # NOTE: We can't effectively handle this for the national case when regions
+  # have differing channels available. For example, let's say region_a has allowed
+  # channels 1 & 2, and region_b has allowed channels 2 & 3. The national form
+  # will show channels 1, 2, & 3. Let's say the user selects both regions, but
+  # only enables channel 3. This function will assume the changeset is valid,
+  # when actually it's only valid for region_b. Once the request is delegated to
+  # region_a, the changeset will actually be invalid. Maybe we need to run the
+  # whole changeset from the perspective of each region in a delegated request!
+  # Therefore, a national delegated request will only be correct when it is correct
+  # for all the regions it will be delegated to!
+  defp validate_minimum_channels_selected(changeset, channels_allowed) do
+    channels_allowed
+    |> Enum.flat_map(fn {type, _titles} -> get_field(changeset, type) end)
+    |> Enum.filter(&Map.fetch!(&1, :enabled))
+    |> Enum.any?
     |> case do
       true ->
         changeset
@@ -71,18 +135,5 @@ defmodule Volunteer.Listings.MarketingRequest do
       false ->
         add_error(changeset, :_minimum_channels, "At least one channel should be selected")
     end
-  end
-
-  def filter_disabled_channels(marketing_request) do
-    marketing_request
-    |> filter_disabled_channel_type(:text_channels)
-    |> filter_disabled_channel_type(:image_channels)
-    |> filter_disabled_channel_type(:text_image_channels)
-  end
-
-  defp filter_disabled_channel_type(marketing_request, channel_type) do
-    Map.update!(marketing_request, channel_type, fn channels ->
-      Enum.filter(channels, &Map.fetch!(&1, :enabled))
-    end)
   end
 end

@@ -39,12 +39,30 @@ defmodule VolunteerWeb.Router do
   #   plug :put_embedded_layout
   # end
 
+  forward "/sent_emails", Bamboo.SentEmailViewerPlug
+
+  get "/health/ping", VolunteerWeb.HealthController, :ping
+
   scope "/api", VolunteerWeb.API do
     pipe_through :ssl?
     pipe_through :api
 
     resources "/listings", ListingController, only: [:index]
   end
+
+  # scope "/", VolunteerWeb, host: "embedded." do
+  #   pipe_through :ssl?
+  #   pipe_through :browser
+  #   pipe_through :embedded
+  #
+  #   get "/", Embedded.IndexController, :index
+  #
+  #   scope "/listings/:id" do
+  #     get "/", ListingController, :show
+  #   end
+  #
+  #   match :*, "/*path", NoRouteErrorController, :raise_error
+  # end
 
   scope "/", VolunteerWeb do
     pipe_through :ssl?
@@ -141,29 +159,11 @@ defmodule VolunteerWeb.Router do
 
     # get "/sentry_correlator/:request_id", SentryCorrelator, :event_id
 
+    get "/groups/:id", GroupController, :show
+
     get "/regions/:id", RegionController, :show
     get "/:slug", RegionController, :show_by_slug
-
-    get "/groups/:id", GroupController, :show
   end
-
-  # scope "/", VolunteerWeb, host: "embedded." do
-  #   pipe_through :ssl?
-  #   pipe_through :browser
-  #   pipe_through :embedded
-  #
-  #   get "/", Embedded.IndexController, :index
-  #
-  #   scope "/listings/:id" do
-  #     get "/", ListingController, :show
-  #   end
-  #
-  #   match :*, "/*path", NoRouteErrorController, :raise_error
-  # end
-
-  get "/health/ping", VolunteerWeb.HealthController, :ping
-
-  forward "/sent_emails", Bamboo.SentEmailViewerPlug
 
   def configure_sentry_context(conn, _opts) do
     VolunteerWeb.SentryCorrelator.set_request_id(conn)

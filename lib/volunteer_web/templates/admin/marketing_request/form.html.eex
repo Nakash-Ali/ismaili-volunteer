@@ -7,14 +7,19 @@
 		required: true
 	%>
 
-	<%= FormView.render_field "select.html",
+	<%= FormView.render_field "select.html", "with_toggle.html",
 		form: form,
-		title: "Applicable JKs",
-		field: :target_jamatkhanas,
+		title: "Applicable #{targets_type_label(@targets_type, :plural) |> String.capitalize}",
+		field: :targets,
 		multiple: true,
-		choices: @jamatkhanas_for_region,
+		choices: @targets,
 		required: true,
-		help_text: "You can select multiple Jamatkhanas from this list."
+		help_text: "You can select multiple #{targets_type_label(@targets_type, :plural)} from this list.",
+		toggle: :targets_all,
+		toggle_label: "Select all",
+		toggle_when_true: :disable,
+		toggle_clear_on_disable: false,
+		required: true
 	%>
 
 	<%= inputs_for form, :text_channels, fn form -> %>

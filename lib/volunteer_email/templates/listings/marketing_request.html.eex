@@ -14,8 +14,8 @@
 			<td style="padding: 4px 0px;"><%= @marketing_request.start_date %></td>
 		</tr>
 		<tr>
-			<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;">Target jamatkhanas</td>
-			<td style="padding: 4px 0px;"><%= @marketing_request.target_jamatkhanas |> VolunteerWeb.HTMLHelpers.with_line_breaks() %></td>
+			<td style="padding: 4px 0px; padding-right: 16px; text-align: left; text-decoration: underline; font-weight: normal;">Target <%= VolunteerWeb.Admin.MarketingRequestView.targets_type_label(@config.targets_type, :plural) %></td>
+			<td style="padding: 4px 0px;"><%= if @marketing_request.targets_all do %>All<% else %><%= @marketing_request.targets |> VolunteerWeb.HTMLHelpers.with_line_breaks() %><% end %></td>
 		</tr>
     </tbody>
 	<tbody>

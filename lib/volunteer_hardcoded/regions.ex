@@ -54,8 +54,7 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
-        email: [],
-        channels: %{}
+        strategy: :delegate_to_child_regions,
       },
       region_in_path: %{
         true => "all national and regional listings",
@@ -85,8 +84,12 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
+        strategy: :direct,
         email: ["cfo-announcements@iicanada.net"],
-        channels: @canada_marketing_channels
+        # NOTE: Do not change this. We can't properly validate requests
+        # when regions have different channels available. This is a temporary
+        # edge-case that will be corrected later.
+        channels: @canada_marketing_channels,
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Ontario", [
         "Barrie",
@@ -141,8 +144,12 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
+        strategy: :direct,
         email: ["farah.surani@iicanada.net"],
-        channels: @canada_marketing_channels
+        # NOTE: Do not change this. We can't properly validate requests
+        # when regions have different channels available. This is a temporary
+        # edge-case that will be corrected later.
+        channels: @canada_marketing_channels,
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("BC", [
         "Burnaby Lake",
@@ -180,8 +187,12 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
+        strategy: :direct,
         email: ["jamil.ramji@gmail.com"],
-        channels: @canada_marketing_channels
+        # NOTE: Do not change this. We can't properly validate requests
+        # when regions have different channels available. This is a temporary
+        # edge-case that will be corrected later.
+        channels: @canada_marketing_channels,
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Edmonton", [
         "Fort McMurray",
@@ -213,8 +224,12 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
+        strategy: :direct,
         email: ["jahangir.valliani@iicanada.net"],
-        channels: @canada_marketing_channels
+        # NOTE: Do not change this. We can't properly validate requests
+        # when regions have different channels available. This is a temporary
+        # edge-case that will be corrected later.
+        channels: @canada_marketing_channels,
       },
       jamatkhanas: [
         "Headquarters",
@@ -243,8 +258,12 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
+        strategy: :direct,
         email: ["volunteer.prairies@iicanada.net"],
-        channels: @canada_marketing_channels
+        # NOTE: Do not change this. We can't properly validate requests
+        # when regions have different channels available. This is a temporary
+        # edge-case that will be corrected later.
+        channels: @canada_marketing_channels,
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Prairies", [
         "Franklin",
@@ -276,8 +295,12 @@ defmodule VolunteerHardcoded.Regions do
         spanner_bg_color: "#971421"
       },
       marketing_request: %{
+        strategy: :direct,
         email: ["shamila.ilyasi@iicanada.net"],
-        channels: @canada_marketing_channels
+        # NOTE: Do not change this. We can't properly validate requests
+        # when regions have different channels available. This is a temporary
+        # edge-case that will be corrected later.
+        channels: @canada_marketing_channels,
       },
       jamatkhanas: VolunteerHardcoded.construct_jamatkhanas("Quebec & Maritimes", [
         "Brossard",

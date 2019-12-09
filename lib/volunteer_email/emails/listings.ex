@@ -5,14 +5,14 @@ defmodule VolunteerEmail.ListingsEmails do
   alias Volunteer.Listings.{Listing, MarketingRequest}
   alias VolunteerWeb.Presenters.Title
 
-  def marketing_request(%MarketingRequest{} = marketing_request, %Listing{} = listing) do
+  def marketing_request(%{recipient_type: :region, recipient_id: recipient_id} = config, %MarketingRequest{} = marketing_request, %Listing{} = listing) do
     subject_str = generate_subject("Marketing Request", listing)
 
     {:ok, to_address_list} =
-      Volunteer.Infrastructure.get_region_config(listing.region_id, [:marketing_request, :email])
+      Volunteer.Infrastructure.get_region_config(recipient_id, [:marketing_request, :email])
 
     email =
-      Mailer.new_default_email(listing.region_id)
+      Mailer.new_default_email(recipient_id)
       |> subject(subject_str)
       |> Tools.append(:to, to_address_list)
       |> Tools.append(:cc, generate_all_address_list(listing))
@@ -21,7 +21,8 @@ defmodule VolunteerEmail.ListingsEmails do
       VolunteerEmail.ListingsView,
       email,
       "marketing_request.html",
-      disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
+      disclaimers: Volunteer.Infrastructure.get_region_config!(recipient_id, [:disclaimers]),
+      config: config,
       marketing_request: marketing_request,
       listing: listing
     )
@@ -44,25 +45,6 @@ defmodule VolunteerEmail.ListingsEmails do
       listing: listing
     )
   end
-
-  # def on_change(%Listing{} = listing, %User{} = changed_by) do
-  #   subject_str = generate_subject("Change", listing)
-  #
-  #   email =
-  #     Mailer.new_default_email(listing.region_id)
-  #     |> subject(subject_str)
-  #     |> Tools.append(:to, generate_all_address_list(listing))
-  #     |> Tools.append(:cc, changed_by)
-  #
-  #   render_email(
-  #     VolunteerEmail.ListingsView,
-  #     email,
-  #     "on_change.html",
-  #     disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
-  #     listing: listing,
-  #     changed_by: changed_by
-  #   )
-  # end
 
   def request_approval(%Listing{} = listing, %User{} = requested_by) do
     subject_str = generate_subject("Request for Approval", listing)

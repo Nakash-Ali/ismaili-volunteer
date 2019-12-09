@@ -1,5 +1,15 @@
 <%= ListingView.render_subtitle assigns %>
 
+<%= if @strategy == :delegate_to_child_regions do %>
+	<section class="container text-center font-family-sans-serif">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<p class="mb-0">Marketing requests for <%= Title.plain(@listing.region) %> have been implemented at the regional-level. This is to ensure that regional nuances are considered and respected. Therefore, submitting this request will automatically generate a separate email for every region you have selected.</p>
+			</div>
+		</div>
+	</section>
+<% end %>
+
 <section class="container mt-3 mb-5">
 	<%= render "form.html", assigns %>
 </section>
