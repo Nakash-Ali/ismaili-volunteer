@@ -15,7 +15,7 @@
 	"dependencies": {
 		"ajv": "^6.10.2",
 		"google-libphonenumber": "^3.2.3",
-		"image-size": "^0.7.5",
+		"image-size": "^0.8.3",
 		"puppeteer": "^1.19.0",
 		"yargs": "^15.0.2"
 	},
