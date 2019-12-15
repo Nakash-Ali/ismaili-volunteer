@@ -18,7 +18,7 @@ defmodule VolunteerWeb.FlashView do
       {content_type, content} ->
         render(
           Map.fetch!(@content_templates, content_type),
-          Map.merge(flash_config, %{content: content})
+          Map.merge(flash_config, %{do: content})
         )
 
       content when is_binary(content) ->

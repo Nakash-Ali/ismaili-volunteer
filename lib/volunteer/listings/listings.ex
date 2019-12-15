@@ -103,10 +103,10 @@ defmodule Volunteer.Listings do
     |> Repo.update!()
   end
 
-  def refresh_and_maybe_unapprove_listing!(listing) do
+  def refresh_and_maybe_unapprove_listing(listing) do
     listing
     |> Listing.refresh_and_maybe_unapprove()
-    |> Repo.update!()
+    |> Repo.update()
   end
 
   def base_listing_query() do

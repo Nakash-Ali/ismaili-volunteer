@@ -18,15 +18,17 @@ defmodule VolunteerWeb.HTMLHelpers do
     nil
   end
 
-  def external_link(text, protocol) when is_non_empty_binary(text) and protocol in [:tel, :mailto] do
-    link text, to: "#{protocol}:#{text}"
+  def external_link(text, protocol_or_location, opts \\ [])
+
+  def external_link(text, protocol, opts) when is_non_empty_binary(text) and protocol in [:tel, :mailto] and is_list(opts) do
+    link text, [to: "#{protocol}:#{text}"] ++ opts
   end
 
-  def external_link(text, location) when is_non_empty_binary(text) and is_non_empty_binary(location) do
-    link text, to: location, target: "_blank"
+  def external_link(text, location, opts) when is_non_empty_binary(text) and is_non_empty_binary(location) and is_list(opts) do
+    link text, [to: location, target: "_blank"] ++ opts
   end
 
-  def external_link(_text, _protocol) do
+  def external_link(_text, _protocol, _opts) do
     nil
   end
 

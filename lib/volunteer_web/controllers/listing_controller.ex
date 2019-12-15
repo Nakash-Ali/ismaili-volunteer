@@ -30,7 +30,7 @@ defmodule VolunteerWeb.ListingController do
         VolunteerWeb.Services.Analytics.track_event("Listing", "apply", Slugify.slugify(listing), conn)
 
         conn
-        |> FlashHelpers.put_paragraph_flash(:info, "Congratulations, your application has been submitted!")
+        |> FlashHelpers.put_structured_flash(:success, VolunteerWeb.ListingView.render("create_applicant_success_flash.html"))
         |> redirect(to: RouterHelpers.index_path(conn, :index))
 
       {:error, changesets} ->

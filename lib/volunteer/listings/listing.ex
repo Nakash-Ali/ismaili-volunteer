@@ -113,10 +113,6 @@ defmodule Volunteer.Listings.Listing do
     @max_char_counts
   end
 
-  def refresh_expiry_days_by() do
-    14
-  end
-
   def qualifications_required_choices() do
     [
       {"criminal_record_check", "Criminal record check"},
@@ -166,7 +162,7 @@ defmodule Volunteer.Listings.Listing do
     |> validate_required([:created_by_id] ++ @attributes_required_always)
     |> cast_assoc(:tkn_listing)
     |> changeset_common
-    |> refresh_expiry
+    |> refresh_expiry(%{initial: true})
   end
 
   def edit(listing, attrs) do
@@ -215,8 +211,13 @@ defmodule Volunteer.Listings.Listing do
   end
 
   def expire(listing) do
+    expiry_date =
+      VolunteerUtils.Temporal.utc_now_truncated_to_seconds()
+      |> Timex.shift(minutes: -5)
+      |> Timex.to_datetime("UTC")
+
     change(listing, %{
-      expiry_date: now_expiry_date()
+      expiry_date: expiry_date
     })
   end
 
@@ -226,15 +227,41 @@ defmodule Volunteer.Listings.Listing do
     else
       listing
     end
-    |> refresh_expiry()
+    |> refresh_expiry(%{initial: false})
   end
 
-  defp refresh_expiry(listing) do
-    change(listing, %{
-      expiry_date: refreshed_expiry_date(),
-      expiry_reminder_sent: false
-    })
+  defp refresh_expiry(listing, opts) do
+    listing = change(listing, %{})
+    days = refresh_expiry_days_by(opts)
+
+    new_expiry_date =
+      VolunteerUtils.Temporal.utc_now_truncated_to_seconds()
+      |> Timex.shift(days: days)
+      |> Timex.to_datetime("UTC")
+
+    listing
+    |> fetch_field!(:expiry_date)
+    |> case do
+      nil ->
+        change(listing, %{
+          expiry_date: new_expiry_date,
+          expiry_reminder_sent: false
+        })
+
+      %{__struct__: DateTime} = existing_expiry_date ->
+        if VolunteerUtils.Temporal.is?(existing_expiry_date, :newer, new_expiry_date) do
+          add_error(listing, :expiry_date, "cannot refresh, existing expiry newer", days: days)
+        else
+          change(listing, %{
+            expiry_date: new_expiry_date,
+            expiry_reminder_sent: false
+          })
+        end
+    end
   end
+
+  defp refresh_expiry_days_by(%{initial: true}), do: 25
+  defp refresh_expiry_days_by(%{initial: false}), do: 10
 
   def expiry_reminder_sent(listing) do
     change(listing, %{
@@ -318,17 +345,5 @@ defmodule Volunteer.Listings.Listing do
       false ->
         validate_required(changeset, date_field)
     end
-  end
-
-  def now_expiry_date() do
-    VolunteerUtils.Temporal.utc_now_truncated_to_seconds()
-    |> Timex.shift(minutes: -5)
-    |> Timex.to_datetime("UTC")
-  end
-
-  def refreshed_expiry_date() do
-    VolunteerUtils.Temporal.utc_now_truncated_to_seconds()
-    |> Timex.shift(days: refresh_expiry_days_by())
-    |> Timex.to_datetime("UTC")
   end
 end

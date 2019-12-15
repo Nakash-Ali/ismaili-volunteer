@@ -1,0 +1,5 @@
+<div class="alert <%= @container_class %> m-0 rounded-0 border-left-0 border-right-0 text-center font-family-sans-serif" role="alert">
+	<div class="container">
+		<%= assigns[:do] %>
+	</div>
+</div>

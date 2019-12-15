@@ -215,8 +215,6 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   def refresh_expiry(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    Listings.refresh_and_maybe_unapprove_listing!(listing)
-
     VolunteerWeb.Services.Analytics.track_event(
       "Listing",
       "admin_refresh_expiry",
@@ -224,8 +222,22 @@ defmodule VolunteerWeb.Admin.ListingController do
       conn
     )
 
-    conn
-    |> FlashHelpers.put_paragraph_flash(:success, "Successfully refreshed listing expiry.")
+    case Listings.refresh_and_maybe_unapprove_listing(listing) do
+      {:ok, _listing} ->
+        FlashHelpers.put_paragraph_flash(
+          conn,
+          :success,
+          "Successfully refreshed listing expiry."
+        )
+
+      {:error, %Ecto.Changeset{} = %{errors: [expiry_date: {"cannot refresh, existing expiry newer", [days: days]}]}} ->
+        FlashHelpers.put_paragraph_flash(
+          conn,
+          :warning,
+          "Cannot refresh expiry, existing expiry is already more than #{days} days from now."
+        )
+
+    end
     |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
   end
 
