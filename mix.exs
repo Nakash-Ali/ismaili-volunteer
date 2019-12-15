@@ -52,7 +52,7 @@ defmodule Volunteer.Mixfile do
       {:gettext, "~> 0.13"},
       {:jason, "~> 1.0"},
       {:jose, "~> 1.8"},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
