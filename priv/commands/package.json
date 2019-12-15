@@ -17,7 +17,7 @@
 		"google-libphonenumber": "^3.2.3",
 		"image-size": "^0.7.5",
 		"puppeteer": "^1.19.0",
-		"yargs": "^14.2.2"
+		"yargs": "^15.0.2"
 	},
 	"scripts": {
 		"find-chmod": "find ./compiled -name \"index.js\" -exec chmod +x {} \\;",
