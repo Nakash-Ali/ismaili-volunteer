@@ -13,7 +13,11 @@ defmodule VolunteerWeb.Admin.ApplicantController do
     assigns_subject_key: :listing
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Listings.get_one_admin_listing!(id)
+    listing =
+      id
+      |> Listings.get_one_admin_listing!()
+      |> Repo.preload([:region])
+
     Plug.Conn.assign(conn, :listing, listing)
   end
 

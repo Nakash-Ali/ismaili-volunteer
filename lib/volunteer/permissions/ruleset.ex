@@ -7,12 +7,13 @@ defmodule Volunteer.Permissions.Ruleset do
     "alizain.feerasta@iicanada.net",
   ]
 
-  @super_admins [
+  @default_admins [
     "alizain.feerasta@iicanada.net",
     "hussein.kermally@iicanada.net",
   ]
 
-  # TODO: It's the roles that need to be evaluated, not the user
+  # TODO: It's the roles that need to be evaluated, not the user. Or some
+  # way to provide an explanation for why they're allowed or not denied
   def evaluate(user, action, subject, [rule | ruleset]) do
     rule
     |> apply_with_rescue([user, action, subject])
@@ -50,7 +51,7 @@ defmodule Volunteer.Permissions.Ruleset do
           :deny
         end
       end,
-      fn %{primary_email: primary_email}, _action, _subject when primary_email in @super_admins ->
+      fn %{primary_email: primary_email}, _action, _subject when primary_email in @default_admins ->
         :allow
       end
     ]
