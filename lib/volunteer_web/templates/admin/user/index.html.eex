@@ -4,13 +4,12 @@
 	<div class="list-group">
 		<%= for user <- @users do %>
 			<div class="list-group-item px-2 py-5q">
-				<p class="mb-1q"><strong><%= Title.plain(user) %></strong></p>
+				<p class="mb-1q"><strong><%= user.id %> - <%= Title.plain(user) %></strong></p>
 				<div class="row align-items-baseline">
 					<div class="col-6">
 						<div class="row">
 							<div class="col-auto">
 								<p class="mb-0 text-muted font-family-sans-serif">Email</p>
-
 							</div>
 							<div class="col">
 								<p class="mb-0"><%= user.primary_email %></p>
