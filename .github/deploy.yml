@@ -1,4 +1,4 @@
 production:
   environment: production
   production_environment: true
-  required_contexts: ["ci"]
+  required_contexts: ["build_and_test"]
