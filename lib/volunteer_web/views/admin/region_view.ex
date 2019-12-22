@@ -122,7 +122,7 @@ defmodule VolunteerWeb.Admin.RegionView do
     ]
   end
 
-  def definition_list(:marketing, %{hardcoded: %{marketing_request: %{strategy: :delegate_to_child_regions}}} = region) do
+  def definition_list(:marketing, %{hardcoded: %{marketing_request: %{strategy: :delegate_to_child_regions}}}) do
     [
       {
         "Marketing channels",
