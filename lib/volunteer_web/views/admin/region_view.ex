@@ -109,7 +109,7 @@ defmodule VolunteerWeb.Admin.RegionView do
     ]
   end
 
-  def definition_list(:marketing, region) do
+  def definition_list(:marketing, %{hardcoded: %{marketing_request: %{strategy: :direct}}} = region) do
     [
       {
         "Marketing channels",
@@ -119,6 +119,15 @@ defmodule VolunteerWeb.Admin.RegionView do
         "Marketing request email",
         region.hardcoded.marketing_request.email |> Enum.map(&HTMLHelpers.external_link(&1, :mailto)) |> HTMLHelpers.with_line_breaks()
       }
+    ]
+  end
+
+  def definition_list(:marketing, %{hardcoded: %{marketing_request: %{strategy: :delegate_to_child_regions}}} = region) do
+    [
+      {
+        "Marketing channels",
+        "Delegated to child regions"
+      },
     ]
   end
 
