@@ -1,0 +1,16 @@
+<% state = (
+	if Public.Introspect.approved?(@listing) do
+		if Public.Introspect.expired?(@listing) do
+			:not_relevant
+		else
+			:complete
+		end
+	else
+		:not_relevant
+	end
+) %>
+
+<%= WorkflowView.render_step title: "Available on OTS", state: :complete do %>
+
+
+<% end %>

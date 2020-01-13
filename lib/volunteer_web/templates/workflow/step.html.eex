@@ -1,0 +1,13 @@
+<div class="step" id="<%= step_id(@step) %>">
+	<div class="step-title d-flex flex-row flex-nowrap align-items-center">
+		<i class="step-title-icon <%= step_icon(@step) %> <%= step_text_color(@step) %>"></i>
+		<div class="step-title-text">
+			<h6 class="mb-0 <%= step_text_color(@step) %>"><%= @step.title %></h6>
+		</div>
+	</div>
+	<%= if HTMLHelpers.is_blank?(@step.body) == false do %>
+		<div class="step-body mt-2" id="<%= step_id(@step, "body") %>">
+			<%= @step.body %>
+		</div>
+	<% end %>
+</div>

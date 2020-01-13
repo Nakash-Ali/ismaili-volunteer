@@ -1,9 +1,7 @@
-<% {state_text, state_class} = listing_state_text_and_class(@listing) %>
-<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
-<%= if Volunteer.Listings.Listing.is_previewable?(@listing) do %>
-	<li class="list-inline-item">Preview <%= link "public listing", to: RouterHelpers.listing_preview_path(@conn, :show, @listing), target: "_blank" %></li>
-	<li class="list-inline-item">Preview on <%= link "home", to: RouterHelpers.listing_preview_path(@conn, :index, @listing), target: "_blank" %></li>
+<%= if Volunteer.Listings.Public.Introspect.previewable?(@listing) do %>
+	<li class="list-inline-item">Preview on <%= link "listing", to: RouterHelpers.listing_preview_path(@conn, :show, @listing), target: "_blank" %> page</li>
+	<li class="list-inline-item">Preview on <%= link "home", to: RouterHelpers.listing_preview_path(@conn, :index, @listing), target: "_blank" %> page</li>
 <% end %>
-<%= if Volunteer.Listings.Listing.is_public?(@listing) do %>
+<%= if Volunteer.Listings.Public.Introspect.public?(@listing) do %>
 	<li class="list-inline-item">View <%= link "public listing", to: RouterHelpers.listing_path(@conn, :show, @listing), target: "_blank" %></li>
 <% end %>

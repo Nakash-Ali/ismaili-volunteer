@@ -1,0 +1,20 @@
+<%= WorkflowView.render_step title: "The Public Workflow", state: :start do %>
+
+	<p>Welcome to the Public Worklow! Completing this workflow enables:</p>
+	<ul>
+		<li>
+			<p>Publication on OTS</p>
+			<p>
+				<ul>
+					<li>Your listing will be visible on the homepage of OTS</li>
+					<li>Jamati members will be able to apply to your listing on OTS</li>
+				</ul>
+			</p>
+		</li>
+		<li>
+			<p>Marketing on Jamati channels (announcements, newsletters, social media, etc...)</p>
+		</li>
+	</ul>
+	<p class="mb-0">If you have any questions or concerns, feel free to reach out to the admins for your region or board/portfolio.</p>
+
+<% end %>

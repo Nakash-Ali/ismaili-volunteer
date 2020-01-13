@@ -1,0 +1,80 @@
+<% state = (
+	if Public.Introspect.approved?(@listing) do
+		if Public.Introspect.expired?(@listing) do
+			:not_relevant
+		else
+			:complete
+		end
+	else
+		:in_progress
+	end
+) %>
+
+<%= WorkflowView.render_step title: "Approval", state: state do %>
+
+	<div class="mb-1">
+		<%= ListingView.definition_list(:approval, @listing) |> VolunteerWeb.AdminView.render_definition_list(tight: true) %>
+	</div>
+
+	<%= if Public.Introspect.approved?(@listing) do %>
+		<%= if not Public.Introspect.expired?(@listing) do %>
+			<p>
+				Congratulations, this listing has been approved!
+				<strong>Remember, if you make any changes to the listing now, the listing will automatically revert to being unapproved.</strong>
+			</p>
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :unapprove], @listing) do %>
+				<p>
+					If you need to  the listing that's incorrect, or if it was approved erronously, you can always un-approve it.
+				</p>
+			<% end %>
+		<% end %>
+	<% else %>
+		<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :approve], @listing) do %>
+			<p>
+				<strong>You can approve this listing and publish it.</strong>
+				If you have received a Request for Approval notification from OTS, it means that the organizer of this listing is ready to publish it and would like your approval to do so.
+				You can review the content of this listing by clicking on the <%= link "Info tab", to: RouterHelpers.admin_listing_path(@conn, :show, @listing) %> above.
+				You should be able to make edits to the listing directly, but we recommend discussing changes with the organizer of this listing beforehand.
+				<%= if Volunteer.Listings.Public.Introspect.previewable?(@listing) do %>
+					You can also preview how this listing will look to Jamati members once published on OTS, on the <%= link "home page", to: RouterHelpers.listing_preview_path(@conn, :index, @listing), target: "_blank" %> and the <%= link "listing page", to: RouterHelpers.listing_preview_path(@conn, :show, @listing), target: "_blank" %>.
+				<% end %>
+			</p>
+		<% end %>
+		<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :request_approval], @listing) do %>
+			<p>
+				<strong>You can submit an approval request for this listing.</strong>
+				Once you're ready to publish the listing, you should request approval below.
+				OTS will automatically send out this request to the right people (you'll also be CC'ed on this email).
+				When they approve the listing, we'll notify you as well!
+			</p>
+			<p>
+				<strong>Once the listing is approved, you will not be able to make changes to it.</strong>
+				Any changes you do make after approval will unpublish the listing, and you'll have to request approval again.
+			</p>
+		<% end %>
+	<% end %>
+
+	<%= if Public.Introspect.approved?(@listing) do %>
+		<%= if not Public.Introspect.expired?(@listing) do %>
+			<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
+				<div class="btn-group mr-2q" role="group">
+					<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: RouterHelpers.admin_listing_public_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+				</div>
+			</div>
+		<% end %>
+	<% else %>
+		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :approve], @listing) do %>
+				<div class="btn-group mr-2q" role="group">
+					<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: RouterHelpers.admin_listing_public_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
+				</div>
+			<% end %>
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :request_approval], @listing) do %>
+				<div class="btn-group mr-2q" role="group">
+					<%= link "Request Approval", to: RouterHelpers.admin_listing_public_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+
+<% end %>

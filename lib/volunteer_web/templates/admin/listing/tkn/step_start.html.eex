@@ -1,0 +1,5 @@
+<%= WorkflowView.render_step title: "The TKN Workflow", state: :start do %>
+
+	<p>Awesome!</p>
+
+<% end %>

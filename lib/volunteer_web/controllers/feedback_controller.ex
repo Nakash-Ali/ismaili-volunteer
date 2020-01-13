@@ -1,6 +1,10 @@
 defmodule VolunteerWeb.FeedbackController do
   use VolunteerWeb, :controller
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
+  plug :track,
+    resource: "feedback"
+    
   def index(conn, _params) do
     canny_user = VolunteerWeb.Services.Canny.get_user_config(conn, false)
 

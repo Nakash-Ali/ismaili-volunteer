@@ -8,46 +8,49 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
 
   # Plugs
 
-  plug :load_tkn_listing
   plug :load_listing
   plug :authorize,
-    action_root: [:admin, :listing, :tkn_listing],
-    action_name_mapping: %{show: :spec, pdf: :spec},
+    action_root: [:admin, :listing, :tkn],
+    action_name_mapping: %{
+      show: :spec,
+      pdf: :spec
+    },
     assigns_subject_key: :listing
-
-  plug :redirect_to_show_if_not_exists
-
-  def load_tkn_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    tkn_listing = Listings.get_one_tkn_listing_for_listing(id)
-    Plug.Conn.assign(conn, :tkn_listing, tkn_listing)
-  end
+  plug :validate
+  plug :redirect_if_not_valid
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
-    listing = Listings.get_one_admin_listing!(id) |> Repo.preload([:organized_by, :group])
+    listing =
+      id
+      |> Listings.get_one_admin!()
+      |> Repo.preload([:organized_by, :group])
+
     Plug.Conn.assign(conn, :listing, listing)
   end
 
-  def redirect_to_show_if_not_exists(conn, _) do
-    %Plug.Conn{
-      assigns: %{tkn_listing: tkn_listing},
-      params: %{"listing_id" => listing_id}
-    } = conn
+  def validate(%Plug.Conn{assigns: %{listing: listing}} = conn, _) do
+    Plug.Conn.assign(
+      conn,
+      :valid?,
+      Listings.TKN.Introspect.valid?(listing)
+    )
+  end
 
-    case tkn_listing do
-      nil ->
-        conn
-        |> FlashHelpers.put_paragraph_flash(:error, "TKN data does not exist, you must create it first!")
-        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing_id))
+  def redirect_if_not_valid(%Plug.Conn{assigns: %{valid?: true}} = conn, _) do
+    conn
+  end
 
-      _ ->
-        conn
-    end
+  def redirect_if_not_valid(%Plug.Conn{assigns: %{valid?: false, listing: listing}} = conn, _) do
+    conn
+    |> FlashHelpers.put_paragraph_flash(:error, "TKN!") # TODO: Fix error message
+    |> redirect(to: RouterHelpers.admin_listing_tkn_path(conn, :show, listing))
+    |> halt
   end
 
   # Controller Actions
 
   def show(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
+    %Plug.Conn{assigns: %{listing: listing}} = conn
 
     {:ok, tkn_country} =
       Volunteer.Infrastructure.get_region_config(listing.region_id, [:tkn, :country])
@@ -60,44 +63,22 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
     |> render(
       "show.html",
       listing: listing,
-      tkn_listing: tkn_listing,
       tkn_country: tkn_country,
       tkn_coordinator: tkn_coordinator
     )
   end
 
   def pdf(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing, tkn_listing: tkn_listing}} = conn
+    %Plug.Conn{assigns: %{listing: listing}} = conn
 
-    case TKNAssignmentSpecGenerator.generate(conn, listing, tkn_listing) do
-      {:ok, disk_path} ->
-        VolunteerWeb.Services.Analytics.track_event(
-          "Listing",
-          "tkn_assignment_spec_pdf",
-          Slugify.slugify(listing),
-          conn
-        )
+    disk_path =
+      TKNAssignmentSpecGenerator.generate(conn, listing)
 
-        send_download(
-          conn,
-          {:file, disk_path},
-          filename: VolunteerWeb.Presenters.Filename.slugified(listing, "TKN Assignment Spec", "pdf"),
-          charset: "utf-8"
-        )
-
-      {:error, "start_date required"} ->
-        conn
-        |> FlashHelpers.put_paragraph_flash(:error, start_date_error(conn, listing))
-        |> redirect(to: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing.id))
-    end
-  end
-
-  defp start_date_error(conn, listing) do
-    import Phoenix.HTML, only: [sigil_E: 2]
-    import Phoenix.HTML.Link, only: [link: 2]
-
-    ~E"""
-    Listing must have a specific start date to generate a TKN Assignment PDF, it cannot be "starting immediately". <%= link "Click here to edit the listing now.", class: "alert-link", to: RouterHelpers.admin_listing_path(conn, :edit, listing.id) %>
-    """
+    send_download(
+      conn,
+      {:file, disk_path},
+      filename: VolunteerWeb.Presenters.Filename.slugified(listing, "TKN Assignment Spec", "pdf"),
+      charset: "utf-8"
+    )
   end
 end

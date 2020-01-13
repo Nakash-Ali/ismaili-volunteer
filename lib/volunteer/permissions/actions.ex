@@ -31,13 +31,16 @@ defmodule Volunteer.Permissions.Actions do
 
     [:admin, :listing, :show],
     [:admin, :listing, :update],
-    [:admin, :listing, :request_approval],
-    [:admin, :listing, :refresh_expiry],
-    [:admin, :listing, :expire],
 
-    [:admin, :listing, :delete],
-    [:admin, :listing, :approve],
-    [:admin, :listing, :unapprove],
+    [:admin, :listing, :home, :show],
+
+    [:admin, :listing, :public, :show],
+    [:admin, :listing, :public, :approve],
+    [:admin, :listing, :public, :unapprove],
+    [:admin, :listing, :public, :request_approval],
+    [:admin, :listing, :public, :refresh],
+    [:admin, :listing, :public, :expire],
+    [:admin, :listing, :public, :reset],
 
     [:admin, :listing, :role, :index],
     [:admin, :listing, :role, :create],
@@ -46,10 +49,9 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :listing, :applicant, :index],
     [:admin, :listing, :applicant, :export],
 
-    [:admin, :listing, :tkn_listing, :show],
-    [:admin, :listing, :tkn_listing, :create],
-    [:admin, :listing, :tkn_listing, :update],
-    [:admin, :listing, :tkn_listing, :spec],
+    [:admin, :listing, :tkn, :show],
+    [:admin, :listing, :tkn, :update],
+    [:admin, :listing, :tkn, :spec],
 
     [:admin, :listing, :marketing_request, :show],
     [:admin, :listing, :marketing_request, :create],

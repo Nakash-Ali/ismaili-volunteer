@@ -12,11 +12,12 @@ defmodule VolunteerWeb.API.ListingView do
     %{
       id: listing.id,
       url: VolunteerWeb.Router.Helpers.listing_url(conn, :show, listing),
-      expiry_date: ISO8601.stringify(listing.expiry_date),
+      public_expiry_date: ISO8601.stringify(listing.public_expiry_date),
       created_by: Related.render!(listing, :created_by),
+      # TODO: fix these
       approved: listing.approved,
       approved_on: ISO8601.stringify(listing.approved_on),
-      approved_by: Related.render!(listing, :approved_by),
+      approved_by: Related.render!(listing, :public_approved_by),
       title: Title.plain(listing),
       position_title: JSON.nilify?(listing.position_title),
       program_title: JSON.nilify?(listing.program_title),

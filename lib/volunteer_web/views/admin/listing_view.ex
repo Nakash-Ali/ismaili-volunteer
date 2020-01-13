@@ -7,6 +7,7 @@ defmodule VolunteerWeb.Admin.ListingView do
   alias VolunteerWeb.Admin.SubtitleView
   alias VolunteerWeb.HTMLHelpers
   alias VolunteerWeb.Presenters.Title
+  alias VolunteerWeb.WorkflowView
   alias VolunteerUtils.Temporal
 
   def render("head_extra" <> _, %{conn: conn}) do
@@ -35,27 +36,27 @@ defmodule VolunteerWeb.Admin.ListingView do
   def group_label(:other), do: "All other listings"
 
   def listing_state_text_and_class(listing) do
-    if Volunteer.Listings.Listing.is_expired?(listing) do
-      {"Expired and archived", "text-danger"}
-    else
-      if Volunteer.Listings.Listing.is_approved?(listing) do
-        {"Approved and alive", "text-success"}
+    if Volunteer.Listings.Public.Introspect.approved?(listing) do
+      if Volunteer.Listings.Public.Introspect.expired?(listing) do
+        {"Expired and archived", "text-danger"}
       else
-        {"Requires approval", "text-warning"}
+        {"Approved and alive", "text-success"}
       end
+    else
+      {"Requires approval", "text-warning"}
     end
   end
 
   def expiry_reminder_sent_text(true), do: "Sent"
   def expiry_reminder_sent_text(false), do: "Not sent"
 
-  def approved_text(%{approved: approved}), do: approved_text(approved)
+  def approved_text(%{public_approved: approved}), do: approved_text(approved)
   def approved_text(true), do: "Yes, approved"
   def approved_text(false), do: "No, not yet"
 
   def qualifications_required_text(%{qualifications_required: qualifications_required}) do
     VolunteerUtils.Choices.labels(
-      Listings.Listing.qualifications_required_choices(),
+      Listings.Change.qualifications_required_choices(),
       qualifications_required
     )
   end
@@ -71,17 +72,17 @@ defmodule VolunteerWeb.Admin.ListingView do
 
   def definition_list(:expiry, listing) do
     [
-      {"Expiry date", PublicListingView.expiry_datetime_text(listing.expiry_date)},
-      {"Expiry reminder", expiry_reminder_sent_text(listing.expiry_reminder_sent)}
+      {"Expiry date", PublicListingView.expiry_datetime_text(listing.public_expiry_date) |> HTMLHelpers.default_if_blank?},
+      {"Expiry reminder", expiry_reminder_sent_text(listing.public_expiry_reminder_sent)}
     ]
   end
 
   def definition_list(:approval, listing) do
-    if Listings.Listing.is_approved?(listing) do
+    if Listings.Public.Introspect.approved?(listing) do
       [
         {"Approved?", approved_text(listing)},
-        {"Approved by", listing.approved_by.title},
-        {"Approved at", Temporal.format_datetime!(listing.approved_on)}
+        {"Approved by", Title.plain(listing.public_approved_by)},
+        {"Approved at", Temporal.format_datetime!(listing.public_approved_on)}
       ]
     else
       [

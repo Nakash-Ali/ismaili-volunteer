@@ -5,7 +5,7 @@ defmodule Volunteer.Apply do
   alias Volunteer.Apply.Applicant
   alias Volunteer.Accounts
   alias Volunteer.Accounts.User
-  alias Volunteer.Listings.Listing
+  alias Volunteer.Listings
 
   def new_applicant() do
     Applicant.create(%{}, nil, nil)
@@ -34,7 +34,7 @@ defmodule Volunteer.Apply do
     {Accounts.new_user(), new_applicant()}
   end
 
-  def create_or_update_applicant_with_user(%Listing{} = listing, user_attrs, applicant_attrs) do
+  def create_or_update_applicant_with_user(%Listings.Listing{} = listing, user_attrs, applicant_attrs) do
     Repo.transaction(fn ->
       case Accounts.create_or_update_user(user_attrs) do
         {:error, user_changeset} ->
@@ -63,7 +63,7 @@ defmodule Volunteer.Apply do
     |> Enum.map(&VolunteerEmail.Mailer.deliver_now!/1)
   end
 
-  def get_all_applicants_by_listing(%Listing{id: listing_id}) do
+  def get_all_applicants_by_listing(%Listings.Listing{id: listing_id}) do
     get_all_applicants_by_listing(listing_id)
   end
 
@@ -123,8 +123,8 @@ defmodule Volunteer.Apply do
           end)
 
         Map.put(user, :other_applicants, %{
-          active: Enum.reject(other_applicants, &Listing.is_expired?(&1.listing)),
-          expired: Enum.filter(other_applicants, &Listing.is_expired?(&1.listing)),
+          active: Enum.reject(other_applicants, &Listings.Public.Introspect.expired?(&1.listing)),
+          expired: Enum.filter(other_applicants, &Listings.Public.Introspect.expired?(&1.listing)),
         })
     end)
   end

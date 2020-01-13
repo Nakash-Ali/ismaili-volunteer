@@ -1,15 +1,51 @@
 defmodule VolunteerWeb.UserPrefs do
-  @default_backends [
-    {VolunteerWeb.UserPrefs.Backend.Params, %{}},
-    {VolunteerWeb.UserPrefs.Backend.Session, %{key_prefix: "user_pref_"}}
-  ]
+  defmodule Plugs do
+    alias VolunteerWeb.UserPrefs
 
-  @private_key :user_prefs
+    @default_backends [
+      {VolunteerWeb.UserPrefs.Backend.Params, %{}},
+      {VolunteerWeb.UserPrefs.Backend.Session, %{key_prefix: "user_pref_"}}
+    ]
+
+    def fetch_user_prefs(conn, prefs_config) when is_map(prefs_config) do
+      fetch_user_prefs(conn, {prefs_config, @default_backends})
+    end
+
+    def fetch_user_prefs(conn, {prefs_config, backends}) when is_map(prefs_config) and is_list(backends) do
+      {conn, prefs} =
+        Enum.reduce(backends, {conn, %{}}, fn {backend_module, backend_config}, {curr_conn, curr_prefs} ->
+          new_prefs =
+            backend_module.get_prefs!(curr_conn, UserPrefs.keys(prefs_config), backend_config)
+            |> UserPrefs.filter_and_normalize_prefs(prefs_config)
+            |> Map.merge(curr_prefs)
+
+          new_conn = backend_module.store_prefs!(curr_conn, new_prefs, backend_config)
+
+          {new_conn, new_prefs}
+        end)
+
+      final_prefs =
+        Map.merge(
+          UserPrefs.default_prefs(prefs_config),
+          prefs
+        )
+
+      Plug.Conn.put_private(
+        conn,
+        UserPrefs.private_key,
+        final_prefs
+      )
+    end
+  end
+
+  def private_key do
+    :user_prefs
+  end
 
   def get!(conn, key) do
     conn
     |> Map.fetch!(:private)
-    |> Map.fetch(@private_key)
+    |> Map.fetch(private_key())
     |> case do
       {:ok, user_prefs} ->
         Map.fetch!(user_prefs, key)
@@ -19,41 +55,11 @@ defmodule VolunteerWeb.UserPrefs do
     end
   end
 
-  def fetch_user_prefs(conn, prefs_config) when is_map(prefs_config) do
-    fetch_user_prefs(conn, {prefs_config, @default_backends})
-  end
-
-  def fetch_user_prefs(conn, {prefs_config, backends}) when is_map(prefs_config) and is_list(backends) do
-    {conn, prefs} =
-      Enum.reduce(backends, {conn, %{}}, fn {backend_module, backend_config}, {curr_conn, curr_prefs} ->
-        new_prefs =
-          backend_module.get_prefs!(curr_conn, keys(prefs_config), backend_config)
-          |> filter_and_normalize_prefs(prefs_config)
-          |> Map.merge(curr_prefs)
-
-        new_conn = backend_module.store_prefs!(curr_conn, new_prefs, backend_config)
-
-        {new_conn, new_prefs}
-      end)
-
-    final_prefs =
-      Map.merge(
-        default_prefs(prefs_config),
-        prefs
-      )
-
-    Plug.Conn.put_private(
-      conn,
-      @private_key,
-      final_prefs
-    )
-  end
-
-  defp keys(prefs_config) do
+  def keys(prefs_config) do
     Map.keys(prefs_config)
   end
 
-  defp filter_and_normalize_prefs(raw_prefs, prefs_config) do
+  def filter_and_normalize_prefs(raw_prefs, prefs_config) do
     Enum.reduce(raw_prefs, %{}, fn
       {_key, nil}, prefs ->
         prefs
@@ -78,7 +84,7 @@ defmodule VolunteerWeb.UserPrefs do
     end)
   end
 
-  defp default_prefs(prefs_config) do
+  def default_prefs(prefs_config) do
     prefs_config
     |> Enum.map(fn {key, {_type, default}} -> {key, default} end)
     |> Enum.into(%{})

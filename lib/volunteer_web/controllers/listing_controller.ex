@@ -4,47 +4,31 @@ defmodule VolunteerWeb.ListingController do
   alias Volunteer.Apply
   alias Volunteer.Listings
   alias VolunteerWeb.FlashHelpers
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
-  plug VolunteerWeb.Captcha, %{handle_deny: :handle_deny_captcha} when action == :create_applicant
+  # Plugs
 
-  def handle_deny_captcha(conn, _opts) do
-    conn
-    |> FlashHelpers.put_paragraph_flash(:error, "Captcha validation failed, please try again.")
-    |> redirect(to: RouterHelpers.listing_path(conn, :show, conn.params["id"]))
-    |> halt()
+  plug :load_listing
+  plug :track,
+    resource: "listing",
+    assigns_subject_key: :listing
+
+  def load_listing(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
+    listing =
+      id
+      |> Listings.Public.get_one!(allow_expired: true)
+      |> Repo.preload(Listings.preloadables())
+
+    Plug.Conn.assign(conn, :listing, listing)
   end
 
-  def show(conn, %{"id" => id}) do
-    listing = load_listing(id, allow_expired: true)
+  # Actions
 
-    VolunteerWeb.Services.Analytics.track_event("Listing", "show", Slugify.slugify(listing), conn)
-
+  def show(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
     render_form(conn, Apply.new_applicant_with_user(), listing)
   end
 
-  def create_applicant(conn, %{"id" => id} = params) do
-    listing = load_listing(id, allow_expired: false)
-
-    case Apply.create_or_update_applicant_with_user(listing, params["user"], params["applicant"]) do
-      {:ok, _structs} ->
-        VolunteerWeb.Services.Analytics.track_event("Listing", "apply", Slugify.slugify(listing), conn)
-
-        conn
-        |> FlashHelpers.put_structured_flash(:success, VolunteerWeb.ListingView.render("create_applicant_success_flash.html"))
-        |> redirect(to: RouterHelpers.index_path(conn, :index))
-
-      {:error, changesets} ->
-        render_form(conn, changesets, listing)
-    end
-  end
-
-  defp load_listing(id, opts) do
-    id
-    |> Listings.get_one_public_listing!(opts)
-    |> Repo.preload(Listings.listing_preloadables())
-  end
-
-  defp render_form(conn, {user_changeset, applicant_changeset}, listing, opts \\ []) do
+  def render_form(conn, {user_changeset, applicant_changeset}, listing, opts \\ []) do
     render(
       conn,
       "show.html",
@@ -60,7 +44,7 @@ defmodule VolunteerWeb.ListingController do
           preferred_contact_choices: Volunteer.Accounts.User.preferred_contact_choices(),
           ismaili_status_choices: Volunteer.Accounts.User.ismaili_status_choices(),
           jamatkhana_choices: Volunteer.Infrastructure.all_jamatkhanas() |> VolunteerUtils.Choices.make(%{blank: true}),
-          education_level_choices: Volunteer.Accounts.User.education_level_choices() |> VolunteerUtils.Choices.transpose()  |> VolunteerUtils.Choices.make(%{blank: true}),
+          education_level_choices: Volunteer.Accounts.User.education_level_choices() |> VolunteerUtils.Choices.transpose() |> VolunteerUtils.Choices.make(%{blank: true}),
         ]
     )
   end

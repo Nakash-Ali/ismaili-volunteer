@@ -11,8 +11,8 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
         Factory.listing!(%{
           expired?: false,
           overrides: %{
-            expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC")
+            public_expiry_reminder_sent\: false,
+            public_expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC")
           }
         })
 
@@ -20,8 +20,8 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
         Factory.listing!(%{
           expired?: false,
           overrides: %{
-            expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 4) |> Timex.to_datetime("UTC")
+            public_expiry_reminder_sent\: false,
+            public_expiry_date: expiry_date |> Timex.shift(days: 4) |> Timex.to_datetime("UTC")
           }
         })
 
@@ -37,8 +37,8 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
         Factory.listing!(%{
           expired?: false,
           overrides: %{
-            expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC"),
+            public_expiry_reminder_sent\: false,
+            public_expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC"),
             region_id: region.id
           }
         })
@@ -56,7 +56,7 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
       assert true ==
                Volunteer.Listings.Listing
                |> Volunteer.Repo.get!(id)
-               |> Map.get(:expiry_reminder_sent)
+               |> Map.get(:public_expiry_reminder_sent)
     end
   end
 end

@@ -22,6 +22,7 @@ $complement-one:		hsl(296, 32%, 48%);
 $complement-one-dark:	desaturate(darken($complement-one, 22%), 16%);
 $complement-two:		hsl(28, 100%, 60%);
 $info:					$primary;
+$warning:				$complement-two;
 $danger:				hsl(6, 100%, 60%);
 $success:				hsl(140, 68%, 60%);
 

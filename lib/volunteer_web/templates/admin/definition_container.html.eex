@@ -1,5 +1,6 @@
-<div class="row mb-1 align-items-baseline">
-	<div class="col-12 col-md-3 text-md-right mb-1q mb-md-0">
+<% spacing = if assigns[:tight] == true do "mb-1q" else "mb-1" end %>
+<div class="row <%= spacing %> align-items-baseline">
+	<div class="col-12 col-md-3 text-md-left mb-1q mb-md-0">
 		<p class="m-0 font-family-sans-serif text-muted"><%= assigns[:title_text] %></p>
 	</div>
 	<div class="col-12 col-md-9">

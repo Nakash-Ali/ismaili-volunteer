@@ -11,7 +11,7 @@ defimpl VolunteerWeb.Presenters.Filename, for: Volunteer.Listings.Listing do
 
   def slugified(listing, filename, ext) do
     "#{listing.id} - #{VolunteerWeb.Presenters.Title.plain(listing)} - #{filename}"
-    |> Slugify.slugify()
+    |> VolunteerWeb.Presenters.Slugify.slugify()
     |> VolunteerUtils.File.append_extension(ext)
   end
 end

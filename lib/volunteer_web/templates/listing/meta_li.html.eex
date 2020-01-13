@@ -28,6 +28,6 @@
 	<li class="list-inline-item"><i class="far fa-check-square mr-2q" aria-hidden="true"></i>{{ if eq . 1 }}{{ . }} hour{{ else }}{{ . }} hours{{ end }} in total</li>
 {{ end }} -->
 
-<%= if Enum.member?(@show, :expiry) do %>
-	<li class="list-inline-item"><i class="far fa-hourglass-half mr-2q" aria-hidden="true"></i>Listing expires on <%= expiry_datetime_text(@listing.expiry_date) %></li>
+<%= if Enum.member?(@show, :expiry) and Listings.Public.Introspect.has_expiry?(@listing) do %>
+	<li class="list-inline-item"><i class="far fa-hourglass-half mr-2q" aria-hidden="true"></i>Listing expires on <%= expiry_datetime_text(@listing.public_expiry_date) %></li>
 <% end %>

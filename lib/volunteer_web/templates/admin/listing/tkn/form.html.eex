@@ -1,0 +1,89 @@
+<%= form_for @changeset, @action_path, fn form -> %>
+	<%= FormView.render_field "generic.html",
+		form: form,
+		tag: &number_input/3,
+		field: :tkn_openings,
+		title: "Open positions",
+		placeholder: "3",
+		required: true
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_classification,
+		title: "Classification",
+		choices: @classification_choices,
+		required: true
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_commitment_type,
+		title: "Commitment type",
+		choices: @commitment_type_choices,
+		required: true
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_location_type,
+		title: "Location type",
+		choices: @location_type_choices,
+		required: true
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_search_scope,
+		title: "Search scope",
+		choices: @search_scope_choices,
+		required: true
+	%>
+
+	<%= FormView.render_field "generic.html",
+		form: form,
+		field: :tkn_suggested_keywords,
+		title: "Suggested keywords",
+		placeholder: "Teacher...",
+		required: true
+	%>
+
+	<%= FormView.render_field "boolean.html",
+		form: form,
+		field: :tkn_eoa_evaluation,
+		title: "EOA evaluation",
+		true_label: eoa_evaluation_label(true),
+		false_label: eoa_evaluation_label(false),
+		required: true
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_function,
+		title: "Position function",
+		choices: @function_choices
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_industry,
+		title: "Position industry",
+		choices: @industry_choices
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_education_level,
+		title: "Education level",
+		choices: @education_level_choices
+	%>
+
+	<%= FormView.render_field "select.html",
+		form: form,
+		field: :tkn_work_experience_years,
+		title: "Work experience",
+		choices: @work_experience_years_choices
+	%>
+
+	<%= render VolunteerWeb.AdminView, "form_buttons.html", assigns %>
+<% end %>

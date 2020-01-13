@@ -21,9 +21,9 @@ defmodule VolunteerWeb.ListingView do
 
   def state_text_or_do(listing, %{unapproved: unapproved, expired: expired}, do: content_block) do
     cond do
-      Listings.Listing.is_approved?(listing) == false ->
+      Listings.Public.Introspect.approved?(listing) == false ->
         unapproved
-      Listings.Listing.is_expired?(listing) == true ->
+      Listings.Public.Introspect.expired?(listing) == true ->
         expired
       true ->
         content_block
@@ -105,7 +105,7 @@ defmodule VolunteerWeb.ListingView do
     Temporal.format_datetime!(datetime)
   end
 
-  def expires_in(%{expiry_date: expiry_date}) do
+  def expires_in(%{public_expiry_date: expiry_date}) do
     Temporal.format_relative(expiry_date)
   end
 

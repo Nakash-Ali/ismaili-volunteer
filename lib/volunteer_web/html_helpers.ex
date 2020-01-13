@@ -3,6 +3,36 @@ defmodule VolunteerWeb.HTMLHelpers do
 
   defguard is_non_empty_binary(text) when is_binary(text) and text != ""
 
+  def icon_with_text(icon_class, icon_text) do
+    ~E"""
+    <i class="<%= icon_class %> mr-1q" aria-hidden="true"></i> <%= icon_text %>
+    """
+  end
+
+  def with_position(list) do
+    list
+    |> Enum.with_index
+    |> with_position([])
+  end
+
+  def with_position([], accum) do
+    Enum.reverse(accum)
+  end
+
+  def with_position([{last, last_index}], accum) do
+    with_position(
+      [],
+      [{last, last_index, :last} | accum]
+    )
+  end
+
+  def with_position([{head, head_index} | tail], accum) do
+    with_position(
+      tail,
+      [{head, head_index, nil} | accum]
+    )
+  end
+
   def io_join(list, str \\ " ") do
     List.foldr(list, [], fn
       item, [] -> [item]
@@ -48,21 +78,27 @@ defmodule VolunteerWeb.HTMLHelpers do
     """
   end
 
-  defguard is_blank_html(value) when value in ["", nil, [], {:safe, ""}]
-
   def default_if_blank do
     "-"
   end
 
-  def default_if_blank?(value) when is_blank_html(value) do
-    default_if_blank()
-  end
-
   def default_if_blank?(value) do
-    value
+    if is_blank?(value) do
+      default_if_blank()
+    else
+      value
+    end
   end
 
-  def is_blank?(value) when is_blank_html(value) do
+  def is_blank?({:safe, value}) do
+    is_blank?(value)
+  end
+
+  def is_blank?(value) when is_list(value) do
+    Enum.all?(value, &is_blank?/1)
+  end
+
+  def is_blank?(value) when value in [nil, ""] do
     true
   end
 

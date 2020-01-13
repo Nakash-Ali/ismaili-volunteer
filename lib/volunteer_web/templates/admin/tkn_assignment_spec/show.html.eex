@@ -125,8 +125,8 @@
 				<div class="row no-gutters">
 					<div class="cell col-3 label label-required">Assignment Classification</div>
 					<div class="cell col-3 value"><%= @tkn_listing.classification %></div>
-					<div class="cell col-3 label label-required">EOA Evaluation</div>
-					<div class="cell col-3 value"><%= @tkn_listing.eoa_evaluation |> VolunteerWeb.Admin.TKNListingView.eoa_evaluation_label %></div>
+					<div class="cell col-3 label label-required">EOA evaluation</div>
+					<div class="cell col-3 value"><%= @tkn_listing.eoa_evaluation |> VolunteerWeb.Admin.Listing.TKNView.eoa_evaluation_label %></div>
 				</div>
 			</div>
 		</section>

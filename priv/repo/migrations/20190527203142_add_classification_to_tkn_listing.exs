@@ -9,7 +9,7 @@ defmodule Volunteer.Repo.Migrations.AddClassificationToTKNListing do
 
     flush()
 
-    from(u in Volunteer.Listings.TKNListing, select: [:id])
+    from(u in "tkn_listings", select: [:id])
     |> Volunteer.Repo.all()
     |> Enum.map(fn user ->
       user

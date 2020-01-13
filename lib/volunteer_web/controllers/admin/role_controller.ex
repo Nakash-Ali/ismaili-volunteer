@@ -9,6 +9,7 @@ defmodule VolunteerWeb.Admin.RoleController do
 
   plug :load_subject_config
   plug :load_subject
+  plug :track
 
   def load_subject_config(%Plug.Conn{params: params} = conn, _opts) do
     case subject_config_from_params(params) do
@@ -27,6 +28,14 @@ defmodule VolunteerWeb.Admin.RoleController do
       conn,
       :subject,
       Roles.get_subject!(subject_type, subject_id)
+    )
+  end
+
+  def track(%Plug.Conn{assigns: %{subject_config: %{subject_type: subject_type}}} = conn, _opts) do
+    VolunteerWeb.Services.Analytics.Plugs.track(
+      conn,
+      resource: subject_type,
+      assigns_subject_key: :subject
     )
   end
 

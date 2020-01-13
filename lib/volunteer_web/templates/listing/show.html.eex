@@ -25,7 +25,7 @@
 						<p class="py-2 px-3 font-family-sans-serif rounded bg-danger text-white text-center">To prevent spam, JavaScript is required to validate and submit this form. We're sorry for the inconvenience!</p>
 					</noscript>
 
-					<%= form_for @conn, RouterHelpers.listing_path(@conn, :create_applicant, @listing), [class: "font-family-sans-serif"], fn _ -> %>
+					<%= form_for @conn, RouterHelpers.listing_apply_path(@conn, :create, @listing), [class: "font-family-sans-serif"], fn _ -> %>
 
 						<div class="form-section">
 							<div class="form-group row">

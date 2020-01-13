@@ -1,0 +1,36 @@
+<% state = (
+	if Public.Introspect.approved?(@listing) and not Public.Introspect.expired?(@listing)  do
+			if Volunteer.Apply.Introspect.has_open_applicants?(@listing) do
+				:complete
+			else
+				:in_progress
+			end
+		else
+			:not_relevant
+	end
+) %>
+
+<%= WorkflowView.render_step title: "Marketing on Jamati Channels", state: state do %>
+
+	<%= if Public.Introspect.approved?(@listing) and not Public.Introspect.expired?(@listing) do %>
+
+		<%= if Volunteer.Apply.Introspect.has_open_applicants?(@listing) do %>
+			<p>Great job, your marketing is working! You've received applications to this listing.</p>
+		<% else %>
+			<p>You now have easy access to all jamati marketing channels. Get the word out for this listing!</p>
+		<% end %>
+
+		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :marketing_request, :create], @listing) do %>
+				<div class="btn-group mr-2q" role="group">
+					<%= link {:safe, "<i class=\"far fa-bullhorn mr-1q\" aria-hidden=\"true\"></i> Send marketing request"}, to: RouterHelpers.admin_listing_marketing_request_path(@conn, :new, @listing), class: "btn btn-outline-primary" %>
+				</div>
+			<% end %>
+			<div class="btn-group mr-2q" role="group">
+				<%= link {:safe, "<i class=\"far fa-image mr-1q\" aria-hidden=\"true\"></i> View shareable image"}, to: RouterHelpers.listing_social_image_path(@conn, :png, @listing), target: "_blank", class: "btn btn-outline-primary" %>
+			</div>
+		</div>
+
+	<% end %>
+
+<% end %>

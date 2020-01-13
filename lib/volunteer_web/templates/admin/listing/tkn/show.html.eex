@@ -1,0 +1,9 @@
+<%= ListingView.render_subtitle assigns %>
+
+<section class="container mt-3 mb-5">
+	<%= WorkflowView.render_workflow([
+			render("step_start.html", assigns),
+			render("step_data.html", assigns),
+			render("step_spec.html", assigns),
+		]) %>
+</section>

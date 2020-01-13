@@ -150,7 +150,7 @@ defmodule Volunteer.Permissions.Ruleset do
       fn _user, [:admin, :listing, action], _subject when action in [:index, :create] ->
         :allow
       end,
-      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, action], %Listing{id: listing_id} when action in [:show, :update, :request_approval, :refresh_expiry, :expire] ->
+      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, action], %Listing{id: listing_id} when action in [:show, :update, :request_approval, :refresh, :expire] ->
         if listing_roles[listing_id] in ["admin"] do
           :allow
         end

@@ -5,7 +5,7 @@ defmodule VolunteerWeb.Embedded.IndexController do
 
   def index(conn, _params) do
     listings =
-      Listings.get_all_public_listings()
+      Listings.Public.get_all()
       |> Repo.preload([:region, :group])
 
     render(

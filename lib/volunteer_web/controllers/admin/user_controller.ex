@@ -2,10 +2,13 @@ defmodule VolunteerWeb.Admin.UserController do
   use VolunteerWeb, :controller
   alias Volunteer.Accounts
   import VolunteerWeb.ConnPermissions, only: [authorize: 2]
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   # Plugs
 
   plug :authorize, action_root: [:admin, :user]
+  plug :track,
+    resource: "user"
 
   # Controller Actions
 

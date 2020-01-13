@@ -1,0 +1,56 @@
+<% state = (
+	if Public.Introspect.approved?(@listing) do
+		if Public.Introspect.expired?(@listing) or Public.Introspect.expiry_reminder_sent?(@listing) do
+			:warning
+		else
+			:complete
+		end
+	else
+		:not_relevant
+	end
+) %>
+
+<%= WorkflowView.render_step title: "Manage Expiry", state: state do %>
+
+	<%= if Volunteer.Listings.Public.Introspect.approved?(@listing) do %>
+
+		<div class="mb-1">
+			<%= ListingView.definition_list(:expiry, @listing) |> VolunteerWeb.AdminView.render_definition_list(tight: true) %>
+		</div>
+
+		<%= if Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
+			<p>This listing has expired. You'll need to reset it if you'd like to publically market this listing again.</p>
+		<% else %>
+			<%= if Volunteer.Listings.Public.Introspect.expiry_reminder_sent?(@listing) do %>
+				<p><strong>If you take no action, this listing will expire in <%= VolunteerUtils.Temporal.format_relative(@listing.public_expiry_date) %></strong>. Once it expires, it will not be publically visible and Jamati members will not be able to apply for it. That being said, even after it has expired, you'll still be able to manage any applications you've already received, and you'll still be able to manage the TKN side of it.</p>
+				<p>If you'd like the listing to continue to remain public, please refresh it!</p>
+			<% else %>
+				<p>This listing will expire in <%= VolunteerUtils.Temporal.format_relative(@listing.public_expiry_date) %>. We'll automatically notify you closer to the expiry date.</p>
+				<p><strong>If you're all done with this listing, please don't forget to archive it!</strong>
+			<% end %>
+		<% end %>
+
+		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :refresh], @listing) do %>
+				<div class="btn-group mr-2q" role="group">
+					<%= if Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
+						<%= link "Reset Workflow", to: RouterHelpers.admin_listing_public_path(@conn, :reset, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<% else %>
+						<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: RouterHelpers.admin_listing_public_path(@conn, :refresh, @listing), method: :post, class: "btn btn-outline-primary" %>
+					<% end %>
+				</div>
+			<% end %>
+			<div class="btn-group mr-2q" role="group">
+				<%= if not Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
+					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :expire], @listing) do %>
+						<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_public_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-primary" %>
+					<% end %>
+				<% else %>
+					<button disabled class="btn btn-outline-secondary"><i class="far fa-times-circle mr-1q" aria-hidden="true"></i>Listing archived</button>
+				<% end %>
+			</div>
+		</div>
+
+	<% end %>
+
+<% end %>
