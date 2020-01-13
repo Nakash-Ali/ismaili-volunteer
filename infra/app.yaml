@@ -28,7 +28,7 @@ beta_settings:
   cloud_sql_instances: "ismailivolunteer-201223:northamerica-northeast1:<%= db.gcloud_id %>"
 
 automatic_scaling:
-  min_num_instances: 0
+  min_num_instances: 1
   max_num_instances: 1
   cpu_utilization:
     target_utilization: 0.6
