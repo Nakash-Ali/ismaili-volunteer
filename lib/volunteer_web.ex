@@ -45,6 +45,7 @@ defmodule VolunteerWeb do
       alias VolunteerWeb.Router.Helpers, as: RouterHelpers
       alias VolunteerWeb.StaticHelpers
       alias VolunteerWeb.ErrorHelpers
+      alias VolunteerWeb.HTMLHelpers
       alias VolunteerWeb.UserSession
       alias VolunteerWeb.ConnPermissions
 

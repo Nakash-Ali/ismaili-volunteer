@@ -2,7 +2,6 @@ defmodule VolunteerWeb.Admin.RegionView do
   use VolunteerWeb, :view
   alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.SubtitleView
-  alias VolunteerWeb.HTMLHelpers
   alias VolunteerWeb.Presenters.Title
   alias VolunteerUtils.Temporal
 

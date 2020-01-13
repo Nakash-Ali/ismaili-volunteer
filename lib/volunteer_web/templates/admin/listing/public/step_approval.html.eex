@@ -58,7 +58,7 @@
 		<%= if not Public.Introspect.expired?(@listing) do %>
 			<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
 				<div class="btn-group mr-2q" role="group">
-					<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: RouterHelpers.admin_listing_public_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+					<%= link HTMLHelpers.icon_with_text("far fa-thumbs-down", "Un-approve"), to: RouterHelpers.admin_listing_public_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
 				</div>
 			</div>
 		<% end %>
@@ -66,7 +66,7 @@
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
 			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :approve], @listing) do %>
 				<div class="btn-group mr-2q" role="group">
-					<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: RouterHelpers.admin_listing_public_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
+					<%= link HTMLHelpers.icon_with_text("far fa-thumbs-up", "Approve"), to: RouterHelpers.admin_listing_public_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
 				</div>
 			<% end %>
 			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :request_approval], @listing) do %>

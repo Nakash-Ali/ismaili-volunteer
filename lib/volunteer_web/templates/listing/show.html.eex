@@ -147,7 +147,7 @@
 							<div class="offset-md-4 col-md-8">
 								<div class="mt-3 small text-muted font-italic">
 									<p><%= @disclaimers.apply_privacy_text %></p>
-									<p><%= @disclaimers.address |> VolunteerWeb.HTMLHelpers.with_line_breaks() %></p>
+									<p><%= @disclaimers.address |> HTMLHelpers.with_line_breaks() %></p>
 								</div>
 							</div>
 						</div>

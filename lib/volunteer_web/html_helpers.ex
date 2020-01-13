@@ -5,8 +5,8 @@ defmodule VolunteerWeb.HTMLHelpers do
 
   def icon_with_text(icon_class, icon_text) do
     ~E"""
-    <i class="<%= icon_class %> mr-1q" aria-hidden="true"></i> <%= icon_text %>
-    """
+      <i class="<%= icon_class %> mr-2q" aria-hidden="true"></i><%= icon_text %>
+      """
   end
 
   def with_position(list) do

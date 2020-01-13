@@ -21,7 +21,7 @@
 				<td valign="top">
 					<p><small><%= @disclaimers.email_privacy_text %></small></p>
 					<p><small><%= @disclaimers.email_unsubscribe_text %></small></p>
-					<p><small><%= @disclaimers.address |> VolunteerWeb.HTMLHelpers.with_line_breaks() %></small></p>
+					<p><small><%= @disclaimers.address |> HTMLHelpers.with_line_breaks() %></small></p>
 				</td>
 			</tr>
 		</table>

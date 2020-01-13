@@ -1,6 +1,5 @@
 <%= render __MODULE__, "structured.html", assigns do %>
 	<p class="m-0">
-		<i class="<%= @icon_class %> mr-2q" aria-hidden="true"></i>
-		<%= assigns[:do] %>
+		<%= HTMLHelpers.icon_with_text(@icon_class, assigns[:do]) %>
 	</p>
 <% end %>

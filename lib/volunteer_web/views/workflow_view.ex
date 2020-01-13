@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.WorkflowView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.HTMLHelpers
 
   defmodule Step do
     defstruct [:title, :body, :state]

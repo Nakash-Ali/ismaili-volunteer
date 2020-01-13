@@ -1,7 +1,6 @@
 defmodule VolunteerWeb.Admin.ApplicantView do
   use VolunteerWeb, :view
   alias VolunteerUtils.Temporal
-  alias VolunteerWeb.HTMLHelpers
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.Presenters.Title
 

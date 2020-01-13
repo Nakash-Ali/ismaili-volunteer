@@ -15,7 +15,7 @@
 	<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :update], @listing) do %>
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
 			<div class="btn-group mr-2q" role="group">
-				<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_tkn_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+				<%= link HTMLHelpers.icon_with_text("far fa-pen", "Edit"), to: RouterHelpers.admin_listing_tkn_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
 			</div>
 		</div>
 	<% end %>

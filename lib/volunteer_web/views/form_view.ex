@@ -1,6 +1,5 @@
 defmodule VolunteerWeb.FormView do
   use VolunteerWeb, :view
-  alias VolunteerWeb.HTMLHelpers
 
   @wrapper "with_wrapper.html"
 

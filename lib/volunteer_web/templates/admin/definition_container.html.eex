@@ -7,7 +7,7 @@
 		<%= if assigns[:do] do %>
 			<%= assigns[:do] %>
 		<% else %>
-			<p class="mb-0"><%= assigns[:body_text] |> VolunteerWeb.HTMLHelpers.default_if_blank?() %></p>
+			<p class="mb-0"><%= assigns[:body_text] |> HTMLHelpers.default_if_blank?() %></p>
 		<% end %>
 	</div>
 </div>

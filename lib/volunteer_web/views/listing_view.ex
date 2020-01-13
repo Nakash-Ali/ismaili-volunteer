@@ -3,7 +3,6 @@ defmodule VolunteerWeb.ListingView do
   alias VolunteerUtils.Temporal
   alias VolunteerWeb.Presenters.{Title, Social}
   alias VolunteerWeb.FormView
-  alias VolunteerWeb.HTMLHelpers
 
   use VolunteerWeb, :view
 

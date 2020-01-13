@@ -5,7 +5,6 @@ defmodule VolunteerWeb.Admin.ListingView do
   alias VolunteerWeb.FormView
   alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.SubtitleView
-  alias VolunteerWeb.HTMLHelpers
   alias VolunteerWeb.Presenters.Title
   alias VolunteerWeb.WorkflowView
   alias VolunteerUtils.Temporal

@@ -2,7 +2,7 @@
 	<p class="mb-3q"><span class="mr-2q" aria-hidden="true">🎉</span><strong>Congratulations, your application has been submitted!</strong></p>
 	<div class="row justify-content-center">
 		<div class="col-md-8 col-xl-7 col-12">
-			<p class="mb-0">You will be receiving an email confirmation from us within the next few minutes. If you don't see anything, please check your Spam folder as well. Otherwise, please reach out to us at <%= Application.get_env(:volunteer, :global_email) |> VolunteerWeb.HTMLHelpers.external_link(:mailto, class: "alert-link") %>.</p>
+			<p class="mb-0">You will be receiving an email confirmation from us within the next few minutes. If you don't see anything, please check your Spam folder as well. Otherwise, please reach out to us at <%= Application.get_env(:volunteer, :global_email) |> HTMLHelpers.external_link(:mailto, class: "alert-link") %>.</p>
 		</div>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <div class="workflow">
-	<%= for {step, _index, last} <- VolunteerWeb.HTMLHelpers.with_position(@workflow) do %>
+	<%= for {step, _index, last} <- HTMLHelpers.with_position(@workflow) do %>
 		<div class="<%= if last == :last do "" else "mb-3 pb-3 step-border" end %>">
 			<%= step %>
 		</div>

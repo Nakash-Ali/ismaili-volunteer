@@ -36,17 +36,17 @@
 					<%= if Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
 						<%= link "Reset Workflow", to: RouterHelpers.admin_listing_public_path(@conn, :reset, @listing), method: :post, class: "btn btn-outline-primary" %>
 					<% else %>
-						<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: RouterHelpers.admin_listing_public_path(@conn, :refresh, @listing), method: :post, class: "btn btn-outline-primary" %>
+						<%= link HTMLHelpers.icon_with_text("far fa-sync-alt", "Refresh expiry"), to: RouterHelpers.admin_listing_public_path(@conn, :refresh, @listing), method: :post, class: "btn btn-outline-primary" %>
 					<% end %>
 				</div>
 			<% end %>
 			<div class="btn-group mr-2q" role="group">
 				<%= if not Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
 					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :expire], @listing) do %>
-						<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_public_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-primary" %>
+						<%= link HTMLHelpers.icon_with_text("far fa-times-circle", "Expire and archive"), to: RouterHelpers.admin_listing_public_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-primary" %>
 					<% end %>
 				<% else %>
-					<button disabled class="btn btn-outline-secondary"><i class="far fa-times-circle mr-1q" aria-hidden="true"></i>Listing archived</button>
+					<button disabled class="btn btn-outline-secondary"><%= HTMLHelpers.icon_with_text("far fa-times-circle", "Listing archived") %></button>
 				<% end %>
 			</div>
 		</div>
