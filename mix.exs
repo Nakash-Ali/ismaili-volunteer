@@ -51,7 +51,7 @@ defmodule Volunteer.Mixfile do
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
       {:jason, "~> 1.0"},
-      {:jose, "~> 1.8"},
+      {:jose, "~> 1.10"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.10"},
