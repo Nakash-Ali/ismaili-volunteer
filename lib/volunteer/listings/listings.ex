@@ -61,7 +61,8 @@ defmodule Volunteer.Listings do
   def get_all_admin(opts \\ []) do
     from(l in base_query())
     |> Public.AdminStateFilters.filter(Keyword.get(opts, :filters, %{}))
-    |> order_by(desc: :public_expiry_date)
+    |> order_by(asc: :position_title)
+    |> order_by(asc: :public_expiry_date)
     |> Repo.all()
   end
 end

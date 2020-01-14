@@ -102,13 +102,21 @@ defmodule VolunteerWeb.HTMLHelpers do
     Enum.all?(value, &is_blank?/1)
   end
 
-  def is_blank?(value) do
+  def is_blank?(value) when is_binary(value) do
     case String.trim(value) do
-      value when value in [nil, ""] ->
+      "" ->
         true
 
       _ ->
         false
     end
+  end
+
+  def is_blank?(nil) do
+    true
+  end
+
+  def is_blank?(_value) do
+    false
   end
 end

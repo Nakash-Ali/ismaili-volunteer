@@ -82,13 +82,13 @@
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label">Function/Sector</div>
-					<div class="cell col-3 value"><%= @tkn_listing.industry |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_industry |> HTMLHelpers.default_if_blank? %></div>
 					<div class="cell col-3 label label-required">Openings</div>
-					<div class="cell col-3 value"><%= @tkn_listing.openings |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_openings |> HTMLHelpers.default_if_blank? %></div>
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label">Position Category</div>
-					<div class="cell col-3 value"><%= @tkn_listing.function |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_function |> HTMLHelpers.default_if_blank? %></div>
 					<div class="cell col-3 label label-required">Start Date</div>
 					<div class="cell col-3 value"><%= ListingView.start_date_text(@listing.start_date) %></div>
 				</div>
@@ -100,13 +100,13 @@
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label">Total Years of Experience</div>
-					<div class="cell col-3 value"><%= @tkn_listing.work_experience_years |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_work_experience_years |> HTMLHelpers.default_if_blank? %></div>
 					<div class="cell col-3 label label-required">Position Type</div>
-					<div class="cell col-3 value"><%= @tkn_listing.commitment_type |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_commitment_type |> HTMLHelpers.default_if_blank? %></div>
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label">Education Level</div>
-					<div class="cell col-3 value"><%= @tkn_listing.education_level |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_education_level |> HTMLHelpers.default_if_blank? %></div>
 					<div class="cell col-3 label label-required">Hours Per Week</div>
 					<div class="cell col-3 value"><%= ListingView.time_commitment_text(@listing) %></div>
 				</div>
@@ -114,19 +114,19 @@
 					<div class="cell col-3 label">Position Country</div>
 					<div class="cell col-3 value"><%= HTMLHelpers.default_if_blank() %></div>
 					<div class="cell col-3 label label-required">Assignment Location</div>
-					<div class="cell col-3 value"><%= @tkn_listing.location_type |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_location_type |> HTMLHelpers.default_if_blank? %></div>
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label">City(s)</div>
 					<div class="cell col-3 value"><%= HTMLHelpers.default_if_blank() %></div>
 					<div class="cell col-3 label label-required">Scope of Search</div>
-					<div class="cell col-3 value"><%= @tkn_listing.search_scope |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_search_scope |> HTMLHelpers.default_if_blank? %></div>
 				</div>
 				<div class="row no-gutters">
 					<div class="cell col-3 label label-required">Assignment Classification</div>
-					<div class="cell col-3 value"><%= @tkn_listing.classification %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_classification %></div>
 					<div class="cell col-3 label label-required">EOA evaluation</div>
-					<div class="cell col-3 value"><%= @tkn_listing.eoa_evaluation |> VolunteerWeb.Admin.Listing.TKNView.eoa_evaluation_label %></div>
+					<div class="cell col-3 value"><%= @listing.tkn_eoa_evaluation |> VolunteerWeb.Admin.Listing.TKNView.eoa_evaluation_label %></div>
 				</div>
 			</div>
 		</section>
@@ -165,7 +165,7 @@
 					<div class="cell col-12 label label-required">Suggested Keywords for Search:</div>
 				</div>
 				<div class="row no-gutters">
-					<div class="cell col-12 value value-longform"><%= @tkn_listing.suggested_keywords |> HTMLHelpers.default_if_blank? %></div>
+					<div class="cell col-12 value value-longform"><%= @listing.tkn_suggested_keywords |> HTMLHelpers.default_if_blank? %></div>
 				</div>
 			</div>
 		</section>

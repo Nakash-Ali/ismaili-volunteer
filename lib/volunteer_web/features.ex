@@ -178,16 +178,6 @@ defmodule VolunteerWeb.Features do
         is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :show], listing),
       },
       %Item{
-        title: "Roles",
-        href: RouterHelpers.admin_listing_role_path(conn, :index, listing),
-        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :role, :index], listing),
-      },
-      %Item{
-        title: "Applicants",
-        href: RouterHelpers.admin_listing_applicant_path(conn, :index, listing),
-        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :applicant, :index], listing),
-      },
-      %Item{
         title: "Public",
         href: RouterHelpers.admin_listing_public_path(conn, :show, listing),
         is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :public, :show], listing),
@@ -196,6 +186,16 @@ defmodule VolunteerWeb.Features do
         title: "TKN",
         href: RouterHelpers.admin_listing_tkn_path(conn, :show, listing),
         is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :tkn, :show], listing),
+      },
+      %Item{
+        title: "Applicants",
+        href: RouterHelpers.admin_listing_applicant_path(conn, :index, listing),
+        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :applicant, :index], listing),
+      },
+      %Item{
+        title: "Roles",
+        href: RouterHelpers.admin_listing_role_path(conn, :index, listing),
+        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :role, :index], listing),
       },
     ]
   end

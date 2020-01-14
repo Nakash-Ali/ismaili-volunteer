@@ -21,17 +21,15 @@ defmodule Volunteer.Listings.Public.AdminStateFilters do
   end
 
   def filter(query, %{approved: true, unapproved: true, expired: false}) do
-    Filters.unexpired(query)
+    Filters.approved_or_unapproved_but_unexpired(query)
   end
 
   def filter(query, %{approved: true, unapproved: false, expired: true}) do
-    Filters.approved_or_expired(query)
+    Filters.approved(query)
   end
 
   def filter(query, %{approved: false, unapproved: true, expired: false}) do
-    query
-    |> Filters.unapproved()
-    |> Filters.unexpired()
+    Filters.unapproved(query)
   end
 
   def filter(query, %{approved: false, unapproved: true, expired: true}) do
