@@ -3,7 +3,6 @@ defmodule VolunteerWeb.ListingController do
   alias Volunteer.Repo
   alias Volunteer.Apply
   alias Volunteer.Listings
-  alias VolunteerWeb.FlashHelpers
   import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   # Plugs

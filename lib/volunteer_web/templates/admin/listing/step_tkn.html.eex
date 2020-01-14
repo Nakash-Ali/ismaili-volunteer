@@ -1,4 +1,0 @@
-<%= WorkflowView.render_step title: "Use the TKN Workflow", state: :in_progress do %>
-
-
-<% end %>

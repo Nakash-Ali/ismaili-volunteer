@@ -1,7 +1,6 @@
 defmodule VolunteerWeb.Admin.Listing.PublicView do
   use VolunteerWeb, :view
   alias Volunteer.Listings.Public
-  alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.WorkflowView
 

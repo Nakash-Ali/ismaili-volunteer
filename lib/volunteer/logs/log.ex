@@ -1,6 +1,5 @@
 defmodule Volunteer.Logs.Log do
   use Volunteer, :schema
-  import Ecto.Changeset
   alias Volunteer.Accounts.User
   alias Volunteer.Infrastructure.Region
   alias Volunteer.Infrastructure.Group

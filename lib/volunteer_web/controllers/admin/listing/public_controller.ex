@@ -2,8 +2,6 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   use VolunteerWeb, :controller
   alias Volunteer.Repo
   alias Volunteer.Listings
-  alias Volunteer.Infrastructure
-  alias Volunteer.Permissions
   alias VolunteerWeb.UserSession
   alias VolunteerWeb.FlashHelpers
   alias VolunteerWeb.Admin.ListingParams

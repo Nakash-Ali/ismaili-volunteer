@@ -77,7 +77,7 @@ defmodule VolunteerWeb.Admin.ListingController do
       {:ok, listing} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:success, "Listing created successfully.")
-        |> redirect(to: RouterHelpers.admin_listing_home_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

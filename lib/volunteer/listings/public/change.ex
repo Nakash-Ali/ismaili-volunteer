@@ -1,7 +1,6 @@
 defmodule Volunteer.Listings.Public.Change do
   import Ecto.Changeset
   alias Volunteer.Accounts.User
-  alias Volunteer.Listings.Public.Introspect
 
   @initial_expiry_days 25
   @refresh_expiry_days 10

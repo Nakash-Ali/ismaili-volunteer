@@ -8,6 +8,14 @@
 
 <%= WorkflowView.render_step title: "Manage Additional Data", state: state do %>
 
+	<p>
+		You can edit and manage TKN-specific data for this listing here.
+	</p>
+
+	<%= if assigns[:valid?] == false do %>
+		<p><strong>It appears that some of this data is incomplete or invalid.</strong> Click on the Edit button below to fix this!</p>
+	<% end %>
+
 	<div class="mt-2">
 		<%= definition_list(:all, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 	</div>

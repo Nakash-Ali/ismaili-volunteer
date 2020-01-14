@@ -1,0 +1,10 @@
+<%= render_subtitle assigns %>
+
+<section class="container mt-3 mb-5">
+	<%= WorkflowView.render_workflow([
+			render("step_start.html", assigns),
+			render("step_data.html", assigns),
+			render(VolunteerWeb.Admin.Listing.PublicView, "step_start.html", Map.put(assigns, :embedded, true)),
+			render(VolunteerWeb.Admin.Listing.TKNView, "step_start.html", Map.put(assigns, :embedded, true)),
+		]) %>
+</section>

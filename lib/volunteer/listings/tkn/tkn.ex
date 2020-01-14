@@ -11,10 +11,11 @@ defmodule Volunteer.Listings.TKN do
     |> Repo.update()
   end
 
-  def send_assignment_spec(listing) do
+  def send_assignment_spec(_listing) do
     # TODO: implement this!
   end
 
+  # TODO: use this!
   def validate_tkn_assignment_spec_generation(listing) do
     case listing do
       %{start_date: nil} ->

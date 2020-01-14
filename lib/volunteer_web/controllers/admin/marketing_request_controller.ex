@@ -74,7 +74,7 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
       {:ok, _config, _emails} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:success, "Marketing request created successfully.")
-        |> redirect(to: RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing))
+        |> redirect(to: RouterHelpers.admin_listing_public_path(conn, :show, listing))
 
       {:error, config, %Ecto.Changeset{} = changeset} ->
         case VolunteerWeb.ErrorHelpers.get_underscore_errors(changeset) do

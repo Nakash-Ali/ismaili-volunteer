@@ -96,8 +96,6 @@ defmodule VolunteerWeb.Router do
       get "/", IndexController, :index
 
       resources "/listings", ListingController do
-        get "/home", Listing.HomeController, :show
-
         scope "/public" do
           resources "/", Listing.PublicController,
             singleton: true,

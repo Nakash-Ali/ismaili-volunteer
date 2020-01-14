@@ -1,6 +1,6 @@
-<%= WorkflowView.render_step title: "Manage Common Data", state: :complete do %>
+<%= WorkflowView.render_step title: "Manage Data", state: :complete do %>
 
-	<p>Here you can edit and manage the common fields for this listing.<p>
+	<p>You can edit and manage most data for this listing here.<p>
 
 	<div class="mt-2">
 		<%= definition_list(:details, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
@@ -20,13 +20,12 @@
 		<%= definition_list(:meta, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 	</div>
 
-
 	<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing) do %>
-	<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
-		<div class="btn-group mr-2q" role="group">
-			<%= link HTMLHelpers.icon_with_text("far fa-pen", "Edit"), to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
+			<div class="btn-group mr-2q" role="group">
+				<%= link HTMLHelpers.icon_with_text("far fa-pen", "Edit"), to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+			</div>
 		</div>
-	</div>
 	<% end %>
 
 <% end %>

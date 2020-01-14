@@ -1,7 +1,6 @@
 defmodule VolunteerWeb.Admin.Listing.TKNView do
   use VolunteerWeb, :view
   alias VolunteerWeb.FormView
-  alias VolunteerWeb.AdminView
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.WorkflowView
 

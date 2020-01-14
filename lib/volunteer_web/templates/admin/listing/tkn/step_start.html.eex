@@ -1,5 +1,27 @@
-<%= WorkflowView.render_step title: "The TKN Workflow", state: :start do %>
+<% state = (
+	if assigns[:embedded] == true do
+		:in_progress
+	else
+		:start
+	end
+) %>
 
-	<p>Awesome!</p>
+<%= WorkflowView.render_step title: "The TKN Workflow", state: state do %>
+
+	<p>Using the TKN Workflow for this listing will enable you to:</p>
+	<ul>
+		<li>
+			<p>Automatically generate an Assignment Specification form.</p>
+		</li>
+		<li>
+			<p>Send the Assignment Specification form to your regional TKN team.</p>
+		</li>
+	</ul>
+
+	<%= if assigns[:embedded] == true do %>
+		<p class="mb-0">To use the TKN Workflow, click on the TKN tab above.</p>
+	<% else %>
+		<p class="mb-0">If you have any questions or concerns, feel free to reach out to the admins for your region or board/portfolio.</p>
+	<% end %>
 
 <% end %>

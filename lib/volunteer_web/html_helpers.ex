@@ -5,7 +5,7 @@ defmodule VolunteerWeb.HTMLHelpers do
 
   def icon_with_text(icon_class, icon_text) do
     ~E"""
-      <i class="<%= icon_class %> mr-2q" aria-hidden="true"></i><%= icon_text %>
+      <i class="<%= icon_class %> mr-2q"></i><%= icon_text %>
       """
   end
 
@@ -94,15 +94,21 @@ defmodule VolunteerWeb.HTMLHelpers do
     is_blank?(value)
   end
 
+  def is_blank?([]) do
+    true
+  end
+
   def is_blank?(value) when is_list(value) do
     Enum.all?(value, &is_blank?/1)
   end
 
-  def is_blank?(value) when value in [nil, ""] do
-    true
-  end
+  def is_blank?(value) do
+    case String.trim(value) do
+      value when value in [nil, ""] ->
+        true
 
-  def is_blank?(_value) do
-    false
+      _ ->
+        false
+    end
   end
 end

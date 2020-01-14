@@ -3,7 +3,7 @@
 <section class="container">
 	<div class="btn-toolbar justify-content-between font-family-sans-serif" role="toolbar">
 		<div class="btn-group" role="group">
-			<%= link HTMLHelpers.icon_woth_text("far fa-plus", "Create"), to: RouterHelpers.admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
+			<%= link HTMLHelpers.icon_with_text("far fa-plus", "Create"), to: RouterHelpers.admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
 		</div>
 		<div class="ml-1">
 			<%= form_for @filters, RouterHelpers.admin_listing_path(@conn, :index), [as: :filters, method: :get, class: "m-0"], fn f -> %>
@@ -25,7 +25,7 @@
 						</label>
 					<% end %>
 				</div>
-				<%= submit HTMLHelpers.icon_woth_text("far fa-check", "Apply"), class: "btn btn-sm btn-outline-primary ml-2q pl-3q pr-1" %>
+				<%= submit HTMLHelpers.icon_with_text("far fa-check", "Apply"), class: "btn btn-sm btn-outline-primary ml-2q pl-3q pr-1" %>
 			<% end %>
 		</div>
 	</div>

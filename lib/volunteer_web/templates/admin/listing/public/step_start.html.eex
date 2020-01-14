@@ -1,9 +1,17 @@
-<%= WorkflowView.render_step title: "The Public Workflow", state: :start do %>
+<% state = (
+	if assigns[:embedded] == true do
+		:in_progress
+	else
+		:start
+	end
+) %>
 
-	<p>Welcome to the Public Worklow! Completing this workflow enables:</p>
+<%= WorkflowView.render_step title: "The Public Workflow", state: state do %>
+
+	<p>Using the Public Workflow for this listing will enable you to:</p>
 	<ul>
 		<li>
-			<p>Publication on OTS</p>
+			<p>Publish on OTS</p>
 			<p>
 				<ul>
 					<li>Your listing will be visible on the homepage of OTS</li>
@@ -12,9 +20,14 @@
 			</p>
 		</li>
 		<li>
-			<p>Marketing on Jamati channels (announcements, newsletters, social media, etc...)</p>
+			<p>Market on Jamati channels (announcements, newsletters, social media, etc...)</p>
 		</li>
 	</ul>
-	<p class="mb-0">If you have any questions or concerns, feel free to reach out to the admins for your region or board/portfolio.</p>
+
+	<%= if assigns[:embedded] == true do %>
+		<p class="mb-0">To use the Public Workflow, click on the Public tab above.</p>
+	<% else %>
+		<p class="mb-0">If you have any questions or concerns, feel free to reach out to the admins for your region or board/portfolio.</p>
+	<% end %>
 
 <% end %>

@@ -1,4 +1,5 @@
 defmodule Volunteer.MarketingRequests do
+  alias Volunteer.Repo
   alias Volunteer.MarketingRequests.Change
 
   def assigns!(listing) do

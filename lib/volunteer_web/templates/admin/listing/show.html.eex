@@ -1,9 +1,33 @@
 <%= render_subtitle assigns %>
 
+<section class="container font-family-sans-serif">
+	<div class="d-flex flex-row flex-wrap align-items-center justify-content-between" style="margin-left: -0.25rem; margin-right: -0.25rem; margin-bottom: -0.5rem;">
+		<div class="btn-toolbar" role="toolbar">
+		</div>
+		<div class="btn-toolbar" role="toolbar">
+			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing) do %>
+				<div class="btn-group mx-1q" role="group">
+					<%= link HTMLHelpers.icon_with_text("far fa-pen", "Edit"), to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</section>
+
+<section class="container my-3">
+	<%= definition_list(:details, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
+</section>
+
+<section class="container my-3">
+	<%= for {title, body} <- definition_list(:textblob, @listing) do %>
+		<%= render AdminView, "definition_container.html", title_text: title do %>
+			<div class="listing-textblob">
+				<%= body %>
+			</div>
+		<% end %>
+	<% end %>
+</section>
+
 <section class="container mt-3 mb-5">
-	<%= WorkflowView.render_workflow([
-			render("step_data.html", assigns),
-			render("step_public.html", assigns),
-			render("step_tkn.html", assigns),
-		]) %>
+	<%= definition_list(:meta, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 </section>
