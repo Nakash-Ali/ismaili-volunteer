@@ -19,7 +19,6 @@ defmodule VolunteerWeb.ConnPermissions do
             conn
 
           conn ->
-            # TODO: make sure this works
             VolunteerWeb.SentryHelper.capture_exception(conn, %NotPermissionedError{})
             conn
         end
