@@ -23,7 +23,6 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
     resource: "listing",
     assigns_subject_key: :listing
 
-
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     listing =
       id
