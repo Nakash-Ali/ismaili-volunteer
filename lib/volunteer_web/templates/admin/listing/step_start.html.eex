@@ -1,1 +1,0 @@
-<%= WorkflowView.render_step title: "Manage Listings", state: :start do %><% end %>

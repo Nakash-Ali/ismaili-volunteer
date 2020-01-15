@@ -1,5 +1,5 @@
 <% state = (
-	if assigns[:valid?] == true do
+	if assigns[:listing_valid?] == true do
 		:in_progress
 	else
 		:not_relevant
@@ -9,14 +9,43 @@
 <%= WorkflowView.render_step title: "Assignment Specification", state: state do %>
 
 	<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :spec], @listing) do %>
+
+		<p><em>You are not permitted to manage the Assignment Specification for this listing</em></p>
+
+	<% else %>
+
+
+	<% end %>
+
+	<%= if assigns[:listing_valid?] == true do %>
+
+		<p>You can </p>
+
+	<% else %>
+
+		:not_relevant
+
+	<% end %>
+
+	<%= if assigns[:listing_valid?] == true do %>
+
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
 			<div class="btn-group mr-2q" role="group">
-				<%= link "Send Specification to AD", to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing), class: "btn btn-outline-primary" %>
+				<%= HTMLHelpers.link_action(
+						allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :spec], @listing),
+						text: "Send Specification to AD",
+						to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing)
+				) %>
 			</div>
 			<div class="btn-group mr-2q" role="group">
-				<%= link "Download Specification", to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing), class: "btn btn-outline-primary" %>
+				<%= HTMLHelpers.link_action(
+						allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :spec], @listing),
+						text: "Download Specification",
+						to: RouterHelpers.admin_listing_tkn_assignment_spec_path(@conn, :pdf, @listing)
+				) %>
 			</div>
 		</div>
+
 	<% end %>
 
 <% end %>

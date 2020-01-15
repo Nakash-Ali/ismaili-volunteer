@@ -1,6 +1,7 @@
 defmodule VolunteerWeb.Admin.Listing.TKNView do
   use VolunteerWeb, :view
   alias VolunteerWeb.FormView
+  alias VolunteerWeb.ListingView, as: PublicListingView
   alias VolunteerWeb.Admin.ListingView
   alias VolunteerWeb.WorkflowView
 
@@ -18,6 +19,7 @@ defmodule VolunteerWeb.Admin.Listing.TKNView do
 
   def definition_list(:all, listing) do
     [
+      {"Start date", PublicListingView.start_date_text(listing.start_date)},
       {"Open positions", listing.tkn_openings},
     	{"Classification", listing.tkn_classification},
     	{"Commitment type", listing.tkn_commitment_type},

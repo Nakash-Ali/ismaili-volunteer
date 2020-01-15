@@ -31,18 +31,19 @@ defmodule VolunteerWeb.Admin.TKNAssignmentSpecController do
   def validate(%Plug.Conn{assigns: %{listing: listing}} = conn, _) do
     Plug.Conn.assign(
       conn,
-      :valid?,
-      Listings.TKN.Introspect.valid?(listing)
+      :listing_valid?,
+      Listings.TKN.valid?(listing)
     )
   end
 
-  def redirect_if_not_valid(%Plug.Conn{assigns: %{valid?: true}} = conn, _) do
+  def redirect_if_not_valid(%Plug.Conn{assigns: %{listing_valid?: true}} = conn, _) do
     conn
   end
 
-  def redirect_if_not_valid(%Plug.Conn{assigns: %{valid?: false, listing: listing}} = conn, _) do
+  def redirect_if_not_valid(%Plug.Conn{assigns: %{listing_valid?: false, listing: listing}} = conn, _) do
     conn
-    |> FlashHelpers.put_paragraph_flash(:error, "TKN!") # TODO: Fix error message
+    |> FlashHelpers.put_paragraph_flash(:error, "TKN data invalid, cannot generate Assignment Spec") # TODO: Fix error message
+    |> Plug.Conn.put_session(:listing_invalid_redirect?, true)
     |> redirect(to: RouterHelpers.admin_listing_tkn_path(conn, :show, listing))
     |> halt
   end

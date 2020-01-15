@@ -3,10 +3,38 @@ defmodule VolunteerWeb.HTMLHelpers do
 
   defguard is_non_empty_binary(text) when is_binary(text) and text != ""
 
+  def link_action(opts) when is_list(opts) do
+    allowed? = Keyword.fetch!(opts, :allowed?)
+    text = Keyword.fetch!(opts, :text)
+    to = Keyword.fetch!(opts, :to)
+    btn = Keyword.get(opts, :btn, "outline-primary")
+
+    if Keyword.has_key?(opts, :class) do
+      raise "Can't use :class in `link_action/1`"
+    else
+      opts = Keyword.drop(opts, [:allowed?, :text, :to, :btn])
+
+      if allowed? do
+        Phoenix.HTML.Link.link(text, [to: to, class: "btn btn-#{btn}"] ++ opts)
+      else
+        not_allowed = " (not allowed)"
+
+        text_with_not_allowed =
+          case text do
+            text when is_binary(text) ->
+              text <> not_allowed
+
+            {:safe, content} ->
+              {:safe, content ++ [not_allowed]}
+          end
+
+        Phoenix.HTML.Tag.content_tag(:button, text_with_not_allowed, [disabled: "disabled", type: "button", class: "btn btn-outline-secondary disabled"] ++ opts)
+      end
+    end
+  end
+
   def icon_with_text(icon_class, icon_text) do
-    ~E"""
-      <i class="<%= icon_class %> mr-2q"></i><%= icon_text %>
-      """
+    ~E"<i class=\"<%= icon_class %> mr-2q\"></i><%= icon_text %>"
   end
 
   def with_position(list) do

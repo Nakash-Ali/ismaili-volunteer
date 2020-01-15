@@ -4,11 +4,13 @@
 
 <section class="container">
 	<div class="btn-toolbar justify-content-start font-family-sans-serif" role="toolbar">
-		<%= if ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :create], @subject) do %>
-			<div class="btn-group" role="group">
-				<%= link HTMLHelpers.icon_with_text("far fa-plus", "Create"), to: @router_helper.(@conn, :new, @subject), class: "btn btn-outline-primary" %>
-			</div>
-		<% end %>
+		<div class="btn-group" role="group">
+			<%= HTMLHelpers.link_action(
+					allowed?: ConnPermissions.is_allowed?(@conn, [:admin, @subject_type, :role, :create], @subject),
+					text: HTMLHelpers.icon_with_text("far fa-plus", "Create"),
+					to: @router_helper.(@conn, :new, @subject)
+			) %>
+		</div>
 	</div>
 </section>
 

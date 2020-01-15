@@ -1,7 +1,9 @@
 defmodule Volunteer.Listings.TKN.Change do
   import Ecto.Changeset
+  alias Volunteer.Listings
 
   @attributes_cast_always [
+    :start_date,
     :tkn_openings,
     :tkn_classification,
     :tkn_commitment_type,
@@ -16,6 +18,7 @@ defmodule Volunteer.Listings.TKN.Change do
   ]
 
   @attributes_required_always [
+    :start_date,
     :tkn_openings,
     :tkn_classification,
     :tkn_commitment_type,
@@ -134,17 +137,15 @@ defmodule Volunteer.Listings.TKN.Change do
     ]
   end
 
-  def changeset(%{__struct__: _} = attrs) do
-    changeset(Map.from_struct(attrs))
-  end
+  def update(listing, new_attrs \\ %{})
 
-  def changeset(attrs) when is_map(attrs) do
-    changeset(%Volunteer.Listings.Listing{}, attrs)
-  end
+  def update(%Listings.Listing{id: id} = listing, new_attrs) when is_map(new_attrs) do
+    original_attrs =
+      Map.from_struct(listing)
 
-  def changeset(listing, attrs) when is_map(listing) and is_map(attrs) do
-    listing
-    |> cast(attrs, @attributes_cast_always)
+    %Listings.Listing{id: id}
+    |> cast(original_attrs, @attributes_cast_always)
+    |> cast(new_attrs, @attributes_cast_always)
     |> Volunteer.StringSanitizer.sanitize_changes(@attributes_sanitize_text, %{type: :text})
     |> validate_required(@attributes_required_always)
     |> validate_number(:tkn_openings, greater_than: 0)

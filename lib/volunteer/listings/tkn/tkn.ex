@@ -3,11 +3,11 @@ defmodule Volunteer.Listings.TKN do
   alias Volunteer.Listings.TKN.Change
 
   def edit(listing) do
-    Change.changeset(listing, %{})
+    Change.update(listing)
   end
 
   def update(listing, attrs) do
-    Change.changeset(listing, attrs)
+    Change.update(listing, attrs)
     |> Repo.update()
   end
 
@@ -15,14 +15,9 @@ defmodule Volunteer.Listings.TKN do
     # TODO: implement this!
   end
 
-  # TODO: use this!
-  def validate_tkn_assignment_spec_generation(listing) do
-    case listing do
-      %{start_date: nil} ->
-        {:error, "start_date required"}
-
-      %{start_date: _start_date} ->
-        :ok
-    end
+  def valid?(listing) do
+    listing
+    |> Change.update()
+    |> Map.fetch!(:valid?)
   end
 end

@@ -58,22 +58,34 @@
 		<%= if not Public.Introspect.expired?(@listing) do %>
 			<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
 				<div class="btn-group mr-2q" role="group">
-					<%= link HTMLHelpers.icon_with_text("far fa-thumbs-down", "Un-approve"), to: RouterHelpers.admin_listing_public_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
+					<%= HTMLHelpers.link_action(
+							allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :approve], @listing),
+							text: HTMLHelpers.icon_with_text("far fa-thumbs-down", "Un-approve"),
+							to: RouterHelpers.admin_listing_public_path(@conn, :unapprove, @listing),
+							method: :post,
+							btn: "outline-warning"
+					) %>
 				</div>
 			</div>
 		<% end %>
 	<% else %>
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
-			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :approve], @listing) do %>
-				<div class="btn-group mr-2q" role="group">
-					<%= link HTMLHelpers.icon_with_text("far fa-thumbs-up", "Approve"), to: RouterHelpers.admin_listing_public_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
-				</div>
-			<% end %>
-			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :request_approval], @listing) do %>
-				<div class="btn-group mr-2q" role="group">
-					<%= link "Request Approval", to: RouterHelpers.admin_listing_public_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
-				</div>
-			<% end %>
+			<div class="btn-group mr-2q" role="group">
+				<%= HTMLHelpers.link_action(
+						allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :approve], @listing),
+						text: HTMLHelpers.icon_with_text("far fa-thumbs-up", "Approve"),
+						to: RouterHelpers.admin_listing_public_path(@conn, :approve_confirmation, @listing),
+						btn: "outline-success"
+				) %>
+			</div>
+			<div class="btn-group mr-2q" role="group">
+				<%= HTMLHelpers.link_action(
+						allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :request_approval], @listing),
+						text: "Request Approval",
+						to: RouterHelpers.admin_listing_public_path(@conn, :request_approval, @listing),
+						method: :post
+				) %>
+			</div>
 		</div>
 	<% end %>
 

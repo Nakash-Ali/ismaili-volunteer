@@ -1,4 +1,13 @@
-<%= form_for @changeset, @action_path, fn form -> %>
+<%= form_for @changeset, @action_path, [method: :put], fn form -> %>
+	<%= FormView.render_field "generic.html",
+		form: form,
+		title: "Start date",
+		tag: &date_input/3,
+		field: :start_date,
+		required: true,
+		help_text: "TKN requires an actual start date, it cannot be \"Starting Immediately\""
+	%>
+
 	<%= FormView.render_field "generic.html",
 		form: form,
 		tag: &number_input/3,

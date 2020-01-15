@@ -31,20 +31,32 @@
 		<% end %>
 
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
-			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :refresh], @listing) do %>
-				<div class="btn-group mr-2q" role="group">
-					<%= if Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
-						<%= link "Reset Workflow", to: RouterHelpers.admin_listing_public_path(@conn, :reset, @listing), method: :post, class: "btn btn-outline-primary" %>
-					<% else %>
-						<%= link HTMLHelpers.icon_with_text("far fa-sync-alt", "Refresh expiry"), to: RouterHelpers.admin_listing_public_path(@conn, :refresh, @listing), method: :post, class: "btn btn-outline-primary" %>
-					<% end %>
-				</div>
-			<% end %>
+			<div class="btn-group mr-2q" role="group">
+				<%= if Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
+					<%= HTMLHelpers.link_action(
+							allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :reset], @listing),
+							text: "Reset Workflow",
+							to: RouterHelpers.admin_listing_public_path(@conn, :reset, @listing),
+							method: :post
+					) %>
+				<% else %>
+					<%= HTMLHelpers.link_action(
+							allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :refresh], @listing),
+							text: HTMLHelpers.icon_with_text("far fa-sync-alt", "Refresh expiry"),
+							to: RouterHelpers.admin_listing_public_path(@conn, :refresh, @listing),
+							method: :post
+					) %>
+				<% end %>
+			</div>
 			<div class="btn-group mr-2q" role="group">
 				<%= if not Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
-					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :expire], @listing) do %>
-						<%= link HTMLHelpers.icon_with_text("far fa-times-circle", "Expire and archive"), to: RouterHelpers.admin_listing_public_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-primary" %>
-					<% end %>
+					<%= HTMLHelpers.link_action(
+							allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :expire], @listing),
+							text: HTMLHelpers.icon_with_text("far fa-times-circle", "Expire and archive"),
+							to: RouterHelpers.admin_listing_public_path(@conn, :expire, @listing),
+							method: :post,
+							data: [confirm: "Are you sure?"]
+					) %>
 				<% else %>
 					<button disabled class="btn btn-outline-secondary"><%= HTMLHelpers.icon_with_text("far fa-times-circle", "Listing archived") %></button>
 				<% end %>

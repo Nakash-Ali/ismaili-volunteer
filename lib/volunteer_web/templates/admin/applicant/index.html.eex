@@ -2,11 +2,13 @@
 
 <section class="container font-family-sans-serif">
 	<div class="btn-toolbar" role="toolbar">
-		<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :applicant, :export], @listing) do %>
-			<div class="btn-group ml-auto" role="group">
-				<%= link HTMLHelpers.icon_with_text("far fa-file-export", "Export to CSV"), to: RouterHelpers.admin_listing_applicant_path(@conn, :export, @listing), class: "btn btn-outline-primary" %>
-			</div>
-		<% end %>
+		<div class="btn-group ml-auto" role="group">
+			<%= HTMLHelpers.link_action(
+					allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :applicant, :export], @listing),
+					text: HTMLHelpers.icon_with_text("far fa-file-export", "Export to CSV"),
+					to: RouterHelpers.admin_listing_applicant_path(@conn, :export, @listing)
+			) %>
+		</div>
 	</div>
 </section>
 

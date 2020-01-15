@@ -21,13 +21,19 @@
 		<% end %>
 
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
-			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :marketing_request, :create], @listing) do %>
-				<div class="btn-group mr-2q" role="group">
-					<%= link HTMLHelpers.icon_with_text("far fa-bullhorn", "Send marketing request"), to: RouterHelpers.admin_listing_marketing_request_path(@conn, :new, @listing), class: "btn btn-outline-primary" %>
-				</div>
-			<% end %>
 			<div class="btn-group mr-2q" role="group">
-				<%= link HTMLHelpers.icon_with_text("far fa-image", "View shareable image"), to: RouterHelpers.listing_social_image_path(@conn, :png, @listing), target: "_blank", class: "btn btn-outline-primary" %>
+				<%= HTMLHelpers.link_action(
+						allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :marketing_request, :create], @listing),
+						text: HTMLHelpers.icon_with_text("far fa-bullhorn", "Send marketing request"),
+						to: RouterHelpers.admin_listing_marketing_request_path(@conn, :new, @listing)
+				) %>
+			</div>
+			<div class="btn-group mr-2q" role="group">
+				<%= HTMLHelpers.link_action(
+						allowed?: true,
+						text: HTMLHelpers.icon_with_text("far fa-image", "View shareable image"),
+						to: RouterHelpers.listing_social_image_path(@conn, :png, @listing)
+				) %>
 			</div>
 		</div>
 

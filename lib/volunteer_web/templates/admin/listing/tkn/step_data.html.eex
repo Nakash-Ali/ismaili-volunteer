@@ -1,8 +1,12 @@
 <% state = (
-	if assigns[:valid?] == true do
-		:complete
+	if assigns[:listing_invalid_redirect?] == true do
+		:warning
 	else
-		:in_progress
+		if assigns[:listing_valid?] == true do
+			:complete
+		else
+			:in_progress
+		end
 	end
 ) %>
 
@@ -10,22 +14,23 @@
 
 	<p>
 		You can edit and manage TKN-specific data for this listing here.
+		<%= if assigns[:listing_valid?] == false do %>
+			<strong>It appears that some of this data is incomplete or invalid</strong> - click on the Edit button below to fix this.
+		<% end %>
 	</p>
-
-	<%= if assigns[:valid?] == false do %>
-		<p><strong>It appears that some of this data is incomplete or invalid.</strong> Click on the Edit button below to fix this!</p>
-	<% end %>
 
 	<div class="mt-2">
 		<%= definition_list(:all, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 	</div>
 
-	<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :update], @listing) do %>
-		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
-			<div class="btn-group mr-2q" role="group">
-				<%= link HTMLHelpers.icon_with_text("far fa-pen", "Edit"), to: RouterHelpers.admin_listing_tkn_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
-			</div>
+	<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
+		<div class="btn-group mr-2q" role="group">
+			<%= HTMLHelpers.link_action(
+					allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :update], @listing),
+					text: HTMLHelpers.icon_with_text("far fa-pen", "Edit"),
+					to: RouterHelpers.admin_listing_tkn_path(@conn, :edit, @listing)
+			) %>
 		</div>
-	<% end %>
+	</div>
 
 <% end %>

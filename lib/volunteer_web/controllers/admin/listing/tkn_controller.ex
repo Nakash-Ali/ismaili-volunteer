@@ -4,6 +4,7 @@ defmodule VolunteerWeb.Admin.Listing.TKNController do
   alias Volunteer.Listings
   alias VolunteerWeb.FlashHelpers
   import VolunteerWeb.ConnPermissions, only: [authorize: 2]
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   @preloads %{
     show: [],
@@ -16,6 +17,9 @@ defmodule VolunteerWeb.Admin.Listing.TKNController do
   plug :load_listing
   plug :authorize,
     action_root: [:admin, :listing, :tkn],
+    assigns_subject_key: :listing
+  plug :track,
+    resource: "listing",
     assigns_subject_key: :listing
   plug :validate
 
@@ -31,21 +35,26 @@ defmodule VolunteerWeb.Admin.Listing.TKNController do
   def validate(%Plug.Conn{assigns: %{listing: listing}} = conn, _) do
     Plug.Conn.assign(
       conn,
-      :valid?,
-      Listings.TKN.Introspect.valid?(listing)
+      :listing_valid?,
+      Listings.TKN.valid?(listing)
     )
   end
 
   # Controller Actions
 
   def show(conn, _params) do
-    %Plug.Conn{assigns: %{listing: listing, valid?: valid}} = conn
+    %Plug.Conn{assigns: %{listing: listing, listing_valid?: valid}} = conn
 
-    render(
-      conn,
+    listing_invalid_redirect? =
+      Plug.Conn.get_session(conn, :listing_invalid_redirect?)
+
+    conn
+    |> Plug.Conn.delete_session(:listing_invalid_redirect?)
+    |> render(
       "show.html",
       listing: listing,
-      valid?: valid
+      listing_valid?: valid,
+      listing_invalid_redirect?: listing_invalid_redirect?
     )
   end
 

@@ -1,15 +1,17 @@
 <%= render_subtitle assigns %>
 
 <section class="container font-family-sans-serif">
-	<div class="d-flex flex-row flex-wrap align-items-center justify-content-between" style="margin-left: -0.25rem; margin-right: -0.25rem; margin-bottom: -0.5rem;">
+	<div class="d-flex flex-row flex-wrap align-items-center justify-content-between">
 		<div class="btn-toolbar" role="toolbar">
 		</div>
 		<div class="btn-toolbar" role="toolbar">
-			<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing) do %>
-				<div class="btn-group mx-1q" role="group">
-					<%= link HTMLHelpers.icon_with_text("far fa-pen", "Edit"), to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
-				</div>
-			<% end %>
+			<div class="btn-group ml-2q" role="group">
+				<%= HTMLHelpers.link_action(
+						allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing),
+						text: HTMLHelpers.icon_with_text("far fa-pen", "Edit"),
+						to: RouterHelpers.admin_listing_path(@conn, :edit, @listing)
+				) %>
+			</div>
 		</div>
 	</div>
 </section>
