@@ -25,9 +25,9 @@
 	</ul>
 
 	<%= if assigns[:embedded] == true do %>
-		<p class="mb-0">To use the Public Workflow, click on the Public tab above.</p>
+		<p>To use the Public Workflow, click on the Public tab above.</p>
 	<% else %>
-		<p class="mb-0">If you have any questions or concerns, feel free to reach out to the admins for your region or board/portfolio.</p>
+		<p>If you have any questions or concerns, feel free to reach out to the admins for your region or board/portfolio.</p>
 	<% end %>
 
 <% end %>

@@ -51,7 +51,7 @@ defmodule VolunteerWeb.Admin.ListingView do
 
   def approved_text(%{public_approved: approved}), do: approved_text(approved)
   def approved_text(true), do: "Yes, approved"
-  def approved_text(false), do: "No, not yet"
+  def approved_text(false), do: "No, not yet approved"
 
   def qualifications_required_text(%{qualifications_required: qualifications_required}) do
     VolunteerUtils.Choices.labels(

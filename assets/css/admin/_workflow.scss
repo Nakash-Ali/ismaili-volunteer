@@ -1,0 +1,68 @@
+@use "sass:color";
+
+/* TODO: Make this responsive */
+
+$workflow-margin-left: 18px;
+$step-icon-size: 24px;
+$step-icon-border-spacing: 16px;
+
+.workflow {
+	margin-left: $workflow-margin-left;
+	position: relative;
+	overflow: hidden;
+}
+
+.workflow:after {
+	content: "";
+	position: absolute;
+	left: ($step-icon-size / 2);
+	top: 0px;
+	bottom: 0px;
+	width: 1px;
+	background-color: $border-color;
+	z-index: -10;
+}
+
+.step-border {
+	position: relative;
+}
+
+.step-border:after {
+	content: "";
+	position: absolute;
+	left: ($step-icon-size / 2);
+	right: 0px;
+	bottom: 0px;
+	height: 1px;
+	background: linear-gradient(90deg, $border-color 2%, color.change($border-color, $alpha: 0) 24%);
+}
+
+
+.step-title-text {
+	flex-grow: 1;
+	margin-left: 24px;
+}
+
+.step-title-icon {
+	text-align: center;
+	flex-shrink: 0;
+	font-size: $step-icon-size;
+	text-align: center;
+	width: $step-icon-size;
+	position: relative;
+}
+
+.step-title-icon:after {
+	content: "";
+	position: absolute;
+	background: white;
+	top: ($step-icon-border-spacing * -1);
+	bottom: ($step-icon-border-spacing * -1);
+	left: 0px;
+	right: 0px;
+	z-index: -1;
+}
+
+.step-body {
+	margin-left: 48px;
+}

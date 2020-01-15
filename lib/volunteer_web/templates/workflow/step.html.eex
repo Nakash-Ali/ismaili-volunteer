@@ -6,7 +6,7 @@
 		</div>
 	</div>
 	<%= if HTMLHelpers.is_blank?(@step.body) == false do %>
-		<div class="step-body mt-2" id="<%= step_id(@step, "body") %>">
+		<div class="step-body mt-2 last-child-mb-0" id="<%= step_id(@step, "body") %>">
 			<%= @step.body %>
 		</div>
 	<% end %>

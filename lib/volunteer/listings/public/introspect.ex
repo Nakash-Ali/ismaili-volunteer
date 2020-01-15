@@ -1,6 +1,10 @@
 defmodule Volunteer.Listings.Public.Introspect do
   def approved?(%{public_approved: approved}) do
-    approved
+    approved == true
+  end
+
+  def unapproved?(%{public_approved: approved}) do
+    approved == false
   end
 
   def has_expiry?(%{public_expiry_date: expiry_date}) do

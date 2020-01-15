@@ -20,9 +20,9 @@ defmodule VolunteerWeb.ListingView do
 
   def state_text_or_do(listing, %{unapproved: unapproved, expired: expired}, do: content_block) do
     cond do
-      Listings.Public.Introspect.approved?(listing) == false ->
+      Listings.Public.Introspect.unapproved?(listing) ->
         unapproved
-      Listings.Public.Introspect.expired?(listing) == true ->
+      Listings.Public.Introspect.expired?(listing) ->
         expired
       true ->
         content_block
@@ -85,7 +85,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def start_date_and_end_date_text(nil, nil) do
-    "#{end_date_text(nil)} #{start_date_text(nil) |> String.downcase}"
+    "#{start_date_text(nil) |> String.downcase}"
   end
 
   def start_date_and_end_date_text(nil, %Date{} = end_date) do
