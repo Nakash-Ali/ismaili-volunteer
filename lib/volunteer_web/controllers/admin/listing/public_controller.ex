@@ -111,7 +111,6 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
           :warning,
           "Cannot refresh expiry, existing expiry is already more than #{days} days from now."
         )
-
     end
     |> redirect(to: RouterHelpers.admin_listing_public_path(conn, :show, listing))
   end

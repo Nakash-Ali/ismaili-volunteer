@@ -75,18 +75,15 @@ defmodule VolunteerWeb.Admin.MarketingRequestController do
         |> FlashHelpers.put_paragraph_flash(:success, "Marketing request created successfully.")
         |> redirect(to: RouterHelpers.admin_listing_public_path(conn, :show, listing))
 
-      {:error, config, %Ecto.Changeset{} = changeset} ->
-        case VolunteerWeb.ErrorHelpers.get_underscore_errors(changeset) do
-          [] ->
-            conn
-            |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
-            |> render_form(config, changeset, listing_social_image: listing_social_image)
+      {:error, config, %Ecto.Changeset{} = %{errors: [_minimum_channels: _]} = changeset} ->
+        conn
+        |> FlashHelpers.put_paragraph_flash(:error, "At least one channel must be selected!!!.")
+        |> render_form(config, changeset, listing_social_image: listing_social_image)
 
-          errors ->
-            conn
-            |> FlashHelpers.put_underscore_errors(errors)
-            |> render_form(config, changeset, listing_social_image: listing_social_image, underscore_errors: errors)
-        end
+      {:error, config, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(config, changeset, listing_social_image: listing_social_image)
     end
   end
 

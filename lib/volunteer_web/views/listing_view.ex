@@ -85,7 +85,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def start_date_and_end_date_text(nil, nil) do
-    "#{start_date_text(nil) |> String.downcase}"
+    "#{end_date_text(nil)} #{start_date_text(nil) |> String.downcase}"
   end
 
   def start_date_and_end_date_text(nil, %Date{} = end_date) do

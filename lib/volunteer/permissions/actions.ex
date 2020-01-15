@@ -27,22 +27,24 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :group, :role, :delete],
 
     [:admin, :listing, :index],
+    [:admin, :listing, :new],
     [:admin, :listing, :create],
 
     [:admin, :listing, :show],
+    [:admin, :listing, :edit],
     [:admin, :listing, :update],
 
-    [:admin, :listing, :home, :show],
-
-    [:admin, :listing, :public, :show],
     [:admin, :listing, :public, :approve],
     [:admin, :listing, :public, :unapprove],
+
+    [:admin, :listing, :public, :show],
     [:admin, :listing, :public, :request_approval],
     [:admin, :listing, :public, :refresh],
     [:admin, :listing, :public, :expire],
     [:admin, :listing, :public, :reset],
 
     [:admin, :listing, :role, :index],
+    [:admin, :listing, :role, :new],
     [:admin, :listing, :role, :create],
     [:admin, :listing, :role, :delete],
 
@@ -50,10 +52,11 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :listing, :applicant, :export],
 
     [:admin, :listing, :tkn, :show],
+    [:admin, :listing, :tkn, :edit],
     [:admin, :listing, :tkn, :update],
     [:admin, :listing, :tkn, :spec],
 
-    [:admin, :listing, :marketing_request, :show],
+    [:admin, :listing, :marketing_request, :new],
     [:admin, :listing, :marketing_request, :create],
   ])
 

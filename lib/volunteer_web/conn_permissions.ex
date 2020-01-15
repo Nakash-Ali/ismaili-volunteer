@@ -1,10 +1,7 @@
 defmodule VolunteerWeb.ConnPermissions do
   alias VolunteerWeb.UserSession
 
-  @action_name_mapping %{
-    new: :create,
-    edit: :update,
-  }
+  @action_name_mapping %{}
 
   defmodule NotAllowedError do
     defexception message: "forbidden to access this resource", plug_status: 403

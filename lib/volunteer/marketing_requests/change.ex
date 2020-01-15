@@ -124,7 +124,7 @@ defmodule Volunteer.MarketingRequests.Change do
         changeset
 
       false ->
-        add_error(changeset, :_minimum_channels, "At least one channel should be selected")
+        add_error(changeset, :_minimum_channels, "no channels selected")
     end
   end
 end
