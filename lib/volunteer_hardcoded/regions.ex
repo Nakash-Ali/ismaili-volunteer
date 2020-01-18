@@ -65,10 +65,10 @@ defmodule VolunteerHardcoded.Regions do
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "",
+          name: "Zabin Jadavji",
           title: "",
-          email: "",
-          phone: ""
+          email: "zabin.jadavji@iicanada.net",
+          phone: "+1 (403) 968-4853"
         }
       }
     }},
@@ -145,7 +145,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         strategy: :direct,
-        email: ["farah.surani@iicanada.net"],
+        email: ["anita.dharsi-haji@iicanada.net"],
         # NOTE: Do not change this. We can't properly validate requests
         # when regions have different channels available. This is a temporary
         # edge-case that will be corrected later.
@@ -168,10 +168,10 @@ defmodule VolunteerHardcoded.Regions do
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "Sultana Mithani",
+          name: "Shahin Najak",
           title: "Associate Director, TKN",
-          email: "sultana.mithani@iicanada.net",
-          phone: "+1 (604) 376-8818"
+          email: "shahin.najak@iicanada.net",
+          phone: "+1 (778) 999-6457"
         }
       }
     }},
