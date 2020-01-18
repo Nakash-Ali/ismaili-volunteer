@@ -69,6 +69,7 @@ defmodule Volunteer.Listings.Listing do
     field :tkn_education_level, :string, default: ""
     field :tkn_work_experience_years, :string, default: ""
 
+    # TODO: implement this!
     # TODO: move this to logs
     field :tkn_assignment_spec_sent, :boolean, default: false
 

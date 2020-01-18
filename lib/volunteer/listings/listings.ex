@@ -58,6 +58,9 @@ defmodule Volunteer.Listings do
     |> Repo.one!
   end
 
+  # TODO: paginate with https://github.com/duffelhq/paginator
+  # Since listing IDs are sequential, using them is guaranteed to sort by
+  # `created_at` without any consistency issues of duplicates or missed rows
   def get_all_admin(opts \\ []) do
     from(l in base_query())
     |> Public.AdminStateFilters.filter(Keyword.get(opts, :filters, %{}))
