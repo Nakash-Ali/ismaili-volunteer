@@ -8,25 +8,6 @@
 
 <%= WorkflowView.render_step title: "Assignment Specification", state: state do %>
 
-	<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :spec], @listing) do %>
-
-		<p><em>You are not permitted to manage the Assignment Specification for this listing</em></p>
-
-	<% else %>
-
-
-	<% end %>
-
-	<%= if assigns[:listing_valid?] == true do %>
-
-		<p>You can </p>
-
-	<% else %>
-
-		:not_relevant
-
-	<% end %>
-
 	<%= if assigns[:listing_valid?] == true do %>
 
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">

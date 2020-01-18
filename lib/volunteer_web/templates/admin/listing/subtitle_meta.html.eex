@@ -1,5 +1,6 @@
 <% {state_text, state_class} = listing_state_text_and_class(@listing) %>
-<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
+<!-- TODO: Think about this. TKN and Public listings should be treated as equals. This deoesn't do that -->
+<!-- <li class="list-inline-item <%= state_class %>"><%= state_text %></li> -->
 <%= if Volunteer.Listings.Public.Introspect.previewable?(@listing) do %>
 	<li class="list-inline-item">Preview on <%= link "listing", to: RouterHelpers.listing_preview_path(@conn, :show, @listing), target: "_blank" %> page</li>
 	<li class="list-inline-item">Preview on <%= link "home", to: RouterHelpers.listing_preview_path(@conn, :index, @listing), target: "_blank" %> page</li>

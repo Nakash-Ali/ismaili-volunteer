@@ -9,28 +9,40 @@ defmodule VolunteerWeb.HTMLHelpers do
     to = Keyword.fetch!(opts, :to)
     btn = Keyword.get(opts, :btn, "outline-primary")
 
-    if Keyword.has_key?(opts, :class) do
-      raise "Can't use :class in `link_action/1`"
+    opts = Keyword.drop(opts, [:allowed?, :text, :to, :btn])
+
+    if allowed? do
+      VolunteerUtils.Keyword.raise_if_present!(opts, [:class])
+      Phoenix.HTML.Link.link(text, [to: to, class: "btn btn-#{btn}"] ++ opts)
     else
-      opts = Keyword.drop(opts, [:allowed?, :text, :to, :btn])
+      not_allowed = " (not allowed)"
 
-      if allowed? do
-        Phoenix.HTML.Link.link(text, [to: to, class: "btn btn-#{btn}"] ++ opts)
-      else
-        not_allowed = " (not allowed)"
+      text_with_not_allowed =
+        case text do
+          text when is_binary(text) ->
+            text <> not_allowed
 
-        text_with_not_allowed =
-          case text do
-            text when is_binary(text) ->
-              text <> not_allowed
+          {:safe, content} ->
+            {:safe, content ++ [not_allowed]}
+        end
 
-            {:safe, content} ->
-              {:safe, content ++ [not_allowed]}
-          end
-
-        Phoenix.HTML.Tag.content_tag(:button, text_with_not_allowed, [disabled: "disabled", type: "button", class: "btn btn-outline-secondary disabled"] ++ opts)
-      end
+      link_action_disabled([text: text_with_not_allowed, btn: "outline-secondary"] ++ opts)
     end
+  end
+
+  def link_action_disabled(opts) do
+    text = Keyword.fetch!(opts, :text)
+    btn = Keyword.get(opts, :btn, "outline-secondary")
+
+    opts = Keyword.drop(opts, [:text, :btn])
+
+    VolunteerUtils.Keyword.raise_if_present!(opts, [:disabled, :type, :class])
+
+    Phoenix.HTML.Tag.content_tag(
+      :button,
+      text,
+      [disabled: "disabled", class: "haha", type: "button", class: "btn btn-#{btn} disabled"] ++ opts
+    )
   end
 
   def icon_with_text(icon_class, icon_text) do

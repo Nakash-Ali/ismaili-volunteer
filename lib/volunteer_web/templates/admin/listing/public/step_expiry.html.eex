@@ -26,18 +26,15 @@
 				<p>If you'd like the listing to continue to remain public, please refresh it!</p>
 			<% else %>
 				<p>This listing will expire in <%= VolunteerUtils.Temporal.format_relative(@listing.public_expiry_date) %>. We'll automatically notify you closer to the expiry date.</p>
-				<p><strong>If you're all done with this listing, please don't forget to archive it!</strong>
+				<p><strong>If you're all done with this listing, please don't forget to expire and archive it!</strong>
 			<% end %>
 		<% end %>
 
 		<div class="btn-toolbar mt-2 font-family-sans-serif" role="toolbar">
 			<div class="btn-group mr-2q" role="group">
 				<%= if Volunteer.Listings.Public.Introspect.expired?(@listing) do %>
-					<%= HTMLHelpers.link_action(
-							allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :reset], @listing),
-							text: "Reset Workflow",
-							to: RouterHelpers.admin_listing_public_path(@conn, :reset, @listing),
-							method: :post
+					<%= HTMLHelpers.link_action_disabled(
+							text: HTMLHelpers.icon_with_text("far fa-times-circle", "Listing archived"),
 					) %>
 				<% else %>
 					<%= HTMLHelpers.link_action(
@@ -58,7 +55,12 @@
 							data: [confirm: "Are you sure?"]
 					) %>
 				<% else %>
-					<button disabled class="btn btn-outline-secondary"><%= HTMLHelpers.icon_with_text("far fa-times-circle", "Listing archived") %></button>
+					<%= HTMLHelpers.link_action(
+							allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :public, :reset], @listing),
+							text: "Reset Workflow",
+							to: RouterHelpers.admin_listing_public_path(@conn, :reset, @listing),
+							method: :post
+					) %>
 				<% end %>
 			</div>
 		</div>
