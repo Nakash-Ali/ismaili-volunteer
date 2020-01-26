@@ -40,7 +40,7 @@ defmodule Volunteer.Commands do
           @default_port_opts ++ [args: pkill_args]
         )
 
-      case loop(port, 2_000, {"", nil}) do
+      case loop(port, 4_000, {"", nil}) do
         {:timeout, _acc, _status} ->
           raise "Timed-out when trying to terminate #{cmd}"
 
@@ -49,6 +49,7 @@ defmodule Volunteer.Commands do
           :ok
 
         {:ok, _acc, _status} ->
+          IO.puts("Killed zombie cmd: #{inspect(cmd)} with args: #{inspect(cmd_args)}")
           :ok
       end
     end
