@@ -1,11 +1,7 @@
 {
 	"minify": true,
 	"classPrefix": "mod-",
-	"options": [
-		"domPrefixes",
-		"prefixes",
-		"setClasses"
-	],
+	"options": ["domPrefixes", "prefixes", "setClasses"],
 	"feature-detects": [
 		"test/history",
 		"test/inputtypes",

@@ -62,6 +62,12 @@ config :volunteer, VolunteerEmail.Mailer,
   adapter: VolunteerEmail.WrapperAdapter,
   wrapped_adapter: Bamboo.LocalAdapter
 
+# Configure funcs
+config :volunteer, Volunteer.Funcs,
+  url: nil,
+  basic_auth_name: nil,
+  basic_auth_pass: nil
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

@@ -1,1 +1,1 @@
-npx prettier --write "{assets,infra,priv,sync}/**/*.{js,jsx,json}"
+npx prettier --write "{assets,funcs}/**/*.{js,jsx,json}"

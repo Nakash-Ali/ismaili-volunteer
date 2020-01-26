@@ -34,4 +34,6 @@ else
   exit 1
 fi
 
+gcloud functions deploy $FUNCS_NAME --entry-point=process --region=$FUNCS_REGION --runtime=nodejs10 --memory=1024MB --trigger-http --allow-unauthenticated --source=./funcs --timeout=30 --max-instances=10 --set-env-vars FUNCS_BASIC_AUTH_NAME=$FUNCS_BASIC_AUTH_NAME,FUNCS_BASIC_AUTH_PASS=$FUNCS_BASIC_AUTH_PASS
+
 rm -f git-sha app-generated.yaml

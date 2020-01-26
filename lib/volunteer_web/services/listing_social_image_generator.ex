@@ -1,5 +1,5 @@
 defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
-  alias Volunteer.Commands
+  alias Volunteer.Funcs
   alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
   @disk_dir VolunteerWeb.Endpoint.static_dir(["images", "listing"])
@@ -41,17 +41,12 @@ defmodule VolunteerWeb.Services.ListingSocialImageGenerator do
     end
 
     def generate_image!(webpage_url, disk_dir, disk_path) do
-      :ok = File.mkdir_p!(disk_dir)
+      {:ok, screenshot_data} = Funcs.run!("webpage_screenshot", %{webpageUrl: webpage_url})
 
-      Commands.NodeJS.run(
-        "do_webpage_screenshot",
-        [
-          %{
-            webpageUrl: webpage_url,
-            outputPath: disk_path
-          }
-        ]
-      )
+      :ok = File.mkdir_p!(disk_dir)
+      :ok = File.write!(disk_path, screenshot_data, [:sync])
+
+      {:ok, screenshot_data}
     end
 
     def image_disk_path(disk_dir, listing_id, listing_updated_at) do

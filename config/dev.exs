@@ -20,6 +20,12 @@ config :volunteer, VolunteerWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+# Configure funcs
+config :volunteer, Volunteer.Funcs,
+  url: "http://localhost:8080",
+  basic_auth_name: "ots",
+  basic_auth_pass: "ots"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

@@ -2,11 +2,7 @@ const nodeResolve = require('rollup-plugin-node-resolve')
 const commonJs = require('rollup-plugin-commonjs')
 const babel = require('rollup-plugin-babel')
 
-const FILE_NAMES = [
-	'app',
-	'drafterize_form',
-	'stimulus',
-]
+const FILE_NAMES = ['app', 'drafterize_form', 'stimulus']
 
 function buildConfig(name) {
 	return {

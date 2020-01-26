@@ -50,6 +50,7 @@ defmodule Volunteer.Mixfile do
       {:ecto_sql, "~> 3.2"},
       {:faker, "~> 0.13", only: [:dev, :test]},
       {:gettext, "~> 0.13"},
+      {:httpoison, "~> 1.6"},
       {:jason, "~> 1.0"},
       {:jose, "~> 1.10"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},

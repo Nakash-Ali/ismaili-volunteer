@@ -5,5 +5,5 @@ set -ex
 (cd ./assets &&\
   npm install && npm prune && npm audit fix && npm dedupe)
 
-(cd ./priv/commands &&\
+(cd ./funcs &&\
   npm install && npm prune && npm audit fix && npm dedupe)

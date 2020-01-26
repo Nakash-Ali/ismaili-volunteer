@@ -1,8 +1,8 @@
 defmodule Volunteer.PhoneNormalizer do
-  alias Volunteer.Commands
+  alias Volunteer.Funcs
 
   @command_name "normalize_phone_number"
-  @format "E164"
+  @format "INTERNATIONAL"
   @region "CA"
 
   def default_region() do
@@ -27,42 +27,25 @@ defmodule Volunteer.PhoneNormalizer do
 
   def normalize(number)  do
     @command_name
-    |> Commands.NodeJS.run([%{number: number, format: @format}])
+    |> Funcs.run!(%{number: number, format: @format})
     |> validate_result()
-    |> List.first()
   end
 
   def normalize(number, region) do
     @command_name
-    |> Commands.NodeJS.run([%{number: number, region: region, format: @format}])
+    |> Funcs.run!(%{number: number, region: region, format: @format})
     |> validate_result()
-    |> List.first()
   end
 
-  def normalize_or_default(number, region, default \\ "") do
-    case normalize(number, region) do
-      {:ok, number, _region} ->
-        number
-
-      {:error, _reason} ->
-        default
-    end
+  defp validate_result({:error, %{"error" => "invalid phone number"}}) do
+    {:error, "Invalid phone number"}
   end
 
-  defp validate_result({:error, _} = error) do
-    error
+  defp validate_result({:error, %{"error" => "invalid phone number for region"}}) do
+    {:error, "Invalid phone number for region"}
   end
 
-  defp validate_result({:ok, result}) do
-    Enum.map(result, fn
-      %{"valid" => true, "number" => number, "region" => region} ->
-        {:ok, number, region}
-
-      %{"valid" => false, "error" => %{"message" => message}} ->
-        {:error, message}
-
-      _ ->
-        {:error, "unknown"}
-    end)
+  defp validate_result({:ok, %{"number" => number, "region" => region}}) do
+    {:ok, number, region}
   end
 end

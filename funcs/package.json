@@ -1,0 +1,17 @@
+{
+	"name": "ots-funcs",
+	"version": "1.0.0",
+	"dependencies": {
+		"ajv": "^6.11.0",
+		"basic-auth": "^2.0.1",
+		"google-libphonenumber": "^3.2.6",
+		"puppeteer": "^2.0.0"
+	},
+	"devDependencies": {
+		"@google-cloud/functions-framework": "^1.3.2"
+	},
+	"scripts": {
+		"start": "./node_modules/.bin/functions-framework --target=process",
+		"watch": "watchexec -e js -r 'npm run start'"
+	}
+}

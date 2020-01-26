@@ -1,5 +1,5 @@
 defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
-  alias Volunteer.Commands
+  alias Volunteer.Funcs
   alias VolunteerWeb.Router.Helpers, as: RouterHelpers
 
   @disk_dir VolunteerWeb.Endpoint.static_dir(["pdfs", "tkn_assignment_specs"])
@@ -58,17 +58,12 @@ defmodule VolunteerWeb.Services.TKNAssignmentSpecGenerator do
     end
 
     def generate_pdf(webpage_url, disk_dir, disk_path) do
-      :ok = File.mkdir_p!(disk_dir)
+      {:ok, pdf_data} = Funcs.run!("webpage_pdf", %{webpageUrl: webpage_url})
 
-      Commands.NodeJS.run(
-        "do_webpage_pdf",
-        [
-          %{
-            webpageUrl: webpage_url,
-            outputPath: disk_path
-          }
-        ]
-      )
+      :ok = File.mkdir_p!(disk_dir)
+      :ok = File.write!(disk_path, pdf_data, [:sync])
+
+      {:ok, pdf_data}
     end
 
     def pdf_disk_path(disk_dir, listing_id, listing_updated_at, tkn_listing_updated_at) do

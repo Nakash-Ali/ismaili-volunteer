@@ -53,6 +53,12 @@ config :volunteer, VolunteerEmail.Mailer,
   wrapped_adapter: require_env!.("MAILER_WRAPPED_ADAPTER"),
   api_key: System.get_env("MAILER_API_KEY", nil)
 
+# Configure funcs
+config :volunteer, Volunteer.Funcs,
+  url: require_env!.("FUNCS_URL"),
+  basic_auth_name: require_env!.("FUNCS_BASIC_AUTH_NAME"),
+  basic_auth_pass: require_env!.("FUNCS_BASIC_AUTH_PASS")
+
 # Configure Ueberauth
 config :ueberauth, Ueberauth,
   providers: [
