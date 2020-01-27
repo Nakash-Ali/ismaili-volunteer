@@ -15,7 +15,7 @@ defmodule Volunteer.Funcs do
       @url,
       body,
       [{"Content-type", "application/json"}],
-      [recv_timeout: 30_000, hackney: [basic_auth: {@basic_auth_name, @basic_auth_pass}]]
+      [recv_timeout: 30_000, follow_redirect: true, hackney: [basic_auth: {@basic_auth_name, @basic_auth_pass}]]
     )
     |> case do
       %{status_code: 200, headers: headers, body: body} ->
