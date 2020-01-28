@@ -14,22 +14,28 @@ defmodule Volunteer.Funcs do
     HTTPoison.post!(
       @url,
       body,
-      [{"Content-type", "application/json"}],
+      [{"content-type", "application/json"}],
       [recv_timeout: 30_000, hackney: [basic_auth: {@basic_auth_name, @basic_auth_pass}]]
     )
     |> case do
-      %{status_code: 200, headers: headers, body: body} ->
+      %{status_code: 200, headers: headers, body: body} = response ->
         headers
-        |> fetch_header!("Content-Type")
+        |> :hackney_headers.new
+        |> (&(:hackney_headers.get_value("content-type", &1))).()
+        |> :hackney_headers.content_type
         |> case do
-          "application/json" ->
+          {"application", "json", _} ->
             {:ok, Jason.decode!(body)}
 
-          "application/pdf" ->
+          {"application", "pdf", _} ->
             {:ok, body}
 
-          "image/png" ->
+          {"image", "png", _} ->
             {:ok, body}
+
+          content_type ->
+            IO.inspect(response)
+            raise "Unsupported content type of `#{content_type}` for Volunteer.Funcs"
         end
 
       %{status_code: 400, body: body} ->
