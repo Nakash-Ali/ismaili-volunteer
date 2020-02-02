@@ -1,5 +1,6 @@
 name:                     Deploy
 
+# TODO: get deliverybot working correctly
 on:                       ['deployment']
 
 jobs:
@@ -13,98 +14,79 @@ jobs:
         with:
           fetch-depth:    1
 
-      - name:             Github context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      - name:             Env context
-        env:
-          ENV_CONTEXT: ${{ toJson(env) }}
-        run: echo "$ENV_CONTEXT"
-
-      - name:             Deployment pending
-        uses:             deliverybot/deployment-status@master
+      - name:             'deployment pending'
+        uses:             'deliverybot/deployment-status@master'
         with:
-          state:          pending
-          token:          ${{ github.token }}
+          state:          'pending'
+          token:          '${{ github.token }}'
 
-      # - name:             Setup Elixir
-      #   uses:             actions/setup-elixir@1.0.0
-      #   with:
-      #     elixir-version: 1.9.4
-      #     otp-version:    21.3.8.10
-      #     install-hex:    true
-      #     install-rebar:  true
-      #
-      # - name:             Cache `_build` folder
-      #   uses:             actions/cache@v1
-      #   with:
-      #     path:           "./_build"
-      #     key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
-      #
-      # - name:             Cache `deps` folder
-      #   uses:             actions/cache@v1
-      #   with:
-      #     path:           "./deps"
-      #     key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-deps
-      #
-      # - name:             Cache `redirect/node_modules` folder
-      #   uses:             actions/cache@v1
-      #   with:
-      #     path:           "./redirect/node_modules"
-      #     key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('redirect/package-lock.json') }}-redirect
-      #
-      # - name:             Refresh `redirect` packages
-      #   run:              (cd redirect && npm install)
-      #
-      # - name:             Refresh Elixir deps
-      #   run:              "./refresh_elixir_deps.sh"
-      #
-      # - name:             Decrypt secrets
-      #   run:              "./infra_decrypt.sh"
-      #   env:
-      #     INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
-      #
-      # - name:             Compile
-      #   run:              |
-      #     source <(elixir ./infra/generate-envvars.exs --env prod)
-      #     MIX_ENV=prod mix compile --warnings-as-errors --force
-      #
-      # - name:             Setup GCP CLI
-      #   run:              |
-      #     source <(elixir ./infra/generate-envvars.exs --env prod)
-      #     gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
-      #     gcloud config set project $GCLOUD_PROJECT
-      #     gcloud config set app/cloud_build_timeout 60m
-      #
-      # - name:             Setup GCP CloudSQL Proxy
-      #   run:              |
-      #     wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-      #     chmod +x cloud_sql_proxy
-      #     sudo mkdir /cloudsql
-      #     sudo chmod 777 /cloudsql
-      #     ./cloud_sql_proxy -dir=/cloudsql &
-      #
-      # - name:             Migrate & Seed Production Database
-      #   run:              |
-      #     source <(elixir ./infra/generate-envvars.exs --env prod)
-      #     MIX_ENV=prod mix ecto.migrate
-      #     MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
-      #
-      # - name:             Deploy to Production
-      #   run:              "./deploy.sh prod"
+      - name:             Setup Elixir
+        uses:             actions/setup-elixir@1.0.0
+        with:
+          elixir-version: 1.9.4
+          otp-version:    21.3.8.10
+          install-hex:    true
+          install-rebar:  true
 
-      - name:             Deployment success
+      - name:             Cache `_build` folder
+        uses:             actions/cache@v1
+        with:
+          path:           "./_build"
+          key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
+
+      - name:             Cache `deps` folder
+        uses:             actions/cache@v1
+        with:
+          path:           "./deps"
+          key:            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-deps
+
+      - name:             Refresh Elixir deps
+        run:              "./refresh_elixir_deps.sh"
+
+      - name:             Decrypt secrets
+        run:              "./infra-decrypt.sh"
+        env:
+          INFRA_GPG_PASS: ${{ secrets.INFRA_GPG_PASS }}
+
+      - name:             Compile
+        run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
+          MIX_ENV=prod mix compile --warnings-as-errors --force
+
+      - name:             Setup GCP CLI
+        run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
+          gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
+          gcloud config set project $GCLOUD_PROJECT
+          gcloud config set app/cloud_build_timeout 60m
+
+      - name:             Setup GCP CloudSQL Proxy
+        run:              |
+          wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+          chmod +x cloud_sql_proxy
+          sudo mkdir /cloudsql
+          sudo chmod 777 /cloudsql
+          ./cloud_sql_proxy -dir=/cloudsql &
+
+      - name:             Migrate & Seed Production Database
+        run:              |
+          source <(elixir ./infra/generate-envvars.exs --env prod)
+          MIX_ENV=prod mix ecto.migrate
+          MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
+
+      - name:             Deploy to Production
+        run:              "./deploy.sh prod"
+
+      - name:             'deployment success'
         if:               success()
-        uses:             deliverybot/deployment-status@master
+        uses:             'deliverybot/deployment-status@master'
         with:
-          state:          success
-          token:          ${{ github.token }}
+          state:          'success'
+          token:          '${{ github.token }}'
 
-      - name:             Deployment failure
+      - name:             'deployment failure'
         if:               failure()
-        uses:             deliverybot/deployment-status@master
+        uses:             'deliverybot/deployment-status@master'
         with:
-          state:          failure
-          token:          ${{ github.token }}
+          state:          'failure'
+          token:          '${{ github.token }}'
