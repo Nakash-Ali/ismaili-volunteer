@@ -225,7 +225,7 @@ defmodule VolunteerHardcoded.Regions do
       },
       marketing_request: %{
         strategy: :direct,
-        email: ["jahangir.valliani@iicanada.net"],
+        email: ["ali.tejpar@iicanada.net"],
         # NOTE: Do not change this. We can't properly validate requests
         # when regions have different channels available. This is a temporary
         # edge-case that will be corrected later.
