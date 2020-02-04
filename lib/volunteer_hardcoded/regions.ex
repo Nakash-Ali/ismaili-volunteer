@@ -239,10 +239,10 @@ defmodule VolunteerHardcoded.Regions do
       tkn: %{
         country: "Canada",
         coordinator: %{
-          name: "Farhan Bhayani",
+          name: "Rahim Maknojia",
           title: "Associate Director, TKN",
-          email: "farhan.bhayani@iicanada.net",
-          phone: ""
+          email: "rahim.maknojia@iicanada.net",
+          phone: "+1 (343) 987-8300"
         }
       }
     }},

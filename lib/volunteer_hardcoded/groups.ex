@@ -411,5 +411,41 @@ defmodule VolunteerHardcoded.Groups do
       title: "Ismaili Centre, Vancouver",
       region_id: Regions.get_id_from_title!("British Columbia"),
     }},
+    {103, %{
+      title: "Data Management & Technology Portfolio Canada",
+      region_id: Regions.get_id_from_title!("Canada"),
+    }},
+    {104, %{
+      title: "Data Management & Technology Portfolio Ontario",
+      region_id: Regions.get_id_from_title!("Ontario"),
+    }},
+    {105, %{
+      title: "Data Management & Technology Portfolio Ottawa",
+      region_id: Regions.get_id_from_title!("Ottawa"),
+    }},
+    {106, %{
+      title: "Data Management & Technology Portfolio Edmonton",
+      region_id: Regions.get_id_from_title!("Edmonton"),
+    }},
+    {107, %{
+      title: "Data Management & Technology Portfolio Prairies",
+      region_id: Regions.get_id_from_title!("Prairies"),
+    }},
+    {108, %{
+      title: "Data Management & Technology Portfolio British Columbia",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+    }},
+    {109, %{
+      title: "Data Management & Technology Portfolio Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+    }},
+    {110, %{
+      title: "Health Board Canada",
+      region_id: Regions.get_id_from_title!("Canada"),
+    }},
+    {111, %{
+      title: "ITREB Canada",
+      region_id: Regions.get_id_from_title!("Canada"),
+    }},
   ]
 end
