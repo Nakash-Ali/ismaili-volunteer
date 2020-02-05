@@ -1,0 +1,71 @@
+@use "sass:color";
+
+/* TODO: Make this responsive */
+
+.workflow-vertical {
+	$workflow-line-width: 1px;
+	$step-icon-size: 20px;
+	$step-icon-line-spacing: 16px;
+	$step-title-margin-left: 20px;
+
+	// NOTE: This is based on the logo image
+	// margin-left: 18px;
+
+	position: relative;
+	overflow: hidden;
+
+	&:after {
+		content: "";
+		position: absolute;
+		left: ($step-icon-size / 2) - ($workflow-line-width / 2);
+		top: 0px;
+		bottom: 0px;
+		width: $workflow-line-width;
+		background-color: $gray-400;
+		z-index: -10;
+	}
+
+	.step-title-text {
+		margin-left: $step-title-margin-left;
+	}
+
+	.step-title-icon {
+		line-height: 1;
+		text-align: center;
+		flex-shrink: 0;
+		font-size: $step-icon-size;
+		text-align: center;
+		width: $step-icon-size;
+		position: relative;
+	}
+
+	.step-title-icon:after {
+		content: "";
+		position: absolute;
+		background: white;
+		top: ($step-icon-line-spacing * -1);
+		bottom: ($step-icon-line-spacing * -1);
+		left: 0px;
+		right: 0px;
+		z-index: -1;
+	}
+
+	.step-indented-content {
+		margin-left: $step-icon-size + $step-title-margin-left;
+	}
+
+	.step-warning .step-title-text h6 {
+		color: white !important;
+		&:after {
+			content: "";
+			position: absolute;
+			top: -2px;
+			bottom: -3px;
+			left: -10px;
+			right: -10px;
+			background: #ff4733;
+			z-index: -1;
+			border-radius: 8px;
+		}
+	}
+}

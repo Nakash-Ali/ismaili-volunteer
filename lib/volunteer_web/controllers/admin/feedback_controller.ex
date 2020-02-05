@@ -1,5 +1,9 @@
 defmodule VolunteerWeb.Admin.FeedbackController do
   use VolunteerWeb, :controller
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
+
+  plug :track,
+    resource: "feedback"
 
   def index(conn, _params) do
     admin_feedback_anonymize = VolunteerWeb.UserPrefs.get!(conn, :admin_feedback_anonymize)

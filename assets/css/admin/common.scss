@@ -1,6 +1,7 @@
 @import "../base";
 @import "../listing-meta";
 @import "../listing-textblob";
+@import "workflow";
 
 section.title {
 	background: #F7F7F7;
@@ -10,10 +11,6 @@ section.title {
 
 .alert + section.title {
 	border-top: 0px;
-}
-
-section.title .nav-tabs {
-	margin-bottom: -1px;
 }
 
 .form-group trix-editor {

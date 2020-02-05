@@ -1,0 +1,9 @@
+<div style="margin-bottom: -0.5rem" class="font-family-sans-serif d-flex flex-row flex-wrap align-items-center justify-content-start">
+	<%= for action <- @actions do %>
+		<%= if not HTMLHelpers.is_blank?(action) do %>
+			<div class="mr-2q mb-2q">
+				<%= [action] %>
+			</div>
+		<% end %>
+	<% end %>
+</div>

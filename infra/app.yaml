@@ -2,8 +2,6 @@ env: flex
 runtime: gs://elixir-runtime/elixir-2019-10-29-183530.yaml
 runtime_config:
   release_app: volunteer
-  packages:
-    - rustc
   build:
     - 'cd assets && npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" <%= font_awesome.auth_token %> && NODE_ENV=development npm install && npm run production && cd .. && mix phx.digest'
 
@@ -13,6 +11,7 @@ skip_files:
   - ".git"
   - "infra"
   - "funcs"
+  - "redirect"
   - "assets/node_modules"
   - "priv/static"
   - "test"

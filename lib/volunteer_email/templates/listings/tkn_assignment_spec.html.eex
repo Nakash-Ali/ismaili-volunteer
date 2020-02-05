@@ -1,0 +1,12 @@
+<p>Ya Ali Madad,</p>
+
+<p><%= Title.plain(@requested_by) %> has submitted a <strong>TKN Assignment Specification</strong> for processing:</p>
+
+<p><strong><a href="<%= @spec_url %>"><%= @spec_url %></a></strong></p>
+
+<p>This Assignment Specification was generated automatically for the following listing:</p>
+
+<p><%= render LayoutView, "many_definition_lists.html", sections: ([:reference] |> Enum.map(&VolunteerWeb.Admin.ListingView.definition_list(&1, @listing))) %></p>
+
+<p>Best Regards,<br>
+<%= Application.fetch_env!(:volunteer, :global_title) %></p>

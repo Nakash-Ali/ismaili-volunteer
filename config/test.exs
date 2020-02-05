@@ -24,6 +24,12 @@ config :volunteer, Volunteer.Repo,
 # Print only warnings and errors during test
 config :logger, level: :info
 
+# Configure funcs
+config :volunteer, Volunteer.Funcs,
+  url: System.get_env("FUNCS_URL") || "http://localhost:8080",
+  basic_auth_name: "ots",
+  basic_auth_pass: "ots"
+
 # Configure mailer
 config :volunteer, VolunteerEmail.Mailer,
   adapter: VolunteerEmail.WrapperAdapter,

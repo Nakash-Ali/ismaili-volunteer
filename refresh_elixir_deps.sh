@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -xeuf -o pipefail
 
 mix deps.get
 mix deps.unlock --unused

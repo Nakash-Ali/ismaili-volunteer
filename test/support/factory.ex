@@ -48,7 +48,6 @@ defmodule Volunteer.TestSupport.Factory do
     def listing(overrides) do
       %{
         id: Volunteer.TestSupport.IntegerAgent.get(),
-        expiry_date: Faker.DateTime.forward(6),
         created_by_id: Volunteer.TestSupport.IntegerAgent.get(),
         position_title: Faker.Superhero.name(),
         program_title: Faker.Commerce.department(),
@@ -59,11 +58,13 @@ defmodule Volunteer.TestSupport.Factory do
         start_date: Faker.Date.backward(100),
         end_date: Faker.Date.forward(200),
         time_commitment_amount: Faker.random_between(1, 10),
-        time_commitment_type: Volunteer.Listings.Listing.time_commitment_type_choices() |> Enum.random(),
+        time_commitment_type: Volunteer.Listings.Change.time_commitment_type_choices() |> Enum.random(),
         program_description: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         responsibilities: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         qualifications: Faker.Lorem.sentences(2..5) |> Enum.join(" "),
         qualifications_required: [],
+        # TODO: this should nnot be required for default listings
+        # public_expiry_date: Faker.DateTime.forward(6),
       }
       |> Map.merge(overrides)
     end
@@ -133,18 +134,18 @@ defmodule Volunteer.TestSupport.Factory do
 
     organized_by_id = Map.get_lazy(overrides, :organized_by_id, fn -> user!().id end)
 
-    expiry_date =
+    public_expiry_date =
       if Map.get(opts, :expired?, false) do
         Faker.DateTime.between(inserted_at, Faker.DateTime.backward(1))
       else
         Faker.DateTime.forward(8)
       end
 
-    {approved, approved_on, approved_by_id} =
+    {public_approved, public_approved_on, public_approved_by_id} =
       if Map.get(opts, :approved?, false) do
-        approved_on = Faker.DateTime.between(inserted_at, Faker.DateTime.backward(1))
-        approved_by_id = Map.get_lazy(overrides, :approved_by_id, fn -> user!().id end)
-        {true, approved_on, approved_by_id}
+        public_approved = Faker.DateTime.between(inserted_at, Faker.DateTime.backward(1))
+        public_approved_by_id = Map.get_lazy(overrides, :public_approved_by_id, fn -> user!().id end)
+        {true, public_approved, public_approved_by_id}
       else
         {false, nil, nil}
       end
@@ -155,10 +156,10 @@ defmodule Volunteer.TestSupport.Factory do
       group_id: group_id,
       created_by_id: created_by_id,
       organized_by_id: organized_by_id,
-      expiry_date: expiry_date,
-      approved: approved,
-      approved_on: approved_on,
-      approved_by_id: approved_by_id
+      public_expiry_date: public_expiry_date,
+      public_approved: public_approved,
+      public_approved_on: public_approved_on,
+      public_approved_by_id: public_approved_by_id
     }
     |> Map.merge(overrides)
     |> Params.listing()

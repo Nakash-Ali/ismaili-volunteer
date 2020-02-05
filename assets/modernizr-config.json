@@ -24,7 +24,6 @@
 		"test/css/transformslevel2",
 		"test/css/transitions",
 		"test/dom/classlist",
-		"test/forms/inputnumber-l10n",
 		"test/forms/validation",
 		"test/url/urlsearchparams"
 	]

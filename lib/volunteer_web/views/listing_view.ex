@@ -3,7 +3,6 @@ defmodule VolunteerWeb.ListingView do
   alias VolunteerUtils.Temporal
   alias VolunteerWeb.Presenters.{Title, Social}
   alias VolunteerWeb.FormView
-  alias VolunteerWeb.HTMLHelpers
 
   use VolunteerWeb, :view
 
@@ -19,11 +18,11 @@ defmodule VolunteerWeb.ListingView do
     """
   end
 
-  def state_text_or_do(listing, %{unapproved: unapproved, expired: expired}, do: content_block) do
+  def state_text_or_do(listing, %{non_public: non_public, expired: expired}, do: content_block) do
     cond do
-      Listings.Listing.is_approved?(listing) == false ->
-        unapproved
-      Listings.Listing.is_expired?(listing) == true ->
+      Listings.Public.Introspect.non_public?(listing) ->
+        non_public
+      Listings.Public.Introspect.expired?(listing) ->
         expired
       true ->
         content_block
@@ -32,7 +31,7 @@ defmodule VolunteerWeb.ListingView do
 
   def state_text_or_social_buttons(listing, opts) do
     state_text_or_do(listing, %{
-      unapproved: ~E"""
+      non_public: ~E"""
                   <%= state_text_wrapper ["bg-danger"] do %>This position is <strong>not approved</strong> by the respective board or portfolio for public distribution.<% end %>
                   """,
       expired: ~E"""
@@ -42,7 +41,7 @@ defmodule VolunteerWeb.ListingView do
   end
 
   def state_text_or_apply(listing, opts) do
-    state_text_or_do(listing, %{unapproved: nil, expired: nil}, opts)
+    state_text_or_do(listing, %{non_public: nil, expired: nil}, opts)
   end
 
   def transform_textblob_content(raw_html) do
@@ -105,7 +104,12 @@ defmodule VolunteerWeb.ListingView do
     Temporal.format_datetime!(datetime)
   end
 
-  def expires_in(%{expiry_date: expiry_date}) do
+  # TODO: think about this some more
+  def expiry_datetime_text(nil) do
+    nil
+  end
+
+  def expires_in(%{public_expiry_date: expiry_date}) do
     Temporal.format_relative(expiry_date)
   end
 

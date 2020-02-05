@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -xeuf -o pipefail
 
 ./local_compile.sh
 

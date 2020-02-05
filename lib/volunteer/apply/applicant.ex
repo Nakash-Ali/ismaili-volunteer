@@ -5,6 +5,7 @@ defmodule Volunteer.Apply.Applicant do
   alias Volunteer.Accounts.User
 
   schema "applicants" do
+    # TODO: enable editing functionality through opaque IDs (instead of overwriting!)
     field :opaque_id, :binary_id
 
     belongs_to :listing, Listing

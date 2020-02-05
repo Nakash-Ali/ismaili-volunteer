@@ -1,10 +1,10 @@
 <p>Ya Ali Madad,</p>
 
-<p>The following listing has been <strong>unapproved by <%= Title.plain(@action_by) %></strong>, and should now be totally publically inaccessible.</p>
+<p>The following listing has been <strong>unapproved by <%= Title.plain(@action_by) %></strong>, and should now be publically inaccessible.</p>
 
 <p>Please note the Communications Team for your region and the admins for your board/portfolio have been cc'ed in this email for any follow-up.</p>
 
-<p><%= render LayoutView, "many_definition_lists.html", sections: ([:links, :expiry, :approval, :details, :textblob, :meta] |> Enum.map(&VolunteerWeb.Admin.ListingView.definition_list(&1, @listing))) %></p>
+<p><%= render LayoutView, "many_definition_lists.html", sections: ([:reference] |> Enum.map(&VolunteerWeb.Admin.ListingView.definition_list(&1, @listing))) %></p>
 
 <p>Best Regards,<br>
 <%= Application.fetch_env!(:volunteer, :global_title) %></p>

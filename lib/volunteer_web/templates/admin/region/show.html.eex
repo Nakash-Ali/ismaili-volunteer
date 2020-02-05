@@ -3,49 +3,33 @@
 <%= render "request_changes.html", assigns %>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:hierarchy, @region, @conn) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:hierarchy, @region, @conn) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:groups, @region, @conn) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:groups, @region, @conn) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:jamatkhanas, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:jamatkhanas, @region) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:links, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:links, @region) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:tkn, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:tkn, @region) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:marketing, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:marketing, @region) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:jumbotron, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:jumbotron, @region) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container mt-3 mb-5">
-	<%= for {title, body} <- definition_list(:meta, @region) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:meta, @region) |> AdminView.render_definition_list %>
 </section>

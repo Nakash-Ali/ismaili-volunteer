@@ -83,7 +83,7 @@ defmodule Volunteer.Roles.Role do
     |> check_constraint(
       :_exclusive_arc,
       name: :exclusive_arc,
-      message: "A role cannot be associated with multiple subjects."
+      message: "cannot associate with multiple subjects."
     )
   end
 
@@ -102,7 +102,7 @@ defmodule Volunteer.Roles.Role do
     |> unique_constraint(
       :_unique_relation,
       name: "roles_user_id_#{subject_type}_id_not_null_unique",
-      message: "This user has already been assigned a role for this #{subject_type}. Please delete that first before creating a new one."
+      message: "unique relation required"
     )
   end
 

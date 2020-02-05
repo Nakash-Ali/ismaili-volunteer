@@ -22,6 +22,8 @@ import 'phoenix_html'
 import 'popper.js'
 import 'bootstrap/js/dist/button'
 import 'bootstrap/js/dist/dropdown'
+import 'bootstrap/js/dist/collapse'
+import 'bootstrap/js/dist/tab'
 
 // Import local files
 //

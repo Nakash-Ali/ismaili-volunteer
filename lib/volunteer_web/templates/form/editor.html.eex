@@ -1,4 +1,3 @@
-<!-- <div class="form-group row mb-2 mt-3"> -->
 <%= textarea_hidden_input @form, @field %>
 <trix-editor class="<%= HTMLHelpers.io_join(["form-control"] ++ ErrorHelpers.error_classes(@form, @field)) %>" input="<%= input_id @form, @field %>" placeholder="<%= @placeholder %>"></trix-editor>
 <%= help_text assigns %>

@@ -5,7 +5,7 @@ defmodule VolunteerWeb.Router do
   import VolunteerWeb.SessionIdentifier.Plugs, only: [ensure_unique_session_identifier: 2]
   import VolunteerWeb.ConnPermissions.Plugs, only: [ensure_permissioned: 2]
   import VolunteerWeb.UserSession.Plugs, only: [authenticate_user: 2, ensure_authenticated: 2, annotate_roles_for_user: 2]
-  import VolunteerWeb.UserPrefs, only: [fetch_user_prefs: 2]
+  import VolunteerWeb.UserPrefs.Plugs, only: [fetch_user_prefs: 2]
 
   @user_prefs %{
     admin_feedback_anonymize: {:boolean, false}
@@ -27,7 +27,6 @@ defmodule VolunteerWeb.Router do
     plug :authenticate_user
     plug :configure_sentry_context
     plug :fetch_user_prefs, @user_prefs
-    # plug VolunteerWeb.HTMLMinifier
   end
 
   pipeline :api do
@@ -74,18 +73,17 @@ defmodule VolunteerWeb.Router do
     get "/privacy", DisclaimersController, :privacy
     get "/terms", DisclaimersController, :terms
 
-    scope "/listings/:id" do
-      get "/", ListingController, :show
-      post "/", ListingController, :create_applicant
+    resources "/listings", ListingController, only: [:show] do
+      post "/apply", Listing.ApplyController, :create
 
       scope "/social_image" do
-        get "/show", ListingSocialImageController, :show
-        get "/png", ListingSocialImageController, :png
+        get "/show", Listing.SocialImageController, :show
+        get "/png", Listing.SocialImageController, :png
       end
 
       scope "/preview" do
-        get "/index/", ListingPreviewController, :index
-        get "/show/", ListingPreviewController, :show
+        get "/index/", Listing.PreviewController, :index
+        get "/show/", Listing.PreviewController, :show
       end
     end
 
@@ -96,35 +94,39 @@ defmodule VolunteerWeb.Router do
 
       get "/", IndexController, :index
 
-      scope "/listings" do
-        resources "/", ListingController do
-          resources "/roles", RoleController, only: [:index, :new, :create, :delete]
-
-          scope "/tkn_listing" do
-            resources "/", TKNListingController, singleton: true
-
-            scope "/assignment_spec" do
-              get "/show", TKNAssignmentSpecController, :show
-              get "/pdf", TKNAssignmentSpecController, :pdf
-            end
-          end
+      resources "/listings", ListingController do
+        scope "/public" do
+          get "/approve", Listing.PublicController, :approve_confirmation
+          post "/approve", Listing.PublicController, :approve
+          post "/unapprove", Listing.PublicController, :unapprove
+          post "/request_approval", Listing.PublicController, :request_approval
+          post "/refresh", Listing.PublicController, :refresh
+          post "/expire", Listing.PublicController, :expire
+          post "/reset", Listing.PublicController, :reset
 
           resources "/marketing_request", MarketingRequestController,
             singleton: true,
-            only: [:show, :new, :create]
+            only: [:new, :create]
+        end
 
-          scope "/applicants" do
-            resources "/", ApplicantController, only: [:index]
-            get "/export", ApplicantController, :export
+        scope "/tkn" do
+          resources "/", Listing.TKNController,
+            singleton: true,
+            only: [:show, :edit, :update]
+
+          scope "/assignment_spec" do
+            get "/show", TKNAssignmentSpecController, :show
+            get "/pdf", TKNAssignmentSpecController, :pdf
+            post "/send", TKNAssignmentSpecController, :send
           end
         end
 
-        get "/:id/approve", ListingController, :approve_confirmation
-        post "/:id/approve", ListingController, :approve
-        post "/:id/unapprove", ListingController, :unapprove
-        post "/:id/request_approval", ListingController, :request_approval
-        post "/:id/refresh_expiry", ListingController, :refresh_expiry
-        post "/:id/expire", ListingController, :expire
+        scope "/applicants" do
+          resources "/", ApplicantController, only: [:index]
+          get "/export", ApplicantController, :export
+        end
+
+        resources "/roles", RoleController, only: [:index, :new, :create, :delete]
       end
 
       resources "/users", UserController, only: [:index]

@@ -3,7 +3,7 @@
 <section class="container">
 	<div class="btn-toolbar justify-content-end font-family-sans-serif" role="toolbar">
 		<div class="btn-group" role="group">
-			<btn onclick="drafterizeForm('<%= @draft_content_key %>')" class="btn btn-outline-primary"><i class="far fa-pencil-ruler mr-1q" aria-hidden="true"></i> Add draft content</btn>
+			<button onclick="drafterizeForm('<%= @draft_content_key %>')" class="btn btn-outline-primary"><%= HTMLHelpers.icon_with_text("far fa-pencil-ruler", "Add draft content") %></button>
 		</div>
 	</div>
 </section>

@@ -57,15 +57,16 @@ defmodule VolunteerWeb.Admin.ListingParams do
 
   defmodule IndexFilters do
     @types %{
+      non_public: :boolean,
       approved: :boolean,
-      unapproved: :boolean,
-      expired: :boolean
+      expired: :boolean,
+
     }
 
     @defaults %{
+      non_public: true,
       approved: true,
-      unapproved: true,
-      expired: false
+      expired: false,
     }
 
     def changeset(nil), do: changeset(%{})

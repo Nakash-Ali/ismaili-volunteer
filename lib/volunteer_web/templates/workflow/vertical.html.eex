@@ -1,0 +1,31 @@
+<div class="workflow-vertical">
+	<%= for {step, _index, position} <- HTMLHelpers.with_position(@workflow) do %>
+		<div class="<%= if position != :last do "mb-2" end %>">
+			<div id="<%= step_id(step) %>" class="step-<%= step.state %>">
+				<div class="step-title d-flex flex-row flex-nowrap align-items-center">
+					<div class="step-title-icon <%= step_text_color(step.state) %>">
+						<i class="<%= step_icon(step.state) %>"></i>
+					</div>
+					<div class="step-title-text position-relative">
+						<h6 class="mb-0 <%= step_text_color(step.state) %>"><strong><%= step.title %></strong></h6>
+					</div>
+				</div>
+				<%= if has_content(step) do %>
+					<p class="step-indented-content mt-1 font-family-sans-serif"><%= content(step) %> <%= if has_more_content(step) do %><a style="line-height: 1;" data-toggle="collapse" href="#<%= step_id(step, "help") %>">Learn more...</a><% end %></p>
+				<% end %>
+				<%= if has_more_content(step) do %>
+					<div class="step-indented-content font-family-sans-serif my-5q last-child-mb-0 collapse" id="<%= step_id(step, "help") %>">
+						<%= more_content(step) %>
+					</div>
+				<% end %>
+				<%= if HTMLHelpers.is_blank?(step.actions) == false do %>
+					<% padding = if position != :last do "pb-2q" else "" end %>
+					<% margin = if has_content(step) do "mt-2q" else "mt-1 pt-1q" end %>
+					<div class="step-indented-content <%= margin %> <%= padding %>">
+						<%= render AdminView, "action_group.html", actions: step.actions %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+</div>

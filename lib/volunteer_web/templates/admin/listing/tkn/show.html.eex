@@ -1,0 +1,22 @@
+<%= ListingView.render_subtitle assigns %>
+
+<section class="border-bottom mb-3">
+	<div class="container my-3 py-1q">
+		<%= render WorkflowView, "vertical.html", workflow: workflow(assigns) %>
+	</div>
+</section>
+
+<section class="container font-family-sans-serif">
+	<%= render AdminView, "action_group.html", actions: [
+		HTMLHelpers.link_action(
+			allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :tkn, :edit], @listing),
+			text: HTMLHelpers.icon_with_text("far fa-pen", "Edit"),
+			to: RouterHelpers.admin_listing_tkn_path(@conn, :edit, @listing)
+		)
+	] %>
+</section>
+
+
+<section class="container mt-3 mb-5">
+	<%= definition_list(:all, @listing) |> AdminView.render_definition_list %>
+</section>

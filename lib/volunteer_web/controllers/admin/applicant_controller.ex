@@ -4,6 +4,7 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   alias Volunteer.Apply
   alias Volunteer.Listings
   import VolunteerWeb.ConnPermissions, only: [authorize: 2]
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   # Plugs
 
@@ -11,11 +12,14 @@ defmodule VolunteerWeb.Admin.ApplicantController do
   plug :authorize,
     action_root: [:admin, :listing, :applicant],
     assigns_subject_key: :listing
+  plug :track,
+    resource: "listing",
+    assigns_subject_key: :listing
 
   def load_listing(%Plug.Conn{params: %{"listing_id" => id}} = conn, _opts) do
     listing =
       id
-      |> Listings.get_one_admin_listing!()
+      |> Listings.get_one_admin!()
       |> Repo.preload([:region])
 
     Plug.Conn.assign(conn, :listing, listing)

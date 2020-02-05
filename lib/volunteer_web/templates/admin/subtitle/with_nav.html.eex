@@ -3,12 +3,15 @@
 	<ul class="item-meta list-inline font-family-sans-serif mb-0">
 		<%= assigns[:meta] %>
 	</ul>
-	<ul class="nav nav-tabs justify-content-center font-family-sans-serif mt-5q">
-		<%= for child_item <- assigns[:nav_items] do %>
-			<li class="nav-item">
-				<a class="px-1 px-sm-5q px-md-2 nav-link <%= if child_item.is_active?, do: "active" %>" href="<%= child_item.href %>"
-				><%= child_item.title %></a>
-			</li>
-		<% end %>
-	</ul>
+	<!-- # TODO: remove horizontal scrollbars in all browsers and extract out to a css class -->
+	<div class="hide-scrollbars" style="overflow-x: scroll; overflow-y: hidden; margin-bottom: -1px;">
+		<ul style="margin-bottom: -1px;" class="d-inline-flex nav nav-tabs justify-content-center font-family-sans-serif mt-5q flex-nowrap">
+			<%= for child_item <- assigns[:nav_items] do %>
+				<li class="nav-item">
+					<a class="px-1 px-sm-5q px-md-2 nav-link <%= if child_item.is_active?, do: "active" %>" href="<%= child_item.href %>"
+					><%= child_item.title %></a>
+				</li>
+			<% end %>
+		</ul>
+	</div>
 <% end %>

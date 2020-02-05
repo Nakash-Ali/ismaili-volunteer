@@ -1,0 +1,30 @@
+[build]
+  publish = "."
+  command = "echo 'woohooooo!'"
+
+[[redirects]]
+  from = "/*"
+  query = {code = ":code", session_state = ":session_state"}
+  to = "__GCLOUD_TARGET__/:splat?code=:code&session_state=:session_state"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/*"
+  query = {code = ":code", state = ":state"}
+  to = "__GCLOUD_TARGET__/:splat?code=:code&state=:state"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/*"
+  query = {code = ":code"}
+  to = "__GCLOUD_TARGET__/:splat?code=:code"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "__GCLOUD_TARGET__/:splat"
+  status = 302
+  force = true

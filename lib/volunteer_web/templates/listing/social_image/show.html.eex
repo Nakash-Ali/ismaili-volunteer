@@ -1,0 +1,19 @@
+<main class="font-family-sans-serif d-flex flex-column flex-nowrap">
+	<div style="flex-basis: 1;" class="bg-white d-flex flex-row align-items-center justify-content-start p-3">
+		<div class="mr-2">
+			<a class="navbar-brand p-0 m-0" href="/">
+				<img src="<%= RouterHelpers.static_path(@conn, "/images/the-ismaili-logo.png") %>" width="auto" height="82" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
+			</a>
+		</div>
+		<div class="py-1q">
+			<a class="navbar-brand p-0 m-0" href="/">
+				<img src="<%= RouterHelpers.static_path(@conn, "/images/ots-the-ismaili-wordmark-canada.png") %>" width="auto" height="80" alt="<%= Application.fetch_env!(:volunteer, :global_title) %>">
+			</a>
+		</div>
+	</div>
+	<div style="flex-grow: 1;" class="listing bg-primary text-white p-3 d-flex flex-column flex-nowrap justify-content-center">
+		<h1 class="mb-1 break-word"><%= Title.bolded(@listing) %></h1>
+		<p class="description mb-1"><%= @listing.summary_line %></p>
+		<%= render(ListingView, "meta.html", listing: @listing, show: [:time_commitment, :start_date_and_end_date]) %>
+	</div>
+</main>

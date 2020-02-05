@@ -5,8 +5,8 @@ defmodule VolunteerWeb.API.ListingController do
 
   def index(conn, _params) do
     listings =
-      Listings.get_all_public_listings()
-      |> Repo.preload([[region: :parent], [group: :region], :created_by, :organized_by, :approved_by])
+      Listings.Public.get_all()
+      |> Repo.preload([[region: :parent], [group: :region], :created_by, :organized_by, :public_approved_by])
 
     render(conn, "index.json", listings: listings)
   end

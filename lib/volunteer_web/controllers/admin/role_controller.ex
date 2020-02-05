@@ -9,6 +9,8 @@ defmodule VolunteerWeb.Admin.RoleController do
 
   plug :load_subject_config
   plug :load_subject
+  plug :authorize
+  plug :track
 
   def load_subject_config(%Plug.Conn{params: params} = conn, _opts) do
     case subject_config_from_params(params) do
@@ -30,12 +32,28 @@ defmodule VolunteerWeb.Admin.RoleController do
     )
   end
 
+  def authorize(conn, _opts) do
+    %{assigns: %{subject_config: %{subject_type: subject_type}}} = conn
+
+    ConnPermissions.authorize(
+      conn,
+      action_root: [:admin, subject_type, :role],
+      assigns_subject_key: :subject
+    )
+  end
+
+  def track(%Plug.Conn{assigns: %{subject_config: %{subject_type: subject_type}}} = conn, _opts) do
+    VolunteerWeb.Services.Analytics.Plugs.track(
+      conn,
+      resource: subject_type,
+      assigns_subject_key: :subject
+    )
+  end
+
   # Controller Actions
 
   def index(conn, _params) do
     %{assigns: %{subject: subject, subject_config: subject_config}} = conn
-
-    conn = ConnPermissions.ensure_allowed!(conn, [:admin, subject_config.subject_type, :role, :index], subject)
 
     roles = Roles.get_subject_roles(subject_config.subject_type, subject_config.subject_id)
 
@@ -45,8 +63,6 @@ defmodule VolunteerWeb.Admin.RoleController do
   def new(conn, _params) do
     %{assigns: %{subject: subject, subject_config: subject_config}} = conn
 
-    conn = ConnPermissions.ensure_allowed!(conn, [:admin, subject_config.subject_type, :role, :create], subject)
-
     changeset = Roles.new_subject_role(subject_config.subject_type, subject_config.subject_id)
 
     render_form(conn, subject_config, changeset, subject: subject)
@@ -54,8 +70,6 @@ defmodule VolunteerWeb.Admin.RoleController do
 
   def create(conn, params) do
     %{assigns: %{subject: subject, subject_config: subject_config}} = conn
-
-    conn = ConnPermissions.ensure_allowed!(conn, [:admin, subject_config.subject_type, :role, :create], subject)
 
     Roles.create_subject_role(
       subject_config.subject_type,
@@ -70,25 +84,23 @@ defmodule VolunteerWeb.Admin.RoleController do
         |> FlashHelpers.put_paragraph_flash(:success, "Role created successfully.")
         |> redirect(to: subject_config.router_helper.(conn, :index, subject_config.subject_id))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        case VolunteerWeb.ErrorHelpers.get_underscore_errors(changeset) do
-          [] ->
-            conn
-            |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
-            |> render_form(subject_config, changeset, subject: subject)
+      {:error, %Ecto.Changeset{} = %{errors: [_exclusive_arc: _]} = _changeset} ->
+        raise "Something's gone terribly wrong!"
 
-          errors ->
-            conn
-            |> FlashHelpers.put_underscore_errors(errors)
-            |> render_form(subject_config, changeset, subject: subject, underscore_errors: errors)
-        end
+      {:error, %Ecto.Changeset{} = %{errors: [_unique_relation: _]} = changeset} ->
+        conn
+        |> FlashHelpers.put_paragraph_flash(:error, "This user has already been assigned a role for this #{subject_config.subject_type}. Please delete that first before creating a new one")
+        |> render_form(subject_config, changeset, subject: subject)
+
+      {:error, changeset} ->
+        conn
+        |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> render_form(subject_config, changeset, subject: subject)
     end
   end
 
   def delete(conn, params) do
-    %{assigns: %{subject: subject, subject_config: subject_config}} = conn
-
-    conn = ConnPermissions.ensure_allowed!(conn, [:admin, subject_config.subject_type, :role, :delete], subject)
+    %{assigns: %{subject_config: subject_config}} = conn
 
     Roles.delete_subject_role!(subject_config.subject_type, subject_config.subject_id, params["id"])
 

@@ -12,11 +12,7 @@ defmodule VolunteerWeb.API.ListingView do
     %{
       id: listing.id,
       url: VolunteerWeb.Router.Helpers.listing_url(conn, :show, listing),
-      expiry_date: ISO8601.stringify(listing.expiry_date),
       created_by: Related.render!(listing, :created_by),
-      approved: listing.approved,
-      approved_on: ISO8601.stringify(listing.approved_on),
-      approved_by: Related.render!(listing, :approved_by),
       title: Title.plain(listing),
       position_title: JSON.nilify?(listing.position_title),
       program_title: JSON.nilify?(listing.program_title),
@@ -30,6 +26,13 @@ defmodule VolunteerWeb.API.ListingView do
       time_commitment_amount: listing.time_commitment_amount,
       time_commitment_type: listing.time_commitment_type,
       time_commitment_text: ListingView.time_commitment_text(listing),
+
+      public_approved: listing.public_approved,
+      public_approved_on: ISO8601.stringify(listing.public_approved_on),
+      public_approved_by: Related.render!(listing, :public_approved_by),
+
+      public_expiry_date: ISO8601.stringify(listing.public_expiry_date),
+      
       inserted_at: ISO8601.stringify(listing.inserted_at),
       updated_at: ISO8601.stringify(listing.updated_at),
     }

@@ -8,6 +8,7 @@ defmodule VolunteerEmail do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
       import Bamboo.Email
+      alias VolunteerWeb.HTMLHelpers
     end
   end
 

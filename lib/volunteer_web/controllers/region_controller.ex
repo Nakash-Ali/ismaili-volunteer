@@ -23,6 +23,9 @@ defmodule VolunteerWeb.RegionController do
       Repo.preload(region, [:parent])
       |> Infrastructure.annotate([:hardcoded])
 
+    conn =
+      VolunteerWeb.Services.Analytics.Plugs.track(conn, resource: "region", subject: region)
+
     region_choices = Infrastructure.get_regions(filters: %{parent_id: region.id})
 
     region_in_path =
@@ -30,7 +33,7 @@ defmodule VolunteerWeb.RegionController do
       |> VolunteerUtils.Controller.booleanize()
 
     listings =
-      Listings.get_all_public_listings(filters: %{region_id: region.id, region_in_path: region_in_path})
+      Listings.Public.get_all(filters: %{region_id: region.id, region_in_path: region_in_path})
       |> Repo.preload([:region, :group])
 
     render(

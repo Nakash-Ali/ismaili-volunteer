@@ -1,4 +1,4 @@
-defmodule Volunteer.Listings.ExpiryReminderTest do
+defmodule Volunteer.Listings.Public.ExpiryReminderTest do
   use Volunteer.DataCase
   alias Volunteer.TestSupport.Factory
   alias Volunteer.TestSupport.Emails
@@ -10,22 +10,24 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
       %{id: should_find_id} =
         Factory.listing!(%{
           expired?: false,
+          approved?: true,
           overrides: %{
-            expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC")
+            public_expiry_reminder_sent: false,
+            public_expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC")
           }
         })
 
       _shouldnt_find =
         Factory.listing!(%{
           expired?: false,
+          approved?: true,
           overrides: %{
-            expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 4) |> Timex.to_datetime("UTC")
+            public_expiry_reminder_sent: false,
+            public_expiry_date: expiry_date |> Timex.shift(days: 4) |> Timex.to_datetime("UTC")
           }
         })
 
-      assert [%{id: ^should_find_id}] = Volunteer.Listings.ExpiryReminder.get_listings_to_notify()
+      assert [%{id: ^should_find_id}] = Volunteer.Listings.Public.ExpiryReminder.get_listings_to_notify()
     end
 
     test "sends email and updates listing" do
@@ -36,14 +38,15 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
       %{id: id} =
         Factory.listing!(%{
           expired?: false,
+          approved?: true,
           overrides: %{
-            expiry_reminder_sent: false,
-            expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC"),
+            public_expiry_reminder_sent: false,
+            public_expiry_date: expiry_date |> Timex.shift(days: 1) |> Timex.to_datetime("UTC"),
             region_id: region.id
           }
         })
 
-      assert [{:ok, email}] = Volunteer.Listings.ExpiryReminder.get_and_notify_all()
+      assert [{:ok, email}] = Volunteer.Listings.Public.ExpiryReminder.get_and_notify_all()
 
       assert id ==
                email
@@ -56,7 +59,7 @@ defmodule Volunteer.Listings.ExpiryReminderTest do
       assert true ==
                Volunteer.Listings.Listing
                |> Volunteer.Repo.get!(id)
-               |> Map.get(:expiry_reminder_sent)
+               |> Map.get(:public_expiry_reminder_sent)
     end
   end
 end

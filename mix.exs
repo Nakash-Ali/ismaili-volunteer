@@ -64,7 +64,6 @@ defmodule Volunteer.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:quantum, "~> 2.3"},
       {:recaptcha, "~> 3.0"},
-      {:semtex, github: "alizain/semtex", ref: "e8a2b90b89e07b4f285a246d3d01c7728eab39c5"},
       {:sentry, "~> 7.1"},
       {:slugger, "~> 0.2"},
       {:timex, "~> 3.1"},

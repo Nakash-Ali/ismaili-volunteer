@@ -71,12 +71,11 @@ defmodule VolunteerWeb.Admin.ListingControllerTest do
       |> Enum.map(fn key ->
         expected =
           Map.get(listing_params, key)
-          |> Semtex.Escaper.escape_str()
 
         assert html =~ expected
       end)
 
-      assert html =~ "Requires approval"
+      assert html =~ "Non-public"
     end
   end
 end

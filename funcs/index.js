@@ -3,8 +3,8 @@ const auth = require('basic-auth')
 
 const ACTIONS = {
 	normalize_phone_number: require('./actions/normalize_phone_number'),
-	webpage_pdf: require('./actions/webpage_pdf'),
-	webpage_screenshot: require('./actions/webpage_screenshot'),
+	sanitize_html: require('./actions/sanitize_html'),
+	save_webpage: require('./actions/save_webpage'),
 }
 
 exports.process = (req, res) => {

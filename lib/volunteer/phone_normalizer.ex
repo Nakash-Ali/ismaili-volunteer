@@ -27,13 +27,13 @@ defmodule Volunteer.PhoneNormalizer do
 
   def normalize(number)  do
     @command_name
-    |> Funcs.run!(%{number: number, format: @format})
+    |> Funcs.action!(%{number: number, format: @format})
     |> validate_result()
   end
 
   def normalize(number, region) do
     @command_name
-    |> Funcs.run!(%{number: number, region: region, format: @format})
+    |> Funcs.action!(%{number: number, region: region, format: @format})
     |> validate_result()
   end
 

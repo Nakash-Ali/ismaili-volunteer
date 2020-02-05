@@ -1,9 +1,9 @@
 production:
-  environment: production
+  environment: prod
   production_environment: true
   required_contexts: ["build_and_test"]
 
 staging:
-  environment: staging
+  environment: stg
   production_environment: false
   required_contexts: ["build_and_test"]

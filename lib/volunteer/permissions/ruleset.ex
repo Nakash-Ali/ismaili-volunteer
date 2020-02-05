@@ -120,12 +120,21 @@ defmodule Volunteer.Permissions.Ruleset do
 
   def listing_ruleset() do
     [
+      # Public Users
+
+      fn _user, [:admin, :listing, action], nil when action in [:index, :new, :create] ->
+        :allow
+      end,
       fn _user, [:admin, :listing | action], %Listing{} when action in [
         [:show],
+        [:tkn, :show],
         [:role, :index],
       ] ->
         :allow
       end,
+
+      # Implicit permissions from group or region (or parent regions)
+
       fn %{roles_by_subject: %{region: region_roles}}, [:admin, :listing | _], %Listing{region_id: region_id} ->
         if region_roles[region_id] in ["admin", "cc-team"] do
           :allow
@@ -147,26 +156,32 @@ defmodule Volunteer.Permissions.Ruleset do
           :allow
         end
       end,
-      fn _user, [:admin, :listing, action], _subject when action in [:index, :create] ->
-        :allow
-      end,
-      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, action], %Listing{id: listing_id} when action in [:show, :update, :request_approval, :refresh_expiry, :expire] ->
+
+      # Explicit permissions for the `admin` role
+
+      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, action], %Listing{id: listing_id} when action in [:edit, :update] ->
         if listing_roles[listing_id] in ["admin"] do
           :allow
         end
       end,
-      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, action | _], %Listing{id: listing_id} when action in [:role, :applicant, :tkn_listing, :marketing_request] ->
+      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, :public, action], %Listing{id: listing_id} when action in [:request_approval, :refresh, :expire, :reset] ->
         if listing_roles[listing_id] in ["admin"] do
           :allow
         end
       end,
+      fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing, action | _], %Listing{id: listing_id} when action in [:role, :applicant, :tkn, :marketing_request] ->
+        if listing_roles[listing_id] in ["admin"] do
+          :allow
+        end
+      end,
+
+      # Explicit additional permissions for the `read-only` role
+
       fn %{roles_by_subject: %{listing: listing_roles}}, [:admin, :listing | action], %Listing{id: listing_id} when action in [
         [:show],
-        [:role, :index],
         [:applicant, :index],
-        [:tkn_listing, :show],
-        [:tkn_listing, :spec],
-        [:marketing_request, :show],
+        [:applicant, :export],
+        [:tkn, :spec],
       ] ->
         if listing_roles[listing_id] in ["read-only"] do
           :allow

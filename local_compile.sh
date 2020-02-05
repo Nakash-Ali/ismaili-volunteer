@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -xeuf -o pipefail
 
-MIX_ENV=dev mix compile --warnings-as-errors --force
-MIX_ENV=test mix compile --warnings-as-errors --force
+MIX_ENV="dev" mix compile --warnings-as-errors --force
+MIX_ENV="test" mix compile --warnings-as-errors --force

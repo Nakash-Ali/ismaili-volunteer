@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -xeuf -o pipefail
 
 MIX_ENV=$1 mix do ecto.create, ecto.migrate
 

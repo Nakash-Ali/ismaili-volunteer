@@ -1,10 +1,4 @@
 defmodule VolunteerWeb.FlashHelpers do
-  def put_underscore_errors(conn, errors) do
-    Enum.reduce(errors, conn, fn {_error_key, error_value}, conn ->
-      put_flash(conn, :error, :paragraph, error_value)
-    end)
-  end
-
   def put_paragraph_flash(conn, error_type, message) do
     put_flash(conn, error_type, :paragraph, message)
   end

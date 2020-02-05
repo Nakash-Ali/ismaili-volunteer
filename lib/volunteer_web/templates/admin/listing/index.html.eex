@@ -3,13 +3,13 @@
 <section class="container">
 	<div class="btn-toolbar justify-content-between font-family-sans-serif" role="toolbar">
 		<div class="btn-group" role="group">
-			<%= link {:safe, "<i class=\"far fa-plus mr-1q\" aria-hidden=\"true\"></i> Create"}, to: RouterHelpers.admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
+			<%= link HTMLHelpers.icon_with_text("far fa-plus", "Create"), to: RouterHelpers.admin_listing_path(@conn, :new), class: "btn btn-outline-primary" %>
 		</div>
 		<div class="ml-1">
 			<%= form_for @filters, RouterHelpers.admin_listing_path(@conn, :index), [as: :filters, method: :get, class: "m-0"], fn f -> %>
 				<% fields = [
-					{:approved, "Approved and alive"},
-					{:unapproved, "Requires approval"},
+					{:non_public, "Non-public"},
+					{:approved, "Approved"},
 					{:expired, "Expired and archived"},
 				] %>
 				<p class="btn text-muted mr-2q mb-0" style="cursor: auto;">Filters</p>
@@ -25,7 +25,7 @@
 						</label>
 					<% end %>
 				</div>
-				<%= submit {:safe, "<i class=\"far fa-check mr-1q\" aria-hidden=\"true\"></i> Apply"}, class: "btn btn-sm btn-outline-primary ml-2q pl-3q pr-1" %>
+				<%= submit HTMLHelpers.icon_with_text("far fa-check", "Apply"), class: "btn btn-sm btn-outline-primary ml-2q pl-3q pr-1" %>
 			<% end %>
 		</div>
 	</div>
@@ -48,6 +48,7 @@
 						<li class="list-inline-item"><%= PublicListingView.organizer_html(listing) %></li>
 					</ul>
 					<ul class="item-meta list-inline font-family-sans-serif mb-0">
+						<li class="list-inline-item">Created <%= VolunteerUtils.Temporal.format_relative(listing.inserted_at) %></li>
 						<% {state_text, state_class} = listing_state_text_and_class(listing) %>
 						<li class="list-inline-item <%= state_class %>"><%= state_text %></li>
 					</ul>

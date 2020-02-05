@@ -3,12 +3,16 @@ defmodule VolunteerWeb.Admin.RegionController do
   alias Volunteer.Repo
   alias Volunteer.Infrastructure
   import VolunteerWeb.ConnPermissions, only: [authorize: 2]
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   # Plugs
 
   plug :load_region when action not in [:index]
   plug :authorize,
     action_root: [:admin, :region],
+    assigns_subject_key: :region
+  plug :track,
+    resource: "region",
     assigns_subject_key: :region
 
   def load_region(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do

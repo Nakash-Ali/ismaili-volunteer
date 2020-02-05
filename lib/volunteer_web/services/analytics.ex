@@ -1,6 +1,54 @@
 defmodule VolunteerWeb.Services.Analytics do
   require Logger
 
+  defmodule Plugs do
+    # TODO: make sure this is being used everywhere
+    # TODO: track when non-html files are being sent
+    def track(conn, opts) do
+      Plug.Conn.register_before_send(conn, fn conn ->
+        resource =
+          Keyword.fetch!(opts, :resource)
+
+        action =
+          conn
+          |> Phoenix.Controller.controller_module()
+          |> Macro.underscore()
+          |> String.trim_leading("volunteer_web/")
+          |> Kernel.<>(":")
+          |> Kernel.<>(
+            conn
+            |> Phoenix.Controller.action_name()
+            |> Atom.to_string()
+          )
+
+        # TODO: use flash to figure out if an action wqs successfully complete
+        # result =
+        #   VolunteerWeb.FlashHelpers.parse_for_analytics(conn)
+
+        label =
+          Keyword.fetch(opts, :assigns_subject_key)
+          |> case do
+            {:ok, key} ->
+              Map.get(conn.assigns, key, nil)
+
+            :error ->
+              Keyword.get(opts, :subject, nil)
+          end
+          |> case do
+            %{id: _id} = subject ->
+              VolunteerWeb.Presenters.Slugify.slugify(subject)
+
+            nil ->
+              ""
+          end
+
+        VolunteerWeb.Services.Analytics.track_event(resource, action, label, conn)
+
+        conn
+      end)
+    end
+  end
+
   defmodule Params do
     def finalize(given_params, conn) do
       conn

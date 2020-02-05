@@ -2,16 +2,19 @@
 	"name": "ots-funcs",
 	"version": "1.0.0",
 	"dependencies": {
+		"@google-cloud/storage": "^4.3.0",
 		"ajv": "^6.11.0",
 		"basic-auth": "^2.0.1",
 		"google-libphonenumber": "^3.2.6",
-		"puppeteer": "^2.0.0"
+		"npmlog": "^4.1.2",
+		"puppeteer": "^2.0.0",
+		"sanitize-html": "^1.21.1"
 	},
 	"devDependencies": {
 		"@google-cloud/functions-framework": "^1.3.2"
 	},
 	"scripts": {
 		"start": "./node_modules/.bin/functions-framework --target=process",
-		"watch": "watchexec -e js -r 'npm run start'"
+		"watch_with_auth": "GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/legacy_credentials/alizain@feerasta.net/adc.json watchexec -e js -r 'npm run start'"
 	}
 }

@@ -46,7 +46,7 @@ defmodule Volunteer.StringSanitizer do
 
   # TODO: fix this, Trix wraps the content in a <div/>
   def sanitize(input, %{type: :html}) do
-    VolunteerWeb.HTMLInput.sanitize(input)
+    VolunteerWeb.HTMLInput.sanitize!(input)
   end
 
   def sanitize_changes(changeset, keys_to_sanitize, opts) do

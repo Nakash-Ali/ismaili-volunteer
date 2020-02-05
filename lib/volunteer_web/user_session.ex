@@ -58,8 +58,7 @@ defmodule VolunteerWeb.UserSession do
 
     @params_key "auth_token"
 
-    # in seconds
-    @max_age 60
+    @max_age 60 # in seconds
 
     def generate(conn, %Accounts.User{} = user) do
       Phoenix.Token.sign(conn, @salt, user.id)

@@ -3,13 +3,9 @@
 <%= render "request_changes.html", assigns %>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:details, @group, @conn) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:details, @group, @conn) |> AdminView.render_definition_list %>
 </section>
 
 <section class="container mt-3 mb-5">
-	<%= for {title, body} <- definition_list(:meta, @group) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:meta, @group) |> AdminView.render_definition_list %>
 </section>

@@ -153,6 +153,7 @@ defmodule VolunteerWeb.Features do
       %Item{
         title: "Roles",
         href: RouterHelpers.admin_region_role_path(conn, :index, region),
+        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :region, :role, :index], region),
       },
     ]
   end
@@ -166,6 +167,7 @@ defmodule VolunteerWeb.Features do
       %Item{
         title: "Roles",
         href: RouterHelpers.admin_group_role_path(conn, :index, group),
+        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :group, :role, :index], group),
       },
     ]
   end
@@ -178,9 +180,9 @@ defmodule VolunteerWeb.Features do
         is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :show], listing),
       },
       %Item{
-        title: "Roles",
-        href: RouterHelpers.admin_listing_role_path(conn, :index, listing),
-        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :role, :index], listing),
+        title: "TKN",
+        href: RouterHelpers.admin_listing_tkn_path(conn, :show, listing),
+        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :tkn, :show], listing),
       },
       %Item{
         title: "Applicants",
@@ -188,14 +190,9 @@ defmodule VolunteerWeb.Features do
         is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :applicant, :index], listing),
       },
       %Item{
-        title: "TKN",
-        href: RouterHelpers.admin_listing_tkn_listing_path(conn, :show, listing),
-        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :tkn_listing, :show], listing),
-      },
-      %Item{
-        title: "Marketing",
-        href: RouterHelpers.admin_listing_marketing_request_path(conn, :show, listing),
-        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :marketing_request, :show], listing),
+        title: "Roles",
+        href: RouterHelpers.admin_listing_role_path(conn, :index, listing),
+        is_allowed?: ConnPermissions.is_allowed?(conn, [:admin, :listing, :role, :index], listing),
       },
     ]
   end

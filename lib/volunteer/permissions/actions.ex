@@ -16,6 +16,7 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :region, :show],
 
     [:admin, :region, :role, :index],
+    [:admin, :region, :role, :new],
     [:admin, :region, :role, :create],
     [:admin, :region, :role, :delete],
 
@@ -23,35 +24,40 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :group, :show],
 
     [:admin, :group, :role, :index],
+    [:admin, :group, :role, :new],
     [:admin, :group, :role, :create],
     [:admin, :group, :role, :delete],
 
     [:admin, :listing, :index],
+    [:admin, :listing, :new],
     [:admin, :listing, :create],
 
     [:admin, :listing, :show],
+    [:admin, :listing, :edit],
     [:admin, :listing, :update],
-    [:admin, :listing, :request_approval],
-    [:admin, :listing, :refresh_expiry],
-    [:admin, :listing, :expire],
 
-    [:admin, :listing, :delete],
-    [:admin, :listing, :approve],
-    [:admin, :listing, :unapprove],
+    [:admin, :listing, :public, :approve],
+    [:admin, :listing, :public, :unapprove],
+
+    [:admin, :listing, :public, :request_approval],
+    [:admin, :listing, :public, :refresh],
+    [:admin, :listing, :public, :expire],
+    [:admin, :listing, :public, :reset],
 
     [:admin, :listing, :role, :index],
+    [:admin, :listing, :role, :new],
     [:admin, :listing, :role, :create],
     [:admin, :listing, :role, :delete],
 
     [:admin, :listing, :applicant, :index],
     [:admin, :listing, :applicant, :export],
 
-    [:admin, :listing, :tkn_listing, :show],
-    [:admin, :listing, :tkn_listing, :create],
-    [:admin, :listing, :tkn_listing, :update],
-    [:admin, :listing, :tkn_listing, :spec],
+    [:admin, :listing, :tkn, :show],
+    [:admin, :listing, :tkn, :edit],
+    [:admin, :listing, :tkn, :update],
+    [:admin, :listing, :tkn, :spec],
 
-    [:admin, :listing, :marketing_request, :show],
+    [:admin, :listing, :marketing_request, :new],
     [:admin, :listing, :marketing_request, :create],
   ])
 

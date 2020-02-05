@@ -1,8 +1,10 @@
 <%= render_subtitle assigns %>
 
-<section class="container text-center font-family-sans-serif">
-	<p class="mb-0 text-danger">Saving any changes will automatically un-approve this listing!</p>
-</section>
+<%= if Listings.Public.Introspect.approved?(@listing) do %>
+	<section class="container text-center font-family-sans-serif">
+		<p class="mb-0 text-warning">Saving any changes will automatically un-approve this listing!</p>
+	</section>
+<% end %>
 
 <section class="container mt-3 mb-5">
 	<%= render "form.html", assigns %>

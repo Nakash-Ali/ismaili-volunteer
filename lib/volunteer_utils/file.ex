@@ -1,25 +1,11 @@
 defmodule VolunteerUtils.File do
-  def append_extension(filename, ext) do
-    "#{filename}.#{ext}"
+  def consistent_hash_b64(hash_components) when is_list(hash_components) do
+    Enum.join(hash_components, "") |> consistent_hash_b64
   end
 
-  def run_func_if_not_exists(disk_path, func) do
-    case File.stat(disk_path) do
-      {:ok, %File.Stat{type: :regular}} ->
-        {:ok, :exists}
-
-      _ ->
-        func.()
-    end
-  end
-
-  def consistent_hash_b64(components) when is_list(components) do
-    Enum.join(components, "") |> consistent_hash_b64
-  end
-
-  def consistent_hash_b64(components) when is_binary(components) do
+  def consistent_hash_b64(hash_components) when is_binary(hash_components) do
     :sha
-    |> :crypto.hash(components)
+    |> :crypto.hash(hash_components)
     |> Base.hex_encode32(case: :lower, padding: false)
   end
 end

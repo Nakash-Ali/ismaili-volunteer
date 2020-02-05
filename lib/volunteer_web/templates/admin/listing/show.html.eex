@@ -1,76 +1,31 @@
 <%= render_subtitle assigns %>
 
-<section class="container font-family-sans-serif">
-	<div class="d-flex flex-row flex-wrap align-items-center justify-content-between" style="margin-left: -0.25rem; margin-right: -0.25rem; margin-bottom: -0.5rem;">
-		<div class="btn-toolbar" role="toolbar">
-			<%= if Volunteer.Listings.Listing.is_approve_allowed?(@listing) do %>
-				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :approve], @listing) do %>
-					<div class="btn-group mb-2q mx-1q" role="group">
-						<%= if Volunteer.Listings.Listing.is_approved?(@listing) do %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-down mr-1q\" aria-hidden=\"true\"></i> Un-approve"}, to: RouterHelpers.admin_listing_path(@conn, :unapprove, @listing), method: :post, class: "btn btn-outline-warning" %>
-						<% else %>
-							<%= link {:safe, "<i class=\"far fa-thumbs-up mr-1q\" aria-hidden=\"true\"></i> Approve"}, to: RouterHelpers.admin_listing_path(@conn, :approve_confirmation, @listing), class: "btn btn-outline-success" %>
-						<% end %>
-					</div>
-				<% end %>
-				<%= if not Volunteer.Listings.Listing.is_approved?(@listing) do %>
-					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :request_approval], @listing) do %>
-						<div class="btn-group mb-2q mx-1q" role="group">
-							<%= link "Request Approval", to: RouterHelpers.admin_listing_path(@conn, :request_approval, @listing), method: :post, class: "btn btn-outline-primary" %>
-						</div>
-					<% end %>
-				<% end %>
-			<% else %>
-				<button disabled class="btn btn-outline-secondary">Archived listings cannot be approved</button>
-			<% end %>
-		</div>
-		<div class="btn-toolbar" role="toolbar">
-			<div class="btn-group mb-2q mx-1q" role="group">
-				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :update], @listing) do %>
-					<%= link {:safe, "<i class=\"far fa-pen mr-1q\" aria-hidden=\"true\"></i> Edit"}, to: RouterHelpers.admin_listing_path(@conn, :edit, @listing), class: "btn btn-outline-primary" %>
-				<% end %>
-				<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :refresh_expiry], @listing) do %>
-					<%= if Volunteer.Listings.Listing.is_expired?(@listing) do %>
-						<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh and un-archive"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
-					<% else %>
-						<%= link {:safe, "<i class=\"far fa-sync-alt mr-1q\" aria-hidden=\"true\"></i> Refresh expiry"}, to: RouterHelpers.admin_listing_path(@conn, :refresh_expiry, @listing), method: :post, class: "btn btn-outline-primary" %>
-					<% end %>
-				<% end %>
-			</div>
-			<div class="btn-group mb-2q mx-1q" role="group">
-				<%= if not Volunteer.Listings.Listing.is_expired?(@listing) do %>
-					<%= if ConnPermissions.is_allowed?(@conn, [:admin, :listing, :expire], @listing) do %>
-						<%= link {:safe, "<i class=\"far fa-times-circle mr-1q\" aria-hidden=\"true\"></i> Expire and archive"}, to: RouterHelpers.admin_listing_path(@conn, :expire, @listing), method: :post, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
-					<% end %>
-				<% else %>
-					<button disabled class="btn btn-outline-secondary"><i class="far fa-times-circle mr-1q" aria-hidden="true"></i>Listing archived</button>
-				<% end %>
-				<!-- <%= if Volunteer.Listings.Listing.is_delete_allowed?(@listing) do %>
-					<%= link {:safe, "<i class=\"far fa-trash-alt mr-1q\" aria-hidden=\"true\"></i> Permanently delete"}, to: RouterHelpers.admin_listing_path(@conn, :delete, @listing), method: :delete, data: [confirm: "Are you sure? Permanently deleting a listing is non-reversible!"], class: "btn btn-outline-danger" %>
-				<% else %>
-					<button disabled class="btn btn-outline-secondary"><i class="far fa-trash-alt mr-1q" aria-hidden="true"></i>Cannot delete active listing</button>
-				<% end %> -->
-			</div>
-		</div>
+<section class="border-bottom mb-3">
+	<div class="container my-3 py-1q">
+		<%= render WorkflowView, "vertical.html", workflow: workflow(assigns) %>
 	</div>
 </section>
 
-<section class="container my-3">
-	<%= for {title, body} <- definition_list(:expiry, @listing) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+<section class="container font-family-sans-serif">
+	<%= render AdminView, "action_group.html", actions: [
+		HTMLHelpers.link_action(
+			allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :listing, :edit], @listing),
+			text: HTMLHelpers.icon_with_text("far fa-pen", "Edit"),
+			to: RouterHelpers.admin_listing_path(@conn, :edit, @listing)
+		)
+	] %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:approval, @listing) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:expiry, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
-	<%= for {title, body} <- definition_list(:details, @listing) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:approval, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
+</section>
+
+<section class="container my-3">
+	<%= definition_list(:details, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 </section>
 
 <section class="container my-3">
@@ -84,7 +39,5 @@
 </section>
 
 <section class="container mt-3 mb-5">
-	<%= for {title, body} <- definition_list(:meta, @listing) do %>
-		<%= render AdminView, "definition_container.html", title_text: title, body_text: body %>
-	<% end %>
+	<%= definition_list(:meta, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 </section>

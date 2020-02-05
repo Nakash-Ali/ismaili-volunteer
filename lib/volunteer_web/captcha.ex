@@ -1,22 +1,13 @@
 defmodule VolunteerWeb.Captcha do
-  def init(opts \\ %{}) do
-    opts
-  end
-
-  def call(%Plug.Conn{params: params} = conn, opts) do
+  def verify(%Plug.Conn{params: params} = _conn) do
     case Recaptcha.verify(params["g-recaptcha-response"]) do
-      {:ok, _} ->
-        conn
+      {:ok, _} = result ->
+        result
 
-      {:error, reasons} ->
+      {:error, reasons} = result ->
         IO.inspect(reasons)
 
-        handle_deny(conn, opts)
+        result
     end
-  end
-
-  def handle_deny(conn, opts = %{handle_deny: handle_deny_func}) do
-    module = Phoenix.Controller.controller_module(conn)
-    apply(module, handle_deny_func, [conn, opts])
   end
 end

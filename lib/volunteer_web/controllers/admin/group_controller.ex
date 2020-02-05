@@ -3,12 +3,16 @@ defmodule VolunteerWeb.Admin.GroupController do
   alias Volunteer.Repo
   alias Volunteer.Infrastructure
   import VolunteerWeb.ConnPermissions, only: [authorize: 2]
+  import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   # Plugs
 
   plug :load_group when action not in [:index]
   plug :authorize,
     action_root: [:admin, :group],
+    assigns_subject_key: :group
+  plug :track,
+    resource: "group",
     assigns_subject_key: :group
 
   def load_group(%Plug.Conn{params: %{"id" => id}} = conn, _opts) do
