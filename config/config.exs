@@ -88,7 +88,6 @@ config :sentry,
   enable_source_code_context: true,
   root_source_code_path: File.cwd!(),
   included_environments: [],
-  # after_send_event: {VolunteerWeb.SentryCorrelator, :after_send},
   json_library: Jason
 
 # Configures Elixir's Logger

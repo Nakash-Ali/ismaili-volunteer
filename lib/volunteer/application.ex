@@ -12,8 +12,6 @@ defmodule Volunteer.Application do
       supervisor(Volunteer.Repo, []),
       # Start the scheduler
       worker(Volunteer.Scheduler, []),
-      # Start the SentryCorrelator
-      worker(VolunteerWeb.SentryCorrelator, []),
       # Start the endpoint when the application starts
       supervisor(VolunteerWeb.Endpoint, [])
     ]

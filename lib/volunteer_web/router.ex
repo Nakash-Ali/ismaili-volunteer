@@ -159,8 +159,6 @@ defmodule VolunteerWeb.Router do
       post "/:provider/callback", AuthController, :callback
     end
 
-    # get "/sentry_correlator/:request_id", SentryCorrelator, :event_id
-
     get "/groups/:id", GroupController, :show
 
     get "/regions/:id", RegionController, :show
@@ -168,8 +166,6 @@ defmodule VolunteerWeb.Router do
   end
 
   def configure_sentry_context(conn, _opts) do
-    VolunteerWeb.SentryCorrelator.set_request_id(conn)
-
     case VolunteerWeb.UserSession.get_user(conn) do
       nil ->
         conn
