@@ -39,35 +39,26 @@ jobs:
           install-hex:       true
           install-rebar:     true
 
-      - name:                Cache `_build` folder
-        uses:                actions/cache@v1
-        with:
-          path:              "./_build"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
-
-      - name:                Cache `deps` folder
-        uses:                actions/cache@v1
-        with:
-          path:              "./deps"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-deps
-
-      - name:                Cache `funcs/node_modules` folder
-        uses:                actions/cache@v1
-        with:
-          path:              "./funcs/node_modules"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('funcs/package-lock.json') }}-funcs
-
-      - name:                Cache `redirect/node_modules` folder
-        uses:                actions/cache@v1
-        with:
-          path:              "./redirect/node_modules"
-          key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('redirect/package-lock.json') }}-redirect
+      # - name:                Cache `_build` folder
+      #   uses:                actions/cache@v1
+      #   with:
+      #     path:              "./_build"
+      #     key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
+      #
+      # - name:                Cache `deps` folder
+      #   uses:                actions/cache@v1
+      #   with:
+      #     path:              "./deps"
+      #     key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-deps
+      #
+      # - name:                Cache `funcs/node_modules` folder
+      #   uses:                actions/cache@v1
+      #   with:
+      #     path:              "./funcs/node_modules"
+      #     key:               ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('funcs/package-lock.json') }}-funcs
 
       - name:                Refresh `funcs` packages
         run:                 (cd funcs && npm install)
-
-      - name:                Refresh `redirect` packages
-        run:                 (cd redirect && npm install)
 
       - name:                Refresh Elixir deps
         run:                 "./refresh_elixir_deps.sh"

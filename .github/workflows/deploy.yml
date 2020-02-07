@@ -36,13 +36,13 @@ jobs:
         if:                    github.event.deployment.environment == 'stg'
 
       - name:                  Git status check
-        run:                   git status
+        run:                   git status && git diff
 
       - name:                  Refresh Elixir deps
         run:                   mix deps.get
 
       - name:                  Git status check
-        run:                   git status
+        run:                   git status && git diff
 
       - name:                  Decrypt secrets
         run:                   "./infra_decrypt.sh"
