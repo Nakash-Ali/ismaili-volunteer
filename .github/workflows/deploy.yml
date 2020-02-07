@@ -13,15 +13,15 @@ jobs:
 
     steps:
 
-      - uses:                  actions/checkout@v1
-        with:
-          fetch-depth:         1
-
       - name:                  Deployment pending
         uses:                  deliverybot/deployment-status@master
         with:
           state:               pending
           token:               ${{ github.token }}
+
+      - uses:                  actions/checkout@v1
+        with:
+          fetch-depth:         1
 
       - name:                  Setup Elixir
         uses:                  actions/setup-elixir@1.0.0
@@ -31,18 +31,31 @@ jobs:
           install-hex:         true
           install-rebar:       true
 
-      - name:                  Refresh `redirect` packages
-        run:                   (cd redirect && npm install)
-        if:                    github.event.deployment.environment == 'stg'
+      - name:                  Cache `_build` folder
+        uses:                  actions/cache@v1
+        with:
+          path:                "./_build"
+          key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
 
-      - name:                  Git status check
-        run:                   git status && git diff
+      - name:                  Cache `deps` folder
+        uses:                  actions/cache@v1
+        with:
+          path:                "./deps"
+          key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-deps
+
+      - name:                  Cache `redirect/node_modules` folder
+        if:                    github.event.deployment.environment == 'stg'
+        uses:                  actions/cache@v1
+        with:
+          path:                "./redirect/node_modules"
+          key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('redirect/package-lock.json') }}-redirect
+
+      - name:                  Refresh `redirect` packages
+        if:                    github.event.deployment.environment == 'stg'
+        run:                   (cd redirect && npm install)
 
       - name:                  Refresh Elixir deps
         run:                   mix deps.get
-
-      - name:                  Git status check
-        run:                   git status && git diff
 
       - name:                  Decrypt secrets
         run:                   "./infra_decrypt.sh"
