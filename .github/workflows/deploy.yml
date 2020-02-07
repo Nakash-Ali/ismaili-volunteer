@@ -17,17 +17,11 @@ jobs:
         with:
           fetch-depth:         1
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Deployment pending
         uses:                  deliverybot/deployment-status@master
         with:
           state:               pending
           token:               ${{ github.token }}
-
-      - name:                  Git Status
-        run:                   git status
 
       - name:                  Setup Elixir
         uses:                  actions/setup-elixir@1.0.0
@@ -37,17 +31,11 @@ jobs:
           install-hex:         true
           install-rebar:       true
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Cache `_build` folder
         uses:                  actions/cache@v1
         with:
           path:                "./_build"
           key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
-
-      - name:                  Git Status
-        run:                   git status
 
       - name:                  Cache `deps` folder
         uses:                  actions/cache@v1
@@ -61,36 +49,21 @@ jobs:
           path:                "./redirect/node_modules"
           key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('redirect/package-lock.json') }}-redirect
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Refresh `redirect` packages
         run:                   (cd redirect && npm install)
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Refresh Elixir deps
-        run:                   "./refresh_elixir_deps.sh"
-
-      - name:                  Git Status
-        run:                   git status
+        run:                   mix deps.get
 
       - name:                  Decrypt secrets
         run:                   "./infra_decrypt.sh"
         env:
           INFRA_GPG_PASS:      ${{ secrets.INFRA_GPG_PASS }}
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Compile
         run:                   |
           source <(elixir ./infra/generate-envvars.exs --env "$DEPLOY_ENV")
           MIX_ENV=prod mix compile --warnings-as-errors --force
-
-      - name:                  Git Status
-        run:                   git status
 
       - name:                  Setup GCP CLI
         run:                   |
@@ -98,9 +71,6 @@ jobs:
           gcloud auth activate-service-account --key-file ./infra/gcp.serviceaccount.deploy.secrets.json
           gcloud config set project $GCLOUD_PROJECT
           gcloud config set app/cloud_build_timeout 60m
-
-      - name:                  Git Status
-        run:                   git status
 
       - name:                  Setup GCP CloudSQL Proxy
         run:                   |
@@ -111,25 +81,16 @@ jobs:
           sudo chmod 777 /cloudsql
           ./cloud_sql_proxy -instances="$DB_INSTANCE_ID" -dir=/cloudsql &
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Migrate & Seed Production Database
         run:                   |
           source <(elixir ./infra/generate-envvars.exs --env "$DEPLOY_ENV")
           MIX_ENV=prod mix ecto.migrate
           MIX_ENV=prod mix run --require ./priv/repo/seeds/prod/*.exs
 
-      - name:                  Git Status
-        run:                   git status
-
       - name:                  Deploy to Production
         run:                   "./deploy.sh \"$DEPLOY_ENV\""
         env:
            NETLIFY_AUTH_TOKEN: ${{ secrets. NETLIFY_AUTH_TOKEN }}
-
-      - name:                  Git Status
-        run:                   git status
 
       - name:                  Deployment success
         if:                    success()
