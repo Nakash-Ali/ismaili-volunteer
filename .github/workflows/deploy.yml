@@ -55,7 +55,7 @@ jobs:
         run:                   (cd redirect && npm install)
 
       - name:                  Refresh Elixir deps
-        run:                   mix deps.get
+        run:                   "./refresh_elixir_deps.sh"
 
       - name:                  Decrypt secrets
         run:                   "./infra_decrypt.sh"
