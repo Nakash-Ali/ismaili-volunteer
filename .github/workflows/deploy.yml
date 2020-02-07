@@ -31,30 +31,18 @@ jobs:
           install-hex:         true
           install-rebar:       true
 
-      # - name:                  Cache `_build` folder
-      #   uses:                  actions/cache@v1
-      #   with:
-      #     path:                "./_build"
-      #     key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-build
-      #
-      # - name:                  Cache `deps` folder
-      #   uses:                  actions/cache@v1
-      #   with:
-      #     path:                "./deps"
-      #     key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-deps
-      #
-      # - name:                  Cache `redirect/node_modules` folder
-      #   uses:                  actions/cache@v1
-      #   with:
-      #     path:                "./redirect/node_modules"
-      #     key:                 ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('.github/.cache-buster') }}-${{ hashFiles('redirect/package-lock.json') }}-redirect
-
       - name:                  Refresh `redirect` packages
         run:                   (cd redirect && npm install)
         if:                    github.event.deployment.environment == 'stg'
 
+      - name:                  Git status check
+        run:                   git status
+
       - name:                  Refresh Elixir deps
         run:                   mix deps.get
+
+      - name:                  Git status check
+        run:                   git status
 
       - name:                  Decrypt secrets
         run:                   "./infra_decrypt.sh"
