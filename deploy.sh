@@ -43,7 +43,7 @@ gcloud functions deploy "$FUNCS_NAME" \
   --set-env-vars FUNCS_BASIC_AUTH_NAME="$FUNCS_BASIC_AUTH_NAME",FUNCS_BASIC_AUTH_PASS="$FUNCS_BASIC_AUTH_PASS",FUNCS_GENERATED_CONTENT_BUCKET="$FUNCS_GENERATED_CONTENT_BUCKET"
 
 if [ "$GCLOUD_ENV" = "prod" ]; then
-  gcloud app services set-traffic default --splits "$GCLOUD_VERSION"=1
+  gcloud app versions migrate "$GCLOUD_VERSION"
 elif [ "$GCLOUD_ENV" = "stg" ]
 then
   (./redirect/deploy.sh "https://$GCLOUD_TARGET_HOST")
