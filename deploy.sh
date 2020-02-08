@@ -23,13 +23,6 @@ echo "$GIT_SHA" >> git-sha
 
 elixir infra/generate-appengine.exs --env "$GCLOUD_ENV" --out "./app-generated.yaml"
 
-gcloud app deploy "app-generated.yaml" \
-  -v "$GCLOUD_VERSION" \
-  --project="$GCLOUD_PROJECT" \
-  --verbosity=info \
-  --no-promote \
-  --quiet
-
 gcloud functions deploy "$FUNCS_NAME" \
   --entry-point=process \
   --region="$FUNCS_REGION" \
@@ -42,14 +35,19 @@ gcloud functions deploy "$FUNCS_NAME" \
   --max-instances=10 \
   --set-env-vars FUNCS_BASIC_AUTH_NAME="$FUNCS_BASIC_AUTH_NAME",FUNCS_BASIC_AUTH_PASS="$FUNCS_BASIC_AUTH_PASS",FUNCS_GENERATED_CONTENT_BUCKET="$FUNCS_GENERATED_CONTENT_BUCKET"
 
-if [ "$GCLOUD_ENV" = "prod" ]; then
-  gcloud app versions migrate "$GCLOUD_VERSION"
-elif [ "$GCLOUD_ENV" = "stg" ]
-then
+[[ "$GCLOUD_ENV" == "prod" ]] \
+    && GCLOUD_PROMOTE="--promote" \
+    || GCLOUD_PROMOTE="--no-promote"
+
+gcloud app deploy "app-generated.yaml" \
+  --quiet \
+  --verbosity=info \
+  --project="$GCLOUD_PROJECT" \
+  -v "$GCLOUD_VERSION" \
+  $GCLOUD_PROMOTE
+
+if [ "$GCLOUD_ENV" = "stg" ]; then
   (./redirect/deploy.sh "https://$GCLOUD_TARGET_HOST")
-else
-  echo "arghhh"
-  exit 1
 fi
 
 rm -f git-sha app-generated.yaml
