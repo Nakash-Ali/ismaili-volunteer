@@ -9,7 +9,7 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   @preloads %{
-    reset: [:public_approved_by],
+    reset: [:region, :public_approved_by],
     request_approval: [:region, :group, :created_by, :organized_by],
     approve_confirmation: [:region],
     approve: [:region, :group, :created_by, :organized_by, :public_approved_by],

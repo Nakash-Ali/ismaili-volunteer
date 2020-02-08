@@ -16,7 +16,6 @@
 	] %>
 </section>
 
-
 <section class="container mt-3 mb-5">
 	<%= definition_list(:all, @listing) |> AdminView.render_definition_list %>
 </section>

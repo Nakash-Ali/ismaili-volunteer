@@ -7,9 +7,9 @@ defmodule VolunteerWeb.Admin.Listing.TKNController do
   import VolunteerWeb.Services.Analytics.Plugs, only: [track: 2]
 
   @preloads %{
-    show: [],
-    edit: [],
-    update: [],
+    show: [:region],
+    edit: [:region],
+    update: [:region],
   }
 
   # Plugs
