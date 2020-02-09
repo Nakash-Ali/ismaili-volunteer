@@ -84,6 +84,7 @@ defmodule Volunteer.Listings.Public do
       %{valid?: true, changes: changes} ->
         Repo.transaction(fn ->
           from(l in Volunteer.Listings.base_query())
+          |> where(id: ^listing.id)
           |> Filters.approved()
           |> Filters.unexpired()
           |> update(set: ^Enum.into(changes, []))
