@@ -1,4 +1,4 @@
-defmodule Volunteer.Repo.Migrations.DeleteOldFields do
+defmodule Volunteer.Repo.Migrations.DropOldListingFields do
   use Ecto.Migration
 
   def up do
