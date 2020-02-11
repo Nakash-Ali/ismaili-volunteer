@@ -6,6 +6,9 @@ defmodule VolunteerWeb.Admin.IndexController do
     resource: "index"
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    conn
+    # TODO: this is a hack to reduce noise in Sentry, fix it
+    |> Plug.Conn.put_private(:conn_permissions, true)
+    |> render("index.html")
   end
 end

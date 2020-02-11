@@ -30,6 +30,7 @@ defmodule VolunteerWeb.ListingController do
   def render_form(conn, {user_changeset, applicant_changeset}, listing, opts \\ []) do
     render(
       conn,
+      VolunteerWeb.ListingView,
       "show.html",
       opts ++
         [

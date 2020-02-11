@@ -74,7 +74,7 @@ defmodule VolunteerWeb.Router do
     get "/terms", DisclaimersController, :terms
 
     resources "/listings", ListingController, only: [:show] do
-      post "/apply", Listing.ApplyController, :create
+      post "/", Listing.ApplyController, :create
 
       scope "/social_image" do
         get "/show", Listing.SocialImageController, :show
