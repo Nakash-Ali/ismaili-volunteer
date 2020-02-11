@@ -44,6 +44,9 @@ defmodule Volunteer.Permissions.Ruleset do
 
   def default_ruleset() do
     [
+      fn _, [:admin, :index], _subject ->
+        :allow
+      end,
       fn %{primary_email: primary_email}, [:admin, :system | _], _subject ->
         if Enum.member?(@system_admins, primary_email) do
           :allow

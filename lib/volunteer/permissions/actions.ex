@@ -4,6 +4,8 @@ defmodule Volunteer.Permissions.Actions do
   end
 
   @actions MapSet.new([
+    [:admin, :index],
+
     [:admin, :system, :env],
     [:admin, :system, :app],
     [:admin, :system, :endpoint],
