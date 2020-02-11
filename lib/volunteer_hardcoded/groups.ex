@@ -447,5 +447,25 @@ defmodule VolunteerHardcoded.Groups do
       title: "ITREB Canada",
       region_id: Regions.get_id_from_title!("Canada"),
     }},
+    {112, %{
+      title: "Diversity & Inclusion Quebec & Maritimes",
+      region_id: Regions.get_id_from_title!("Quebec & Maritimes"),
+    }},
+    {113, %{
+      title: "Diversity & Inclusion Prairies",
+      region_id: Regions.get_id_from_title!("Prairies"),
+    }},
+    {114, %{
+      title: "Diversity & Inclusion Edmonton",
+      region_id: Regions.get_id_from_title!("Edmonton"),
+    }},
+    {115, %{
+      title: "Diversity & Inclusion British Columbia",
+      region_id: Regions.get_id_from_title!("British Columbia"),
+    }},
+    {116, %{
+      title: "Diversity & Inclusion Canada",
+      region_id: Regions.get_id_from_title!("Canada"),
+    }},
   ]
 end
