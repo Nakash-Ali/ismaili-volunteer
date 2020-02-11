@@ -21,7 +21,7 @@ defmodule Volunteer.PermissionsTest do
       user = Factory.user!
       region = Factory.region!
 
-      Volunteer.Roles.create_subject_role(:region, region.id, %{user_id: user.id, relation: "admin"})
+      Volunteer.Roles.create(:region, region.id, %{user_id: user.id, relation: "admin"})
 
       role =
         user

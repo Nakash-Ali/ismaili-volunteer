@@ -1,4 +1,33 @@
 defmodule Volunteer.Permissions.Actions do
+  defmodule Type do
+    use Ecto.Type
+    def type, do: {:array, :string}
+
+    def cast(action) when is_list(action) do
+      if Enum.all?(action, &is_atom/1) do
+        {:ok, action}
+      else
+        :error
+      end
+    end
+
+    def cast(_), do: :error
+
+    def load(action) when is_list(action) do
+      {:ok, Enum.map(action, &String.to_existing_atom/1)}
+    end
+
+    def dump(action) when is_list(action) do
+      if Enum.all?(action, &is_atom/1) do
+        {:ok, Enum.map(action, &Atom.to_string/1)}
+      else
+        :error
+      end
+    end
+
+    def dump(_), do: :error
+  end
+
   defmodule InvalidAction do
     defexception [:message, :action]
   end
@@ -44,6 +73,7 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :listing, :public, :request_approval],
     [:admin, :listing, :public, :refresh],
     [:admin, :listing, :public, :expire],
+    [:admin, :listing, :public, :expiry_reminder],
     [:admin, :listing, :public, :reset],
 
     [:admin, :listing, :role, :index],
@@ -62,6 +92,14 @@ defmodule Volunteer.Permissions.Actions do
     [:admin, :listing, :marketing_request, :new],
     [:admin, :listing, :marketing_request, :create],
   ])
+
+  def actions do
+    @actions
+  end
+
+  def actions_list do
+    MapSet.to_list(@actions)
+  end
 
   def is_valid!(action) do
     if not MapSet.member?(@actions, action) do

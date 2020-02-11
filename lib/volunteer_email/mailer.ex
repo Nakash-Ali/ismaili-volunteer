@@ -3,6 +3,13 @@ defmodule VolunteerEmail.Mailer do
   import Bamboo.Email, only: [new_email: 0, from: 2, cc: 2]
   import Bamboo.Phoenix, only: [put_html_layout: 2]
 
+  def deliver(%Ecto.Multi{} = multi, name, func) do
+    Ecto.Multi.run(multi, name, fn repo, prev ->
+      email = func.(repo, prev) |> deliver_now!
+      {:ok, email}
+    end)
+  end
+
   def deliver_now!(email) do
     deliver_now(email)
   end

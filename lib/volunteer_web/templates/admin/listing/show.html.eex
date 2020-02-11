@@ -17,6 +17,18 @@
 </section>
 
 <section class="container my-3">
+	<%= for log <- @logs do %>
+		<div class="">
+			<pre>
+				<code>
+					<%= inspect(log, pretty: true) %>
+				</code>
+			</pre>
+		</div>
+	<% end %>
+</section>
+
+<section class="container my-3">
 	<%= definition_list(:expiry, @listing) |> VolunteerWeb.AdminView.render_definition_list %>
 </section>
 

@@ -41,7 +41,7 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   # Controller Actions
 
   def reset(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    Volunteer.Listings.Public.reset!(listing)
+    {:ok, _} = Volunteer.Listings.Public.reset(listing, UserSession.get_user(conn))
 
     conn
     |> FlashHelpers.put_paragraph_flash(:success, "Listing reset successfully.")
@@ -49,7 +49,7 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   end
 
   def request_approval(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    Volunteer.Listings.Public.request_approval!(listing, UserSession.get_user(conn))
+    {:ok, _} = Volunteer.Listings.Public.request_approval(listing, UserSession.get_user(conn))
 
     conn
     |> FlashHelpers.put_paragraph_flash(:success, "Your request for approval has been submitted for this listing.")
@@ -63,9 +63,9 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   def approve(%Plug.Conn{assigns: %{listing: listing}} = conn, params) do
     case ListingParams.ApproveChecks.changeset(params["checks"]) do
       %{valid?: true} ->
-        listing = Listings.Public.approve!(listing, UserSession.get_user(conn))
+        {:ok, %{approve: listing}} = Listings.Public.approve(listing, UserSession.get_user(conn))
 
-        :ok = VolunteerWeb.Services.SaveWebpage.listing_social_image!(:async, conn, listing)
+        VolunteerWeb.Services.SaveWebpage.listing_social_image!(:async, conn, listing)
 
         conn
         |> FlashHelpers.put_paragraph_flash(:success, "Listing approved successfully.")
@@ -77,7 +77,7 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   end
 
   def unapprove(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    Listings.Public.unapprove!(listing, UserSession.get_user(conn))
+    {:ok, %{unapprove: listing}} = Listings.Public.unapprove(listing, UserSession.get_user(conn))
 
     conn
     |> FlashHelpers.put_paragraph_flash(:success, "Listing unapproved successfully.")
@@ -85,7 +85,7 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   end
 
   def refresh(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    case Listings.Public.refresh(listing) do
+    case Listings.Public.refresh(listing, UserSession.get_user(conn)) do
       {:ok, _listing} ->
         FlashHelpers.put_paragraph_flash(
           conn,
@@ -93,14 +93,14 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
           "Successfully refreshed listing expiry."
         )
 
-      {:error, %Ecto.Changeset{} = %{errors: [public_expiry_date: {"cannot refresh, no existing expiry"}]}} ->
+      {:error, :refresh, %Ecto.Changeset{} = %{errors: [public_expiry_date: {"cannot refresh, no existing expiry"}]}, _prev} ->
         FlashHelpers.put_paragraph_flash(
           conn,
           :warning,
           "Cannot refresh expiry, the listing has not been approved yet."
         )
 
-      {:error, %Ecto.Changeset{} = %{errors: [public_expiry_date: {"cannot refresh, existing expiry newer", [days: days]}]}} ->
+      {:error, :refresh, %Ecto.Changeset{} = %{errors: [public_expiry_date: {"cannot refresh, existing expiry newer", [days: days]}]}, _prev} ->
         FlashHelpers.put_paragraph_flash(
           conn,
           :warning,
@@ -111,7 +111,7 @@ defmodule VolunteerWeb.Admin.Listing.PublicController do
   end
 
   def expire(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    Listings.Public.expire!(listing)
+    {:ok, %{expire: listing}} = Listings.Public.expire(listing, UserSession.get_user(conn))
 
     conn
     |> FlashHelpers.put_paragraph_flash(:success, "Successfully expired listing.")

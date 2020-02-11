@@ -74,12 +74,12 @@ defmodule VolunteerWeb.Admin.ListingController do
     listing_params
     |> Listings.create(UserSession.get_user(conn))
     |> case do
-      {:ok, listing} ->
+      {:ok, %{create: listing}} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:success, "Listing created successfully.")
         |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, :create, %Ecto.Changeset{} = changeset, _prev} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_new_form(changeset)
@@ -87,7 +87,11 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   def show(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
-    render(conn, "show.html", listing: listing)
+    logs =
+      Volunteer.Logs.all(listing: listing)
+      |> Repo.preload([:actor])
+
+    render(conn, "show.html", listing: listing, logs: logs)
   end
 
   def edit(%Plug.Conn{assigns: %{listing: listing}} = conn, _params) do
@@ -95,13 +99,13 @@ defmodule VolunteerWeb.Admin.ListingController do
   end
 
   def update(%Plug.Conn{assigns: %{listing: listing}} = conn, %{"listing" => listing_params}) do
-    case Listings.update(listing, listing_params) do
-      {:ok, listing} ->
+    case Listings.update(listing, listing_params, UserSession.get_user(conn)) do
+      {:ok, %{update: listing}} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:success, "Listing updated successfully.")
         |> redirect(to: RouterHelpers.admin_listing_path(conn, :show, listing))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, :update, %Ecto.Changeset{} = changeset, _prev} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_edit_form(changeset, listing)

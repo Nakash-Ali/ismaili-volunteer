@@ -1,8 +1,9 @@
 defmodule VolunteerWeb.Admin.RoleController do
   use VolunteerWeb, :controller
   alias Volunteer.Roles
-  alias VolunteerWeb.ConnPermissions
+  alias VolunteerWeb.UserSession
   alias VolunteerWeb.FlashHelpers
+  alias VolunteerWeb.ConnPermissions
   import VolunteerWeb.NoRouteErrorController, only: [raise_error: 2]
 
   # Plugs
@@ -63,7 +64,7 @@ defmodule VolunteerWeb.Admin.RoleController do
   def new(conn, _params) do
     %{assigns: %{subject: subject, subject_config: subject_config}} = conn
 
-    changeset = Roles.new_subject_role(subject_config.subject_type, subject_config.subject_id)
+    changeset = Roles.new(subject_config.subject_type, subject_config.subject_id)
 
     render_form(conn, subject_config, changeset, subject: subject)
   end
@@ -71,28 +72,27 @@ defmodule VolunteerWeb.Admin.RoleController do
   def create(conn, params) do
     %{assigns: %{subject: subject, subject_config: subject_config}} = conn
 
-    Roles.create_subject_role(
+    Roles.create(
       subject_config.subject_type,
       subject_config.subject_id,
-      params["role"]
+      params["role"],
+      UserSession.get_user(conn)
     )
     |> case do
-      {:ok, _roles} ->
-        # TODO: Implement email notifications when a role is created!
-
+      {:ok, _result} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:success, "Role created successfully.")
         |> redirect(to: subject_config.router_helper.(conn, :index, subject_config.subject_id))
 
-      {:error, %Ecto.Changeset{} = %{errors: [_exclusive_arc: _]} = _changeset} ->
+      {:error, :create, %Ecto.Changeset{} = %{errors: [_exclusive_arc: _]} = _changeset, _prev} ->
         raise "Something's gone terribly wrong!"
 
-      {:error, %Ecto.Changeset{} = %{errors: [_unique_relation: _]} = changeset} ->
+      {:error, :create, %Ecto.Changeset{} = %{errors: [_unique_relation: _]} = changeset, _prev} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:error, "This user has already been assigned a role for this #{subject_config.subject_type}. Please delete that first before creating a new one")
         |> render_form(subject_config, changeset, subject: subject)
 
-      {:error, changeset} ->
+      {:error, :create, changeset, _prev} ->
         conn
         |> FlashHelpers.put_paragraph_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> render_form(subject_config, changeset, subject: subject)
@@ -102,9 +102,13 @@ defmodule VolunteerWeb.Admin.RoleController do
   def delete(conn, params) do
     %{assigns: %{subject_config: subject_config}} = conn
 
-    Roles.delete_subject_role!(subject_config.subject_type, subject_config.subject_id, params["id"])
-
-    # TODO: Implement email notifications when a role is deleted!
+    {:ok, _} =
+      Roles.delete(
+        subject_config.subject_type,
+        subject_config.subject_id,
+        params["id"],
+        UserSession.get_user(conn)
+      )
 
     conn
     |> FlashHelpers.put_paragraph_flash(:success, "Role deleted successfully.")

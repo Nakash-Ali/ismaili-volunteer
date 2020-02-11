@@ -1,6 +1,7 @@
 defmodule Volunteer.Listings do
   import Ecto.Query
   alias Volunteer.Repo
+  alias Volunteer.Logs
   alias Volunteer.Roles
   alias Volunteer.Listings.Change
   alias Volunteer.Listings.Listing
@@ -11,34 +12,34 @@ defmodule Volunteer.Listings do
   end
 
   def create(attrs, created_by) do
-    Repo.transaction(fn ->
-      attrs
-      |> Change.create(created_by)
-      |> Repo.insert()
-      |> case do
-        {:ok, listing} ->
-          Roles.create_roles_for_new_listing!(listing)
-
-          listing
-
-        {:error, changeset} ->
-          Repo.rollback(changeset)
-      end
+    Ecto.Multi.new
+    |> Ecto.Multi.insert(:create, Change.create(attrs, created_by))
+    |> Ecto.Multi.run(:role, fn repo, %{create: listing} ->
+      Roles.create(:listing, listing.id, %{user_id: created_by.id, relation: "admin"}, nil, repo)
     end)
+    |> Ecto.Multi.run(:log, fn repo, %{create: listing} ->
+      Logs.create(%{
+        action: [:admin, :listing, :create],
+        actor: created_by,
+        listing: listing
+      }, repo)
+    end)
+    |> Repo.transaction
   end
 
   def edit(listing, attrs \\ %{}) do
     Change.edit(listing, attrs)
   end
 
-  def update(listing, attrs \\ %{}) do
-    listing
-    |> edit(attrs)
-    |> Repo.update()
-  end
-
-  def delete(listing) do
-    Repo.delete(listing)
+  def update(listing, attrs, updated_by) do
+    Ecto.Multi.new
+    |> Ecto.Multi.update(:update, edit(listing, attrs))
+    |> Logs.create(%{
+        action: [:admin, :listing, :update],
+        actor: updated_by,
+        listing: listing
+      })
+    |> Repo.transaction
   end
 
   def preloadables() do

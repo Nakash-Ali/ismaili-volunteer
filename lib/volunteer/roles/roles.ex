@@ -2,6 +2,7 @@ defmodule Volunteer.Roles do
   import Ecto.Query
 
   alias Volunteer.Repo
+  alias Volunteer.Logs
   alias Volunteer.Roles.Role
   alias Volunteer.Accounts.User
 
@@ -10,6 +11,55 @@ defmodule Volunteer.Roles do
     group: [:region],
     listing: [:region]
   }
+
+  def new(subject_type, subject_id) do
+    Role.new(subject_type, subject_id)
+  end
+
+  # TODO: Implement email notifications when a role is created!
+  def create(subject_type, subject_id, attrs, created_by, repo \\ Repo) do
+    Ecto.Multi.new
+    |> Ecto.Multi.insert(:create, Role.create(subject_type, subject_id, attrs))
+    |> Ecto.Multi.run(:log, fn repo, %{create: role} ->
+      Logs.create(%{
+        :action => [:admin, subject_type, :role, :create],
+        :actor => created_by,
+        :"#{subject_type}_id" => subject_id,
+        :context => %{
+          role: Logs.serialize_ecto(role)
+        }
+      }, repo)
+    end)
+    |> repo.transaction
+  end
+
+  # TODO: Implement email notifications when a role is deleted!
+  def delete(subject_type, subject_id, role_id, deleted_by, repo \\ Repo) do
+    Ecto.Multi.new
+    |> Ecto.Multi.run(:get, fn repo, _prev ->
+      role =
+        from(r in Role)
+        |> query_subject_roles(subject_type, subject_id)
+        |> query_role_id(role_id)
+        |> repo.one!
+
+      {:ok, role}
+    end)
+    |> Ecto.Multi.run(:log, fn repo, %{get: role} ->
+      Logs.create(%{
+        :action => [:admin, subject_type, :role, :delete],
+        :actor => deleted_by,
+        :"#{subject_type}_id" => subject_id,
+        :context => %{
+          role: Logs.serialize_ecto(role)
+        }
+      }, repo)
+    end)
+    |> Ecto.Multi.run(:delete, fn repo, %{get: role} ->
+      repo.delete(role)
+    end)
+    |> repo.transaction
+  end
 
   def get_subject!(subject_type, subject_id) do
     subject_type
@@ -68,33 +118,6 @@ defmodule Volunteer.Roles do
 
     from(u in User, join: r in ^subquery, on: u.id == r.user_id)
     |> Repo.all
-  end
-
-  def new_subject_role(subject_type, subject_id) do
-    Role.new(subject_type, subject_id)
-  end
-
-  def create_subject_role(subject_type, subject_id, attrs) do
-    Role.create(subject_type, subject_id, attrs)
-    |> Repo.insert
-  end
-
-  def delete_subject_role!(subject_type, subject_id, role_id) do
-    from(r in Role)
-    |> query_subject_roles(subject_type, subject_id)
-    |> query_role_id(role_id)
-    |> Repo.one!
-    |> Repo.delete!
-  end
-
-  # TODO: Move this back to the listings service!
-  def create_roles_for_new_listing!(listing) do
-    {:ok, _role} =
-      create_subject_role(
-        :listing,
-        listing.id,
-        %{user_id: listing.created_by_id, relation: "admin"}
-      )
   end
 
   def query_role_id(query, role_id) do
