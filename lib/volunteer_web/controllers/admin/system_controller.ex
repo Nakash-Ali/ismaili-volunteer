@@ -35,7 +35,7 @@ defmodule VolunteerWeb.Admin.SystemController do
       )
       |> Volunteer.Repo.all
 
-    emails =
+    _emails =
       Enum.map(users, fn user ->
         region_id
         |> VolunteerEmail.Mailer.new_default_email()
@@ -56,7 +56,7 @@ defmodule VolunteerWeb.Admin.SystemController do
               <p>Best Regards,<br>
               <%= Application.fetch_env!(:volunteer, :global_title) %></p>
               """,
-          disclaimers: Volunteer.Infrastructure.get_region_config!(region_id, [:disclaimers]),
+          disclaimers: Volunteer.Infrastructure.get_region_config!(region_id, [:disclaimers])
         ))
         |> VolunteerEmail.Mailer.deliver_now!
       end)
@@ -81,7 +81,7 @@ defmodule VolunteerWeb.Admin.SystemController do
       |> Volunteer.Repo.all
       |> Volunteer.Repo.preload([:created_by, :organized_by])
 
-    emails =
+    _emails =
       Enum.map(listings, fn listing ->
         assigns = %{
           link: URI.encode("https://docs.google.com/forms/d/e/1FAIpQLSdbQTNkrWSIp4PuFebXO5Zi3Ia-GbEbweGLrtjA7AUANGjZQQ/viewform?usp=pp_url&entry.1626591742=#{listing.id}&entry.374021322=#{VolunteerWeb.Presenters.Title.plain(listing)}")
@@ -106,7 +106,7 @@ defmodule VolunteerWeb.Admin.SystemController do
               <p>Best Regards,<br>
               <%= Application.fetch_env!(:volunteer, :global_title) %></p>
               """,
-          disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers]),
+          disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers])
         ))
         |> VolunteerEmail.Mailer.deliver_now!
       end)
