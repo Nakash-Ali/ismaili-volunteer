@@ -51,7 +51,7 @@ defmodule VolunteerWeb.Admin.SystemController do
 
               <p><a target="_blank" href="<%= @link %>"><%= @link %></a></p>
 
-              <p>
+              <p>Thank you so much!</p>
 
               <p>Best Regards,<br>
               <%= Application.fetch_env!(:volunteer, :global_title) %></p>
@@ -101,7 +101,7 @@ defmodule VolunteerWeb.Admin.SystemController do
 
               <p><a target="_blank" href="<%= @link %>"><%= @link %></a></p>
 
-              <p>
+              <p>Thank you so much!</p>
 
               <p>Best Regards,<br>
               <%= Application.fetch_env!(:volunteer, :global_title) %></p>
