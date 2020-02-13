@@ -186,26 +186,26 @@ defmodule VolunteerEmail.ListingsEmails do
     )
   end
 
-  defp generate_subject(prefixes, listing) when is_list(prefixes) do
+  def generate_subject(prefixes, listing) when is_list(prefixes) do
     "#{Enum.join(prefixes, " - ")} --- #{Title.plain(listing)}"
   end
 
-  defp generate_subject(prefix, listing) when not is_list(prefix) do
+  def generate_subject(prefix, listing) when not is_list(prefix) do
     generate_subject([prefix], listing)
   end
 
-  defp generate_all_address_list(listing) do
+  def generate_all_address_list(listing) do
     generate_primary_address_list(listing) ++ generate_secondary_address_list(listing)
   end
 
-  defp generate_primary_address_list(listing) do
+  def generate_primary_address_list(listing) do
     [
       listing.created_by,
       listing.organized_by
     ]
   end
 
-  defp generate_secondary_address_list(listing) do
+  def generate_secondary_address_list(listing) do
     Volunteer.Listings.Introspect.cc_emails(listing)
   end
 end

@@ -11,7 +11,7 @@
 			<tr>
 				<td valign="top">
 
-					<%= render @view_module, @view_template, assigns %>
+					<%= assigns[:do] || render @view_module, @view_template, assigns %>
 
 				</td>
 			</tr>

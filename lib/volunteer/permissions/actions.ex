@@ -6,6 +6,9 @@ defmodule Volunteer.Permissions.Actions do
   @actions MapSet.new([
     [:admin, :index],
 
+    [:admin, :system, :index],
+    [:admin, :system, :feedback_from_applicants],
+    [:admin, :system, :feedback_from_organizers],
     [:admin, :system, :env],
     [:admin, :system, :app],
     [:admin, :system, :endpoint],

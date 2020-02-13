@@ -1,0 +1,18 @@
+<section class="container mt-3 mb-5 font-family-sans-serif">
+	<div class="mb-1">
+		<%= HTMLHelpers.link_action_allowed(
+				allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :system, :feedback_from_organizers]),
+				text: "Feedback from organizers",
+				to: RouterHelpers.admin_system_path(@conn, :feedback_from_organizers),
+				btn: "outline-primary"
+		) %>
+	</div>
+	<div class="mb-1">
+		<%= HTMLHelpers.link_action_allowed(
+				allowed?: ConnPermissions.is_allowed?(@conn, [:admin, :system, :feedback_from_applicants]),
+				text: "Feedback from applicants",
+				to: RouterHelpers.admin_system_path(@conn, :feedback_from_applicants),
+				btn: "outline-primary"
+		) %>
+	</div>
+</section>
