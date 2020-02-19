@@ -8,113 +8,55 @@ defmodule VolunteerWeb.Admin.SystemController do
 
   # Actions
 
-  def index(conn, _params) do
-    render(
-      conn,
-      "index.html"
-    )
-  end
-
-  def feedback_from_applicants(conn, _params) do
-    import Ecto.Query
-    import Phoenix.HTML, only: [sigil_E: 2]
-
-    region_id = 1
-
-    assigns = %{
-      link: "https://forms.gle/SR3zwkDNT8t8Z6mc6"
-    }
-
-    users =
-      from(
-        u in Volunteer.Accounts.User,
-        join: a in subquery(
-          from(a in Volunteer.Apply.Applicant, distinct: true, select: a.user_id)
-        ),
-        on: u.id == a.user_id
-      )
-      |> Volunteer.Repo.all
-
-    _emails =
-      Enum.map(users, fn user ->
-        region_id
-        |> VolunteerEmail.Mailer.new_default_email()
-        |> VolunteerEmail.Tools.append(:to, user)
-        |> Map.put(:subject, "Feedback for OTS")
-        |> Map.put(:html_body, Phoenix.View.render_to_string(
-          VolunteerEmail.LayoutView,
-          "email.html",
-          do: ~E"""
-              <p>Ya Ali Madad <%= VolunteerWeb.Presenters.Title.plain(user) %>,</p>
-
-              <p>We would like your feedback on OTS. Your feedback will be anonymous and is invaluable to us, we hope you will share openly and honestly. It should only take a couple minutes, <strong>click on the link below:</strong></p>
-
-              <p><a target="_blank" href="<%= @link %>"><%= @link %></a></p>
-
-              <p>Thank you so much!</p>
-
-              <p>Best Regards,<br>
-              <%= Application.fetch_env!(:volunteer, :global_title) %></p>
-              """,
-          disclaimers: Volunteer.Infrastructure.get_region_config!(region_id, [:disclaimers])
-        ))
-        |> VolunteerEmail.Mailer.deliver_now!
-      end)
-
-    conn
-    |> VolunteerWeb.FlashHelpers.put_paragraph_flash(:info, "Successfully sent to #{length(users)} users")
-    |> redirect(to: RouterHelpers.admin_system_path(conn, :index))
-  end
-
-  def feedback_from_organizers(conn, _params) do
-    import Ecto.Query
-    import Phoenix.HTML, only: [sigil_E: 2]
-
-    listings =
-      from(
-        l in Volunteer.Listings.Listing,
-        join: a in subquery(
-          from(a in Volunteer.Apply.Applicant, distinct: true, select: a.listing_id)
-        ),
-        on: l.id == a.listing_id
-      )
-      |> Volunteer.Repo.all
-      |> Volunteer.Repo.preload([:created_by, :organized_by])
-
-    _emails =
-      Enum.map(listings, fn listing ->
-        assigns = %{
-          link: URI.encode("https://docs.google.com/forms/d/e/1FAIpQLSdbQTNkrWSIp4PuFebXO5Zi3Ia-GbEbweGLrtjA7AUANGjZQQ/viewform?usp=pp_url&entry.1626591742=#{listing.id}&entry.374021322=#{VolunteerWeb.Presenters.Title.plain(listing)}")
-        }
-
-        listing.region_id
-        |> VolunteerEmail.Mailer.new_default_email()
-        |> VolunteerEmail.Tools.append(:to, VolunteerEmail.ListingsEmails.generate_primary_address_list(listing))
-        |> Map.put(:subject, VolunteerEmail.ListingsEmails.generate_subject("Feedback", listing))
-        |> Map.put(:html_body, Phoenix.View.render_to_string(
-          VolunteerEmail.LayoutView,
-          "email.html",
-          do: ~E"""
-              <p>Ya Ali Madad,</p>
-
-              <p>We would like your feedback on OTS for this particular listing. Your feedback will be anonymous and is invaluable to us, we hope you will share openly and honestly. It should only take a couple minutes, <strong>click on the link below:</strong></p>
-
-              <p><a target="_blank" href="<%= @link %>"><%= @link %></a></p>
-
-              <p>Thank you so much!</p>
-
-              <p>Best Regards,<br>
-              <%= Application.fetch_env!(:volunteer, :global_title) %></p>
-              """,
-          disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers])
-        ))
-        |> VolunteerEmail.Mailer.deliver_now!
-      end)
-
-    conn
-    |> VolunteerWeb.FlashHelpers.put_paragraph_flash(:info, "Successfully sent for #{length(listings)} listings")
-    |> redirect(to: RouterHelpers.admin_system_path(conn, :index))
-  end
+  # def feedback_from_organizers(conn, _params) do
+  #   import Ecto.Query
+  #   import Phoenix.HTML, only: [sigil_E: 2]
+  #
+  #   listings =
+  #     from(
+  #       l in Volunteer.Listings.Listing,
+  #       join: a in subquery(
+  #         from(a in Volunteer.Apply.Applicant, distinct: true, select: a.listing_id)
+  #       ),
+  #       on: l.id == a.listing_id
+  #     )
+  #     |> Volunteer.Repo.all
+  #     |> Volunteer.Repo.preload([:created_by, :organized_by])
+  #
+  #   _emails =
+  #     Enum.map(listings, fn listing ->
+  #       assigns = %{
+  #         link: URI.encode("https://docs.google.com/forms/d/e/1FAIpQLSdbQTNkrWSIp4PuFebXO5Zi3Ia-GbEbweGLrtjA7AUANGjZQQ/viewform?usp=pp_url&entry.1626591742=#{listing.id}&entry.374021322=#{VolunteerWeb.Presenters.Title.plain(listing)}")
+  #       }
+  #
+  #       listing.region_id
+  #       |> VolunteerEmail.Mailer.new_default_email()
+  #       |> VolunteerEmail.Tools.append(:to, VolunteerEmail.ListingsEmails.generate_primary_address_list(listing))
+  #       |> Map.put(:subject, VolunteerEmail.ListingsEmails.generate_subject("Feedback", listing))
+  #       |> Map.put(:html_body, Phoenix.View.render_to_string(
+  #         VolunteerEmail.LayoutView,
+  #         "email.html",
+  #         do: ~E"""
+  #             <p>Ya Ali Madad,</p>
+  #
+  #             <p>We would like your feedback on OTS for this particular listing. Your feedback will be anonymous and is invaluable to us, we hope you will share openly and honestly. It should only take a couple minutes, <strong>click on the link below:</strong></p>
+  #
+  #             <p><a target="_blank" href="<%= @link %>"><%= @link %></a></p>
+  #
+  #             <p>Thank you so much!</p>
+  #
+  #             <p>Best Regards,<br>
+  #             <%= Application.fetch_env!(:volunteer, :global_title) %></p>
+  #             """,
+  #         disclaimers: Volunteer.Infrastructure.get_region_config!(listing.region_id, [:disclaimers])
+  #       ))
+  #       |> VolunteerEmail.Mailer.deliver_now!
+  #     end)
+  #
+  #   conn
+  #   |> VolunteerWeb.FlashHelpers.put_paragraph_flash(:info, "Successfully sent for #{length(listings)} listings")
+  #   |> redirect(to: RouterHelpers.admin_system_path(conn, :index))
+  # end
 
   def env(conn, _params) do
     render(
