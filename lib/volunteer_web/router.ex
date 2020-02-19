@@ -143,6 +143,9 @@ defmodule VolunteerWeb.Router do
 
 
       scope "/system" do
+        get "/", SystemController, :index
+        get "/feedback_from_applicants", SystemController, :feedback_from_applicants
+        get "/feedback_from_organizers", SystemController, :feedback_from_organizers
         get "/env", SystemController, :env
         get "/app", SystemController, :app
         get "/endpoint", SystemController, :endpoint
