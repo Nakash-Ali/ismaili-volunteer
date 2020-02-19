@@ -9,7 +9,6 @@ defmodule Volunteer.Permissions.Ruleset do
 
   @default_admins [
     "alizain.feerasta@iicanada.net",
-    "hussein.kermally@iicanada.net",
   ]
 
   # TODO: It's the roles that need to be evaluated, not the user. Or some
