@@ -26,7 +26,7 @@ defmodule Volunteer.Roles do
         :actor => created_by,
         :"#{subject_type}_id" => subject_id,
         :context => %{
-          role: Logs.serialize_ecto(role)
+          role: Logs.Context.serialize(role)
         }
       }, repo)
     end)
@@ -51,7 +51,7 @@ defmodule Volunteer.Roles do
         :actor => deleted_by,
         :"#{subject_type}_id" => subject_id,
         :context => %{
-          role: Logs.serialize_ecto(role)
+          role: Logs.Context.serialize(role)
         }
       }, repo)
     end)

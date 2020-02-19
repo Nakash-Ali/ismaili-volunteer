@@ -7,8 +7,6 @@ defmodule Volunteer.Listings.Public do
   alias Volunteer.Listings.Public.Change
   alias Volunteer.Listings.Public.Filters
 
-  # TODO: Use logs to derive state instead of persisting it with model
-
   def reset(listing, reset_by) do
     Ecto.Multi.new
     # TODO: Does this needs the same treatment as `refresh/1`

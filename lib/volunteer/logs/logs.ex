@@ -22,8 +22,4 @@ defmodule Volunteer.Logs do
     |> Ecto.Multi.insert(:create, Volunteer.Logs.Log.create(log_opts))
     |> repo.transaction
   end
-
-  def serialize_ecto(%{__struct__: module} = obj) do
-    Map.take(obj, module.__schema__(:fields))
-  end
 end
