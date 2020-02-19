@@ -44,7 +44,7 @@ defmodule Volunteer.Mixfile do
   def deps do
     [
       {:appsignal, "~> 1.10"},
-      {:bamboo, "~> 1.3.0"},
+      {:bamboo, "~> 1.4.0"},
       {:csv, "~> 2.3"},
       {:ecto_sql, "~> 3.2"},
       {:faker, "~> 0.13", only: [:dev, :test]},
